@@ -1,0 +1,8 @@
+# AppFolio fork of crmne/ruby_llm.
+# Owned by the team that maintains this fork and consumes it from agents_app.
+* @appfolio/platform-ci-dev-tooling
+
+# Dependency files co-owned by PatchPal so Dependabot bumps can be auto-approved,
+# mirroring the agents_app CODEOWNERS pattern.
+Gemfile @patchpal @appfolio/platform-ci-dev-tooling
+Gemfile.lock @patchpal @appfolio/platform-ci-dev-tooling
