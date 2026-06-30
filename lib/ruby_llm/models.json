@@ -18488,7 +18488,8 @@
       "function_calling",
       "structured_output",
       "reasoning",
-      "vision"
+      "vision",
+      "streaming"
     ],
     "pricing": {
       "text_tokens": {
@@ -18501,6 +18502,31 @@
       }
     },
     "metadata": {
+      "provider_name": "Anthropic",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-5",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"top_k\":{\"type\":\"number\",\"default\":250,\"minimum\":0,\"maximum\":500},\"reasoningConfig\":{\"enabled\":{\"type\":\"boolean\",\"default\":false},\"budgetTokens\":{\"type\":\"enum\",\"default\":\"low\",\"enum\":{\"low\":1024,\"medium\":40000,\"high\":127999},\"minimum\":1024,\"maximum\":127999}}}",
+        "maxTokensDefault": 128000,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [
+          "pdf"
+        ],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
