@@ -523,31 +523,83 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   end
 
   # ────────────────────────────────────────────────────────────────────────────
-  # URL methods
+  # URL methods (model-agnostic, ARN encoding)
   # ────────────────────────────────────────────────────────────────────────────
 
   describe 'URL methods' do
-    it 'completion_url ends with /invoke' do
-      url = protocol.send(:completion_url)
-      expect(url).to end_with('/invoke')
-      expect(url).to include('invoke')
-      expect(url).not_to include('converse')
+    context 'with a standard cross-region inference profile model id' do
+      it 'completion_url ends with /invoke and contains the model id' do
+        url = protocol.send(:completion_url)
+        expect(url).to end_with('/invoke')
+        expect(url).to include(model.id)
+        expect(url).not_to include('converse')
+      end
+
+      it 'stream_url ends with /invoke-with-response-stream' do
+        url = protocol.send(:stream_url)
+        expect(url).to end_with('/invoke-with-response-stream')
+        expect(url).not_to include('converse')
+      end
     end
 
-    it 'stream_url ends with /invoke-with-response-stream' do
-      url = protocol.send(:stream_url)
-      expect(url).to end_with('/invoke-with-response-stream')
-      expect(url).not_to include('converse')
+    context 'with claude-sonnet-4-6 model id' do
+      let(:sonnet_model) do
+        instance_double(RubyLLM::Model::Info,
+                        id: 'us.anthropic.claude-sonnet-4-6-20250617-v1:0',
+                        max_tokens: 16_384,
+                        metadata: {})
+      end
+
+      it 'builds completion_url for claude-sonnet-4-6' do
+        p = described_class.allocate
+        p.instance_variable_set(:@config, build_config)
+        p.instance_variable_set(:@model, sonnet_model)
+        url = p.send(:completion_url)
+        expect(url).to eq("/model/#{sonnet_model.id}/invoke")
+      end
     end
 
-    it 'percent-encodes "/" in application inference profile ARNs for completion_url' do
-      allow(model).to receive(:id).and_return(
-        'arn:aws:bedrock:us-west-2:123:application-inference-profile/p'
-      )
-      url = protocol.send(:completion_url)
-      expect(url).to eq(
-        '/model/arn:aws:bedrock:us-west-2:123:application-inference-profile%2Fp/invoke'
-      )
+    context 'with claude-opus-4-5 model id' do
+      let(:opus_model) do
+        instance_double(RubyLLM::Model::Info,
+                        id: 'us.anthropic.claude-opus-4-5-20251101-v1:0',
+                        max_tokens: 32_768,
+                        metadata: {})
+      end
+
+      it 'builds completion_url for claude-opus-4-5' do
+        p = described_class.allocate
+        p.instance_variable_set(:@config, build_config)
+        p.instance_variable_set(:@model, opus_model)
+        url = p.send(:completion_url)
+        expect(url).to eq("/model/#{opus_model.id}/invoke")
+      end
+    end
+
+    context 'with an application inference profile ARN' do
+      let(:arn_id) { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/my-profile' }
+      let(:arn_model) do
+        instance_double(RubyLLM::Model::Info, id: arn_id, max_tokens: 8096, metadata: {})
+      end
+
+      it 'percent-encodes "/" in the ARN for completion_url' do
+        p = described_class.allocate
+        p.instance_variable_set(:@config, build_config)
+        p.instance_variable_set(:@model, arn_model)
+        url = p.send(:completion_url)
+        expect(url).to eq(
+          '/model/arn:aws:bedrock:us-west-2:123456789012:application-inference-profile%2Fmy-profile/invoke'
+        )
+      end
+
+      it 'percent-encodes "/" in the ARN for stream_url' do
+        p = described_class.allocate
+        p.instance_variable_set(:@config, build_config)
+        p.instance_variable_set(:@model, arn_model)
+        url = p.send(:stream_url)
+        encoded_arn = 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile%2Fmy-profile'
+        expect(url).to eq("/model/#{encoded_arn}/invoke-with-response-stream")
+      end
     end
   end
 
@@ -561,22 +613,95 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       RubyLLM::Providers::Bedrock.new(config)
     end
 
-    it 'uses Converse when bedrock_use_invoke_model is false (default)' do
-      provider = build_provider
-      protocol_class = provider.send(:protocol_for, model)
-      expect(protocol_class).to eq(RubyLLM::Protocols::Converse)
+    def make_model(id)
+      instance_double(RubyLLM::Model::Info, id: id, max_tokens: 8096, metadata: {})
     end
 
-    it 'uses BedrockInvokeModel when bedrock_use_invoke_model is true' do
-      provider = build_provider(bedrock_use_invoke_model: true)
-      protocol_class = provider.send(:protocol_for, model)
-      expect(protocol_class).to eq(described_class)
+    it 'uses Converse when bedrock_use_invoke_model is false (default)' do
+      provider = build_provider
+      expect(provider.send(:protocol_for, model)).to eq(RubyLLM::Protocols::Converse)
     end
 
     it 'uses Converse when bedrock_use_invoke_model is nil' do
       provider = build_provider(bedrock_use_invoke_model: nil)
-      protocol_class = provider.send(:protocol_for, model)
-      expect(protocol_class).to eq(RubyLLM::Protocols::Converse)
+      expect(provider.send(:protocol_for, model)).to eq(RubyLLM::Protocols::Converse)
+    end
+
+    context 'when selector is true (all Anthropic models)' do
+      it 'uses BedrockInvokeModel for an Anthropic model' do
+        provider = build_provider(bedrock_use_invoke_model: true)
+        expect(provider.send(:protocol_for, model)).to eq(described_class)
+      end
+
+      it 'BedrockInvokeModel completion URL hits /invoke not /converse' do
+        provider = build_provider(bedrock_use_invoke_model: true)
+        protocol_class = provider.send(:protocol_for, model)
+        instance = protocol_class.allocate
+        instance.instance_variable_set(:@model, model)
+        expect(instance.send(:completion_url)).to include('/invoke')
+        expect(instance.send(:completion_url)).not_to include('converse')
+      end
+    end
+
+    context 'when selector is an allowlist array' do
+      it 'uses BedrockInvokeModel for a model id in the list' do
+        sonnet_id = 'us.anthropic.claude-sonnet-4-6-20250617-v1:0'
+        sonnet = make_model(sonnet_id)
+        provider = build_provider(bedrock_use_invoke_model: [sonnet_id])
+        expect(provider.send(:protocol_for, sonnet)).to eq(described_class)
+      end
+
+      it 'uses Converse for a model id NOT in the list (same process, coexistence)' do
+        sonnet_id = 'us.anthropic.claude-sonnet-4-6-20250617-v1:0'
+        opus = make_model('us.anthropic.claude-opus-4-5-20251101-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: [sonnet_id])
+        expect(provider.send(:protocol_for, opus)).to eq(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'when selector is a callable/lambda' do
+      it 'uses BedrockInvokeModel for a model the lambda matches' do
+        sonnet = make_model('us.anthropic.claude-sonnet-4-6-20250617-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: ->(m) { m.id.include?('sonnet-4-6') })
+        expect(provider.send(:protocol_for, sonnet)).to eq(described_class)
+      end
+
+      it 'uses Converse for a model the lambda does not match (same process, coexistence)' do
+        opus = make_model('us.anthropic.claude-opus-4-5-20251101-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: ->(m) { m.id.include?('sonnet-4-6') })
+        expect(provider.send(:protocol_for, opus)).to eq(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'when a non-Anthropic model id is used' do
+      it 'uses Converse even when selector is true' do
+        nova = make_model('us.amazon.nova-pro-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: true)
+        expect(provider.send(:protocol_for, nova)).to eq(RubyLLM::Protocols::Converse)
+      end
+
+      it 'uses Converse even when selector is an allowlist containing the id' do
+        nova = make_model('us.amazon.nova-pro-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: ['us.amazon.nova-pro-v1:0'])
+        expect(provider.send(:protocol_for, nova)).to eq(RubyLLM::Protocols::Converse)
+      end
+
+      it 'uses Converse even when selector is a lambda returning true' do
+        nova = make_model('us.amazon.nova-pro-v1:0')
+        provider = build_provider(bedrock_use_invoke_model: ->(_m) { true })
+        expect(provider.send(:protocol_for, nova)).to eq(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'when selector is false (default path)' do
+      it 'Converse completion URL hits /converse not /invoke' do
+        provider = build_provider
+        protocol_class = provider.send(:protocol_for, model)
+        instance = protocol_class.allocate
+        instance.instance_variable_set(:@model, model)
+        expect(instance.send(:completion_url)).to include('/converse')
+        expect(instance.send(:completion_url)).not_to include('invoke')
+      end
     end
 
     it 'registers bedrock_use_invoke_model as a configuration option' do
@@ -589,24 +714,6 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
 
     it 'registers anthropic_context_management as a configuration option' do
       expect(RubyLLM::Configuration.options).to include(:anthropic_context_management)
-    end
-
-    it 'BedrockInvokeModel completion URL hits /invoke not /converse' do
-      provider = build_provider(bedrock_use_invoke_model: true)
-      protocol_class = provider.send(:protocol_for, model)
-      instance = protocol_class.allocate
-      instance.instance_variable_set(:@model, model)
-      expect(instance.send(:completion_url)).to include('/invoke')
-      expect(instance.send(:completion_url)).not_to include('converse')
-    end
-
-    it 'Converse completion URL hits /converse not /invoke' do
-      provider = build_provider
-      protocol_class = provider.send(:protocol_for, model)
-      instance = protocol_class.allocate
-      instance.instance_variable_set(:@model, model)
-      expect(instance.send(:completion_url)).to include('/converse')
-      expect(instance.send(:completion_url)).not_to include('invoke')
     end
   end
 end

@@ -23,8 +23,10 @@ module RubyLLM
         {}
       end
 
-      def protocol_for(_model, **)
-        @config.bedrock_use_invoke_model ? fetch_protocol(:bedrock_invoke_model) : fetch_protocol(:converse)
+      def protocol_for(model, **)
+        return fetch_protocol(:converse) unless anthropic_model?(model)
+
+        fetch_protocol(invoke_model_for?(model) ? :bedrock_invoke_model : :converse)
       end
 
       def complete(messages, model:, params: {}, **rest, &)
@@ -94,6 +96,25 @@ module RubyLLM
       end
 
       private
+
+      def anthropic_model?(model)
+        model.id.to_s.include?('anthropic')
+      end
+
+      # Evaluates bedrock_use_invoke_model against the current model:
+      #   false/nil  → never use InvokeModel
+      #   true       → always use InvokeModel (for Anthropic models)
+      #   Array      → use InvokeModel only when model.id is in the list
+      #   callable   → use InvokeModel when the callable returns truthy for model
+      def invoke_model_for?(model)
+        selector = @config.bedrock_use_invoke_model
+        case selector
+        when nil, false then false
+        when true then true
+        when Array then selector.include?(model.id)
+        else selector.respond_to?(:call) ? selector.call(model) : false
+        end
+      end
 
       def bedrock_region
         @config.bedrock_region
