@@ -8,6 +8,7 @@ module RubyLLM
       include Bedrock::Models
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
+      protocol :bedrock_invoke_model, Protocols::BedrockInvokeModel
       files Bedrock::Files
 
       def api_base
@@ -24,6 +25,10 @@ module RubyLLM
 
       def complete(messages, model:, params: {}, **rest, &)
         super(messages, model:, params: normalize_params(params, model:), **rest, &)
+      end
+
+      def protocol_for(model, **)
+        invoke_model?(model) ? fetch_protocol(:bedrock_invoke_model) : fetch_protocol(:converse)
       end
 
       def parse_error(response)
@@ -51,6 +56,9 @@ module RubyLLM
             bedrock_api_base
             bedrock_batch_s3_uri
             bedrock_batch_role_arn
+            bedrock_use_invoke_model
+            anthropic_beta
+            anthropic_context_management
           ]
         end
 
@@ -114,6 +122,46 @@ module RubyLLM
 
       def model_supports_top_k?(model)
         Protocols::Converse.reasoning_embedded?(model)
+      end
+
+      # Returns true if the InvokeModel protocol should be used for this model.
+      # `bedrock_use_invoke_model` can be:
+      #   - false / nil  → always Converse (default)
+      #   - true         → InvokeModel for all Anthropic models
+      #   - Array        → InvokeModel when model.id is in the list
+      #   - Proc/lambda  → InvokeModel when the callable returns truthy for model
+      def invoke_model?(model)
+        selector = @config.bedrock_use_invoke_model
+        return false unless selector
+        return false unless anthropic_model?(model)
+
+        case selector
+        when true
+          true
+        when Array
+          selector.include?(model.id)
+        else
+          selector.respond_to?(:call) ? selector.call(model) : false
+        end
+      end
+
+      NON_ANTHROPIC_PREFIXES = %w[amazon. meta. ai21. cohere. mistral. writer. stability.].freeze
+      private_constant :NON_ANTHROPIC_PREFIXES
+
+      def anthropic_model?(model)
+        id = model.id.to_s
+        # Standard Anthropic model ids start with "anthropic."
+        return true if id.start_with?('anthropic.')
+        # Application-inference-profile ARNs do not encode the underlying vendor in the ARN
+        # string itself; the consuming app is responsible for only enabling InvokeModel
+        # for Anthropic-backed profiles. We allow all ARN-form ids through here and rely on
+        # the caller's selector to scope appropriately.
+        return true if id.start_with?('arn:')
+        # Block known non-Anthropic Bedrock vendor prefixes (Nova, Llama, Jurassic, etc.).
+        return false if NON_ANTHROPIC_PREFIXES.any? { |pfx| id.start_with?(pfx) }
+
+        provider = model.respond_to?(:provider) ? model.provider : nil
+        provider.to_s == 'anthropic'
       end
     end
   end
