@@ -115,6 +115,12 @@ RSpec.describe RubyLLM::Models do
       expect(RubyLLM.models.find('gemini-2.5-flash').provider).to eq('gemini')
     end
 
+    it 'resolves us.anthropic.claude-sonnet-5 directly by ID for bedrock' do
+      model = RubyLLM.models.find('us.anthropic.claude-sonnet-5', :bedrock)
+      expect(model.id).to eq('us.anthropic.claude-sonnet-5')
+      expect(model.provider).to eq('bedrock')
+    end
+
     it 'prefers bedrock region-resolved inference profile IDs over exact unprefixed IDs' do
       unprefixed = RubyLLM::Model::Info.new(
         id: 'meta.llama4-maverick-17b-instruct-v1:0',
