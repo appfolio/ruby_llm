@@ -152,16 +152,32 @@ module RubyLLM
         id = model.id.to_s
         # Standard Anthropic model ids start with "anthropic."
         return true if id.start_with?('anthropic.')
+
         # Application-inference-profile ARNs do not encode the underlying vendor in the ARN
-        # string itself; the consuming app is responsible for only enabling InvokeModel
-        # for Anthropic-backed profiles. We allow all ARN-form ids through here and rely on
-        # the caller's selector to scope appropriately.
-        return true if id.start_with?('arn:')
+        # string itself. When available, consult model.metadata[:provider_name] (populated
+        # by Bedrock::Models for registered foundation models) to confirm the profile is
+        # Anthropic-backed. If that field is absent (e.g. a runtime-only ARN the registry
+        # has never seen), log a warning and refuse to route rather than silently forwarding
+        # an incompatible payload to a non-Anthropic model.
+        return arn_anthropic_model?(model, id) if id.start_with?('arn:')
+
         # Block known non-Anthropic Bedrock vendor prefixes (Nova, Llama, Jurassic, etc.).
         return false if NON_ANTHROPIC_PREFIXES.any? { |pfx| id.start_with?(pfx) }
 
         provider = model.respond_to?(:provider) ? model.provider : nil
         provider.to_s == 'anthropic'
+      end
+
+      def arn_anthropic_model?(model, id)
+        provider_name = model.respond_to?(:metadata) ? model.metadata&.fetch(:provider_name, nil) : nil
+        return provider_name.to_s.downcase == 'anthropic' if provider_name
+
+        RubyLLM.logger.warn(
+          "RubyLLM cannot verify that ARN model id #{id.inspect} is Anthropic-backed " \
+          '(no provider_name in model.metadata). Refusing to route to BedrockInvokeModel. ' \
+          'Use an Array or Proc selector with bedrock_use_invoke_model to opt in explicitly.'
+        )
+        false
       end
     end
   end

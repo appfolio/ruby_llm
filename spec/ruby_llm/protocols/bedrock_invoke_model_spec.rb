@@ -511,7 +511,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   # Coexistence / selection — bedrock_use_invoke_model
   # ---------------------------------------------------------------------------
 
-  describe 'Providers::Bedrock protocol selection' do
+  describe 'Providers::Bedrock protocol selection' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     def build_bedrock(use_invoke_model: false)
       config = RubyLLM::Configuration.new
       config.bedrock_api_key = 'k'
@@ -521,16 +521,18 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       RubyLLM::Providers::Bedrock.new(config)
     end
 
-    def model_double(id)
-      instance_double(RubyLLM::Model::Info, id: id, max_tokens: 4096, metadata: {})
+    def model_double(id, metadata: {})
+      instance_double(RubyLLM::Model::Info, id: id, max_tokens: 4096, metadata: metadata)
     end
 
-    let(:haiku_id) { 'anthropic.claude-haiku-4-5-20251001-v1:0' }
-    let(:sonnet_id) { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
-    let(:nova_id)   { 'amazon.nova-lite-v1:0' }
-    let(:arn_id)    { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/sonnet46' }
+    let(:haiku_id)       { 'anthropic.claude-haiku-4-5-20251001-v1:0' }
+    let(:sonnet_id)      { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
+    let(:nova_id)        { 'amazon.nova-lite-v1:0' }
+    let(:arn_id)         { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/sonnet46' }
+    let(:arn_anthropic)  { model_double(arn_id, metadata: { provider_name: 'Anthropic' }) }
+    let(:arn_no_vendor)  { model_double(arn_id, metadata: {}) }
 
-    context 'with bedrock_use_invoke_model: false (default)' do
+    context 'with bedrock_use_invoke_model: false (default)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:provider) { build_bedrock(use_invoke_model: false) }
 
       it 'routes Anthropic models to Converse' do
@@ -544,7 +546,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       end
     end
 
-    context 'with bedrock_use_invoke_model: true' do
+    context 'with bedrock_use_invoke_model: true' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:provider) { build_bedrock(use_invoke_model: true) }
 
       it 'routes Anthropic models to BedrockInvokeModel' do
@@ -557,13 +559,20 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
         expect(protocol).to be(RubyLLM::Protocols::Converse)
       end
 
-      it 'routes Anthropic ARN model ids to BedrockInvokeModel' do
-        protocol = provider.protocol_for(model_double(arn_id))
+      it 'routes ARN model ids with Anthropic provider_name to BedrockInvokeModel' do
+        protocol = provider.protocol_for(arn_anthropic)
         expect(protocol).to be(described_class)
+      end
+
+      it 'routes ARN model ids without provider_name to Converse and logs a warning' do
+        allow(RubyLLM.logger).to receive(:warn)
+        protocol = provider.protocol_for(arn_no_vendor)
+        expect(protocol).to be(RubyLLM::Protocols::Converse)
+        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
       end
     end
 
-    context 'with bedrock_use_invoke_model: [array of model ids]' do
+    context 'with bedrock_use_invoke_model: [array of model ids]' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:provider) { build_bedrock(use_invoke_model: [sonnet_id]) }
 
       it 'routes model A (in list) to BedrockInvokeModel' do
@@ -590,6 +599,112 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
         protocol = provider.protocol_for(model_double(haiku_id))
         expect(protocol).to be(RubyLLM::Protocols::Converse)
       end
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # render_payload — schema/citations warnings
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat#render_payload warnings' do
+    it 'logs a warning when schema is passed' do
+      inst = make_instance
+      model = inst.instance_variable_get(:@model)
+      schema = { name: 'out', schema: { type: 'object' } }
+      allow(RubyLLM.logger).to receive(:warn)
+      inst.send(:render_payload, [], tools: {}, temperature: nil, model: model, schema: schema)
+      expect(RubyLLM.logger).to have_received(:warn).with(/structured output.*schema.*BedrockInvokeModel/i)
+    end
+
+    it 'logs a warning when citations is true' do
+      inst = make_instance
+      model = inst.instance_variable_get(:@model)
+      allow(RubyLLM.logger).to receive(:warn)
+      inst.send(:render_payload, [], tools: {}, temperature: nil, model: model, citations: true)
+      expect(RubyLLM.logger).to have_received(:warn).with(/citations.*BedrockInvokeModel/i)
+    end
+
+    it 'does not warn when neither schema nor citations are set' do
+      inst = make_instance
+      model = inst.instance_variable_get(:@model)
+      allow(RubyLLM.logger).to receive(:warn)
+      inst.send(:render_payload, [], tools: {}, temperature: nil, model: model)
+      expect(RubyLLM.logger).not_to have_received(:warn)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Large-file upload overrides
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat large-file upload overrides' do
+    subject(:chat) { described_class::Chat }
+
+    it 'supports provider file references' do
+      inst = make_instance
+      expect(inst.send(:supports_provider_file_references?)).to be(true)
+    end
+
+    it 'uses the same 4.5 MB inline threshold as Converse' do
+      inst = make_instance
+      expect(inst.send(:default_large_file_upload_threshold))
+        .to eq(RubyLLM::Protocols::Converse::Chat::BEDROCK_INLINE_DOCUMENT_LIMIT)
+    end
+
+    it 'marks pdf attachments as uploadable' do
+      pdf = instance_double(RubyLLM::Attachment, pdf?: true, document?: false, text?: false)
+      inst = make_instance
+      expect(inst.send(:provider_file_attachable?, pdf)).to be(true)
+    end
+
+    it 'marks document attachments as uploadable' do
+      doc = instance_double(RubyLLM::Attachment, pdf?: false, document?: true, text?: false)
+      inst = make_instance
+      expect(inst.send(:provider_file_attachable?, doc)).to be(true)
+    end
+
+    it 'marks text attachments as uploadable' do
+      txt = instance_double(RubyLLM::Attachment, pdf?: false, document?: false, text?: true)
+      inst = make_instance
+      expect(inst.send(:provider_file_attachable?, txt)).to be(true)
+    end
+
+    it 'does not mark image attachments as uploadable' do
+      img = instance_double(RubyLLM::Attachment, pdf?: false, document?: false, text?: false)
+      inst = make_instance
+      expect(inst.send(:provider_file_attachable?, img)).to be(false)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # URL image source rejection
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat#format_image_attachment' do
+    subject(:chat) { described_class::Chat }
+
+    it 'raises UnsupportedAttachmentError for URL-sourced images' do
+      attachment = instance_double(
+        RubyLLM::Attachment,
+        url?: true,
+        source: URI.parse('https://example.com/photo.jpg'),
+        mime_type: 'image/jpeg',
+        encoded: nil
+      )
+      expect { chat.format_image_attachment(attachment) }
+        .to raise_error(RubyLLM::UnsupportedAttachmentError, /Bedrock InvokeModel.*URL image/)
+    end
+
+    it 'returns a base64 block for non-URL images' do
+      attachment = instance_double(
+        RubyLLM::Attachment,
+        url?: false,
+        mime_type: 'image/jpeg',
+        encoded: 'base64data'
+      )
+      result = chat.format_image_attachment(attachment)
+      expect(result[:source][:type]).to eq('base64')
+      expect(result[:source][:data]).to eq('base64data')
     end
   end
 end

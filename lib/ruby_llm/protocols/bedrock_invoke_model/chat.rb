@@ -7,6 +7,8 @@ module RubyLLM
     class BedrockInvokeModel
       # Chat methods for the Bedrock InvokeModel API (raw Anthropic Messages format).
       module Chat
+        BEDROCK_INLINE_DOCUMENT_LIMIT = 4_500_000
+
         module_function
 
         def completion_url
@@ -20,9 +22,37 @@ module RubyLLM
           model_id.to_s.gsub('/', '%2F')
         end
 
+        def warn_unsupported_schema(model)
+          RubyLLM.logger.warn(
+            'RubyLLM does not support structured output (schema:) on the BedrockInvokeModel path. ' \
+            "Ignoring schema for #{model.id}."
+          )
+        end
+
+        def warn_unsupported_citations(model)
+          RubyLLM.logger.warn(
+            'RubyLLM does not support citations on the BedrockInvokeModel path. ' \
+            "Ignoring with_citations for #{model.id}."
+          )
+        end
+
+        def supports_provider_file_references?
+          true
+        end
+
+        def default_large_file_upload_threshold
+          BEDROCK_INLINE_DOCUMENT_LIMIT
+        end
+
+        def provider_file_attachable?(attachment)
+          attachment.pdf? || attachment.document? || attachment.text?
+        end
+
         # rubocop:disable Metrics/ParameterLists,Lint/UnusedMethodArgument
         def render_payload(messages, tools:, temperature:, model:, stream: false,
                            schema: nil, thinking: nil, citations: false, tool_prefs: nil)
+          warn_unsupported_schema(model) if schema
+          warn_unsupported_citations(model) if citations
           tool_prefs ||= {}
           system_messages, chat_messages = messages.partition { |msg| msg.role == :system }
 
@@ -181,14 +211,18 @@ module RubyLLM
         end
 
         def format_image_attachment(attachment)
+          # Bedrock InvokeModel (Anthropic Messages format) does not support the `url`
+          # image source type — AWS rejects it. Only base64 is accepted.
           if attachment.url?
-            { type: 'image', source: { type: 'url', url: attachment.source.to_s } }
-          else
-            {
-              type: 'image',
-              source: { type: 'base64', media_type: attachment.mime_type, data: attachment.encoded }
-            }
+            raise UnsupportedAttachmentError,
+                  'Bedrock InvokeModel does not support URL image sources; ' \
+                  "provide a local file or IO instead. (attachment: #{attachment.source})"
           end
+
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: attachment.mime_type, data: attachment.encoded }
+          }
         end
 
         def format_document_attachment(attachment)

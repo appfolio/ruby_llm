@@ -113,6 +113,140 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
+  describe '#protocol_for / #invoke_model? / #anthropic_model?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    def build_bedrock(use_invoke_model: false)
+      config = bedrock_config(api_key: 'k', secret_key: 's')
+      config.bedrock_use_invoke_model = use_invoke_model
+      described_class.new(config)
+    end
+
+    def model_double(id, metadata: {}, provider: 'bedrock')
+      instance_double(
+        RubyLLM::Model::Info,
+        id: id,
+        max_tokens: 4096,
+        metadata: metadata,
+        provider: provider
+      )
+    end
+
+    let(:haiku_id)  { 'anthropic.claude-haiku-4-5-20251001-v1:0' }
+    let(:nova_id)   { 'amazon.nova-lite-v1:0' }
+    let(:llama_id)  { 'meta.llama3-8b-instruct-v1:0' }
+    let(:arn_id)    { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/p' }
+
+    context 'with bedrock_use_invoke_model: false (default)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:provider) { build_bedrock(use_invoke_model: false) }
+
+      it 'routes all models to Converse' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+        expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'with bedrock_use_invoke_model: nil' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:provider) { build_bedrock(use_invoke_model: nil) }
+
+      it 'routes all models to Converse' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'with bedrock_use_invoke_model: true' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:provider) { build_bedrock(use_invoke_model: true) }
+
+      it 'routes Anthropic models (anthropic.* prefix) to BedrockInvokeModel' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes non-Anthropic models to Converse regardless of flag' do
+        expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
+        expect(provider.protocol_for(model_double(llama_id))).to be(RubyLLM::Protocols::Converse)
+      end
+
+      it 'routes ARN ids with Anthropic provider_name to BedrockInvokeModel' do
+        model = model_double(arn_id, metadata: { provider_name: 'Anthropic' })
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes ARN ids without provider_name to Converse with a warning' do
+        allow(RubyLLM.logger).to receive(:warn)
+        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::Converse)
+        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
+      end
+    end
+
+    context 'with Array selector' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:sonnet_id) { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
+      let(:provider)  { build_bedrock(use_invoke_model: [sonnet_id]) }
+
+      it 'routes only listed model ids to BedrockInvokeModel' do
+        expect(provider.protocol_for(model_double(sonnet_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes unlisted Anthropic models to Converse' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'with Proc/lambda selector' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:sonnet_id) { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
+      let(:selector)  { ->(m) { m.id == sonnet_id } }
+      let(:provider)  { build_bedrock(use_invoke_model: selector) }
+
+      it 'routes models where the callable returns true to BedrockInvokeModel' do
+        expect(provider.protocol_for(model_double(sonnet_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes models where the callable returns false to Converse' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    describe 'anthropic_model? directly' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:bedrock) { build_bedrock }
+
+      it 'returns true for anthropic.* model ids' do
+        expect(bedrock.send(:anthropic_model?, model_double('anthropic.claude-3-haiku'))).to be(true)
+      end
+
+      it 'returns false for amazon.* (Nova) model ids' do
+        expect(bedrock.send(:anthropic_model?, model_double('amazon.nova-lite-v1:0'))).to be(false)
+      end
+
+      it 'returns false for meta.* (Llama) model ids' do
+        expect(bedrock.send(:anthropic_model?, model_double('meta.llama3-8b-instruct-v1:0'))).to be(false)
+      end
+
+      it 'returns false for other NON_ANTHROPIC_PREFIXES vendors' do
+        %w[ai21. cohere. mistral. writer. stability.].each do |prefix|
+          expect(bedrock.send(:anthropic_model?, model_double("#{prefix}some-model"))).to be(false)
+        end
+      end
+
+      it 'returns true for ARN ids whose metadata shows Anthropic as provider' do
+        model = model_double(arn_id, metadata: { provider_name: 'Anthropic' })
+        expect(bedrock.send(:anthropic_model?, model)).to be(true)
+      end
+
+      it 'returns false and logs a warning for ARN ids without provider_name metadata' do
+        allow(RubyLLM.logger).to receive(:warn)
+        expect(bedrock.send(:anthropic_model?, model_double(arn_id))).to be(false)
+        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
+      end
+
+      it 'returns true for models whose provider field is "anthropic" (fallback)' do
+        model = model_double('unknown-model', provider: 'anthropic')
+        expect(bedrock.send(:anthropic_model?, model)).to be(true)
+      end
+
+      it 'returns false for models with non-anthropic provider field and unknown prefix' do
+        model = model_double('unknown-model', provider: 'bedrock')
+        expect(bedrock.send(:anthropic_model?, model)).to be(false)
+      end
+    end
+  end
+
   describe 'model id path encoding' do
     # completion_url/stream_url read only @model, and canonical_uri is a pure path
     # transform, so allocate uninitialized instances to keep these tests focused and
