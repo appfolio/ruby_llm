@@ -106,7 +106,7 @@
   },
   "claude-sonnet-5": {
     "anthropic": "claude-sonnet-5",
-    "bedrock": "anthropic.claude-sonnet-5",
+    "bedrock": "us.anthropic.claude-sonnet-5",
     "vertexai": "claude-sonnet-5"
   },
   "deepseek-chat": {
