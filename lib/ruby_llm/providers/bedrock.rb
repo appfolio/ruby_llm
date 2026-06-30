@@ -8,6 +8,7 @@ module RubyLLM
       include Bedrock::Models
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
+      protocol :bedrock_invoke_model, Protocols::BedrockInvokeModel
       files Bedrock::Files
 
       def api_base
@@ -20,6 +21,10 @@ module RubyLLM
 
       def headers
         {}
+      end
+
+      def protocol_for(_model, **)
+        @config.bedrock_use_invoke_model ? fetch_protocol(:bedrock_invoke_model) : fetch_protocol(:converse)
       end
 
       def complete(messages, model:, params: {}, **rest, &)
@@ -51,6 +56,9 @@ module RubyLLM
             bedrock_api_base
             bedrock_batch_s3_uri
             bedrock_batch_role_arn
+            bedrock_use_invoke_model
+            anthropic_beta
+            anthropic_context_management
           ]
         end
 
