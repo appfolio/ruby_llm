@@ -104,6 +104,11 @@
     "vertexai": "claude-sonnet-4-6",
     "azure": "claude-sonnet-4-6"
   },
+  "claude-sonnet-5": {
+    "anthropic": "claude-sonnet-5",
+    "bedrock": "anthropic.claude-sonnet-5",
+    "vertexai": "claude-sonnet-5"
+  },
   "deepseek-chat": {
     "deepseek": "deepseek-chat",
     "openrouter": "deepseek/deepseek-chat"
@@ -177,6 +182,7 @@
   },
   "gemini-3-pro-image": {
     "gemini": "gemini-3-pro-image",
+    "openrouter": "google/gemini-3-pro-image",
     "vertexai": "gemini-3-pro-image"
   },
   "gemini-3-pro-image-preview": {
@@ -190,6 +196,7 @@
   },
   "gemini-3.1-flash-image": {
     "gemini": "gemini-3.1-flash-image",
+    "openrouter": "google/gemini-3.1-flash-image",
     "vertexai": "gemini-3.1-flash-image"
   },
   "gemini-3.1-flash-image-preview": {
