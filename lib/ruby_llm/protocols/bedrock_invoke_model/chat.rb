@@ -6,11 +6,21 @@ module RubyLLM
   module Protocols
     class BedrockInvokeModel
       # Chat methods for the Bedrock InvokeModel API (raw Anthropic Messages format).
+      # Self-contained: does not include Converse::Chat or Converse::Media so that
+      # consuming-app patches on those modules cannot fire on this path.
       module Chat
         module_function
 
         def completion_url
           "/model/#{escape_model_id(@model.id)}/invoke"
+        end
+
+        # An application inference profile ARN contains a "/" that must be
+        # percent-encoded so it stays a single path segment. See Converse::Chat
+        # for the full explanation; this is an intentional duplicate so the two
+        # code paths remain independent.
+        def escape_model_id(model_id)
+          model_id.to_s.gsub('/', '%2F')
         end
 
         # rubocop:disable Metrics/ParameterLists,Metrics/PerceivedComplexity,Lint/UnusedMethodArgument
@@ -288,6 +298,13 @@ module RubyLLM
           return { type: 'enabled', budget_tokens: budget } if budget.is_a?(Integer)
 
           nil
+        end
+
+        def format_role(role)
+          case role
+          when :assistant then 'assistant'
+          else 'user'
+          end
         end
 
         def default_invoke_input_schema

@@ -295,6 +295,49 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       message = chat_module.parse_completion_body(data, raw: data)
       expect(message.finish_reason).to eq('max_tokens')
     end
+
+    it 'parses all four usage fields from a final text response' do
+      data = {
+        'content' => [{ 'type' => 'text', 'text' => 'answer' }],
+        'usage' => {
+          'input_tokens' => 200,
+          'output_tokens' => 50,
+          'cache_read_input_tokens' => 80,
+          'cache_creation_input_tokens' => 40
+        },
+        'stop_reason' => 'end_turn'
+      }
+
+      message = chat_module.parse_completion_body(data, raw: data)
+
+      expect(message.input_tokens).to eq(80) # 200 - 80 - 40
+      expect(message.output_tokens).to eq(50)
+      expect(message.cached_tokens).to eq(80)
+      expect(message.cache_creation_tokens).to eq(40)
+    end
+
+    it 'parses all four usage fields from an intermediate tool-call response' do
+      data = {
+        'content' => [
+          { 'type' => 'tool_use', 'id' => 'tu_2', 'name' => 'lookup', 'input' => { 'id' => 7 } }
+        ],
+        'usage' => {
+          'input_tokens' => 300,
+          'output_tokens' => 20,
+          'cache_read_input_tokens' => 150,
+          'cache_creation_input_tokens' => 0
+        },
+        'stop_reason' => 'tool_use'
+      }
+
+      message = chat_module.parse_completion_body(data, raw: data)
+
+      expect(message.input_tokens).to eq(150) # 300 - 150 - 0
+      expect(message.output_tokens).to eq(20)
+      expect(message.cached_tokens).to eq(150)
+      expect(message.cache_creation_tokens).to eq(0)
+      expect(message.finish_reason).to eq('tool_use')
+    end
   end
 
   # ────────────────────────────────────────────────────────────────────────────
@@ -304,10 +347,6 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   describe '#build_chunk (streaming)' do
     let(:streaming) do
       Object.new.tap do |obj|
-        # Extend Converse::Streaming first so BedrockInvokeModel::Streaming's build_chunk
-        # takes precedence in the method lookup chain, while error helpers from Converse
-        # remain available.
-        obj.extend(RubyLLM::Protocols::Converse::Streaming)
         obj.extend(RubyLLM::Protocols::BedrockInvokeModel::Streaming)
         obj.instance_variable_set(:@model, instance_double(RubyLLM::Model::Info, id: model.id))
       end
