@@ -414,7 +414,7 @@ module RubyLLM
             signature ||= chunk_signature
           end
 
-          [text.empty? ? nil : text, signature, raw_blocks.presence]
+          [text.empty? ? nil : text, signature, raw_blocks.empty? ? nil : raw_blocks]
         end
 
         def parse_reasoning_content_block(block)
