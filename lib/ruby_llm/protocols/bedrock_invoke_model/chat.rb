@@ -167,8 +167,8 @@ module RubyLLM
           blocks = []
 
           if msg.role == :assistant
-            thinking_block = format_thinking_block(msg.thinking)
-            blocks << thinking_block if thinking_block
+            thinking_blocks = format_thinking_blocks(msg.thinking)
+            blocks.concat(thinking_blocks) if thinking_blocks
           end
 
           blocks.concat(format_text_and_media(msg.content))
@@ -292,6 +292,14 @@ module RubyLLM
           end
         end
 
+        EFFORT_BUDGET_TOKENS = {
+          'low' => 1_024,
+          'medium' => 5_000,
+          'high' => 10_000,
+          'max' => 16_000
+        }.freeze
+        private_constant :EFFORT_BUDGET_TOKENS
+
         def format_thinking_fields(thinking)
           return nil unless thinking&.enabled?
 
@@ -302,13 +310,24 @@ module RubyLLM
             effort = thinking.effort.to_s
             return nil if effort.empty? || effort == 'none'
 
-            { thinking: { type: 'enabled', budget_tokens: 5000 } }
+            { thinking: { type: 'enabled', budget_tokens: EFFORT_BUDGET_TOKENS.fetch(effort, 5_000) } }
           end
         end
 
-        def format_thinking_block(thinking)
+        # Anthropic requires every thinking/redacted_thinking block from the most recent
+        # assistant turn to be replayed verbatim. When thinking.blocks is present, it holds
+        # the exact original blocks and must be replayed in order; text/signature are kept
+        # only for display purposes.
+        def format_thinking_blocks(thinking)
           return nil unless thinking
 
+          return thinking.blocks if thinking.blocks
+
+          block = format_single_thinking_block(thinking)
+          block ? [block] : nil
+        end
+
+        def format_single_thinking_block(thinking)
           if thinking.text
             { type: 'thinking', thinking: thinking.text, signature: thinking.signature }.compact
           elsif thinking.signature
@@ -323,14 +342,27 @@ module RubyLLM
           text.empty? ? nil : text
         end
 
-        def parse_thinking(content_blocks)
-          thinking_block = content_blocks.find { |b| b['type'] == 'thinking' } ||
-                           content_blocks.find { |b| b['type'] == 'redacted_thinking' }
-          return nil unless thinking_block
+        THINKING_BLOCK_TYPES = %w[thinking redacted_thinking].freeze
+        private_constant :THINKING_BLOCK_TYPES
 
-          text = thinking_block['thinking']
-          signature = thinking_block['signature'] || thinking_block['data']
-          Thinking.build(text: text, signature: signature)
+        # Returns a Thinking instance whose blocks field is the source of truth for replay;
+        # text/signature are merged across all blocks and kept only for display purposes.
+        def parse_thinking(content_blocks)
+          raw_blocks = content_blocks.select { |b| THINKING_BLOCK_TYPES.include?(b['type']) }
+          return nil if raw_blocks.empty?
+
+          text, signature = merge_thinking_blocks(raw_blocks)
+          Thinking.build(text: text, signature: signature, blocks: raw_blocks)
+        end
+
+        def merge_thinking_blocks(raw_blocks)
+          text = +''
+          signature = nil
+          raw_blocks.each do |b|
+            text << b['thinking'] if b['thinking'].is_a?(String)
+            signature ||= b['signature'] || b['data']
+          end
+          [text.empty? ? nil : text, signature]
         end
 
         def parse_tool_calls(content_blocks)

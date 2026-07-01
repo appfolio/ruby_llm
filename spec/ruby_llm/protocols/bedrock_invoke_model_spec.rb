@@ -677,6 +677,96 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   end
 
   # ---------------------------------------------------------------------------
+  # format_thinking_fields — effort-level budget_tokens mapping
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat#format_thinking_fields' do
+    subject(:chat) { described_class::Chat }
+
+    {
+      'low' => 1_024,
+      'medium' => 5_000,
+      'high' => 10_000,
+      'max' => 16_000
+    }.each do |effort_level, expected_budget|
+      it "maps effort '#{effort_level}' to budget_tokens #{expected_budget}" do
+        thinking = RubyLLM::Thinking::Config.new(effort: effort_level)
+        result = chat.format_thinking_fields(thinking)
+        expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: expected_budget } })
+      end
+    end
+
+    it 'uses 5000 as fallback budget for unknown effort strings' do
+      thinking = RubyLLM::Thinking::Config.new(effort: 'unknown_level')
+      result = chat.format_thinking_fields(thinking)
+      expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: 5_000 } })
+    end
+
+    it 'uses an explicit integer budget when provided' do
+      thinking = RubyLLM::Thinking::Config.new(budget: 8_192)
+      result = chat.format_thinking_fields(thinking)
+      expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: 8_192 } })
+    end
+
+    it 'returns nil when thinking is nil' do
+      expect(chat.format_thinking_fields(nil)).to be_nil
+    end
+
+    it 'returns nil for effort none' do
+      thinking = RubyLLM::Thinking::Config.new(effort: 'none')
+      expect(chat.format_thinking_fields(thinking)).to be_nil
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Multi-block thinking parse + replay
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat multi-block thinking parse and replay' do
+    subject(:chat) { described_class::Chat }
+
+    let(:multi_block_response) do
+      {
+        'id' => 'msg_01',
+        'type' => 'message',
+        'model' => 'anthropic.claude-sonnet-4-6',
+        'stop_reason' => 'end_turn',
+        'content' => [
+          { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' },
+          { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' },
+          { 'type' => 'text', 'text' => 'Done' }
+        ],
+        'usage' => { 'input_tokens' => 10, 'output_tokens' => 5 }
+      }
+    end
+
+    it 'preserves all thinking blocks in thinking.blocks, not just the first' do
+      msg = chat.parse_completion_body(multi_block_response, raw: nil)
+      expect(msg.thinking.blocks).to eq(
+        [
+          { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' },
+          { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' }
+        ]
+      )
+    end
+
+    it 'replays all thinking blocks verbatim when formatting the assistant message' do
+      original_blocks = [
+        { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' },
+        { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' }
+      ]
+      thinking = RubyLLM::Thinking.build(text: 'step two', signature: 'sig-2', blocks: original_blocks)
+      message = RubyLLM::Message.new(role: :assistant, content: 'Done', thinking: thinking)
+
+      result = chat.format_messages([message])
+      thinking_blocks = result.first[:content].select do |b|
+        %w[thinking redacted_thinking].include?(b['type'])
+      end
+      expect(thinking_blocks).to eq(original_blocks)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
   # URL image source rejection
   # ---------------------------------------------------------------------------
 
