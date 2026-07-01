@@ -292,25 +292,22 @@ module RubyLLM
           end
         end
 
-        EFFORT_BUDGET_TOKENS = {
-          'low' => 1_024,
-          'medium' => 5_000,
-          'high' => 10_000,
-          'max' => 16_000
-        }.freeze
-        private_constant :EFFORT_BUDGET_TOKENS
-
         def format_thinking_fields(thinking)
           return nil unless thinking&.enabled?
 
           budget = thinking.budget
           if budget.is_a?(Integer)
+            # An explicit integer budget is a deliberate manual-budget opt-in and must use
+            # type: 'enabled'. Only meaningful on models that still accept budget_tokens.
             { thinking: { type: 'enabled', budget_tokens: budget } }
           else
             effort = thinking.effort.to_s
             return nil if effort.empty? || effort == 'none'
 
-            { thinking: { type: 'enabled', budget_tokens: EFFORT_BUDGET_TOKENS.fetch(effort, 5_000) } }
+            # Manual thinking: { type: 'enabled' } returns a 400 on current Anthropic models
+            # (Sonnet 5, Opus 4.7/4.8, Fable 5, ...). Effort-based extended thinking must use
+            # adaptive thinking with the effort carried in output_config.
+            { thinking: { type: 'adaptive' }, output_config: { effort: effort } }
           end
         end
 
@@ -327,9 +324,13 @@ module RubyLLM
           block ? [block] : nil
         end
 
+        # A text-only block with no signature (e.g. a turn truncated mid-thinking) is dropped:
+        # Anthropic rejects replayed thinking blocks without a valid signature, so a
+        # signature-less reconstruction is worse than omitting the block entirely. This mirrors
+        # the streaming path's drop-on-truncation behavior (see streaming.rb).
         def format_single_thinking_block(thinking)
-          if thinking.text
-            { type: 'thinking', thinking: thinking.text, signature: thinking.signature }.compact
+          if thinking.text && thinking.signature
+            { type: 'thinking', thinking: thinking.text, signature: thinking.signature }
           elsif thinking.signature
             { type: 'redacted_thinking', data: thinking.signature }
           end

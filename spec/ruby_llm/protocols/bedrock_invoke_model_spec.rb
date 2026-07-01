@@ -232,6 +232,14 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(thinking_block[:signature]).to eq('sig')
     end
 
+    it 'drops a text-only thinking block with no signature rather than replaying it' do
+      thinking = RubyLLM::Thinking.build(text: 'cut off mid-thought', signature: nil)
+      msg = RubyLLM::Message.new(role: :assistant, content: 'reply', thinking: thinking)
+      result = chat.format_messages([msg])
+      thinking_block = result.first[:content].find { |b| b.is_a?(Hash) && b[:type] == 'thinking' }
+      expect(thinking_block).to be_nil
+    end
+
     it 'preserves cache_control when block already carries one' do
       raw_block = { 'type' => 'text', 'text' => 'cached', 'cache_control' => { 'type' => 'ephemeral' } }
       raw_content = RubyLLM::Content::Raw.new([raw_block])
@@ -816,26 +824,21 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   describe 'Chat#format_thinking_fields' do
     subject(:chat) { described_class::Chat }
 
-    {
-      'low' => 1_024,
-      'medium' => 5_000,
-      'high' => 10_000,
-      'max' => 16_000
-    }.each do |effort_level, expected_budget|
-      it "maps effort '#{effort_level}' to budget_tokens #{expected_budget}" do
+    %w[low medium high max xhigh].each do |effort_level|
+      it "maps effort '#{effort_level}' to adaptive thinking with effort in output_config" do
         thinking = RubyLLM::Thinking::Config.new(effort: effort_level)
         result = chat.format_thinking_fields(thinking)
-        expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: expected_budget } })
+        expect(result).to eq({ thinking: { type: 'adaptive' }, output_config: { effort: effort_level } })
       end
     end
 
-    it 'uses 5000 as fallback budget for unknown effort strings' do
+    it 'passes any effort string through to output_config verbatim' do
       thinking = RubyLLM::Thinking::Config.new(effort: 'unknown_level')
       result = chat.format_thinking_fields(thinking)
-      expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: 5_000 } })
+      expect(result).to eq({ thinking: { type: 'adaptive' }, output_config: { effort: 'unknown_level' } })
     end
 
-    it 'uses an explicit integer budget when provided' do
+    it 'uses type: enabled with an explicit integer budget (manual budget opt-in)' do
       thinking = RubyLLM::Thinking::Config.new(budget: 8_192)
       result = chat.format_thinking_fields(thinking)
       expect(result).to eq({ thinking: { type: 'enabled', budget_tokens: 8_192 } })
