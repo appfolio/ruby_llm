@@ -29,7 +29,10 @@ module RubyLLM
     end
 
     def self.presence(value)
-      value.nil? || value.empty? ? nil : value
+      return nil if value.nil?
+      return nil if value.respond_to?(:empty?) && value.empty?
+
+      value
     end
     private_class_method :presence
 

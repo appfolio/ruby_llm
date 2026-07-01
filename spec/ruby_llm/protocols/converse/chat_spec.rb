@@ -233,5 +233,15 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
       reasoning_blocks = payload[:messages].first[:content].select { |block| block['reasoningContent'] }
       expect(reasoning_blocks).to eq(original_blocks)
     end
+
+    it 'reconstructs a single reasoning block when thinking has no raw blocks' do
+      thinking = RubyLLM::Thinking.build(text: 'thought', signature: 'sig')
+      message = RubyLLM::Message.new(role: :assistant, content: 'Done', thinking: thinking)
+
+      payload = render_payload([message], schema: nil)
+
+      reasoning_blocks = payload[:messages].first[:content].select { |block| block[:reasoningContent] }
+      expect(reasoning_blocks).to eq([{ reasoningContent: { reasoningText: { text: 'thought', signature: 'sig' } } }])
+    end
   end
 end

@@ -400,21 +400,22 @@ module RubyLLM
           text.empty? ? nil : text
         end
 
-        # Returns [merged_text, first_signature, raw_reasoning_blocks] — the raw blocks are
-        # the source of truth for replay (see format_thinking_blocks); merged text/signature
-        # are kept only for callers that inspect thinking.text/signature for display purposes.
+        # Returns [merged_text, first_signature, reasoning_content_blocks] — the reasoning
+        # content blocks are the source of truth for replay (see format_thinking_blocks);
+        # merged text/signature are kept only for callers that inspect thinking.text/signature
+        # for display purposes.
         def parse_thinking(content_blocks)
           text = +''
           signature = nil
-          raw_blocks = content_blocks.select { |block| block['reasoningContent'].is_a?(Hash) }
+          reasoning_content_blocks = content_blocks.select { |block| block['reasoningContent'].is_a?(Hash) }
 
-          raw_blocks.each do |block|
+          reasoning_content_blocks.each do |block|
             chunk_text, chunk_signature = parse_reasoning_content_block(block)
             text << chunk_text if chunk_text
             signature ||= chunk_signature
           end
 
-          [text.empty? ? nil : text, signature, raw_blocks.empty? ? nil : raw_blocks]
+          [text.empty? ? nil : text, signature, reasoning_content_blocks.empty? ? nil : reasoning_content_blocks]
         end
 
         def parse_reasoning_content_block(block)
