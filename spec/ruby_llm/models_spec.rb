@@ -115,6 +115,28 @@ RSpec.describe RubyLLM::Models do
       expect(RubyLLM.models.find('gemini-2.5-flash').provider).to eq('gemini')
     end
 
+    it 'resolves us.anthropic.claude-fable-5 directly by ID for bedrock' do
+      model = RubyLLM.models.find('us.anthropic.claude-fable-5', :bedrock)
+      expect(model.id).to eq('us.anthropic.claude-fable-5')
+      expect(model.provider).to eq('bedrock')
+    end
+
+    it 'resolves us.anthropic.claude-fable-5 when bedrock_region is configured' do
+      entry = RubyLLM::Model::Info.new(
+        id: 'us.anthropic.claude-fable-5',
+        name: 'Claude Fable 5 (US)',
+        provider: 'bedrock',
+        metadata: { 'inference_types' => ['INFERENCE_PROFILE'] }
+      )
+      models = described_class.new([entry])
+      allow(RubyLLM).to receive(:config).and_return(
+        instance_double(RubyLLM::Configuration, bedrock_region: 'us-west-2')
+      )
+      found = models.find('us.anthropic.claude-fable-5', :bedrock)
+      expect(found.id).to eq('us.anthropic.claude-fable-5')
+      expect(found.provider).to eq('bedrock')
+    end
+
     it 'prefers bedrock region-resolved inference profile IDs over exact unprefixed IDs' do
       unprefixed = RubyLLM::Model::Info.new(
         id: 'meta.llama4-maverick-17b-instruct-v1:0',
