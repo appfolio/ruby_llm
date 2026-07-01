@@ -3,21 +3,38 @@
 module RubyLLM
   # Represents provider thinking output.
   class Thinking
-    attr_reader :text, :signature
+    attr_reader :text, :signature, :blocks
 
-    def initialize(text: nil, signature: nil)
+    # blocks: the exact, provider-native reasoning content blocks for this turn, in
+    # original order. Anthropic (and Bedrock Converse, which proxies to it) requires every
+    # thinking/redacted_thinking block from the most recent assistant turn to be replayed
+    # byte-for-byte, including blocks with empty thinking text — reconstructing a single
+    # block from merged text+signature loses any additional blocks and gets rejected with
+    # "Invalid data in redacted_thinking block" on the next request. When blocks is present,
+    # protocols must replay it verbatim instead of rebuilding from text/signature.
+    def initialize(text: nil, signature: nil, blocks: nil)
       @text = text
       @signature = signature
+      @blocks = blocks
     end
 
-    def self.build(text: nil, signature: nil)
-      text = nil if text.is_a?(String) && text.empty?
-      signature = nil if signature.is_a?(String) && signature.empty?
+    def self.build(text: nil, signature: nil, blocks: nil)
+      text = presence(text)
+      signature = presence(signature)
+      blocks = presence(blocks)
 
-      return nil if text.nil? && signature.nil?
+      return nil if text.nil? && signature.nil? && blocks.nil?
 
-      new(text: text, signature: signature)
+      new(text: text, signature: signature, blocks: blocks)
     end
+
+    def self.presence(value)
+      return nil if value.nil?
+      return nil if value.respond_to?(:empty?) && value.empty?
+
+      value
+    end
+    private_class_method :presence
 
     def pretty_print(printer)
       printer.object_group(self) do
