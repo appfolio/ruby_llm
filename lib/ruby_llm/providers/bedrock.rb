@@ -153,6 +153,13 @@ module RubyLLM
         # Standard Anthropic model ids start with "anthropic."
         return true if id.start_with?('anthropic.')
 
+        # Cross-region inference profile ids prefix the vendor with a geo code
+        # (us., eu., apac., global., jp., au., us-gov., ...): "us.anthropic.claude-sonnet-5".
+        # Match any geo prefix followed by "anthropic." rather than enumerating regions AWS
+        # may add. Cannot false-positive on other vendors' cross-region profiles
+        # (e.g. "us.amazon.nova-pro-v1:0") since those don't contain "anthropic.".
+        return true if id.match?(/\A[a-z0-9-]+\.anthropic\./)
+
         # Application-inference-profile ARNs do not encode the underlying vendor in the ARN
         # string itself. When available, consult model.metadata[:provider_name] (populated
         # by Bedrock::Models for registered foundation models) to confirm the profile is

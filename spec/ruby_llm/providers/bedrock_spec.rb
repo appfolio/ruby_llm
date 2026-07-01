@@ -134,6 +134,9 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     let(:nova_id)   { 'amazon.nova-lite-v1:0' }
     let(:llama_id)  { 'meta.llama3-8b-instruct-v1:0' }
     let(:arn_id)    { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/p' }
+    let(:us_sonnet_id) { 'us.anthropic.claude-sonnet-5' }
+    let(:eu_haiku_id)  { 'eu.anthropic.claude-haiku-4-5-20251001-v1:0' }
+    let(:us_nova_id)   { 'us.amazon.nova-pro-v1:0' }
 
     context 'with bedrock_use_invoke_model: false (default)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
       let(:provider) { build_bedrock(use_invoke_model: false) }
@@ -174,6 +177,21 @@ RSpec.describe RubyLLM::Providers::Bedrock do
         expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::Converse)
         expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
       end
+
+      it 'routes cross-region inference profile ids (us.anthropic.*) to BedrockInvokeModel' do
+        model = model_double(us_sonnet_id, provider: 'bedrock')
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes cross-region inference profile ids (eu.anthropic.*) to BedrockInvokeModel' do
+        model = model_double(eu_haiku_id, provider: 'bedrock')
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes cross-region non-Anthropic profile ids (us.amazon.*) to Converse' do
+        model = model_double(us_nova_id, provider: 'bedrock')
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::Converse)
+      end
     end
 
     context 'with Array selector' do # rubocop:disable RSpec/MultipleMemoizedHelpers
@@ -186,6 +204,20 @@ RSpec.describe RubyLLM::Providers::Bedrock do
 
       it 'routes unlisted Anthropic models to Converse' do
         expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'with Array selector containing a cross-region inference profile id' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:provider) { build_bedrock(use_invoke_model: [us_sonnet_id]) }
+
+      it 'routes the listed cross-region model id to BedrockInvokeModel' do
+        model = model_double(us_sonnet_id, provider: 'bedrock')
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+
+      it 'routes an unlisted cross-region model id to Converse' do
+        model = model_double(eu_haiku_id, provider: 'bedrock')
+        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::Converse)
       end
     end
 
@@ -222,6 +254,21 @@ RSpec.describe RubyLLM::Providers::Bedrock do
         %w[ai21. cohere. mistral. writer. stability.].each do |prefix|
           expect(bedrock.send(:anthropic_model?, model_double("#{prefix}some-model"))).to be(false)
         end
+      end
+
+      it 'returns true for cross-region inference profile ids regardless of geo prefix' do
+        %w[us. eu. apac. global. jp. au. us-gov.].each do |geo|
+          id = "#{geo}anthropic.claude-sonnet-5"
+          expect(bedrock.send(:anthropic_model?, model_double(id, provider: 'bedrock'))).to be(true)
+        end
+      end
+
+      it 'returns false for cross-region profile ids of non-Anthropic vendors' do
+        expect(bedrock.send(:anthropic_model?, model_double('us.amazon.nova-pro-v1:0', provider: 'bedrock')))
+          .to be(false)
+        expect(bedrock.send(:anthropic_model?,
+                            model_double('us.meta.llama3-1-405b-instruct-v1:0', provider: 'bedrock')))
+          .to be(false)
       end
 
       it 'returns true for ARN ids whose metadata shows Anthropic as provider' do
