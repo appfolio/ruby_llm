@@ -41,7 +41,8 @@ module RubyLLM
       def thinking
         RubyLLM::Thinking.build(
           text: optional_column(:thinking_text),
-          signature: optional_column(:thinking_signature)
+          signature: optional_column(:thinking_signature),
+          blocks: optional_column(:thinking_blocks)
         )
       end
 

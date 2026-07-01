@@ -86,6 +86,31 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
 
       expect(message.thinking_tokens).to eq(7)
     end
+
+    it 'preserves every reasoning block from a multi-block turn, not just the first' do
+      # Anthropic requires every thinking/redacted_thinking block from a turn to be replayed
+      # unmodified. Interleaved/adaptive thinking can put more than one reasoningContent block
+      # in a single turn (e.g. a redacted block followed by a normal one) — collapsing them to
+      # a single merged text+signature silently drops data and the next request gets rejected
+      # with "Invalid data in redacted_thinking block".
+      response_body = {
+        'output' => {
+          'message' => {
+            'content' => [
+              { 'reasoningContent' => { 'redactedContent' => 'opaque-blob-1' } },
+              { 'reasoningContent' => { 'reasoningText' => { 'text' => 'step two', 'signature' => 'sig-2' } } },
+              { 'toolUse' => { 'toolUseId' => 't1', 'name' => 'search', 'input' => {} } }
+            ]
+          }
+        },
+        'usage' => {}
+      }
+
+      response = instance_double(Faraday::Response, body: response_body)
+      message = described_class.parse_completion_response(response)
+
+      expect(message.thinking.blocks).to eq(response_body['output']['message']['content'].first(2))
+    end
   end
 
   describe '.format_tool_result_content' do
@@ -193,6 +218,20 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
 
       expect(payload[:messages].first).not_to have_key(:finishReason)
       expect(payload[:messages].first[:content]).to eq([{ text: 'Done' }])
+    end
+
+    it 'replays every reasoning block from a multi-block turn unmodified, in order' do
+      original_blocks = [
+        { 'reasoningContent' => { 'redactedContent' => 'opaque-blob-1' } },
+        { 'reasoningContent' => { 'reasoningText' => { 'text' => 'step two', 'signature' => 'sig-2' } } }
+      ]
+      thinking = RubyLLM::Thinking.build(text: 'step two', signature: 'sig-2', blocks: original_blocks)
+      message = RubyLLM::Message.new(role: :assistant, content: 'Done', thinking: thinking)
+
+      payload = render_payload([message], schema: nil)
+
+      reasoning_blocks = payload[:messages].first[:content].select { |block| block['reasoningContent'] }
+      expect(reasoning_blocks).to eq(original_blocks)
     end
   end
 end

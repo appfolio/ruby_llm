@@ -365,6 +365,7 @@ module RubyLLM
         attrs[:cache_creation_tokens] = message.cache_creation_tokens if @message.has_attribute?(:cache_creation_tokens)
         attrs[:thinking_text] = message.thinking&.text if @message.has_attribute?(:thinking_text)
         attrs[:thinking_signature] = message.thinking&.signature if @message.has_attribute?(:thinking_signature)
+        attrs[:thinking_blocks] = message.thinking&.blocks if @message.has_attribute?(:thinking_blocks)
         attrs[:thinking_tokens] = message.thinking_tokens if @message.has_attribute?(:thinking_tokens)
         attrs[:citations] = message.citations.map(&:to_h).presence if @message.has_attribute?(:citations)
         attrs[:finish_reason] = message.finish_reason if @message.has_attribute?(:finish_reason)

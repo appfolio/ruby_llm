@@ -84,12 +84,12 @@ module RubyLLM
 
           content_blocks = data.dig('output', 'message', 'content') || []
           usage = data['usage'] || {}
-          thinking_text, thinking_signature = parse_thinking(content_blocks)
+          thinking_text, thinking_signature, thinking_blocks = parse_thinking(content_blocks)
 
           Message.new(
             role: :assistant,
             content: parse_text_content(content_blocks),
-            thinking: Thinking.build(text: thinking_text, signature: thinking_signature),
+            thinking: Thinking.build(text: thinking_text, signature: thinking_signature, blocks: thinking_blocks),
             tool_calls: parse_tool_calls(content_blocks),
             input_tokens: input_tokens(usage),
             output_tokens: usage['outputTokens'],
@@ -155,8 +155,8 @@ module RubyLLM
 
           blocks = []
 
-          thinking_block = format_thinking_block(msg.thinking)
-          blocks << thinking_block if msg.role == :assistant && thinking_block
+          thinking_blocks = format_thinking_blocks(msg.thinking)
+          blocks.concat(thinking_blocks) if msg.role == :assistant && thinking_blocks
 
           text_and_media_blocks = Media.format_content(msg.content, used_document_names: @used_document_names)
           blocks.concat(text_and_media_blocks) if text_and_media_blocks
@@ -361,9 +361,22 @@ module RubyLLM
           { reasoning_config: { type: 'enabled', budget_tokens: budget } }
         end
 
-        def format_thinking_block(thinking)
+        # Anthropic (and Bedrock Converse, which proxies to it) rejects a request whose most
+        # recent assistant turn doesn't replay every thinking/redacted_thinking block from the
+        # original response exactly as received — including blocks with empty thinking text.
+        # When the turn had more than one reasoning block (common under adaptive/interleaved
+        # thinking during tool use), thinking.blocks holds the exact original blocks and must
+        # be replayed verbatim instead of reconstructed from the merged text/signature.
+        def format_thinking_blocks(thinking)
           return nil unless thinking
 
+          return thinking.blocks if thinking.blocks
+
+          block = format_single_thinking_block(thinking)
+          block ? [block] : nil
+        end
+
+        def format_single_thinking_block(thinking)
           if thinking.text
             {
               reasoningContent: {
@@ -387,17 +400,21 @@ module RubyLLM
           text.empty? ? nil : text
         end
 
+        # Returns [merged_text, first_signature, raw_reasoning_blocks] — the raw blocks are
+        # the source of truth for replay (see format_thinking_blocks); merged text/signature
+        # are kept only for callers that inspect thinking.text/signature for display purposes.
         def parse_thinking(content_blocks)
           text = +''
           signature = nil
+          raw_blocks = content_blocks.select { |block| block['reasoningContent'].is_a?(Hash) }
 
-          content_blocks.each do |block|
+          raw_blocks.each do |block|
             chunk_text, chunk_signature = parse_reasoning_content_block(block)
             text << chunk_text if chunk_text
             signature ||= chunk_signature
           end
 
-          [text.empty? ? nil : text, signature]
+          [text.empty? ? nil : text, signature, raw_blocks.presence]
         end
 
         def parse_reasoning_content_block(block)
