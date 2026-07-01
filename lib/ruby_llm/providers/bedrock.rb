@@ -8,6 +8,7 @@ module RubyLLM
       include Bedrock::Models
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
+      protocol :bedrock_invoke_model, Protocols::BedrockInvokeModel
       files Bedrock::Files
 
       def api_base
@@ -24,6 +25,10 @@ module RubyLLM
 
       def complete(messages, model:, params: {}, **rest, &)
         super(messages, model:, params: normalize_params(params, model:), **rest, &)
+      end
+
+      def protocol_for(model, **)
+        invoke_model?(model) ? fetch_protocol(:bedrock_invoke_model) : fetch_protocol(:converse)
       end
 
       def parse_error(response)
@@ -51,6 +56,9 @@ module RubyLLM
             bedrock_api_base
             bedrock_batch_s3_uri
             bedrock_batch_role_arn
+            bedrock_use_invoke_model
+            anthropic_beta
+            anthropic_context_management
           ]
         end
 
@@ -114,6 +122,69 @@ module RubyLLM
 
       def model_supports_top_k?(model)
         Protocols::Converse.reasoning_embedded?(model)
+      end
+
+      # Returns true if the InvokeModel protocol should be used for this model.
+      # `bedrock_use_invoke_model` can be:
+      #   - false / nil  → always Converse (default)
+      #   - true         → InvokeModel for all Anthropic models
+      #   - Array        → InvokeModel when model.id is in the list
+      #   - Proc/lambda  → InvokeModel when the callable returns truthy for model
+      def invoke_model?(model)
+        selector = @config.bedrock_use_invoke_model
+        return false unless selector
+        return false unless anthropic_model?(model)
+
+        case selector
+        when true
+          true
+        when Array
+          selector.include?(model.id)
+        else
+          selector.respond_to?(:call) ? selector.call(model) : false
+        end
+      end
+
+      NON_ANTHROPIC_PREFIXES = %w[amazon. meta. ai21. cohere. mistral. writer. stability.].freeze
+      private_constant :NON_ANTHROPIC_PREFIXES
+
+      def anthropic_model?(model)
+        id = model.id.to_s
+        # Standard Anthropic model ids start with "anthropic."
+        return true if id.start_with?('anthropic.')
+
+        # Cross-region inference profile ids prefix the vendor with a geo code
+        # (us., eu., apac., global., jp., au., us-gov., ...): "us.anthropic.claude-sonnet-5".
+        # Match any geo prefix followed by "anthropic." rather than enumerating regions AWS
+        # may add. Cannot false-positive on other vendors' cross-region profiles
+        # (e.g. "us.amazon.nova-pro-v1:0") since those don't contain "anthropic.".
+        return true if id.match?(/\A[a-z0-9-]+\.anthropic\./)
+
+        # Application-inference-profile ARNs do not encode the underlying vendor in the ARN
+        # string itself. When available, consult model.metadata[:provider_name] (populated
+        # by Bedrock::Models for registered foundation models) to confirm the profile is
+        # Anthropic-backed. If that field is absent (e.g. a runtime-only ARN the registry
+        # has never seen), log a warning and refuse to route rather than silently forwarding
+        # an incompatible payload to a non-Anthropic model.
+        return arn_anthropic_model?(model, id) if id.start_with?('arn:')
+
+        # Block known non-Anthropic Bedrock vendor prefixes (Nova, Llama, Jurassic, etc.).
+        return false if NON_ANTHROPIC_PREFIXES.any? { |pfx| id.start_with?(pfx) }
+
+        provider = model.respond_to?(:provider) ? model.provider : nil
+        provider.to_s == 'anthropic'
+      end
+
+      def arn_anthropic_model?(model, id)
+        provider_name = model.respond_to?(:metadata) ? model.metadata&.fetch(:provider_name, nil) : nil
+        return provider_name.to_s.downcase == 'anthropic' if provider_name
+
+        RubyLLM.logger.warn(
+          "RubyLLM cannot verify that ARN model id #{id.inspect} is Anthropic-backed " \
+          '(no provider_name in model.metadata). Refusing to route to BedrockInvokeModel. ' \
+          'Use an Array or Proc selector with bedrock_use_invoke_model to opt in explicitly.'
+        )
+        false
       end
     end
   end
