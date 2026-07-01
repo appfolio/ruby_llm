@@ -13,6 +13,7 @@ module RubyLLM
       @citations = []
       @thinking_text = +''
       @thinking_signature = nil
+      @thinking_blocks = []
       @tool_calls = {}
       @input_tokens = nil
       @output_tokens = nil
@@ -45,7 +46,8 @@ module RubyLLM
         citations: resolved_citations,
         thinking: Thinking.build(
           text: @thinking_text.empty? ? nil : @thinking_text,
-          signature: @thinking_signature
+          signature: @thinking_signature,
+          blocks: @thinking_blocks.empty? ? nil : @thinking_blocks
         ),
         tokens: Tokens.build(
           input: @input_tokens,
@@ -180,7 +182,8 @@ module RubyLLM
       return unless thinking
 
       @thinking_text << thinking.text.to_s if thinking.text
-      @thinking_signature ||= thinking.signature # rubocop:disable Naming/MemoizedInstanceVariableName
+      @thinking_signature ||= thinking.signature
+      @thinking_blocks.concat(thinking.blocks) if thinking.blocks
     end
 
     def extract_think_tags(text)

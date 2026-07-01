@@ -75,5 +75,37 @@ RSpec.describe RubyLLM::StreamAccumulator do
       message = accumulator.to_message(nil)
       expect(message.finish_reason).to eq('tool_use')
     end
+
+    it 'omits blocks and matches pre-existing text/signature-only behavior when no chunk sets thinking.blocks' do
+      accumulator = described_class.new
+
+      accumulator.add(RubyLLM::Chunk.new(
+                        role: :assistant, content: nil,
+                        thinking: RubyLLM::Thinking.build(text: 'pondering...')
+                      ))
+      accumulator.add(RubyLLM::Chunk.new(
+                        role: :assistant, content: nil,
+                        thinking: RubyLLM::Thinking.build(signature: 'sig-abc')
+                      ))
+
+      message = accumulator.to_message(nil)
+      expect(message.thinking.text).to eq('pondering...')
+      expect(message.thinking.signature).to eq('sig-abc')
+      expect(message.thinking.blocks).to be_nil
+    end
+
+    it 'accumulates blocks across chunks that each carry a single finalized raw block' do
+      accumulator = described_class.new
+      block_a = { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' }
+      block_b = { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' }
+
+      accumulator.add(RubyLLM::Chunk.new(role: :assistant, content: nil,
+                                         thinking: RubyLLM::Thinking.build(blocks: [block_a])))
+      accumulator.add(RubyLLM::Chunk.new(role: :assistant, content: nil,
+                                         thinking: RubyLLM::Thinking.build(blocks: [block_b])))
+
+      message = accumulator.to_message(nil)
+      expect(message.thinking.blocks).to eq([block_a, block_b])
+    end
   end
 end

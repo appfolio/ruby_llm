@@ -23,6 +23,7 @@ module RubyLLM
         def stream_response(payload, additional_headers = {}, &block)
           accumulator = StreamAccumulator.new
           decoder = event_stream_decoder
+          thinking_state = {}
           body = JSON.generate(payload)
 
           response = @connection.post(stream_url, payload) do |req|
@@ -32,12 +33,12 @@ module RubyLLM
 
             if Faraday::VERSION.start_with?('1')
               req.options[:on_data] = proc do |chunk, _size|
-                parse_stream_chunk(decoder, chunk, accumulator, &block)
+                parse_stream_chunk(decoder, chunk, accumulator, thinking_state, &block)
               end
             else
               req.options.on_data = proc do |chunk, _bytes, env|
                 if env&.status == 200
-                  parse_stream_chunk(decoder, chunk, accumulator, &block)
+                  parse_stream_chunk(decoder, chunk, accumulator, thinking_state, &block)
                 else
                   handle_failed_stream(chunk, env)
                 end
@@ -67,11 +68,11 @@ module RubyLLM
           RubyLLM.logger.debug { "Failed Bedrock stream error chunk: #{chunk}" }
         end
 
-        def parse_stream_chunk(decoder, raw_chunk, accumulator)
+        def parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state)
           handle_non_eventstream_error_chunk(raw_chunk)
 
           decode_events(decoder, raw_chunk).each do |event|
-            chunk = build_chunk(event)
+            chunk = build_chunk(event, thinking_state)
             next unless chunk
 
             accumulator.add(chunk)
@@ -136,7 +137,7 @@ module RubyLLM
           nil
         end
 
-        def build_chunk(event)
+        def build_chunk(event, thinking_state = {})
           raise_stream_error(event) if stream_error_event?(event)
 
           type = event['type']
@@ -145,9 +146,11 @@ module RubyLLM
           when 'message_start'
             build_message_start_chunk(event)
           when 'content_block_start'
-            build_content_block_start_chunk(event)
+            build_content_block_start_chunk(event, thinking_state)
           when 'content_block_delta'
-            build_content_block_delta_chunk(event)
+            build_content_block_delta_chunk(event, thinking_state)
+          when 'content_block_stop'
+            build_content_block_stop_chunk(event, thinking_state)
           when 'message_delta'
             build_message_delta_chunk(event)
           else
@@ -168,28 +171,37 @@ module RubyLLM
           )
         end
 
-        def build_content_block_start_chunk(event)
+        def build_content_block_start_chunk(event, thinking_state)
           content_block = event['content_block'] || {}
+          index = event['index']
           tool_calls = nil
+          thinking = nil
 
-          if content_block['type'] == 'tool_use'
+          case content_block['type']
+          when 'tool_use'
             id = content_block['id']
             tool_calls = {
               id => ToolCall.new(id: id, name: content_block['name'], arguments: {})
             }
+          when 'redacted_thinking'
+            thinking = Thinking.build(blocks: [{ 'type' => 'redacted_thinking', 'data' => content_block['data'] }])
+          when 'thinking'
+            thinking_state[index] = { text: +'', signature: nil }
           end
 
           Chunk.new(
             role: :assistant,
             content: nil,
             model_id: @model&.id,
+            thinking: thinking,
             tool_calls: tool_calls
           )
         end
 
-        def build_content_block_delta_chunk(event)
+        def build_content_block_delta_chunk(event, thinking_state)
           delta = event['delta'] || {}
           delta_type = delta['type']
+          index = event['index']
 
           content = nil
           thinking_text = nil
@@ -204,8 +216,10 @@ module RubyLLM
             tool_calls = { nil => ToolCall.new(id: nil, name: nil, arguments: partial) } if partial
           when 'thinking_delta'
             thinking_text = delta['thinking']
+            thinking_state[index][:text] << thinking_text.to_s if thinking_state[index]
           when 'signature_delta'
             thinking_sig = delta['signature']
+            thinking_state[index][:signature] = thinking_sig if thinking_state[index]
           end
 
           Chunk.new(
@@ -214,6 +228,26 @@ module RubyLLM
             content: content,
             thinking: Thinking.build(text: thinking_text, signature: thinking_sig),
             tool_calls: tool_calls
+          )
+        end
+
+        # A thinking block only finalizes here, on its content_block_stop. If the turn
+        # is truncated (e.g. stop_reason 'max_tokens') before this event arrives for a
+        # given index, that block is intentionally dropped rather than replayed
+        # signature-less — Anthropic rejects replay of a thinking block without a valid
+        # signature, so a half-formed block is worse than none on the next request.
+        def build_content_block_stop_chunk(event, thinking_state)
+          index = event['index']
+          state = thinking_state.delete(index)
+          return Chunk.new(role: :assistant, content: nil, model_id: @model&.id) unless state
+
+          block = { 'type' => 'thinking', 'thinking' => state[:text], 'signature' => state[:signature] }
+
+          Chunk.new(
+            role: :assistant,
+            content: nil,
+            model_id: @model&.id,
+            thinking: Thinking.build(blocks: [block])
           )
         end
 

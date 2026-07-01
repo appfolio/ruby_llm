@@ -476,6 +476,139 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   end
 
   # ---------------------------------------------------------------------------
+  # Streaming multi-block thinking parse + replay
+  # ---------------------------------------------------------------------------
+
+  describe 'Streaming multi-block thinking' do
+    let(:streaming) do
+      described_class.allocate.tap do |obj|
+        obj.instance_variable_set(:@model, build_model('anthropic.claude-haiku-4-5-20251001-v1:0'))
+        obj.instance_variable_set(:@config, build_config)
+      end
+    end
+
+    # Feeds events through build_chunk with a single shared thinking_state hash,
+    # mirroring how stream_response threads it across the whole event stream.
+    def accumulate(events)
+      accumulator = RubyLLM::StreamAccumulator.new
+      thinking_state = {}
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e, thinking_state)) }
+      accumulator.to_message(nil)
+    end
+
+    it 'preserves a redacted_thinking block followed by a thinking block, verbatim and in order' do
+      events = [
+        { 'type' => 'message_start', 'message' => { 'model' => 'test-model', 'usage' => { 'input_tokens' => 5 } } },
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' } },
+        { 'type' => 'content_block_stop', 'index' => 0 },
+        { 'type' => 'content_block_start', 'index' => 1,
+          'content_block' => { 'type' => 'thinking', 'thinking' => '', 'signature' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'thinking_delta', 'thinking' => 'step two' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'signature_delta', 'signature' => 'sig-2' } },
+        { 'type' => 'content_block_stop', 'index' => 1 },
+        { 'type' => 'content_block_start', 'index' => 2, 'content_block' => { 'type' => 'text', 'text' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 2,
+          'delta' => { 'type' => 'text_delta', 'text' => 'Done' } },
+        { 'type' => 'content_block_stop', 'index' => 2 },
+        { 'type' => 'message_delta', 'delta' => { 'stop_reason' => 'end_turn' },
+          'usage' => { 'output_tokens' => 5 } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.thinking.blocks).to eq(
+        [
+          { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' },
+          { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' }
+        ]
+      )
+      expect(message.content).to eq('Done')
+    end
+
+    it 'round-trips a streamed multi-block thinking turn through format_thinking_blocks' do
+      events = [
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' } },
+        { 'type' => 'content_block_stop', 'index' => 0 },
+        { 'type' => 'content_block_start', 'index' => 1,
+          'content_block' => { 'type' => 'thinking', 'thinking' => '', 'signature' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'thinking_delta', 'thinking' => 'step two' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'signature_delta', 'signature' => 'sig-2' } },
+        { 'type' => 'content_block_stop', 'index' => 1 }
+      ]
+
+      message = accumulate(events)
+      chat = described_class::Chat
+      formatted = chat.format_messages([message])
+      thinking_blocks = formatted.first[:content].select do |b|
+        %w[thinking redacted_thinking].include?(b['type'])
+      end
+
+      expect(thinking_blocks).to eq(
+        [
+          { 'type' => 'redacted_thinking', 'data' => 'opaque-blob-1' },
+          { 'type' => 'thinking', 'thinking' => 'step two', 'signature' => 'sig-2' }
+        ]
+      )
+    end
+
+    it 'tracks interleaved thinking blocks separately when a tool_use block sits between them' do
+      events = [
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'thinking', 'thinking' => '', 'signature' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'thinking_delta', 'thinking' => 'first thought' } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'signature_delta', 'signature' => 'sig-1' } },
+        { 'type' => 'content_block_stop', 'index' => 0 },
+        { 'type' => 'content_block_start', 'index' => 1,
+          'content_block' => { 'type' => 'tool_use', 'id' => 'call_1', 'name' => 'search' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{}' } },
+        { 'type' => 'content_block_stop', 'index' => 1 },
+        { 'type' => 'content_block_start', 'index' => 2,
+          'content_block' => { 'type' => 'thinking', 'thinking' => '', 'signature' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 2,
+          'delta' => { 'type' => 'thinking_delta', 'thinking' => 'second thought' } },
+        { 'type' => 'content_block_delta', 'index' => 2,
+          'delta' => { 'type' => 'signature_delta', 'signature' => 'sig-2' } },
+        { 'type' => 'content_block_stop', 'index' => 2 }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.thinking.blocks).to eq(
+        [
+          { 'type' => 'thinking', 'thinking' => 'first thought', 'signature' => 'sig-1' },
+          { 'type' => 'thinking', 'thinking' => 'second thought', 'signature' => 'sig-2' }
+        ]
+      )
+      expect(message.tool_calls['call_1'].name).to eq('search')
+    end
+
+    it 'drops a thinking block left open when the turn is truncated before content_block_stop' do
+      events = [
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'thinking', 'thinking' => '', 'signature' => '' } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'thinking_delta', 'thinking' => 'cut off mid-thought' } },
+        { 'type' => 'message_delta', 'delta' => { 'stop_reason' => 'max_tokens' },
+          'usage' => { 'output_tokens' => 3 } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.thinking.blocks).to be_nil
+      expect(message.finish_reason).to eq('max_tokens')
+    end
+  end
+
+  # ---------------------------------------------------------------------------
   # Model coverage — two different Claude models + one ARN
   # ---------------------------------------------------------------------------
 
