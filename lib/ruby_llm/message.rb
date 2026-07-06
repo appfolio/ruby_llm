@@ -15,7 +15,7 @@ module RubyLLM
                      :CONTENT_FILTERED_FINISH_REASONS
 
     attr_reader :role, :model_id, :tool_calls, :tool_call_id, :raw, :thinking, :tokens, :citations,
-                :finish_reason
+                :finish_reason, :stop_sequence, :context_management
     attr_writer :content
 
     def initialize(options = {})
@@ -29,12 +29,16 @@ module RubyLLM
         output: options[:output_tokens],
         cached: options[:cached_tokens],
         cache_creation: options[:cache_creation_tokens],
-        thinking: options[:thinking_tokens]
+        thinking: options[:thinking_tokens],
+        cache_creation_ephemeral_5m: options[:cache_creation_ephemeral_5m_tokens],
+        cache_creation_ephemeral_1h: options[:cache_creation_ephemeral_1h_tokens]
       )
       @raw = options[:raw]
       @thinking = options[:thinking]
       @citations = Array(options[:citations])
       @finish_reason = options[:finish_reason]
+      @stop_sequence = options[:stop_sequence]
+      @context_management = options[:context_management]
 
       ensure_valid_role
     end
@@ -113,7 +117,9 @@ module RubyLLM
         thinking: thinking&.text,
         thinking_signature: thinking&.signature,
         citations: citations.empty? ? nil : citations.map(&:to_h),
-        finish_reason: finish_reason
+        finish_reason: finish_reason,
+        stop_sequence: stop_sequence,
+        context_management: context_management
       }.merge(tokens ? tokens.to_h : {}).compact
     end
 

@@ -19,8 +19,12 @@ module RubyLLM
       @output_tokens = nil
       @cached_tokens = nil
       @cache_creation_tokens = nil
+      @cache_creation_ephemeral_5m_tokens = nil
+      @cache_creation_ephemeral_1h_tokens = nil
       @thinking_tokens = nil
       @finish_reason = nil
+      @stop_sequence = nil
+      @context_management = nil
       @inside_think_tag = false
       @pending_think_tag = +''
       @latest_tool_call_id = nil
@@ -35,6 +39,8 @@ module RubyLLM
       accumulate_citations(chunk.citations)
       append_thinking_from_chunk(chunk)
       @finish_reason = chunk.finish_reason if chunk.finish_reason
+      @stop_sequence = chunk.stop_sequence if chunk.stop_sequence
+      @context_management = chunk.context_management if chunk.context_management
       count_tokens chunk
       RubyLLM.logger.debug { inspect } if RubyLLM.config.log_stream_debug
     end
@@ -54,9 +60,13 @@ module RubyLLM
           output: @output_tokens,
           cached: @cached_tokens,
           cache_creation: @cache_creation_tokens,
-          thinking: @thinking_tokens
+          thinking: @thinking_tokens,
+          cache_creation_ephemeral_5m: @cache_creation_ephemeral_5m_tokens,
+          cache_creation_ephemeral_1h: @cache_creation_ephemeral_1h_tokens
         ),
         finish_reason: @finish_reason,
+        stop_sequence: @stop_sequence,
+        context_management: @context_management,
         model_id: model_id,
         tool_calls: tool_calls_from_stream,
         raw: response
@@ -158,6 +168,14 @@ module RubyLLM
       @cached_tokens = chunk.cached_tokens if chunk.cached_tokens
       @cache_creation_tokens = chunk.cache_creation_tokens if chunk.cache_creation_tokens
       @thinking_tokens = chunk.thinking_tokens if chunk.thinking_tokens
+      count_cache_creation_ttl_tokens(chunk)
+    end
+
+    def count_cache_creation_ttl_tokens(chunk)
+      ephemeral_5m = chunk.tokens&.cache_creation_ephemeral_5m
+      ephemeral_1h = chunk.tokens&.cache_creation_ephemeral_1h
+      @cache_creation_ephemeral_5m_tokens = ephemeral_5m if ephemeral_5m
+      @cache_creation_ephemeral_1h_tokens = ephemeral_1h if ephemeral_1h
     end
 
     def handle_chunk_content(chunk)

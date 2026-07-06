@@ -350,6 +350,55 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(chat.parse_completion_body(nil, raw: nil)).to be_nil
       expect(chat.parse_completion_body({}, raw: nil)).to be_nil
     end
+
+    it 'reports input_tokens of 0 for a fully-cached request' do
+      data = basic_response.merge(
+        'usage' => {
+          'input_tokens' => 100,
+          'output_tokens' => 5,
+          'cache_read_input_tokens' => 100,
+          'cache_creation_input_tokens' => 0
+        }
+      )
+      msg = chat.parse_completion_body(data, raw: nil)
+      expect(msg.input_tokens).to eq(0)
+      expect(msg.cached_tokens).to eq(100)
+    end
+
+    it 'extracts cache_creation TTL breakdown when present' do
+      data = basic_response.merge(
+        'usage' => {
+          'input_tokens' => 100,
+          'output_tokens' => 5,
+          'cache_read_input_tokens' => 0,
+          'cache_creation_input_tokens' => 30,
+          'cache_creation' => { 'ephemeral_5m_input_tokens' => 20, 'ephemeral_1h_input_tokens' => 10 }
+        }
+      )
+      msg = chat.parse_completion_body(data, raw: nil)
+      expect(msg.tokens.cache_creation_ephemeral_5m).to eq(20)
+      expect(msg.tokens.cache_creation_ephemeral_1h).to eq(10)
+    end
+
+    it 'extracts stop_sequence from the response' do
+      data = basic_response.merge('stop_reason' => 'stop_sequence', 'stop_sequence' => 'STOP')
+      msg = chat.parse_completion_body(data, raw: nil)
+      expect(msg.stop_sequence).to eq('STOP')
+    end
+
+    it 'surfaces top-level context_management applied_edits on the parsed message' do
+      data = basic_response.merge(
+        'context_management' => {
+          'applied_edits' => [
+            { 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => 3, 'cleared_input_tokens' => 500 }
+          ]
+        }
+      )
+      msg = chat.parse_completion_body(data, raw: nil)
+      expect(msg.context_management['applied_edits']).to eq(
+        [{ 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => 3, 'cleared_input_tokens' => 500 }]
+      )
+    end
   end
 
   # ---------------------------------------------------------------------------
@@ -441,6 +490,84 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(chunk.finish_reason).to eq('end_turn')
     end
 
+    it 'extracts cache usage from message_start and nets it out of input_tokens' do
+      event = {
+        'type' => 'message_start',
+        'message' => {
+          'model' => 'anthropic.claude-sonnet-4-6',
+          'usage' => {
+            'input_tokens' => 100,
+            'cache_read_input_tokens' => 40,
+            'cache_creation_input_tokens' => 10
+          }
+        }
+      }
+      chunk = streaming.send(:build_chunk, event)
+      expect(chunk.cached_tokens).to eq(40)
+      expect(chunk.cache_creation_tokens).to eq(10)
+      expect(chunk.input_tokens).to eq(50)
+    end
+
+    it 'reports input_tokens of 0 from message_start for a fully-cached request' do
+      event = {
+        'type' => 'message_start',
+        'message' => {
+          'model' => 'anthropic.claude-sonnet-4-6',
+          'usage' => {
+            'input_tokens' => 100,
+            'cache_read_input_tokens' => 100,
+            'cache_creation_input_tokens' => 0
+          }
+        }
+      }
+      chunk = streaming.send(:build_chunk, event)
+      expect(chunk.input_tokens).to eq(0)
+      expect(chunk.cached_tokens).to eq(100)
+    end
+
+    it 'extracts cache_creation TTL breakdown from message_start' do
+      event = {
+        'type' => 'message_start',
+        'message' => {
+          'model' => 'anthropic.claude-sonnet-4-6',
+          'usage' => {
+            'input_tokens' => 100,
+            'cache_creation_input_tokens' => 30,
+            'cache_creation' => { 'ephemeral_5m_input_tokens' => 20, 'ephemeral_1h_input_tokens' => 10 }
+          }
+        }
+      }
+      chunk = streaming.send(:build_chunk, event)
+      expect(chunk.tokens.cache_creation_ephemeral_5m).to eq(20)
+      expect(chunk.tokens.cache_creation_ephemeral_1h).to eq(10)
+    end
+
+    it 'extracts cumulative cache usage, stop_sequence, and context_management from message_delta' do
+      event = {
+        'type' => 'message_delta',
+        'delta' => {
+          'stop_reason' => 'end_turn',
+          'stop_sequence' => nil,
+          'context_management' => {
+            'applied_edits' => [
+              { 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => 2, 'cleared_input_tokens' => 300 }
+            ]
+          }
+        },
+        'usage' => {
+          'output_tokens' => 17,
+          'cache_read_input_tokens' => 40,
+          'cache_creation_input_tokens' => 10
+        }
+      }
+      chunk = streaming.send(:build_chunk, event)
+      expect(chunk.cached_tokens).to eq(40)
+      expect(chunk.cache_creation_tokens).to eq(10)
+      expect(chunk.context_management['applied_edits']).to eq(
+        [{ 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => 2, 'cleared_input_tokens' => 300 }]
+      )
+    end
+
     it 'returns a chunk for message_stop without error' do
       event = { 'type' => 'message_stop' }
       expect { streaming.send(:build_chunk, event) }.not_to raise_error
@@ -480,6 +607,58 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
 
       expect(message.content).to eq('Hello world')
       expect(message.output_tokens).to eq(2)
+    end
+
+    it 'plumbs cache tokens and context_management through StreamAccumulator into the final message' do
+      accumulator = RubyLLM::StreamAccumulator.new
+
+      events = [
+        { 'type' => 'message_start', 'message' => {
+          'model' => 'test-model',
+          'usage' => { 'input_tokens' => 100, 'cache_read_input_tokens' => 40, 'cache_creation_input_tokens' => 10 }
+        } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'text_delta', 'text' => 'Hello' } },
+        { 'type' => 'message_delta',
+          'delta' => {
+            'stop_reason' => 'end_turn',
+            'context_management' => {
+              'applied_edits' => [{ 'type' => 'clear_tool_uses_20250919', 'cleared_input_tokens' => 300 }]
+            }
+          },
+          'usage' => { 'output_tokens' => 2, 'cache_read_input_tokens' => 40, 'cache_creation_input_tokens' => 10 } }
+      ]
+
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e)) }
+      message = accumulator.to_message(nil)
+
+      expect(message.input_tokens).to eq(50)
+      expect(message.cached_tokens).to eq(40)
+      expect(message.cache_creation_tokens).to eq(10)
+      expect(message.context_management['applied_edits']).to eq(
+        [{ 'type' => 'clear_tool_uses_20250919', 'cleared_input_tokens' => 300 }]
+      )
+    end
+
+    it 'reports input_tokens of 0 through the full stream round trip for a fully-cached request' do
+      accumulator = RubyLLM::StreamAccumulator.new
+
+      events = [
+        { 'type' => 'message_start', 'message' => {
+          'model' => 'test-model',
+          'usage' => { 'input_tokens' => 100, 'cache_read_input_tokens' => 100, 'cache_creation_input_tokens' => 0 }
+        } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'text_delta', 'text' => 'Hi' } },
+        { 'type' => 'message_delta', 'delta' => { 'stop_reason' => 'end_turn' },
+          'usage' => { 'output_tokens' => 2 } }
+      ]
+
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e)) }
+      message = accumulator.to_message(nil)
+
+      expect(message.input_tokens).to eq(0)
+      expect(message.cached_tokens).to eq(100)
     end
   end
 
