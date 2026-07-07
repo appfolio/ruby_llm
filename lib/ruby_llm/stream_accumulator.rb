@@ -8,14 +8,22 @@ module RubyLLM
   class StreamAccumulator
     attr_reader :content, :model_id, :tool_calls
 
-    def initialize
+    # net_cache_tokens: when true, input_tokens is netted against the final accumulated
+    # cached_tokens/cache_creation_tokens at to_message time instead of being taken as-is
+    # from whichever chunk last set it. Bedrock InvokeModel's message_start chunk carries
+    # input_tokens while a later message_delta chunk can still update the cache fields, so
+    # netting must be deferred until all chunks are in. Other providers already net
+    # input_tokens against cache fields within the same usage snapshot before building the
+    # chunk, so deferred netting stays off for them to avoid double-subtracting.
+    def initialize(net_cache_tokens: false)
+      @net_cache_tokens = net_cache_tokens
       @content = +''
       @citations = []
       @thinking_text = +''
       @thinking_signature = nil
       @thinking_blocks = []
       @tool_calls = {}
-      @input_tokens = nil
+      @raw_input_tokens = nil
       @output_tokens = nil
       @cached_tokens = nil
       @cache_creation_tokens = nil
@@ -56,7 +64,7 @@ module RubyLLM
           blocks: @thinking_blocks.empty? ? nil : @thinking_blocks
         ),
         tokens: Tokens.build(
-          input: @input_tokens,
+          input: netted_input_tokens,
           output: @output_tokens,
           cached: @cached_tokens,
           cache_creation: @cache_creation_tokens,
@@ -74,6 +82,12 @@ module RubyLLM
     end
 
     private
+
+    def netted_input_tokens
+      return @raw_input_tokens unless @net_cache_tokens && @raw_input_tokens
+
+      [@raw_input_tokens - @cached_tokens.to_i - @cache_creation_tokens.to_i, 0].max
+    end
 
     # Providers like Perplexity repeat the full citation list on every chunk.
     def accumulate_citations(new_citations)
@@ -163,7 +177,7 @@ module RubyLLM
     end
 
     def count_tokens(chunk)
-      @input_tokens = chunk.input_tokens if chunk.input_tokens
+      @raw_input_tokens = chunk.input_tokens if chunk.input_tokens
       @output_tokens = chunk.output_tokens if chunk.output_tokens
       @cached_tokens = chunk.cached_tokens if chunk.cached_tokens
       @cache_creation_tokens = chunk.cache_creation_tokens if chunk.cache_creation_tokens

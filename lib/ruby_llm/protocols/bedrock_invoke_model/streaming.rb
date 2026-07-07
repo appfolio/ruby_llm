@@ -21,7 +21,7 @@ module RubyLLM
         end
 
         def stream_response(payload, additional_headers = {}, &block)
-          accumulator = StreamAccumulator.new
+          accumulator = StreamAccumulator.new(net_cache_tokens: true)
           decoder = event_stream_decoder
           thinking_state = {}
           body = JSON.generate(payload)
@@ -180,7 +180,7 @@ module RubyLLM
             role: :assistant,
             content: nil,
             model_id: message['model'] || @model&.id,
-            input_tokens: input_tok ? [input_tok.to_i - cache_read.to_i - cache_creation.to_i, 0].max : nil,
+            input_tokens: input_tok&.to_i,
             cached_tokens: cache_read,
             cache_creation_tokens: cache_creation,
             cache_creation_ephemeral_5m_tokens: cache_creation_detail['ephemeral_5m_input_tokens'],

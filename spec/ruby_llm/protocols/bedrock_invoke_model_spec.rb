@@ -490,7 +490,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(chunk.finish_reason).to eq('end_turn')
     end
 
-    it 'extracts cache usage from message_start and nets it out of input_tokens' do
+    it 'extracts cache usage from message_start and passes input_tokens through un-netted' do
       event = {
         'type' => 'message_start',
         'message' => {
@@ -505,10 +505,12 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       chunk = streaming.send(:build_chunk, event)
       expect(chunk.cached_tokens).to eq(40)
       expect(chunk.cache_creation_tokens).to eq(10)
-      expect(chunk.input_tokens).to eq(50)
+      # Netting against cache tokens is deferred to StreamAccumulator#to_message, since a
+      # later message_delta chunk can still update the cache fields for this same message.
+      expect(chunk.input_tokens).to eq(100)
     end
 
-    it 'reports input_tokens of 0 from message_start for a fully-cached request' do
+    it 'passes the raw input_tokens through from message_start for a fully-cached request' do
       event = {
         'type' => 'message_start',
         'message' => {
@@ -521,7 +523,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
         }
       }
       chunk = streaming.send(:build_chunk, event)
-      expect(chunk.input_tokens).to eq(0)
+      expect(chunk.input_tokens).to eq(100)
       expect(chunk.cached_tokens).to eq(100)
     end
 
@@ -610,7 +612,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
     end
 
     it 'plumbs cache tokens and context_management through StreamAccumulator into the final message' do
-      accumulator = RubyLLM::StreamAccumulator.new
+      accumulator = RubyLLM::StreamAccumulator.new(net_cache_tokens: true)
 
       events = [
         { 'type' => 'message_start', 'message' => {
@@ -641,7 +643,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
     end
 
     it 'reports input_tokens of 0 through the full stream round trip for a fully-cached request' do
-      accumulator = RubyLLM::StreamAccumulator.new
+      accumulator = RubyLLM::StreamAccumulator.new(net_cache_tokens: true)
 
       events = [
         { 'type' => 'message_start', 'message' => {
@@ -659,6 +661,32 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
 
       expect(message.input_tokens).to eq(0)
       expect(message.cached_tokens).to eq(100)
+    end
+
+    it 'nets input_tokens against cache fields that are only updated by a later message_delta' do
+      # Regression test: message_start's usage snapshot has no cache_read_input_tokens yet
+      # (some Bedrock responses only report cache usage on message_delta), so a chunk-time
+      # netting of message_start's input_tokens would silently miss this cache usage. Since
+      # netting is now deferred to to_message, it correctly nets against the final values.
+      accumulator = RubyLLM::StreamAccumulator.new(net_cache_tokens: true)
+
+      events = [
+        { 'type' => 'message_start', 'message' => {
+          'model' => 'test-model',
+          'usage' => { 'input_tokens' => 100 }
+        } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'text_delta', 'text' => 'Hi' } },
+        { 'type' => 'message_delta', 'delta' => { 'stop_reason' => 'end_turn' },
+          'usage' => { 'output_tokens' => 2, 'cache_read_input_tokens' => 40, 'cache_creation_input_tokens' => 10 } }
+      ]
+
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e)) }
+      message = accumulator.to_message(nil)
+
+      expect(message.input_tokens).to eq(50)
+      expect(message.cached_tokens).to eq(40)
+      expect(message.cache_creation_tokens).to eq(10)
     end
   end
 
