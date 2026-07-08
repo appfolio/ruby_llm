@@ -141,6 +141,25 @@ RSpec.describe RubyLLM::Chat do
       expect(chat.complete).to be(answer_message)
       expect(chat.provider).not_to have_received(:complete)
     end
+
+    it 'persists distinct, non-zero usage on every intermediate tool-call round trip' do
+      # Each round trip (including ones that returned tool_calls) must carry its own usage,
+      # not the final round trip's, so a per-turn cost breakdown stays accurate.
+      first_round = RubyLLM::Message.new(
+        role: :assistant, content: '', tool_calls: tool_call_message.tool_calls,
+        input_tokens: 100, output_tokens: 10
+      )
+      final_round = RubyLLM::Message.new(role: :assistant, content: 'hello', input_tokens: 150, output_tokens: 5)
+
+      allow(chat.provider).to receive(:complete).and_return(first_round, final_round)
+      chat.ask_later('Echo "hello" back to me.')
+
+      chat.complete
+
+      assistant_messages = chat.messages.select { |m| m.role == :assistant }
+      expect(assistant_messages.map(&:input_tokens)).to eq([100, 150])
+      expect(assistant_messages.map(&:output_tokens)).to eq([10, 5])
+    end
   end
 
   describe '#add_completion' do

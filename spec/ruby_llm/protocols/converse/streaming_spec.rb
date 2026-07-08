@@ -70,6 +70,64 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
     expect(chunk.thinking_tokens).to eq(7)
   end
 
+  it 'normalizes cache read and write tokens out of input tokens from metadata usage' do
+    event = {
+      'metadata' => {
+        'usage' => {
+          'inputTokens' => 100,
+          'outputTokens' => 5,
+          'cacheReadInputTokens' => 40,
+          'cacheWriteInputTokens' => 10
+        }
+      }
+    }
+
+    chunk = streaming.send(:build_chunk, event)
+
+    expect(chunk.input_tokens).to eq(50)
+    expect(chunk.output_tokens).to eq(5)
+    expect(chunk.cached_tokens).to eq(40)
+    expect(chunk.cache_creation_tokens).to eq(10)
+  end
+
+  it 'reports input_tokens of 0 through the accumulator for a fully-cached streamed request' do
+    accumulator = RubyLLM::StreamAccumulator.new
+    usage_event = {
+      'metadata' => {
+        'usage' => {
+          'inputTokens' => 100,
+          'outputTokens' => 5,
+          'cacheReadInputTokens' => 100,
+          'cacheWriteInputTokens' => 0
+        }
+      }
+    }
+
+    accumulator.add(streaming.send(:build_chunk, usage_event))
+    message = accumulator.to_message(nil)
+
+    expect(message.input_tokens).to eq(0)
+    expect(message.cached_tokens).to eq(100)
+  end
+
+  it 'does not fabricate an ephemeral cache-creation TTL breakdown, which Converse does not return' do
+    event = {
+      'metadata' => {
+        'usage' => {
+          'inputTokens' => 100,
+          'outputTokens' => 5,
+          'cacheReadInputTokens' => 40,
+          'cacheWriteInputTokens' => 10
+        }
+      }
+    }
+
+    chunk = streaming.send(:build_chunk, event)
+
+    expect(chunk.tokens&.cache_creation_ephemeral_5m).to be_nil
+    expect(chunk.tokens&.cache_creation_ephemeral_1h).to be_nil
+  end
+
   it 'accumulates Bedrock Converse Stream thinking deltas into the final message' do
     accumulator = RubyLLM::StreamAccumulator.new
     text_event = {
