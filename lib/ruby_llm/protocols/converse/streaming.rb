@@ -226,12 +226,13 @@ module RubyLLM
         end
 
         def finalize_remaining_thinking_blocks(thinking_state)
-          thinking_state.keys.sort.filter_map do |index|
+          blocks = thinking_state.keys.sort.filter_map do |index|
             state = thinking_state.delete(index)
             next unless state[:redacted] || state[:signature]
 
             finalize_thinking_block(state)
-          end.presence
+          end
+          blocks.empty? ? nil : blocks
         end
 
         def finalize_thinking_block(state)
