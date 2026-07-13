@@ -105,8 +105,24 @@ module RubyLLM
         interval_randomness: @config.retry_interval_randomness,
         backoff_factor: @config.retry_backoff_factor,
         methods: Faraday::Retry::Middleware::IDEMPOTENT_METHODS + [:post],
-        exceptions: retry_exceptions
+        exceptions: retry_exceptions,
+        retry_block: method(:resign_bedrock_retry)
       }
+    end
+
+    # SigV4 signatures embed the request timestamp and expire after 5 minutes. Bedrock
+    # requests are signed once, before the first attempt, by the protocol code that builds
+    # them — so without this, faraday-retry would resend that same stale signature on every
+    # retry, guaranteeing "Signature expired" on any retry that follows a slow first attempt.
+    # retry_block runs synchronously, still inside the retry middleware, right before the env
+    # is replayed, so recomputing the signature here re-signs each attempt with a fresh
+    # X-Amz-Date. Other providers don't define #sign_headers and are unaffected.
+    def resign_bedrock_retry(env:, **)
+      return unless @provider.respond_to?(:sign_headers)
+
+      env.request_headers.merge!(
+        @provider.sign_headers(env.method.to_s.upcase, env.url.request_uri, env.body.to_s, base_url: @provider.api_base)
+      )
     end
 
     def setup_middleware(faraday)
