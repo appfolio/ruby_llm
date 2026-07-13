@@ -29,7 +29,9 @@ group :development do # rubocop:disable Metrics/BlockLength
   gem 'rubocop-performance'
   gem 'rubocop-rake', '>= 0.6'
   gem 'rubocop-rspec'
-  gem 'simplecov', '>= 0.21'
+  # Pinned below 1.0 — that release removed SimpleCov.running, which bin/rspec-queue's
+  # custom test-queue runner depends on for per-worker coverage bookkeeping.
+  gem 'simplecov', '~> 0.22'
   gem 'simplecov-cobertura'
   gem 'test-queue'
 
