@@ -243,5 +243,18 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
       reasoning_blocks = payload[:messages].first[:content].select { |block| block[:reasoningContent] }
       expect(reasoning_blocks).to eq([{ reasoningContent: { reasoningText: { text: 'thought', signature: 'sig' } } }])
     end
+
+    it 'reconstructs a signature-only thinking turn as an empty reasoningText, never redactedContent' do
+      # A persisted signature is always a real reasoningText signature (redacted blobs are
+      # only ever captured into thinking.blocks). Wrapping it in redactedContent makes
+      # Anthropic reject the next request with "Invalid `data` in `redacted_thinking` block".
+      thinking = RubyLLM::Thinking.build(text: nil, signature: 'sig-only')
+      message = RubyLLM::Message.new(role: :assistant, content: 'Done', thinking: thinking)
+
+      payload = render_payload([message], schema: nil)
+
+      reasoning_blocks = payload[:messages].first[:content].select { |block| block[:reasoningContent] }
+      expect(reasoning_blocks).to eq([{ reasoningContent: { reasoningText: { text: '', signature: 'sig-only' } } }])
+    end
   end
 end
