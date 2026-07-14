@@ -376,23 +376,25 @@ module RubyLLM
           block ? [block] : nil
         end
 
+        # Lossy fallback for messages persisted without raw thinking blocks. `signature`
+        # here is always a real reasoningText signature (streaming captures it from
+        # reasoningContent signature deltas; redacted content is only ever captured into
+        # `blocks`), so a signature with no text means the model emitted a thinking block
+        # whose text was empty — replay it as such. Wrapping the signature in
+        # redactedContent instead makes Anthropic reject the request with
+        # "Invalid `data` in `redacted_thinking` block": redactedContent must carry the
+        # opaque encrypted blob, never a signature.
         def format_single_thinking_block(thinking)
-          if thinking.text
-            {
-              reasoningContent: {
-                reasoningText: {
-                  text: thinking.text,
-                  signature: thinking.signature
-                }.compact
-              }
+          return nil unless thinking.text || thinking.signature
+
+          {
+            reasoningContent: {
+              reasoningText: {
+                text: thinking.text || '',
+                signature: thinking.signature
+              }.compact
             }
-          elsif thinking.signature
-            {
-              reasoningContent: {
-                redactedContent: thinking.signature
-              }
-            }
-          end
+          }
         end
 
         def parse_text_content(content_blocks)

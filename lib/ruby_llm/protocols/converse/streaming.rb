@@ -106,6 +106,7 @@ module RubyLLM
 
           while message
             event = decode_event_payload(message.payload.read)
+            event = nest_event_under_type(event, message) if event
             if event && RubyLLM.config.log_stream_debug
               RubyLLM.logger.debug do
                 "Bedrock stream event keys: #{event.keys}"
@@ -118,6 +119,31 @@ module RubyLLM
           end
 
           events
+        end
+
+        # A ConverseStream wire message carries its event type in the eventstream
+        # :event-type header (":exception-type" for error events); the JSON payload is the
+        # bare member struct — e.g. {"contentBlockIndex":0,"delta":{...}} for a
+        # contentBlockDelta, {"stopReason":"tool_use"} for a messageStop. The extractors in
+        # this module dig by event name ({'contentBlockDelta' => {...}}), so re-nest the
+        # payload under its header type here. A payload already nested under its type (the
+        # shape older specs fabricate) or a message with no type header passes through
+        # unchanged.
+        def nest_event_under_type(event, message)
+          type = event_type_header(message)
+          return event unless type
+          return event if event.key?(type)
+
+          { type => event }
+        end
+
+        def event_type_header(message)
+          headers = message.headers
+          header = headers[':event-type'] || headers[':exception-type']
+          value = header.respond_to?(:value) ? header.value : header
+          value.is_a?(String) && !value.empty? ? value : nil
+        rescue StandardError
+          nil
         end
 
         def decode_event_payload(payload)

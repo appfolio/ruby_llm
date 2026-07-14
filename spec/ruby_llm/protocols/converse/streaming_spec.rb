@@ -231,6 +231,20 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
       expect(message.tool_calls['call_1'].name).to eq('search')
     end
 
+    it 'finalizes a signature-only thinking block as an empty reasoningText' do
+      events = [
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 0,
+                                   'delta' => { 'reasoningContent' => { 'signature' => 'sig-only' } } } },
+        { 'contentBlockStop' => { 'contentBlockIndex' => 0 } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.thinking.blocks).to eq(
+        [{ 'reasoningContent' => { 'reasoningText' => { 'text' => '', 'signature' => 'sig-only' } } }]
+      )
+    end
+
     it 'round-trips a streamed multi-block thinking turn through format_thinking_blocks unmodified' do
       events = [
         { 'contentBlockStart' => { 'contentBlockIndex' => 0,
@@ -251,6 +265,121 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
       thinking_blocks = formatted.first[:content].select { |b| b.key?(:reasoningContent) || b.key?('reasoningContent') }
 
       expect(thinking_blocks).to eq(message.thinking.blocks)
+    end
+  end
+
+  # ConverseStream's real wire format carries the event type in the eventstream
+  # :event-type HEADER; the JSON payload is the bare member struct — e.g.
+  # {"contentBlockIndex":0,"delta":{...}}, {"stopReason":"tool_use"} — never nested
+  # under the event name like the hand-built hashes above. These specs frame events
+  # exactly as Bedrock does (captured from a live ConverseStream response) and drive
+  # them through the same decode path stream_response uses.
+  describe 'real wire framing (:event-type header + flat payload)' do
+    require 'aws-eventstream'
+
+    def wire_chunk(*typed_payloads)
+      encoder = Aws::EventStream::Encoder.new
+      typed_payloads.map do |(type, payload)|
+        message = Aws::EventStream::Message.new(
+          headers: {
+            ':event-type' => Aws::EventStream::HeaderValue.new(value: type, type: 'string'),
+            ':content-type' => Aws::EventStream::HeaderValue.new(value: 'application/json', type: 'string'),
+            ':message-type' => Aws::EventStream::HeaderValue.new(value: 'event', type: 'string')
+          },
+          payload: StringIO.new(JSON.generate(payload))
+        )
+        encoder.encode(message)
+      end.join
+    end
+
+    def stream_to_message(*typed_payloads)
+      accumulator = RubyLLM::StreamAccumulator.new
+      decoder = Aws::EventStream::Decoder.new
+      chunks = []
+      streaming.send(:parse_stream_chunk, decoder, wire_chunk(*typed_payloads), accumulator, {}) do |chunk|
+        chunks << chunk
+      end
+      accumulator.to_message(nil)
+    end
+
+    it 'captures thinking blocks from a flat-framed tool-call turn' do
+      message = stream_to_message(
+        ['messageStart', { 'role' => 'assistant' }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'reasoningContent' => { 'text' => 'need the weather' } } }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'reasoningContent' => { 'signature' => 'sig-1' } } }],
+        ['contentBlockStop', { 'contentBlockIndex' => 0 }],
+        ['contentBlockStart', { 'contentBlockIndex' => 1,
+                                'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'weather' } } }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 1, 'delta' => { 'toolUse' => { 'input' => '{}' } } }],
+        ['contentBlockStop', { 'contentBlockIndex' => 1 }],
+        ['messageStop', { 'stopReason' => 'tool_use' }],
+        ['metadata', { 'usage' => { 'inputTokens' => 10, 'outputTokens' => 5 }, 'metrics' => {} }]
+      )
+
+      expect(message.thinking.blocks).to eq(
+        [{ 'reasoningContent' => { 'reasoningText' => { 'text' => 'need the weather',
+                                                        'signature' => 'sig-1' } } }]
+      )
+      expect(message.thinking.text).to eq('need the weather')
+      expect(message.thinking.signature).to eq('sig-1')
+      expect(message.tool_calls['call_1'].name).to eq('weather')
+      expect(message.finish_reason).to eq('tool_use')
+      expect(message.output_tokens).to eq(5)
+    end
+
+    it 'finalizes a flat-framed signature-only thinking block left open at messageStop' do
+      message = stream_to_message(
+        ['messageStart', { 'role' => 'assistant' }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'reasoningContent' => { 'signature' => 'sig-only' } } }],
+        ['messageStop', { 'stopReason' => 'tool_use' }]
+      )
+
+      expect(message.thinking.blocks).to eq(
+        [{ 'reasoningContent' => { 'reasoningText' => { 'text' => '', 'signature' => 'sig-only' } } }]
+      )
+    end
+
+    it 'accumulates flat-framed redacted content deltas into a redacted block' do
+      message = stream_to_message(
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'reasoningContent' => { 'redactedContent' => 'blob-part-1' } } }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'reasoningContent' => { 'redactedContent' => 'blob-part-2' } } }],
+        ['contentBlockStop', { 'contentBlockIndex' => 0 }],
+        ['messageStop', { 'stopReason' => 'end_turn' }]
+      )
+
+      expect(message.thinking.blocks).to eq(
+        [{ 'reasoningContent' => { 'redactedContent' => 'blob-part-1blob-part-2' } }]
+      )
+    end
+
+    it 'nests an exception payload under its :exception-type header' do
+      message = Aws::EventStream::Message.new(
+        headers: {
+          ':exception-type' => Aws::EventStream::HeaderValue.new(value: 'throttlingException', type: 'string'),
+          ':message-type' => Aws::EventStream::HeaderValue.new(value: 'exception', type: 'string')
+        },
+        payload: StringIO.new(JSON.generate({ 'message' => 'Too many requests' }))
+      )
+
+      event = streaming.send(:nest_event_under_type, { 'message' => 'Too many requests' }, message)
+
+      expect(event).to eq({ 'throttlingException' => { 'message' => 'Too many requests' } })
+      expect(streaming.send(:stream_error_event?, event)).to be(true)
+    end
+
+    it 'passes an already-nested payload through unchanged' do
+      message = Aws::EventStream::Message.new(
+        headers: { ':event-type' => Aws::EventStream::HeaderValue.new(value: 'messageStop', type: 'string') },
+        payload: StringIO.new('{}')
+      )
+      nested = { 'messageStop' => { 'stopReason' => 'end_turn' } }
+
+      expect(streaming.send(:nest_event_under_type, nested, message)).to equal(nested)
     end
   end
 end
