@@ -49,7 +49,8 @@ module RubyLLM
         /rate limit/i,
         /per minute/i,
         /per hour/i,
-        /per day/i
+        /per day/i,
+        /too many tokens.*please wait/i
       ].freeze
 
       def parse_error(provider:, response:)
