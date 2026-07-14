@@ -74,6 +74,26 @@ RSpec.describe RubyLLM::ErrorMiddleware do
       end.to raise_error(RubyLLM::RateLimitError)
     end
 
+    it "maps Bedrock's 'too many tokens, please wait' 429 throttle to RateLimitError, not context length" do
+      msg = 'Too many tokens, please wait before trying again.'
+      response = Struct.new(:status, :body).new(429, %({"error":{"message":"#{msg}"}}))
+      provider = instance_double(RubyLLM::Provider, parse_error: msg)
+
+      expect do
+        described_class.parse_error(provider: provider, response: response)
+      end.to raise_error(RubyLLM::RateLimitError)
+    end
+
+    it "still maps a 400 'too many tokens' error to ContextLengthExceededError" do
+      msg = 'Too many tokens in the request'
+      response = Struct.new(:status, :body).new(400, %({"error":{"message":"#{msg}"}}))
+      provider = instance_double(RubyLLM::Provider, parse_error: msg)
+
+      expect do
+        described_class.parse_error(provider: provider, response: response)
+      end.to raise_error(RubyLLM::ContextLengthExceededError)
+    end
+
     it 'maps context-length-like 400 errors to ContextLengthExceededError' do
       msg = "This model's maximum context length is 8192 tokens."
       response = Struct.new(:status, :body).new(400, %({"error":{"message":"#{msg}"}}))
