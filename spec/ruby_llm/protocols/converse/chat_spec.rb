@@ -29,6 +29,51 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
       expect(message.cache_creation_tokens).to eq(10)
     end
 
+    it 'reports input_tokens of 0 for a fully-cached request' do
+      response_body = {
+        'modelId' => 'anthropic.claude-sonnet-4-5-20250929-v1:0',
+        'output' => {
+          'message' => {
+            'content' => [{ 'text' => 'Hi!' }]
+          }
+        },
+        'usage' => {
+          'inputTokens' => 100,
+          'outputTokens' => 5,
+          'cacheReadInputTokens' => 100,
+          'cacheWriteInputTokens' => 0
+        }
+      }
+
+      response = instance_double(Faraday::Response, body: response_body)
+      message = described_class.parse_completion_response(response)
+
+      expect(message.input_tokens).to eq(0)
+      expect(message.cached_tokens).to eq(100)
+    end
+
+    it 'does not fabricate an ephemeral cache-creation TTL breakdown, which Converse does not return' do
+      response_body = {
+        'output' => {
+          'message' => {
+            'content' => [{ 'text' => 'Hi!' }]
+          }
+        },
+        'usage' => {
+          'inputTokens' => 100,
+          'outputTokens' => 5,
+          'cacheReadInputTokens' => 40,
+          'cacheWriteInputTokens' => 10
+        }
+      }
+
+      response = instance_double(Faraday::Response, body: response_body)
+      message = described_class.parse_completion_response(response)
+
+      expect(message.tokens.cache_creation_ephemeral_5m).to be_nil
+      expect(message.tokens.cache_creation_ephemeral_1h).to be_nil
+    end
+
     it 'preserves raw stopReason as finish_reason' do
       response_body = {
         'modelId' => 'amazon.nova-lite-v1:0',

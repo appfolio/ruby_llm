@@ -105,6 +105,7 @@ module RubyLLM
 
           content_blocks = data['content'] || []
           usage = data['usage'] || {}
+          cache_creation = usage['cache_creation'] || {}
 
           Message.new(
             role: :assistant,
@@ -115,7 +116,11 @@ module RubyLLM
             output_tokens: usage['output_tokens'],
             cached_tokens: usage['cache_read_input_tokens'],
             cache_creation_tokens: usage['cache_creation_input_tokens'],
+            cache_creation_ephemeral_5m_tokens: cache_creation['ephemeral_5m_input_tokens'],
+            cache_creation_ephemeral_1h_tokens: cache_creation['ephemeral_1h_input_tokens'],
             finish_reason: data['stop_reason'],
+            stop_sequence: data['stop_sequence'],
+            context_management: data['context_management'],
             model_id: data['model'],
             raw: raw
           )

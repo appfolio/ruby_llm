@@ -21,7 +21,7 @@ module RubyLLM
         end
 
         def stream_response(payload, additional_headers = {}, &block)
-          accumulator = StreamAccumulator.new
+          accumulator = StreamAccumulator.new(net_cache_tokens: true)
           decoder = event_stream_decoder
           thinking_state = {}
           body = JSON.generate(payload)
@@ -48,7 +48,17 @@ module RubyLLM
 
           message = accumulator.to_message(response)
           RubyLLM.logger.debug { "Stream completed: #{message.content}" }
+          log_context_management(message)
           message
+        end
+
+        def log_context_management(message)
+          applied_edits = message.context_management && message.context_management['applied_edits']
+          return unless applied_edits && !applied_edits.empty?
+
+          RubyLLM.logger.debug do
+            "Bedrock InvokeModel context_management applied_edits: #{applied_edits.inspect}"
+          end
         end
 
         def event_stream_decoder
@@ -161,13 +171,20 @@ module RubyLLM
         def build_message_start_chunk(event)
           message = event['message'] || {}
           usage = message['usage'] || {}
+          cache_read = usage['cache_read_input_tokens']
+          cache_creation = usage['cache_creation_input_tokens']
           input_tok = usage['input_tokens']
+          cache_creation_detail = usage['cache_creation'] || {}
 
           Chunk.new(
             role: :assistant,
             content: nil,
             model_id: message['model'] || @model&.id,
-            input_tokens: input_tok ? [input_tok.to_i, 0].max : nil
+            input_tokens: input_tok&.to_i,
+            cached_tokens: cache_read,
+            cache_creation_tokens: cache_creation,
+            cache_creation_ephemeral_5m_tokens: cache_creation_detail['ephemeral_5m_input_tokens'],
+            cache_creation_ephemeral_1h_tokens: cache_creation_detail['ephemeral_1h_input_tokens']
           )
         end
 
@@ -254,13 +271,20 @@ module RubyLLM
         def build_message_delta_chunk(event)
           delta = event['delta'] || {}
           usage = event['usage'] || {}
+          cache_creation_detail = usage['cache_creation'] || {}
 
           Chunk.new(
             role: :assistant,
             content: nil,
             model_id: @model&.id,
             output_tokens: usage['output_tokens'],
-            finish_reason: delta['stop_reason']
+            cached_tokens: usage['cache_read_input_tokens'],
+            cache_creation_tokens: usage['cache_creation_input_tokens'],
+            cache_creation_ephemeral_5m_tokens: cache_creation_detail['ephemeral_5m_input_tokens'],
+            cache_creation_ephemeral_1h_tokens: cache_creation_detail['ephemeral_1h_input_tokens'],
+            finish_reason: delta['stop_reason'],
+            stop_sequence: delta['stop_sequence'],
+            context_management: delta['context_management']
           )
         end
 
