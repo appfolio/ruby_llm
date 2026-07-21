@@ -59,6 +59,7 @@ module RubyLLM
             bedrock_use_invoke_model
             anthropic_beta
             anthropic_context_management
+            bedrock_invoke_model_prompt_caching
           ]
         end
 
