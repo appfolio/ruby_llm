@@ -106,18 +106,26 @@ module RubyLLM
         def count_cache_breakpoints(payload)
           count = 0
           count += count_blocks_with_cache_control(payload[:system])
-          count += (payload[:tools] || []).count { |t| t[:cache_control] }
+          count += (payload[:tools] || []).count { |t| block_cache_control(t) }
           (payload[:messages] || []).each { |m| count += count_blocks_with_cache_control(m[:content]) }
           count
         end
 
         def count_blocks_with_cache_control(blocks)
-          (blocks || []).count { |b| b.is_a?(Hash) && b[:cache_control] }
+          (blocks || []).count { |b| b.is_a?(Hash) && block_cache_control(b) }
+        end
+
+        def block_cache_control(block)
+          block[:cache_control] || block['cache_control']
+        end
+
+        def block_type(block)
+          block[:type] || block['type']
         end
 
         def inject_system_cache_breakpoint?(system_blocks)
           return false if system_blocks.nil? || system_blocks.empty?
-          return false if system_blocks.any? { |b| b.is_a?(Hash) && b[:cache_control] }
+          return false if system_blocks.any? { |b| b.is_a?(Hash) && block_cache_control(b) }
 
           system_blocks.last[:cache_control] = { type: 'ephemeral' }
           true
@@ -127,12 +135,15 @@ module RubyLLM
           return unless messages
 
           block = messages.reverse_each.lazy.filter_map { |m| last_cacheable_block(m[:content]) }.first
-          block[:cache_control] = { type: 'ephemeral' } if block
+          return unless block
+          return if block_cache_control(block)
+
+          block[:cache_control] = { type: 'ephemeral' }
         end
 
         def last_cacheable_block(blocks)
           (blocks || []).reverse_each do |block|
-            return block if block.is_a?(Hash) && CACHEABLE_BLOCK_TYPES.include?(block[:type])
+            return block if block.is_a?(Hash) && CACHEABLE_BLOCK_TYPES.include?(block_type(block))
           end
           nil
         end
@@ -262,25 +273,28 @@ module RubyLLM
 
         def translate_raw_block(block, result)
           return result << block unless block.is_a?(Hash)
-          return result << block if block.key?(:type) || block.key?('type')
+          return result << block.dup if block.key?(:type) || block.key?('type')
 
           text = block[:text] || block['text']
           return result << { type: 'text', text: text } if text
 
           cache_point = block[:cachePoint] || block['cachePoint']
-          return attach_cache_point(result.last, cache_point) if cache_point
+          return attach_cache_point(result, cache_point) if cache_point
 
           result << block
         end
 
-        def attach_cache_point(block, cache_point)
+        # Replaces the previously emitted block (result.last) with a duped copy carrying
+        # cache_control, so the mutation never touches the caller's original hash object.
+        def attach_cache_point(result, cache_point)
+          block = result.last
           return unless block
 
           ttl = cache_point[:ttl] || cache_point['ttl']
           cache_control = { type: 'ephemeral' }
           cache_control[:ttl] = ttl if ttl
 
-          block[:cache_control] = cache_control
+          result[-1] = block.dup.merge(cache_control: cache_control)
         end
 
         def format_text_and_media(content) # rubocop:disable Metrics/PerceivedComplexity

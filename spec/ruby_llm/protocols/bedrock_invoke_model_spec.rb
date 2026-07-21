@@ -1055,10 +1055,85 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(result[:system]).to eq(original)
     end
 
+    it 'preserves a pre-existing cache_control (including ttl) on the tail block instead of overwriting it' do
+      raw = RubyLLM::Content::Raw.new(
+        [{ type: 'text', text: 'a', cache_control: { type: 'ephemeral', ttl: '1h' } }]
+      )
+      msg = RubyLLM::Message.new(role: :user, content: raw)
+
+      result = render_payload([msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(result[:messages].last[:content].last[:cache_control]).to eq({ type: 'ephemeral', ttl: '1h' })
+    end
+
+    it 'does not mutate the caller-owned Content::Raw hash objects passed in via render_payload' do
+      original_system = [{ text: 'PROMPT' }]
+      original_message = [{ text: 'Hello' }]
+      sys = RubyLLM::Message.new(role: :system, content: RubyLLM::Content::Raw.new(original_system))
+      msg = RubyLLM::Message.new(role: :user, content: RubyLLM::Content::Raw.new(original_message))
+
+      render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(original_system.first).not_to have_key(:cache_control)
+      expect(original_message.first).not_to have_key(:cache_control)
+    end
+
+    it 'does not mutate a caller-owned Anthropic-format hash that already has a type key' do
+      original = { type: 'text', text: 'already anthropic' }
+      raw = RubyLLM::Content::Raw.new([original])
+      msg = RubyLLM::Message.new(role: :user, content: raw)
+
+      render_payload([msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(original).not_to have_key(:cache_control)
+    end
+
+    it 'counts a string-keyed cache_control block toward the 4-breakpoint budget' do
+      raw = RubyLLM::Content::Raw.new(
+        [{ 'type' => 'text', 'text' => 'a', 'cache_control' => { 'type' => 'ephemeral' } }]
+      )
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+
+      user_raw = RubyLLM::Content::Raw.new(
+        [
+          { type: 'text', text: 'b', cache_control: { type: 'ephemeral' } },
+          { type: 'text', text: 'c', cache_control: { type: 'ephemeral' } },
+          { type: 'text', text: 'd', cache_control: { type: 'ephemeral' } }
+        ]
+      )
+      msg = RubyLLM::Message.new(role: :user, content: user_raw)
+
+      result = render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(count_cache_controls(result)).to eq(4)
+    end
+
+    it 'dedupes against a string-keyed cache_control when deciding whether to inject the system breakpoint' do
+      raw = RubyLLM::Content::Raw.new(
+        [{ 'type' => 'text', 'text' => 'PROMPT', 'cache_control' => { 'type' => 'ephemeral' } }]
+      )
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+      msg = RubyLLM::Message.new(role: :user, content: 'Hello')
+
+      result = render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(result[:system].count { |b| b['cache_control'] || b[:cache_control] }).to eq(1)
+    end
+
+    it 'finds a string-keyed type block as the tail cacheable block' do
+      raw = RubyLLM::Content::Raw.new([{ 'type' => 'text', 'text' => 'final turn' }])
+      msg = RubyLLM::Message.new(role: :user, content: raw)
+
+      result = render_payload([msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      block = result[:messages].last[:content].last
+      expect(block['cache_control'] || block[:cache_control]).to eq({ type: 'ephemeral' })
+    end
+
     def count_cache_controls(payload)
       message_blocks = (payload[:messages] || []).flat_map { |m| m[:content] }
       all_blocks = (payload[:system] || []) + (payload[:tools] || []) + message_blocks
-      all_blocks.count { |b| b.is_a?(Hash) && b[:cache_control] }
+      all_blocks.count { |b| b.is_a?(Hash) && (b[:cache_control] || b['cache_control']) }
     end
   end
 
