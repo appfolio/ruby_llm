@@ -9,6 +9,14 @@ module RubyLLM
       module Chat
         BEDROCK_INLINE_DOCUMENT_LIMIT = 4_500_000
 
+        # Bedrock allows at most 4 cache_control breakpoints per request, counted across
+        # system, messages, and tools combined.
+        MAX_CACHE_BREAKPOINTS = 4
+
+        # Block types Bedrock will attach a cache breakpoint to. Thinking/redacted_thinking
+        # are intentionally excluded — Anthropic does not support caching on them.
+        CACHEABLE_BLOCK_TYPES = %w[text image tool_use tool_result document].freeze
+
         module_function
 
         def completion_url
@@ -70,10 +78,64 @@ module RubyLLM
           add_tool_fields(payload, tools, tool_prefs)
           add_thinking_fields(payload, thinking)
           add_beta_fields(payload)
+          inject_cache_breakpoints(payload)
 
           payload
         end
         # rubocop:enable Metrics/ParameterLists,Lint/UnusedMethodArgument
+
+        # Injects the two auto cache breakpoints (system tail + final-message tail) when
+        # bedrock_invoke_model_prompt_caching is enabled. Never removes a breakpoint that
+        # arrived via a translated cachePoint — only ever adds up to the 4-breakpoint budget.
+        # Deliberately does not estimate token counts against the model's minimum cacheable
+        # prefix (e.g. 4,096 tokens): a breakpoint below the minimum silently doesn't cache
+        # and costs nothing, so that estimation is left to the caller.
+        def inject_cache_breakpoints(payload)
+          return unless @config.bedrock_invoke_model_prompt_caching
+
+          remaining = MAX_CACHE_BREAKPOINTS - count_cache_breakpoints(payload)
+          return if remaining <= 0
+
+          # Tail takes priority over system when only one breakpoint slot remains: the tail
+          # breakpoint is what makes the in-flight tool loop cheap round-trip to round-trip,
+          # while the system breakpoint only protects against a single oversized turn.
+          inject_system_cache_breakpoint?(payload[:system]) if remaining >= 2
+          inject_tail_cache_breakpoint(payload[:messages])
+        end
+
+        def count_cache_breakpoints(payload)
+          count = 0
+          count += count_blocks_with_cache_control(payload[:system])
+          count += (payload[:tools] || []).count { |t| t[:cache_control] }
+          (payload[:messages] || []).each { |m| count += count_blocks_with_cache_control(m[:content]) }
+          count
+        end
+
+        def count_blocks_with_cache_control(blocks)
+          (blocks || []).count { |b| b.is_a?(Hash) && b[:cache_control] }
+        end
+
+        def inject_system_cache_breakpoint?(system_blocks)
+          return false if system_blocks.nil? || system_blocks.empty?
+          return false if system_blocks.any? { |b| b.is_a?(Hash) && b[:cache_control] }
+
+          system_blocks.last[:cache_control] = { type: 'ephemeral' }
+          true
+        end
+
+        def inject_tail_cache_breakpoint(messages)
+          return unless messages
+
+          block = messages.reverse_each.lazy.filter_map { |m| last_cacheable_block(m[:content]) }.first
+          block[:cache_control] = { type: 'ephemeral' } if block
+        end
+
+        def last_cacheable_block(blocks)
+          (blocks || []).reverse_each do |block|
+            return block if block.is_a?(Hash) && CACHEABLE_BLOCK_TYPES.include?(block[:type])
+          end
+          nil
+        end
 
         def add_tool_fields(payload, tools, tool_prefs)
           return unless tools.any?
@@ -161,7 +223,7 @@ module RubyLLM
         def format_message_content(msg)
           if msg.content.is_a?(RubyLLM::Content::Raw)
             raw = msg.content.value
-            return raw.is_a?(Array) ? raw : [raw]
+            return translate_raw_blocks(raw.is_a?(Array) ? raw : [raw])
           end
 
           blocks = []
@@ -182,8 +244,53 @@ module RubyLLM
           blocks
         end
 
+        # Translates Content::Raw values into Anthropic Messages blocks at every point they
+        # enter this protocol. The consumer app persists system messages as Converse-format
+        # block arrays (e.g. [{ text: "..." }, { cachePoint: { type: 'default' } }]); those
+        # arrive here wrapped in Content::Raw with string keys after a DB round-trip or
+        # symbol keys in-memory. Anthropic-format blocks (already carrying a `type` key,
+        # including any cache_control) pass through unchanged.
+        def translate_raw_blocks(blocks)
+          result = []
+
+          blocks.each do |block|
+            translate_raw_block(block, result)
+          end
+
+          result
+        end
+
+        def translate_raw_block(block, result)
+          return result << block unless block.is_a?(Hash)
+          return result << block if block.key?(:type) || block.key?('type')
+
+          text = block[:text] || block['text']
+          return result << { type: 'text', text: text } if text
+
+          cache_point = block[:cachePoint] || block['cachePoint']
+          return attach_cache_point(result.last, cache_point) if cache_point
+
+          result << block
+        end
+
+        def attach_cache_point(block, cache_point)
+          return unless block
+
+          ttl = cache_point[:ttl] || cache_point['ttl']
+          cache_control = { type: 'ephemeral' }
+          cache_control[:ttl] = ttl if ttl
+
+          block[:cache_control] = cache_control
+        end
+
         def format_text_and_media(content) # rubocop:disable Metrics/PerceivedComplexity
           return [] if content.nil? || (content.respond_to?(:empty?) && content.empty?)
+
+          if content.is_a?(RubyLLM::Content::Raw)
+            raw = content.value
+            return translate_raw_blocks(raw.is_a?(Array) ? raw : [raw])
+          end
+
           return [{ type: 'text', text: content.to_json }] if content.is_a?(Hash) || content.is_a?(Array)
           return [{ type: 'text', text: content }] unless content.is_a?(RubyLLM::Content)
 
@@ -241,7 +348,10 @@ module RubyLLM
         end
 
         def format_tool_result_content(content)
-          return content.value if content.is_a?(RubyLLM::Content::Raw)
+          if content.is_a?(RubyLLM::Content::Raw)
+            raw = content.value
+            return translate_raw_blocks(raw.is_a?(Array) ? raw : [raw])
+          end
           return [{ type: 'text', text: content.to_json }] if content.is_a?(Hash) || content.is_a?(Array)
           return content_to_blocks_or_fallback(content) if content.is_a?(RubyLLM::Content)
 

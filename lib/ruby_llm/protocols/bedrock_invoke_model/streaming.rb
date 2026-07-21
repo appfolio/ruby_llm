@@ -161,13 +161,14 @@ module RubyLLM
         def build_message_start_chunk(event)
           message = event['message'] || {}
           usage = message['usage'] || {}
-          input_tok = usage['input_tokens']
 
           Chunk.new(
             role: :assistant,
             content: nil,
             model_id: message['model'] || @model&.id,
-            input_tokens: input_tok ? [input_tok.to_i, 0].max : nil
+            input_tokens: input_tokens(usage),
+            cached_tokens: usage['cache_read_input_tokens'],
+            cache_creation_tokens: usage['cache_creation_input_tokens']
           )
         end
 

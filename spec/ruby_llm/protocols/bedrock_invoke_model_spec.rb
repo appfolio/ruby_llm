@@ -377,6 +377,24 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(chunk.input_tokens).to eq(42)
     end
 
+    it 'extracts cache usage fields from message_start, netting them out of input_tokens' do
+      event = {
+        'type' => 'message_start',
+        'message' => {
+          'model' => 'anthropic.claude-sonnet-4-6',
+          'usage' => {
+            'input_tokens' => 100,
+            'cache_read_input_tokens' => 60,
+            'cache_creation_input_tokens' => 30
+          }
+        }
+      }
+      chunk = streaming.send(:build_chunk, event)
+      expect(chunk.cached_tokens).to eq(60)
+      expect(chunk.cache_creation_tokens).to eq(30)
+      expect(chunk.input_tokens).to eq(10)
+    end
+
     it 'extracts model_id from message_start' do
       event = {
         'type' => 'message_start',
@@ -905,6 +923,185 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
   # ---------------------------------------------------------------------------
   # URL image source rejection
   # ---------------------------------------------------------------------------
+
+  # ---------------------------------------------------------------------------
+  # Prompt caching — auto-injected breakpoints
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat#render_payload prompt caching' do
+    subject(:chat) { described_class::Chat }
+
+    it 'injects cache_control on the last system block and last cacheable block of the final ' \
+       'message when caching is enabled' do
+      sys = RubyLLM::Message.new(role: :system, content: 'You are helpful')
+      msg = RubyLLM::Message.new(role: :user, content: 'Hello')
+      result = render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(result[:system].last[:cache_control]).to eq({ type: 'ephemeral' })
+      expect(result[:messages].last[:content].last[:cache_control]).to eq({ type: 'ephemeral' })
+    end
+
+    it 'injects no cache_control anywhere when caching is disabled' do
+      sys = RubyLLM::Message.new(role: :system, content: 'You are helpful')
+      msg = RubyLLM::Message.new(role: :user, content: 'Hello')
+      result = render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: false })
+
+      expect(result[:system].any? { |b| b[:cache_control] }).to be(false)
+      expect(result[:messages].flat_map { |m| m[:content] }.any? { |b| b[:cache_control] }).to be(false)
+    end
+
+    it 'defaults to enabled' do
+      sys = RubyLLM::Message.new(role: :system, content: 'You are helpful')
+      result = render_payload([sys])
+      expect(result[:system].last[:cache_control]).to eq({ type: 'ephemeral' })
+    end
+
+    it 'translates a symbol-keyed Converse raw system message and attaches cache_control from cachePoint' do
+      raw = RubyLLM::Content::Raw.new([{ text: 'PROMPT' }, { cachePoint: { type: 'default' } }])
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+      result = render_payload([sys], config_overrides: { bedrock_invoke_model_prompt_caching: false })
+
+      expect(result[:system]).to eq([{ type: 'text', text: 'PROMPT', cache_control: { type: 'ephemeral' } }])
+    end
+
+    it 'translates a string-keyed Converse raw system message and attaches cache_control from cachePoint' do
+      raw = RubyLLM::Content::Raw.new([{ 'text' => 'PROMPT' }, { 'cachePoint' => { 'type' => 'default' } }])
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+      result = render_payload([sys], config_overrides: { bedrock_invoke_model_prompt_caching: false })
+
+      expect(result[:system]).to eq([{ type: 'text', text: 'PROMPT', cache_control: { type: 'ephemeral' } }])
+    end
+
+    it 'passes through a ttl carried on the cachePoint' do
+      raw = RubyLLM::Content::Raw.new([{ text: 'PROMPT' }, { cachePoint: { type: 'default', ttl: '1h' } }])
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+      result = render_payload([sys], config_overrides: { bedrock_invoke_model_prompt_caching: false })
+
+      expect(result[:system]).to eq(
+        [{ type: 'text', text: 'PROMPT', cache_control: { type: 'ephemeral', ttl: '1h' } }]
+      )
+    end
+
+    it 'does not inject a breakpoint when 4 translated breakpoints already exist (budget exhausted)' do
+      raw = RubyLLM::Content::Raw.new(
+        [{ type: 'text', text: 'a', cache_control: { type: 'ephemeral' } }]
+      )
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+
+      user_raw = RubyLLM::Content::Raw.new(
+        [
+          { type: 'text', text: 'b', cache_control: { type: 'ephemeral' } },
+          { type: 'text', text: 'c', cache_control: { type: 'ephemeral' } },
+          { type: 'text', text: 'd', cache_control: { type: 'ephemeral' } }
+        ]
+      )
+      msg = RubyLLM::Message.new(role: :user, content: user_raw)
+
+      result = render_payload([sys, msg], config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      total = count_cache_controls(result)
+      expect(total).to eq(4)
+    end
+
+    it 'injects only the tail breakpoint (not system) when exactly one budget slot remains' do
+      raw = RubyLLM::Content::Raw.new(
+        [{ type: 'text', text: 'a', cache_control: { type: 'ephemeral' } }]
+      )
+      sys_translated = RubyLLM::Message.new(role: :system, content: raw)
+
+      user_raw = RubyLLM::Content::Raw.new(
+        [
+          { type: 'text', text: 'b', cache_control: { type: 'ephemeral' } },
+          { type: 'text', text: 'c', cache_control: { type: 'ephemeral' } }
+        ]
+      )
+      other_sys = RubyLLM::Message.new(role: :system, content: 'plain system text')
+      msg = RubyLLM::Message.new(role: :user, content: user_raw)
+      tail_msg = RubyLLM::Message.new(role: :user, content: 'final turn text')
+
+      result = render_payload([sys_translated, other_sys, msg, tail_msg],
+                              config_overrides: { bedrock_invoke_model_prompt_caching: true })
+
+      expect(result[:system].last[:cache_control]).to be_nil
+      expect(result[:messages].last[:content].last[:cache_control]).to eq({ type: 'ephemeral' })
+      expect(count_cache_controls(result)).to eq(4)
+    end
+
+    it 'skips thinking blocks and places the tail breakpoint on the preceding tool_result/text block' do
+      thinking = RubyLLM::Thinking.build(
+        blocks: [{ 'type' => 'redacted_thinking', 'data' => 'opaque' }]
+      )
+      msg = RubyLLM::Message.new(role: :assistant, content: 'reply text', thinking: thinking)
+
+      inst = make_instance(config_overrides: { bedrock_invoke_model_prompt_caching: true })
+      model = inst.instance_variable_get(:@model)
+      result = inst.send(:render_payload, [msg], tools: {}, temperature: nil, model: model)
+
+      content = result[:messages].last[:content]
+      thinking_block = content.find { |b| b['type'] == 'redacted_thinking' }
+      text_block = content.find { |b| b[:type] == 'text' }
+
+      expect(thinking_block[:cache_control]).to be_nil
+      expect(text_block[:cache_control]).to eq({ type: 'ephemeral' })
+    end
+
+    it 'passes Anthropic-format raw blocks through byte-identical, preserving existing cache_control' do
+      original = [{ type: 'text', text: 'already anthropic', cache_control: { type: 'ephemeral', ttl: '1h' } }]
+      raw = RubyLLM::Content::Raw.new(original)
+      sys = RubyLLM::Message.new(role: :system, content: raw)
+
+      result = render_payload([sys], config_overrides: { bedrock_invoke_model_prompt_caching: false })
+
+      expect(result[:system]).to eq(original)
+    end
+
+    def count_cache_controls(payload)
+      message_blocks = (payload[:messages] || []).flat_map { |m| m[:content] }
+      all_blocks = (payload[:system] || []) + (payload[:tools] || []) + message_blocks
+      all_blocks.count { |b| b.is_a?(Hash) && b[:cache_control] }
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Raw translation — Converse-format block translation
+  # ---------------------------------------------------------------------------
+
+  describe 'Chat.translate_raw_blocks' do
+    subject(:chat) { described_class::Chat }
+
+    it 'converts a symbol-keyed Converse text block to Anthropic text block' do
+      result = chat.translate_raw_blocks([{ text: 'hi' }])
+      expect(result).to eq([{ type: 'text', text: 'hi' }])
+    end
+
+    it 'converts a string-keyed Converse text block to Anthropic text block' do
+      result = chat.translate_raw_blocks([{ 'text' => 'hi' }])
+      expect(result).to eq([{ type: 'text', text: 'hi' }])
+    end
+
+    it 'drops a cachePoint with no preceding block' do
+      result = chat.translate_raw_blocks([{ cachePoint: { type: 'default' } }])
+      expect(result).to eq([])
+    end
+
+    it 'leaves an unrecognized block untouched' do
+      block = { foo: 'bar' }
+      result = chat.translate_raw_blocks([block])
+      expect(result).to eq([block])
+    end
+  end
+
+  describe 'Chat#format_tool_result_content prompt caching translation' do
+    subject(:chat) { described_class::Chat }
+
+    it 'translates Converse-format raw tool_result content' do
+      raw = RubyLLM::Content::Raw.new([{ text: 'result' }, { cachePoint: { type: 'default' } }])
+      msg = RubyLLM::Message.new(role: :tool, content: raw, tool_call_id: 'call_1')
+      result = chat.format_messages([msg])
+      block = result.first[:content].first
+      expect(block[:content]).to eq([{ type: 'text', text: 'result', cache_control: { type: 'ephemeral' } }])
+    end
+  end
 
   describe 'Chat#format_image_attachment' do
     subject(:chat) { described_class::Chat }
