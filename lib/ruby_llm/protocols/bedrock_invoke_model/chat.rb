@@ -212,16 +212,43 @@ module RubyLLM
             end
 
             unless tool_result_blocks.empty?
-              rendered << { role: 'user', content: tool_result_blocks }
+              append_message(rendered, { role: 'user', content: tool_result_blocks })
               tool_result_blocks = []
             end
 
             formatted = format_non_tool_message(msg)
-            rendered << formatted if formatted
+            append_message(rendered, formatted) if formatted
           end
 
-          rendered << { role: 'user', content: tool_result_blocks } unless tool_result_blocks.empty?
+          append_message(rendered, { role: 'user', content: tool_result_blocks }) unless tool_result_blocks.empty?
           rendered
+        end
+
+        # Anthropic's Messages API (used via Bedrock InvokeModel) rejects a payload whose
+        # roles don't strictly alternate, just as Converse does. This happens whenever a
+        # synthesized tool-result message (always role: 'user') is immediately followed by a
+        # real user-authored message (e.g. one injected mid-tool-loop). Rather than emit a
+        # second message with the same role, fold its content blocks into the previous one.
+        def append_message(rendered, message)
+          previous = rendered.last
+
+          if previous && previous[:role] == message[:role]
+            previous[:content] = merge_content_blocks(previous[:content], message[:content])
+          else
+            rendered << message
+          end
+        end
+
+        # Anthropic requires tool_result blocks to come first in a user message that also
+        # contains other content, and requires thinking/redacted_thinking blocks to come
+        # first in an assistant message. Merged content therefore orders thinking blocks
+        # first, then tool_result blocks, then every other block — each group in its
+        # original relative order.
+        def merge_content_blocks(existing_blocks, incoming_blocks)
+          combined = existing_blocks + incoming_blocks
+          thinking_blocks, rest = combined.partition { |block| THINKING_BLOCK_TYPES.include?(block_type(block)) }
+          tool_result_blocks, other_blocks = rest.partition { |block| block_type(block) == 'tool_result' }
+          thinking_blocks + tool_result_blocks + other_blocks
         end
 
         def format_non_tool_message(msg)

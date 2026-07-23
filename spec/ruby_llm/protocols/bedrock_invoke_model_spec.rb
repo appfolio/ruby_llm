@@ -255,6 +255,99 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       expect(block).not_to have_key(:cache_control)
       expect(block).not_to have_key('cache_control')
     end
+
+    context 'when consecutive messages resolve to the same role' do
+      # Anthropic's Messages API (used via Bedrock InvokeModel) also rejects a payload whose
+      # roles don't strictly alternate. This happens when a new user message is injected
+      # mid-tool-loop immediately after a tool result, since tool results are synthesized as
+      # role: 'user'.
+      it 'merges multiple consecutive user messages into one' do
+        messages = [
+          RubyLLM::Message.new(role: :user, content: 'first'),
+          RubyLLM::Message.new(role: :user, content: 'second')
+        ]
+
+        result = chat.format_messages(messages)
+
+        expect(result.size).to eq(1)
+        expect(result.first[:role]).to eq('user')
+        expect(result.first[:content]).to eq([{ type: 'text', text: 'first' }, { type: 'text', text: 'second' }])
+      end
+
+      it 'merges a user message that immediately follows a tool-result-flushed user message' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'thinking', tool_calls: {
+                                 't1' => RubyLLM::ToolCall.new(id: 't1', name: 'search', arguments: {})
+                               }),
+          RubyLLM::Message.new(role: :user, content: 'result', tool_call_id: 't1'),
+          RubyLLM::Message.new(role: :user, content: 'injected mid-loop message')
+        ]
+
+        result = chat.format_messages(messages)
+
+        expect(result.size).to eq(2)
+        merged = result.last
+        expect(merged[:role]).to eq('user')
+        expect(merged[:content]).to eq([
+                                         { type: 'tool_result', tool_use_id: 't1',
+                                           content: [{ type: 'text', text: 'result' }] },
+                                         { type: 'text', text: 'injected mid-loop message' }
+                                       ])
+      end
+
+      it 'merges consecutive assistant messages into one' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'first'),
+          RubyLLM::Message.new(role: :assistant, content: 'second')
+        ]
+
+        result = chat.format_messages(messages)
+
+        expect(result.size).to eq(1)
+        expect(result.first[:role]).to eq('assistant')
+        expect(result.first[:content]).to eq([{ type: 'text', text: 'first' }, { type: 'text', text: 'second' }])
+      end
+
+      it 'keeps tool_result blocks ahead of other content blocks regardless of merge order' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'thinking', tool_calls: {
+                                 't1' => RubyLLM::ToolCall.new(id: 't1', name: 'search', arguments: {})
+                               }),
+          RubyLLM::Message.new(role: :user, content: 'injected before result', tool_call_id: nil),
+          RubyLLM::Message.new(role: :user, content: 'result', tool_call_id: 't1')
+        ]
+
+        result = chat.format_messages(messages)
+
+        expect(result.size).to eq(2)
+        merged = result.last
+        expect(merged[:role]).to eq('user')
+        expect(merged[:content]).to eq([
+                                         { type: 'tool_result', tool_use_id: 't1',
+                                           content: [{ type: 'text', text: 'result' }] },
+                                         { type: 'text', text: 'injected before result' }
+                                       ])
+      end
+
+      it 'hoists thinking blocks ahead of tool_result and other blocks when merging assistant messages' do
+        thinking = RubyLLM::Thinking.build(text: 'second thought', signature: 'sig-2')
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'first thought'),
+          RubyLLM::Message.new(role: :assistant, content: 'second thought', thinking: thinking)
+        ]
+
+        result = chat.format_messages(messages)
+
+        expect(result.size).to eq(1)
+        merged = result.first
+        expect(merged[:role]).to eq('assistant')
+        expect(merged[:content]).to eq([
+                                         { type: 'thinking', thinking: 'second thought', signature: 'sig-2' },
+                                         { type: 'text', text: 'first thought' },
+                                         { type: 'text', text: 'second thought' }
+                                       ])
+      end
+    end
   end
 
   # ---------------------------------------------------------------------------

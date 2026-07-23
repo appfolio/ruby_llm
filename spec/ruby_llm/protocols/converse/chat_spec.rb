@@ -256,5 +256,97 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
       reasoning_blocks = payload[:messages].first[:content].select { |block| block[:reasoningContent] }
       expect(reasoning_blocks).to eq([{ reasoningContent: { reasoningText: { text: '', signature: 'sig-only' } } }])
     end
+
+    context 'when consecutive messages resolve to the same role' do
+      # Bedrock Converse hard-rejects a payload where two messages in a row share a role
+      # ("A conversation must alternate between user and assistant roles"). This happens when
+      # a new user message is injected mid-tool-loop (e.g. from the AppFolio agents_app fork)
+      # immediately after a tool result, since tool results are synthesized as role: 'user'.
+      it 'merges multiple consecutive user messages into one' do
+        messages = [
+          RubyLLM::Message.new(role: :user, content: 'first'),
+          RubyLLM::Message.new(role: :user, content: 'second')
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(1)
+        expect(payload[:messages].first[:role]).to eq('user')
+        expect(payload[:messages].first[:content]).to eq([{ text: 'first' }, { text: 'second' }])
+      end
+
+      it 'merges a user message that immediately follows a tool-result-flushed user message' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'thinking', tool_calls: {
+                                 't1' => RubyLLM::ToolCall.new(id: 't1', name: 'search', arguments: {})
+                               }),
+          RubyLLM::Message.new(role: :user, content: 'result', tool_call_id: 't1'),
+          RubyLLM::Message.new(role: :user, content: 'injected mid-loop message')
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(2)
+        merged = payload[:messages].last
+        expect(merged[:role]).to eq('user')
+        expect(merged[:content]).to eq([
+                                         { toolResult: { toolUseId: 't1', content: [{ text: 'result' }] } },
+                                         { text: 'injected mid-loop message' }
+                                       ])
+      end
+
+      it 'merges consecutive assistant messages into one' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'first'),
+          RubyLLM::Message.new(role: :assistant, content: 'second')
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(1)
+        expect(payload[:messages].first[:role]).to eq('assistant')
+        expect(payload[:messages].first[:content]).to eq([{ text: 'first' }, { text: 'second' }])
+      end
+
+      it 'keeps toolResult blocks ahead of other content blocks regardless of merge order' do
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'thinking', tool_calls: {
+                                 't1' => RubyLLM::ToolCall.new(id: 't1', name: 'search', arguments: {})
+                               }),
+          RubyLLM::Message.new(role: :user, content: 'injected before result', tool_call_id: nil),
+          RubyLLM::Message.new(role: :user, content: 'result', tool_call_id: 't1')
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(2)
+        merged = payload[:messages].last
+        expect(merged[:role]).to eq('user')
+        expect(merged[:content]).to eq([
+                                         { toolResult: { toolUseId: 't1', content: [{ text: 'result' }] } },
+                                         { text: 'injected before result' }
+                                       ])
+      end
+
+      it 'hoists reasoningContent blocks ahead of toolResult and other blocks when merging assistant messages' do
+        thinking = RubyLLM::Thinking.build(text: 'second thought', signature: 'sig-2')
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'first thought'),
+          RubyLLM::Message.new(role: :assistant, content: 'second thought', thinking: thinking)
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(1)
+        merged = payload[:messages].first
+        expect(merged[:role]).to eq('assistant')
+        expect(merged[:content]).to eq([
+                                         { reasoningContent: { reasoningText: { text: 'second thought',
+                                                                                signature: 'sig-2' } } },
+                                         { text: 'first thought' },
+                                         { text: 'second thought' }
+                                       ])
+      end
+    end
   end
 end
