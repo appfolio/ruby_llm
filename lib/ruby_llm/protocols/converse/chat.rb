@@ -124,16 +124,42 @@ module RubyLLM
             end
 
             unless tool_result_blocks.empty?
-              rendered << { role: 'user', content: tool_result_blocks }
+              append_message(rendered, { role: 'user', content: tool_result_blocks })
               tool_result_blocks = []
             end
 
             message = format_non_tool_message(msg)
-            rendered << message if message
+            append_message(rendered, message) if message
           end
 
-          rendered << { role: 'user', content: tool_result_blocks } unless tool_result_blocks.empty?
+          append_message(rendered, { role: 'user', content: tool_result_blocks }) unless tool_result_blocks.empty?
           rendered
+        end
+
+        # Bedrock Converse hard-rejects a payload where two consecutive messages share a
+        # role ("A conversation must alternate between user and assistant roles"), which
+        # happens whenever a synthesized tool-result message (always role: 'user') is
+        # immediately followed by a real user-authored message. Rather than emit a second
+        # message with the same role, fold its content blocks into the previous message.
+        def append_message(rendered, message)
+          previous = rendered.last
+
+          if previous && previous[:role] == message[:role]
+            previous[:content] = merge_content_blocks(previous[:content], message[:content])
+          else
+            rendered << message
+          end
+        end
+
+        # Bedrock also rejects a turn where toolResult blocks and other conversational
+        # content blocks are ordered incorrectly ("Conversation blocks and tool result
+        # blocks cannot be provided in the same turn" when toolResult isn't first), so
+        # merged content keeps all toolResult blocks first, in their original relative
+        # order, followed by every other block, also in original relative order.
+        def merge_content_blocks(existing_blocks, incoming_blocks)
+          combined = existing_blocks + incoming_blocks
+          tool_result_blocks, other_blocks = combined.partition { |block| block.key?(:toolResult) }
+          tool_result_blocks + other_blocks
         end
 
         def format_non_tool_message(msg)
