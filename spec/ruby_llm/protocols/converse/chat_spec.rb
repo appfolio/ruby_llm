@@ -327,6 +327,26 @@ RSpec.describe RubyLLM::Protocols::Converse::Chat do
                                          { text: 'injected before result' }
                                        ])
       end
+
+      it 'hoists reasoningContent blocks ahead of toolResult and other blocks when merging assistant messages' do
+        thinking = RubyLLM::Thinking.build(text: 'second thought', signature: 'sig-2')
+        messages = [
+          RubyLLM::Message.new(role: :assistant, content: 'first thought'),
+          RubyLLM::Message.new(role: :assistant, content: 'second thought', thinking: thinking)
+        ]
+
+        payload = render_payload(messages, schema: nil)
+
+        expect(payload[:messages].size).to eq(1)
+        merged = payload[:messages].first
+        expect(merged[:role]).to eq('assistant')
+        expect(merged[:content]).to eq([
+                                         { reasoningContent: { reasoningText: { text: 'second thought',
+                                                                                signature: 'sig-2' } } },
+                                         { text: 'first thought' },
+                                         { text: 'second thought' }
+                                       ])
+      end
     end
   end
 end

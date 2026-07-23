@@ -153,13 +153,15 @@ module RubyLLM
 
         # Bedrock also rejects a turn where toolResult blocks and other conversational
         # content blocks are ordered incorrectly ("Conversation blocks and tool result
-        # blocks cannot be provided in the same turn" when toolResult isn't first), so
-        # merged content keeps all toolResult blocks first, in their original relative
-        # order, followed by every other block, also in original relative order.
+        # blocks cannot be provided in the same turn" when toolResult isn't first), and
+        # separately requires reasoningContent blocks to come first when present. Merged
+        # content therefore orders reasoningContent blocks first, then toolResult blocks,
+        # then every other block — each group in its original relative order.
         def merge_content_blocks(existing_blocks, incoming_blocks)
           combined = existing_blocks + incoming_blocks
-          tool_result_blocks, other_blocks = combined.partition { |block| block.key?(:toolResult) }
-          tool_result_blocks + other_blocks
+          reasoning_blocks, rest = combined.partition { |block| block.key?(:reasoningContent) }
+          tool_result_blocks, other_blocks = rest.partition { |block| block.key?(:toolResult) }
+          reasoning_blocks + tool_result_blocks + other_blocks
         end
 
         def format_non_tool_message(msg)
