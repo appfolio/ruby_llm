@@ -16785,6 +16785,204 @@
     }
   },
   {
+    "id": "openai.gpt-5.6-sol",
+    "name": "GPT-5.6 Sol",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-07-13 00:00:00 UTC",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 30.0,
+          "cache_read_input_per_million": 0.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-06-01",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 5.0,
+        "output": 30.0,
+        "cache_read": 0.5
+      },
+      "limit": {
+        "context": 272000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
+    "id": "openai.gpt-5.6-terra",
+    "name": "GPT-5.6 Terra",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-07-13 00:00:00 UTC",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.25
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-06-01",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.5,
+        "output": 15.0,
+        "cache_read": 0.25
+      },
+      "limit": {
+        "context": 272000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
+    "id": "openai.gpt-5.6-luna",
+    "name": "GPT-5.6 Luna",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-07-13 00:00:00 UTC",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 6.0,
+          "cache_read_input_per_million": 0.1
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-06-01",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1.0,
+        "output": 6.0,
+        "cache_read": 0.1
+      },
+      "limit": {
+        "context": 272000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
     "id": "openai.gpt-oss-120b",
     "name": "gpt-oss-120b",
     "provider": "bedrock",
