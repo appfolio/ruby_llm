@@ -81,6 +81,11 @@
     "bedrock": "anthropic.claude-opus-4-8",
     "vertexai": "claude-opus-4-8"
   },
+  "claude-opus-5": {
+    "anthropic": "claude-opus-5",
+    "bedrock": "anthropic.claude-opus-5",
+    "vertexai": "claude-opus-5"
+  },
   "claude-sonnet-4": {
     "anthropic": "claude-sonnet-4-20250514",
     "openrouter": "anthropic/claude-sonnet-4",
