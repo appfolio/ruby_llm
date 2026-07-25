@@ -37,7 +37,7 @@ module RubyLLM
         body = try_parse_json(response.body)
         return body if body.is_a?(String)
 
-        body['message'] || body['Message'] || body['error'] || body['__type'] || super
+        extract_error_message(body) || super
       end
 
       def list_models
@@ -95,6 +95,12 @@ module RubyLLM
       end
 
       private
+
+      # Bedrock errors are shaped like {"message" => "..."} or {"__type" => "..."};
+      # mantle (OpenAI Responses) errors are shaped like {"error" => {"message" => "..."}}.
+      def extract_error_message(body)
+        body.dig('error', 'message') || body['message'] || body['Message'] || body['error'] || body['__type']
+      end
 
       def bedrock_region
         @config.bedrock_region

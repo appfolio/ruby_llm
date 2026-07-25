@@ -113,6 +113,32 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
+  describe '#parse_error' do
+    let(:provider) { described_class.new(bedrock_config(api_key: 'k', secret_key: 's')) }
+
+    def response_double(body)
+      instance_double(Faraday::Response, body: body)
+    end
+
+    it 'extracts the message from a Bedrock-shaped error body' do
+      response = response_double('message' => 'model not found')
+
+      expect(provider.parse_error(response)).to eq('model not found')
+    end
+
+    it 'extracts the message from a Bedrock-shaped __type body' do
+      response = response_double('__type' => 'ValidationException')
+
+      expect(provider.parse_error(response)).to eq('ValidationException')
+    end
+
+    it 'extracts the nested message from an OpenAI-shaped (mantle) error body' do
+      response = response_double('error' => { 'message' => 'invalid request', 'type' => 'invalid_request_error' })
+
+      expect(provider.parse_error(response)).to eq('invalid request')
+    end
+  end
+
   describe '#protocol_for / #invoke_model? / #anthropic_model?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
     def build_bedrock(use_invoke_model: false)
       config = bedrock_config(api_key: 'k', secret_key: 's')
