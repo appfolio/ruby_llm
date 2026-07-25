@@ -111,6 +111,22 @@ RSpec.describe RubyLLM::Providers::Bedrock do
       expect(headers['Authorization']).to include('Credential=provider-key/')
       expect(headers['X-Amz-Security-Token']).to eq('provider-token')
     end
+
+    it 'defaults the signing service to "bedrock" for existing callers' do
+      provider = described_class.new(bedrock_config(api_key: 'static-key', secret_key: 'static-secret'))
+
+      headers = provider.sign_headers('POST', '/model/anthropic.claude-haiku/converse', '{}')
+
+      expect(headers['Authorization']).to include("/#{provider.send(:bedrock_region)}/bedrock/aws4_request")
+    end
+
+    it 'signs against an explicit service name when given' do
+      provider = described_class.new(bedrock_config(api_key: 'static-key', secret_key: 'static-secret'))
+
+      headers = provider.sign_headers('POST', '/openai/v1/responses', '{}', service: 'bedrock-mantle')
+
+      expect(headers['Authorization']).to include("/#{provider.send(:bedrock_region)}/bedrock-mantle/aws4_request")
+    end
   end
 
   describe '#parse_error' do
