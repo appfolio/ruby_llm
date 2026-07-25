@@ -28,6 +28,52 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     it 'registers credential providers as a Bedrock option' do
       expect(RubyLLM::Configuration.options).to include(:bedrock_credential_provider)
     end
+
+    it 'registers the mantle base URL and region as optional Bedrock options' do
+      expect(RubyLLM::Configuration.options).to include(:bedrock_mantle_api_base, :bedrock_mantle_region)
+    end
+
+    it 'does not require the mantle options' do
+      expect(described_class.configuration_requirements).not_to include(:bedrock_mantle_api_base,
+                                                                        :bedrock_mantle_region)
+    end
+  end
+
+  describe '#mantle_api_base and #mantle_connection' do
+    it 'defaults the mantle base URL from bedrock_region' do
+      provider = described_class.new(bedrock_config(region: 'us-west-2', api_key: 'k', secret_key: 's'))
+
+      expect(provider.mantle_api_base).to eq('https://bedrock-mantle.us-west-2.api.aws')
+    end
+
+    it 'falls back to bedrock_region when bedrock_mantle_region is unset' do
+      config = bedrock_config(region: 'us-east-1', api_key: 'k', secret_key: 's')
+      provider = described_class.new(config)
+
+      expect(provider.mantle_api_base).to eq('https://bedrock-mantle.us-east-1.api.aws')
+    end
+
+    it 'prefers bedrock_mantle_region over bedrock_region when set' do
+      config = bedrock_config(region: 'us-east-1', api_key: 'k', secret_key: 's')
+      config.bedrock_mantle_region = 'us-west-2'
+      provider = described_class.new(config)
+
+      expect(provider.mantle_api_base).to eq('https://bedrock-mantle.us-west-2.api.aws')
+    end
+
+    it 'is overridable via bedrock_mantle_api_base' do
+      config = bedrock_config(region: 'us-west-2', api_key: 'k', secret_key: 's')
+      config.bedrock_mantle_api_base = 'https://custom.mantle.example.com'
+      provider = described_class.new(config)
+
+      expect(provider.mantle_api_base).to eq('https://custom.mantle.example.com')
+    end
+
+    it 'builds a connection bound to the mantle base URL' do
+      provider = described_class.new(bedrock_config(region: 'us-west-2', api_key: 'k', secret_key: 's'))
+
+      expect(provider.mantle_connection.connection.url_prefix.to_s).to eq('https://bedrock-mantle.us-west-2.api.aws/')
+    end
   end
 
   describe '.configured?' do
@@ -152,6 +198,41 @@ RSpec.describe RubyLLM::Providers::Bedrock do
       response = response_double('error' => { 'message' => 'invalid request', 'type' => 'invalid_request_error' })
 
       expect(provider.parse_error(response)).to eq('invalid request')
+    end
+  end
+
+  describe '#complete params normalization' do
+    let(:provider) { described_class.new(bedrock_config(api_key: 'k', secret_key: 's')) }
+
+    def model_double(id, metadata: {})
+      instance_double(RubyLLM::Model::Info, id: id, max_tokens: 4096, metadata: metadata, provider: 'bedrock')
+    end
+
+    it 'injects additionalModelRequestFields (top_k) for Converse-routed reasoning-embedded models' do
+      model = model_double(
+        'anthropic.claude-haiku-4-5-20251001-v1:0',
+        metadata: { converse: { reasoningSupported: { embedded: true } } }
+      )
+      protocol = instance_double(RubyLLM::Protocols::Converse)
+      allow(RubyLLM::Protocols::Converse).to receive(:new).and_return(protocol)
+      allow(protocol).to receive(:complete)
+
+      provider.complete([], model: model, tools: {}, temperature: nil, params: { top_k: 5 })
+
+      expect(protocol).to have_received(:complete).with(
+        [], hash_including(params: { additionalModelRequestFields: { top_k: 5 } }), any_args
+      )
+    end
+
+    it 'does not run normalize_params (Converse-specific) for mantle-routed models, forwarding params as-is' do
+      model = model_double('openai.gpt-5.6-sol')
+      protocol = instance_double(RubyLLM::Protocols::MantleResponses)
+      allow(RubyLLM::Protocols::MantleResponses).to receive(:new).and_return(protocol)
+      allow(protocol).to receive(:complete)
+
+      provider.complete([], model: model, tools: {}, temperature: nil, params: { top_k: 5 })
+
+      expect(protocol).to have_received(:complete).with([], hash_including(params: { top_k: 5 }), any_args)
     end
   end
 
@@ -312,6 +393,35 @@ RSpec.describe RubyLLM::Providers::Bedrock do
         provider = build_bedrock(use_invoke_model: ->(_m) { true })
         expect(provider.protocol_for(model_double(us_nova_id))).to be(RubyLLM::Protocols::Converse)
         expect(provider.protocol_for(model_double(llama_id))).to be(RubyLLM::Protocols::Converse)
+      end
+    end
+
+    context 'with GPT-5.6 (mantle-only) and gpt-oss (bedrock-runtime) model ids' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:provider) { build_bedrock(use_invoke_model: true) }
+
+      it 'routes openai.gpt-5.6-sol/-terra/-luna to MantleResponses regardless of bedrock_use_invoke_model' do
+        %w[openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna].each do |id|
+          expect(provider.protocol_for(model_double(id))).to be(RubyLLM::Protocols::MantleResponses)
+        end
+      end
+
+      it 'keeps routing openai.gpt-oss-120b and openai.gpt-oss-20b to Converse' do
+        expect(provider.protocol_for(model_double('openai.gpt-oss-120b'))).to be(RubyLLM::Protocols::Converse)
+        expect(provider.protocol_for(model_double('openai.gpt-oss-20b'))).to be(RubyLLM::Protocols::Converse)
+      end
+
+      it 'keeps routing anthropic.* ids to BedrockInvokeModel exactly as before' do
+        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
+      end
+    end
+
+    describe '#mantle_only_model?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+      let(:bedrock) { build_bedrock }
+
+      it 'matches openai.gpt-5.x ids narrowly, not the broad openai. prefix' do
+        expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-5.6-sol'))).to be(true)
+        expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-oss-120b'))).to be(false)
+        expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-5.5'))).to be(true)
       end
     end
 

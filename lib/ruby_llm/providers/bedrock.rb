@@ -9,7 +9,19 @@ module RubyLLM
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
       protocol :bedrock_invoke_model, Protocols::BedrockInvokeModel
+      protocol :mantle_responses, Protocols::MantleResponses
       files Bedrock::Files
+
+      # SigV4 requests to bedrock-mantle sign against this service namespace, not "bedrock" —
+      # AWS models bedrock-mantle as a separate service (see the AmazonBedrockMantleFullAccess
+      # managed policy and the bedrock-mantle:CreateInference IAM action). Named here so it is a
+      # one-line change if this assumption turns out to be wrong.
+      MANTLE_SIGNING_SERVICE = 'bedrock-mantle'
+
+      # openai.gpt-5.x ids are only reachable on bedrock-mantle (no Converse, no InvokeModel).
+      # Deliberately narrower than /\Aopenai\./ — openai.gpt-oss-* models ARE served by
+      # bedrock-runtime and must keep routing to Converse.
+      MANTLE_ONLY_MODEL_PATTERN = /\Aopenai\.gpt-5/
 
       def api_base
         @config.bedrock_api_base || "https://bedrock-runtime.#{bedrock_region}.amazonaws.com"
@@ -19,15 +31,26 @@ module RubyLLM
         @config.bedrock_api_base || "https://bedrock.#{bedrock_region}.amazonaws.com"
       end
 
+      def mantle_api_base
+        @config.bedrock_mantle_api_base || "https://bedrock-mantle.#{mantle_region}.api.aws"
+      end
+
+      def mantle_connection
+        @mantle_connection ||= Connection.new(self, @config, base_url: mantle_api_base)
+      end
+
       def headers
         {}
       end
 
       def complete(messages, model:, params: {}, **rest, &)
-        super(messages, model:, params: normalize_params(params, model:), **rest, &)
+        params = normalize_params(params, model:) unless mantle_only_model?(model)
+        super
       end
 
       def protocol_for(model, **)
+        return fetch_protocol(:mantle_responses) if mantle_only_model?(model)
+
         invoke_model?(model) ? fetch_protocol(:bedrock_invoke_model) : fetch_protocol(:converse)
       end
 
@@ -54,6 +77,8 @@ module RubyLLM
             bedrock_session_token
             bedrock_credential_provider
             bedrock_api_base
+            bedrock_mantle_api_base
+            bedrock_mantle_region
             bedrock_batch_s3_uri
             bedrock_batch_role_arn
             bedrock_use_invoke_model
@@ -104,6 +129,16 @@ module RubyLLM
 
       def bedrock_region
         @config.bedrock_region
+      end
+
+      def mantle_region
+        @config.bedrock_mantle_region || bedrock_region
+      end
+
+      # openai.gpt-5.x ids cannot serve Converse or InvokeModel; routing here is automatic and
+      # needs no config knob (unlike bedrock_use_invoke_model, which is an optimization choice).
+      def mantle_only_model?(model)
+        MANTLE_ONLY_MODEL_PATTERN.match?(model.id.to_s)
       end
 
       def bedrock_credentials_requirement
