@@ -12,6 +12,10 @@ module RubyLLM
       # Frontier openai.gpt-5.x models are served at /openai/v1/responses; every other
       # mantle model (e.g. openai.gpt-oss-*) is served at /v1/responses. See the
       # AWS Bedrock model cards for GPT-5.6.
+      #
+      # Kept in sync with Providers::Bedrock::MANTLE_ONLY_MODEL_PATTERN — that pattern picks
+      # mantle vs Converse/InvokeModel, this one picks the /openai/v1 vs /v1 mantle path. They
+      # coincide today but are distinct concepts; update both when a new frontier family lands.
       FRONTIER_GPT5_PATTERN = /\Aopenai\.gpt-5/
 
       def initialize(provider, model = nil)

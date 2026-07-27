@@ -137,6 +137,10 @@ module RubyLLM
 
       # openai.gpt-5.x ids cannot serve Converse or InvokeModel; routing here is automatic and
       # needs no config knob (unlike bedrock_use_invoke_model, which is an optimization choice).
+      #
+      # Kept in sync with Protocols::MantleResponses::FRONTIER_GPT5_PATTERN — that pattern picks
+      # the /openai/v1 vs /v1 mantle path, this one picks mantle vs Converse/InvokeModel. They
+      # coincide today but are distinct concepts; update both when a new frontier family lands.
       def mantle_only_model?(model)
         MANTLE_ONLY_MODEL_PATTERN.match?(model.id.to_s)
       end
