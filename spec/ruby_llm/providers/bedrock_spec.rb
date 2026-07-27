@@ -173,6 +173,27 @@ RSpec.describe RubyLLM::Providers::Bedrock do
 
       expect(headers['Authorization']).to include("/#{provider.send(:bedrock_region)}/bedrock-mantle/aws4_request")
     end
+
+    it 'defaults the signing region to bedrock_region for existing callers' do
+      provider = described_class.new(
+        bedrock_config(region: 'us-west-2', api_key: 'static-key', secret_key: 'static-secret')
+      )
+
+      headers = provider.sign_headers('POST', '/model/anthropic.claude-haiku/converse', '{}')
+
+      expect(headers['Authorization']).to include('/us-west-2/bedrock/aws4_request')
+    end
+
+    it 'signs against an explicit region when given, independent of bedrock_region' do
+      provider = described_class.new(
+        bedrock_config(region: 'us-west-2', api_key: 'static-key', secret_key: 'static-secret')
+      )
+
+      headers = provider.sign_headers('POST', '/openai/v1/responses', '{}', service: 'bedrock-mantle',
+                                                                            region: 'us-east-2')
+
+      expect(headers['Authorization']).to include('/us-east-2/bedrock-mantle/aws4_request')
+    end
   end
 
   describe '#parse_error' do

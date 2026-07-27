@@ -39,6 +39,10 @@ module RubyLLM
         @mantle_connection ||= Connection.new(self, @config, base_url: mantle_api_base)
       end
 
+      def mantle_region
+        @config.bedrock_mantle_region || bedrock_region
+      end
+
       def headers
         {}
       end
@@ -129,10 +133,6 @@ module RubyLLM
 
       def bedrock_region
         @config.bedrock_region
-      end
-
-      def mantle_region
-        @config.bedrock_mantle_region || bedrock_region
       end
 
       # openai.gpt-5.x ids cannot serve Converse or InvokeModel; routing here is automatic and

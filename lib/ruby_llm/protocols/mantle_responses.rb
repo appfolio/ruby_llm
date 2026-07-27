@@ -38,7 +38,8 @@ module RubyLLM
         @provider.sign_headers(
           'POST', completion_url, body,
           base_url: @provider.mantle_api_base,
-          service: Providers::Bedrock::MANTLE_SIGNING_SERVICE
+          service: Providers::Bedrock::MANTLE_SIGNING_SERVICE,
+          region: @provider.mantle_region
         )
       end
     end

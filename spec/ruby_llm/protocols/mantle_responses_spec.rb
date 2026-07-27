@@ -85,5 +85,35 @@ RSpec.describe RubyLLM::Protocols::MantleResponses do
       expect(stub).to have_been_requested
       expect(chunks).not_to be_empty
     end
+
+    it 'signs against bedrock_mantle_region, not bedrock_region, when they differ' do
+      config.bedrock_mantle_region = 'us-east-2'
+
+      stub = stub_request(:post, 'https://bedrock-mantle.us-east-2.api.aws/openai/v1/responses')
+             .with { |req| req.headers['Authorization']&.include?('us-east-2/bedrock-mantle/aws4_request') }
+             .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
+
+      protocol = described_class.new(provider, model_info('openai.gpt-5.6-sol'))
+      protocol.complete([RubyLLM::Message.new(role: :user, content: 'hi')], tools: {}, temperature: nil)
+
+      expect(stub).to have_been_requested
+    end
+
+    it 'signs the exact bytes Faraday sends, not a re-serialized copy' do
+      stub = stub_request(:post, 'https://bedrock-mantle.us-west-2.api.aws/openai/v1/responses')
+             .to_return(status: 200, body: response_body, headers: { 'Content-Type' => 'application/json' })
+
+      protocol = described_class.new(provider, model_info('openai.gpt-5.6-sol'))
+      protocol.complete([RubyLLM::Message.new(role: :user, content: 'hi')], tools: {}, temperature: nil)
+
+      expect(stub).to have_been_requested
+
+      sent_request = WebMock::RequestRegistry.instance.requested_signatures.hash.keys.find do |req|
+        req.uri.host == 'bedrock-mantle.us-west-2.api.aws' && req.uri.path == '/openai/v1/responses'
+      end
+
+      actual_sha = Digest::SHA256.hexdigest(sent_request.body)
+      expect(sent_request.headers['X-Amz-Content-Sha256']).to eq(actual_sha)
+    end
   end
 end
