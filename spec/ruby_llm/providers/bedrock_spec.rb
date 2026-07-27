@@ -220,6 +220,12 @@ RSpec.describe RubyLLM::Providers::Bedrock do
 
       expect(provider.parse_error(response)).to eq('invalid request')
     end
+
+    it 'falls back to a String-valued error without raising' do
+      response = response_double('error' => 'boom')
+
+      expect(provider.parse_error(response)).to eq('boom')
+    end
   end
 
   describe '#complete params normalization' do
@@ -245,15 +251,34 @@ RSpec.describe RubyLLM::Providers::Bedrock do
       )
     end
 
-    it 'does not run normalize_params (Converse-specific) for mantle-routed models, forwarding params as-is' do
+    it 'does not run normalize_params (Converse-specific) for mantle-routed models, forwarding other params as-is' do
       model = model_double('openai.gpt-5.6-sol')
       protocol = instance_double(RubyLLM::Protocols::MantleResponses)
       allow(RubyLLM::Protocols::MantleResponses).to receive(:new).and_return(protocol)
       allow(protocol).to receive(:complete)
 
-      provider.complete([], model: model, tools: {}, temperature: nil, params: { top_k: 5 })
+      provider.complete([], model: model, tools: {}, temperature: nil, params: { reasoning_effort: 'high' })
 
-      expect(protocol).to have_received(:complete).with([], hash_including(params: { top_k: 5 }), any_args)
+      expect(protocol).to have_received(:complete).with(
+        [], hash_including(params: { reasoning_effort: 'high' }), any_args
+      )
+    end
+
+    it 'raises a clear error for Converse-only params (top_k) sent to a mantle-routed model' do
+      model = model_double('openai.gpt-5.6-sol')
+
+      expect do
+        provider.complete([], model: model, tools: {}, temperature: nil, params: { top_k: 5 })
+      end.to raise_error(ArgumentError, /top_k.*not supported on bedrock-mantle/)
+    end
+
+    it 'raises a clear error for additionalModelRequestFields sent to a mantle-routed model' do
+      model = model_double('openai.gpt-5.6-sol')
+
+      expect do
+        provider.complete([], model: model, tools: {}, temperature: nil,
+                              params: { additionalModelRequestFields: { foo: 1 } })
+      end.to raise_error(ArgumentError, /additionalModelRequestFields.*not supported on bedrock-mantle/)
     end
   end
 

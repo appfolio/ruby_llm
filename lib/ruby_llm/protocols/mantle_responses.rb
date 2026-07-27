@@ -23,6 +23,10 @@ module RubyLLM
         @connection = provider.mantle_connection
       end
 
+      # The '/v1/responses' branch is forward-looking: today Providers::Bedrock#protocol_for only
+      # ever routes /\Aopenai\.gpt-5/ ids here, so this branch is unreachable in production (e.g.
+      # openai.gpt-oss-* still routes to Converse). It exists so this protocol is ready if a
+      # future mantle-only, non-frontier model needs it, without another round of plumbing.
       def completion_url
         FRONTIER_GPT5_PATTERN.match?(@model.id) ? '/openai/v1/responses' : '/v1/responses'
       end

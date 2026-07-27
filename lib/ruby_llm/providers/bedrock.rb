@@ -23,6 +23,9 @@ module RubyLLM
       # bedrock-runtime and must keep routing to Converse.
       MANTLE_ONLY_MODEL_PATTERN = /\Aopenai\.gpt-5/
 
+      # Converse-specific params that Mantle's Responses API would reject outright.
+      CONVERSE_ONLY_PARAMS = %i[top_k additionalModelRequestFields].freeze
+
       def api_base
         @config.bedrock_api_base || "https://bedrock-runtime.#{bedrock_region}.amazonaws.com"
       end
@@ -48,7 +51,8 @@ module RubyLLM
       end
 
       def complete(messages, model:, params: {}, **rest, &)
-        params = normalize_params(params, model:) unless mantle_only_model?(model)
+        params = mantle_only_model?(model) ? strip_converse_only_params(params) : normalize_params(params, model:)
+        # Bare `super` forwards current bindings, so it picks up the reassigned `params` above.
         super
       end
 
@@ -128,7 +132,8 @@ module RubyLLM
       # Bedrock errors are shaped like {"message" => "..."} or {"__type" => "..."};
       # mantle (OpenAI Responses) errors are shaped like {"error" => {"message" => "..."}}.
       def extract_error_message(body)
-        body.dig('error', 'message') || body['message'] || body['Message'] || body['error'] || body['__type']
+        nested_message = body['error'].is_a?(Hash) ? body.dig('error', 'message') : nil
+        nested_message || body['message'] || body['Message'] || body['error'] || body['__type']
       end
 
       def bedrock_region
@@ -168,6 +173,18 @@ module RubyLLM
 
       def model_supports_top_k?(model)
         Protocols::Converse.reasoning_embedded?(model)
+      end
+
+      # Mantle speaks the OpenAI Responses API, not Converse, so Converse-only params would
+      # otherwise be forwarded raw and rejected with an opaque 400 from the mantle endpoint.
+      def strip_converse_only_params(params)
+        normalized = RubyLLM::Utils.deep_symbolize_keys(params || {})
+        offending = CONVERSE_ONLY_PARAMS & normalized.keys
+        return normalized if offending.empty?
+
+        raise ArgumentError,
+              "#{offending.join(', ')} are Converse-only params and are not supported on " \
+              'bedrock-mantle (Responses API)'
       end
 
       # Returns true if the InvokeModel protocol should be used for this model.
