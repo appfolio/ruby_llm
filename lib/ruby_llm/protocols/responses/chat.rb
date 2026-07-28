@@ -82,7 +82,7 @@ module RubyLLM
         end
 
         def reasoning_model?(model_id)
-          model_id.match?(/^o\d|^gpt-5/)
+          model_id.match?(/\A(?:openai\.)?(?:o\d|gpt-5)/)
         end
 
         def parse_usage(usage)

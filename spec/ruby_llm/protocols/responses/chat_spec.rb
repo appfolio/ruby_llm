@@ -11,6 +11,23 @@ RSpec.describe RubyLLM::Protocols::Responses::Chat do
                                              tool_prefs: nil)
   end
 
+  describe '#reasoning_model?' do
+    it 'matches bare reasoning model ids' do
+      expect(protocol.send(:reasoning_model?, 'gpt-5-nano')).to be(true)
+      expect(protocol.send(:reasoning_model?, 'o3')).to be(true)
+    end
+
+    it 'matches reasoning model ids with the openai. vendor prefix' do
+      expect(protocol.send(:reasoning_model?, 'openai.gpt-5.6-sol')).to be(true)
+      expect(protocol.send(:reasoning_model?, 'openai.o3')).to be(true)
+    end
+
+    it 'does not match non-reasoning ids' do
+      expect(protocol.send(:reasoning_model?, 'gpt-4o')).to be(false)
+      expect(protocol.send(:reasoning_model?, 'openai.gpt-oss-120b')).to be(false)
+    end
+  end
+
   describe '#render_payload' do
     it 'runs stateless and replays encrypted reasoning' do
       payload = render_payload([RubyLLM::Message.new(role: :user, content: 'hi')])

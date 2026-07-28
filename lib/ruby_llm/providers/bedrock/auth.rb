@@ -11,7 +11,10 @@ module RubyLLM
       module Auth
         Credentials = Struct.new(:access_key_id, :secret_access_key, :session_token, keyword_init: true)
 
-        def sign_headers(method, path, body, base_url: api_base)
+        DEFAULT_SIGNING_SERVICE = 'bedrock'
+
+        def sign_headers(method, path, body, base_url: api_base, service: DEFAULT_SIGNING_SERVICE, # rubocop:disable Metrics/ParameterLists
+                         region: bedrock_region)
           credentials = bedrock_credentials
           now = Time.now.utc
           amz_date = now.strftime('%Y%m%dT%H%M%SZ')
@@ -41,7 +44,7 @@ module RubyLLM
             payload_hash
           ].join("\n")
 
-          credential_scope = "#{date_stamp}/#{bedrock_region}/bedrock/aws4_request"
+          credential_scope = "#{date_stamp}/#{region}/#{service}/aws4_request"
           string_to_sign = [
             'AWS4-HMAC-SHA256',
             amz_date,
@@ -49,7 +52,7 @@ module RubyLLM
             Digest::SHA256.hexdigest(canonical_request)
           ].join("\n")
 
-          signing_key = signing_key(date_stamp, credentials.secret_access_key)
+          signing_key = signing_key(date_stamp, credentials.secret_access_key, service, region)
           signature = OpenSSL::HMAC.hexdigest('sha256', signing_key, string_to_sign)
 
           {
@@ -128,10 +131,10 @@ module RubyLLM
           )
         end
 
-        def signing_key(date_stamp, secret_access_key)
+        def signing_key(date_stamp, secret_access_key, service = DEFAULT_SIGNING_SERVICE, region = bedrock_region)
           k_date = OpenSSL::HMAC.digest('sha256', "AWS4#{secret_access_key}", date_stamp)
-          k_region = OpenSSL::HMAC.digest('sha256', k_date, bedrock_region)
-          k_service = OpenSSL::HMAC.digest('sha256', k_region, 'bedrock')
+          k_region = OpenSSL::HMAC.digest('sha256', k_date, region)
+          k_service = OpenSSL::HMAC.digest('sha256', k_region, service)
           OpenSSL::HMAC.digest('sha256', k_service, 'aws4_request')
         end
       end
