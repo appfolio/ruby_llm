@@ -518,7 +518,7 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       }
       chunk = streaming.send(:build_chunk, event)
       expect(chunk.tool_calls).not_to be_nil
-      expect(chunk.tool_calls[nil].arguments).to eq('{"key":')
+      expect(chunk.tool_calls[1].arguments).to eq('{"key":')
     end
 
     it 'extracts thinking text from thinking_delta' do
@@ -569,7 +569,8 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
       }
       chunk = streaming.send(:build_chunk, event)
       expect(chunk.tool_calls).not_to be_nil
-      tc = chunk.tool_calls['call_xyz']
+      tc = chunk.tool_calls[0]
+      expect(tc.id).to eq('call_xyz')
       expect(tc.name).to eq('search')
     end
 
@@ -591,6 +592,73 @@ RSpec.describe RubyLLM::Protocols::BedrockInvokeModel do
 
       expect(message.content).to eq('Hello world')
       expect(message.output_tokens).to eq(2)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+  # Streaming parallel tool calls
+  # ---------------------------------------------------------------------------
+
+  describe 'Streaming parallel tool calls' do
+    let(:streaming) do
+      described_class.allocate.tap do |obj|
+        obj.instance_variable_set(:@model, build_model('anthropic.claude-haiku-4-5-20251001-v1:0'))
+        obj.instance_variable_set(:@config, build_config)
+      end
+    end
+
+    # Feeds events through build_chunk into a single accumulator, mirroring how
+    # stream_response drives the real event stream.
+    def accumulate(events)
+      accumulator = RubyLLM::StreamAccumulator.new
+      thinking_state = {}
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e, thinking_state)) }
+      accumulator.to_message(nil)
+    end
+
+    it 'keeps a block\'s arguments intact when a delta for it arrives after the next block starts' do
+      events = [
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'tool_use', 'id' => 'call_1', 'name' => 'market_data' } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"symbol":"MNQM26",' } },
+        { 'type' => 'content_block_start', 'index' => 1,
+          'content_block' => { 'type' => 'tool_use', 'id' => 'call_2', 'name' => 'search' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"query":"market news"}' } },
+        # A delta for block 0 arriving after block 1 has already started — this is the
+        # exact ordering that corrupted arguments before index was threaded through as
+        # the stream key.
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '"interval":"minute"}' } },
+        { 'type' => 'content_block_stop', 'index' => 0 },
+        { 'type' => 'content_block_stop', 'index' => 1 }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.tool_calls['call_1'].arguments).to eq('symbol' => 'MNQM26', 'interval' => 'minute')
+      expect(message.tool_calls['call_2'].arguments).to eq('query' => 'market news')
+    end
+
+    it 'accumulates sequential (non-interleaved) parallel tool calls correctly' do
+      events = [
+        { 'type' => 'content_block_start', 'index' => 0,
+          'content_block' => { 'type' => 'tool_use', 'id' => 'call_1', 'name' => 'market_data' } },
+        { 'type' => 'content_block_delta', 'index' => 0,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"symbol":"MNQM26"}' } },
+        { 'type' => 'content_block_stop', 'index' => 0 },
+        { 'type' => 'content_block_start', 'index' => 1,
+          'content_block' => { 'type' => 'tool_use', 'id' => 'call_2', 'name' => 'search' } },
+        { 'type' => 'content_block_delta', 'index' => 1,
+          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"query":"market news"}' } },
+        { 'type' => 'content_block_stop', 'index' => 1 }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.tool_calls['call_1'].arguments).to eq('symbol' => 'MNQM26')
+      expect(message.tool_calls['call_2'].arguments).to eq('query' => 'market news')
     end
   end
 

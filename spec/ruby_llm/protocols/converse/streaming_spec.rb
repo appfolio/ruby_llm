@@ -440,6 +440,30 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
       )
     end
 
+    it 'keeps parallel tool call arguments intact when flat-framed and interleaved across blocks' do
+      message = stream_to_message(
+        ['contentBlockStart', { 'contentBlockIndex' => 0,
+                                'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'market_data' } } }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'toolUse' => { 'input' => '{"symbol":"MNQM26",' } } }],
+        ['contentBlockStart', { 'contentBlockIndex' => 1,
+                                'start' => { 'toolUse' => { 'toolUseId' => 'call_2', 'name' => 'search' } } }],
+        ['contentBlockDelta', { 'contentBlockIndex' => 1,
+                                'delta' => { 'toolUse' => { 'input' => '{"query":"market news"}' } } }],
+        # A delta for block 0 arriving after block 1's contentBlockStart — the exact
+        # ordering that corrupted arguments before nest_event_under_type's re-nested
+        # payload was routed by contentBlockIndex instead of falling back to nil.
+        ['contentBlockDelta', { 'contentBlockIndex' => 0,
+                                'delta' => { 'toolUse' => { 'input' => '"interval":"minute"}' } } }],
+        ['contentBlockStop', { 'contentBlockIndex' => 0 }],
+        ['contentBlockStop', { 'contentBlockIndex' => 1 }],
+        ['messageStop', { 'stopReason' => 'tool_use' }]
+      )
+
+      expect(message.tool_calls['call_1'].arguments).to eq('symbol' => 'MNQM26', 'interval' => 'minute')
+      expect(message.tool_calls['call_2'].arguments).to eq('query' => 'market news')
+    end
+
     it 'nests an exception payload under its :exception-type header' do
       message = Aws::EventStream::Message.new(
         headers: {

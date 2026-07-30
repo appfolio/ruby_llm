@@ -154,7 +154,12 @@ module RubyLLM
 
     def append_tool_call_fragment(stream_key, tool_call)
       existing = find_tool_call(stream_key)
-      return unless existing
+      unless existing
+        if RubyLLM.config.log_stream_debug
+          RubyLLM.logger.debug { "Dropping tool call fragment for unresolved stream_key: #{stream_key.inspect}" }
+        end
+        return
+      end
 
       fragment = tool_call.arguments
       fragment = '' if fragment.nil?

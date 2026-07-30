@@ -180,9 +180,15 @@ module RubyLLM
 
           case content_block['type']
           when 'tool_use'
+            # Keyed by index (mirrors Converse::Streaming#extract_tool_call_start) so the
+            # accumulator's index-routing can tell parallel tool-use blocks apart — without it,
+            # every delta falls back to whichever tool call started most recently, corrupting
+            # arguments whenever a later block's content_block_start arrives before an earlier
+            # block's remaining deltas. Falls back to the tool_use id if index is ever absent.
             id = content_block['id']
+            stream_key = index.nil? ? id : index
             tool_calls = {
-              id => ToolCall.new(id: id, name: content_block['name'], arguments: {})
+              stream_key => ToolCall.new(id: id, name: content_block['name'], arguments: {})
             }
           when 'redacted_thinking'
             thinking = Thinking.build(blocks: [{ 'type' => 'redacted_thinking', 'data' => content_block['data'] }])
@@ -213,8 +219,10 @@ module RubyLLM
           when 'text_delta'
             content = delta['text']
           when 'input_json_delta'
+            # See build_content_block_start_chunk. Falls back to nil (today's "latest started
+            # tool call" behavior) on the rare event with no index.
             partial = delta['partial_json']
-            tool_calls = { nil => ToolCall.new(id: nil, name: nil, arguments: partial) } if partial
+            tool_calls = { index => ToolCall.new(id: nil, name: nil, arguments: partial) } if partial
           when 'thinking_delta'
             thinking_text = delta['thinking']
             thinking_state[index][:text] << thinking_text.to_s if thinking_state[index]
