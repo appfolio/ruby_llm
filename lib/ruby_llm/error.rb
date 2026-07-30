@@ -39,6 +39,28 @@ module RubyLLM
     end
   end
 
+  # Raised when a streamed tool call's accumulated arguments are not valid JSON, e.g.
+  # because a delta fragment was routed to the wrong content block or the stream ended
+  # mid-argument. `finish_reason` lets callers tell a genuine output-token-cap truncation
+  # (finish_reason indicates max tokens) apart from a "complete" turn whose tool-call
+  # arguments are corrupt regardless (a routing bug or wire error, not fixable by a bigger
+  # token budget).
+  class ToolCallArgumentsTruncatedError < StandardError
+    attr_reader :tool_call_id, :tool_name, :raw_arguments, :finish_reason
+
+    def initialize(tool_call_id:, tool_name:, raw_arguments:, finish_reason:)
+      @tool_call_id = tool_call_id
+      @tool_name = tool_name
+      @raw_arguments = raw_arguments
+      @finish_reason = finish_reason
+
+      super(
+        "Tool call #{tool_name.inspect} (id: #{tool_call_id.inspect}) has incomplete or unparseable " \
+        "arguments (finish_reason: #{finish_reason.inspect}): #{raw_arguments.inspect}"
+      )
+    end
+  end
+
   # Error classes for different HTTP status codes
   # Raised when the API request is invalid.
   class BadRequestError < Error

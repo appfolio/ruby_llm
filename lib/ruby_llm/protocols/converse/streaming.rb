@@ -384,13 +384,20 @@ module RubyLLM
           event['contentBlockDelta'] || event.dig('delta', 'toolUse')
         end
 
+        # Keyed by contentBlockIndex when present so the accumulator's index-routing
+        # (@tool_call_ids_by_index) can tell parallel tool-use blocks apart — without it,
+        # every delta falls back to whichever tool call started most recently, corrupting
+        # arguments whenever a later block's contentBlockStart arrives before an earlier
+        # block's remaining deltas. Falls back to the toolUseId (today's behavior) for the
+        # legacy/test-only flat 'start' shape, which carries no contentBlockIndex.
         def extract_tool_call_start(event)
           tool_use = event.dig('contentBlockStart', 'start', 'toolUse') || event.dig('start', 'toolUse')
           return nil unless tool_use
 
           tool_use_id = tool_use['toolUseId']
+          stream_key = event.dig('contentBlockStart', 'contentBlockIndex') || tool_use_id
           {
-            tool_use_id => ToolCall.new(
+            stream_key => ToolCall.new(
               id: tool_use_id,
               name: tool_use['name'],
               arguments: tool_use['input'] || {}
@@ -398,11 +405,15 @@ module RubyLLM
           }
         end
 
+        # See extract_tool_call_start. Falls back to nil (today's "latest started tool
+        # call" behavior) for the legacy/test-only flat 'delta' shape, which carries no
+        # contentBlockIndex.
         def extract_tool_call_delta(event)
           input = normalized_delta(event).dig('toolUse', 'input')
           return nil unless input
 
-          { nil => ToolCall.new(id: nil, name: nil, arguments: input) }
+          stream_key = event.dig('contentBlockDelta', 'contentBlockIndex')
+          { stream_key => ToolCall.new(id: nil, name: nil, arguments: input) }
         end
 
         def normalized_delta(event)

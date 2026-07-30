@@ -43,6 +43,29 @@ RSpec.describe RubyLLM::StreamAccumulator do
       )
     end
 
+    it 'raises ToolCallArgumentsTruncatedError instead of a bare JSON::ParserError for truncated arguments' do
+      accumulator = described_class.new
+
+      accumulator.add(RubyLLM::Chunk.new(
+                        role: :assistant, content: nil,
+                        tool_calls: { 'call_1' => RubyLLM::ToolCall.new(id: 'call_1', name: 'market_data',
+                                                                        arguments: {}) }
+                      ))
+      accumulator.add(RubyLLM::Chunk.new(
+                        role: :assistant, content: nil,
+                        tool_calls: { 'call_1' => RubyLLM::ToolCall.new(id: nil, name: nil,
+                                                                        arguments: '{"symbol":"MNQM26"') }
+                      ))
+      accumulator.add(RubyLLM::Chunk.new(role: :assistant, content: nil, finish_reason: 'tool_use'))
+
+      expect { accumulator.to_message(nil) }.to raise_error(RubyLLM::ToolCallArgumentsTruncatedError) do |error|
+        expect(error.tool_call_id).to eq('call_1')
+        expect(error.tool_name).to eq('market_data')
+        expect(error.raw_arguments).to eq('{"symbol":"MNQM26"')
+        expect(error.finish_reason).to eq('tool_use')
+      end
+    end
+
     it 'deduplicates citations repeated across chunks' do
       accumulator = described_class.new
       citation = RubyLLM::Citation.new(url: 'https://example.com', title: 'Example')

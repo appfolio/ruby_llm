@@ -268,6 +268,89 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
     end
   end
 
+  describe 'parallel tool calls' do
+    # Feeds events through build_chunk into a single accumulator, mirroring how
+    # stream_response drives the real event stream.
+    def accumulate(events)
+      accumulator = RubyLLM::StreamAccumulator.new
+      events.each { |e| accumulator.add(streaming.send(:build_chunk, e)) }
+      accumulator.to_message(nil)
+    end
+
+    it 'keeps a block\'s arguments intact when a delta for it arrives after the next block starts' do
+      events = [
+        { 'contentBlockStart' => { 'contentBlockIndex' => 0,
+                                   'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'market_data' } } } },
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 0,
+                                   'delta' => { 'toolUse' => { 'input' => '{"symbol":"MNQM26",' } } } },
+        { 'contentBlockStart' => { 'contentBlockIndex' => 1,
+                                   'start' => { 'toolUse' => { 'toolUseId' => 'call_2', 'name' => 'search' } } } },
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 1,
+                                   'delta' => { 'toolUse' => { 'input' => '{"query":"market news"}' } } } },
+        # A delta for block 0 arriving after block 1 has already started — this is the
+        # exact ordering that corrupted arguments before contentBlockIndex was threaded
+        # through as the stream key.
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 0,
+                                   'delta' => { 'toolUse' => { 'input' => '"interval":"minute"}' } } } },
+        { 'contentBlockStop' => { 'contentBlockIndex' => 0 } },
+        { 'contentBlockStop' => { 'contentBlockIndex' => 1 } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.tool_calls['call_1'].arguments).to eq('symbol' => 'MNQM26', 'interval' => 'minute')
+      expect(message.tool_calls['call_2'].arguments).to eq('query' => 'market news')
+    end
+
+    it 'accumulates sequential (non-interleaved) parallel tool calls correctly' do
+      events = [
+        { 'contentBlockStart' => { 'contentBlockIndex' => 0,
+                                   'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'market_data' } } } },
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 0,
+                                   'delta' => { 'toolUse' => { 'input' => '{"symbol":"MNQM26"}' } } } },
+        { 'contentBlockStop' => { 'contentBlockIndex' => 0 } },
+        { 'contentBlockStart' => { 'contentBlockIndex' => 1,
+                                   'start' => { 'toolUse' => { 'toolUseId' => 'call_2', 'name' => 'search' } } } },
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 1,
+                                   'delta' => { 'toolUse' => { 'input' => '{"query":"market news"}' } } } },
+        { 'contentBlockStop' => { 'contentBlockIndex' => 1 } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.tool_calls['call_1'].arguments).to eq('symbol' => 'MNQM26')
+      expect(message.tool_calls['call_2'].arguments).to eq('query' => 'market news')
+    end
+
+    it 'still accumulates via the legacy flat start/delta shapes with no contentBlockIndex' do
+      events = [
+        { 'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'weather' } } },
+        { 'delta' => { 'toolUse' => { 'input' => '{"city":"SF"}' } } }
+      ]
+
+      message = accumulate(events)
+
+      expect(message.tool_calls['call_1'].name).to eq('weather')
+      expect(message.tool_calls['call_1'].arguments).to eq('city' => 'SF')
+    end
+
+    it 'raises ToolCallArgumentsTruncatedError with the finish_reason when arguments never close' do
+      events = [
+        { 'contentBlockStart' => { 'contentBlockIndex' => 0,
+                                   'start' => { 'toolUse' => { 'toolUseId' => 'call_1', 'name' => 'market_data' } } } },
+        { 'contentBlockDelta' => { 'contentBlockIndex' => 0,
+                                   'delta' => { 'toolUse' => { 'input' => '{"symbol":"MNQM26"' } } } },
+        { 'messageStop' => { 'stopReason' => 'tool_use' } }
+      ]
+
+      expect { accumulate(events) }.to raise_error(RubyLLM::ToolCallArgumentsTruncatedError) do |error|
+        expect(error.tool_call_id).to eq('call_1')
+        expect(error.tool_name).to eq('market_data')
+        expect(error.finish_reason).to eq('tool_use')
+      end
+    end
+  end
+
   # ConverseStream's real wire format carries the event type in the eventstream
   # :event-type HEADER; the JSON payload is the bare member struct — e.g.
   # {"contentBlockIndex":0,"delta":{...}}, {"stopReason":"tool_use"} — never nested

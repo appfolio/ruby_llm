@@ -86,7 +86,7 @@ module RubyLLM
     def tool_calls_from_stream
       tool_calls.transform_values do |tc|
         arguments = if tc.arguments.is_a?(String) && !tc.arguments.empty?
-                      JSON.parse(tc.arguments)
+                      parse_tool_call_arguments(tc)
                     elsif tc.arguments.is_a?(String)
                       {}
                     else
@@ -100,6 +100,24 @@ module RubyLLM
           thought_signature: tc.thought_signature
         )
       end
+    end
+
+    # A tool call's accumulated argument fragments should always join into valid JSON;
+    # a parse failure here means fragments were dropped or misrouted (e.g. a content-block
+    # index bug) or the provider ended the stream mid-argument. Raising — rather than
+    # silently executing a tool with half-parsed arguments, or silently swallowing to `{}`
+    # — surfaces exactly which tool call is affected. @finish_reason lets the caller
+    # distinguish this from a legitimate output-token-cap truncation (see
+    # ToolCallArgumentsTruncatedError).
+    def parse_tool_call_arguments(tool_call)
+      JSON.parse(tool_call.arguments)
+    rescue JSON::ParserError
+      raise ToolCallArgumentsTruncatedError.new(
+        tool_call_id: tool_call.id,
+        tool_name: tool_call.name,
+        raw_arguments: tool_call.arguments,
+        finish_reason: @finish_reason
+      )
     end
 
     def accumulate_tool_calls(new_tool_calls)
