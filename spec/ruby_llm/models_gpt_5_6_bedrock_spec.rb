@@ -14,6 +14,12 @@ RSpec.describe RubyLLM::Models do
   # registry carrying a cache_write_input_per_million value — every other
   # OpenAI entry has none because the rate really is $0 for those models.
   #
+  # Luna/Terra base input/output rates reflect the July 30, 2026 OpenAI/Bedrock
+  # price cut (AWS Bedrock pricing page: aws.amazon.com/bedrock/pricing; OpenAI's
+  # July 30, 2026 pricing announcement). cache_read (0.1x) and cache_write (1.25x)
+  # remain the same ratios of the (now lower) input rate as before. Sol was not
+  # part of this price cut and is unchanged.
+  #
   # Separately open (do NOT resolve here): OpenAI's developer community has
   # reported two GPT-5.6-specific usage-accounting bugs since launch (July
   # 2026) — one where cached_tokens + cache_write_tokens could nearly
@@ -27,8 +33,8 @@ RSpec.describe RubyLLM::Models do
   # Luna/Terra/Sol costs as an open risk until this is checked.
   {
     'openai.gpt-5.6-sol' => { input: 5.0, output: 30.0, cache_read: 0.5, cache_write: 6.25 },
-    'openai.gpt-5.6-terra' => { input: 2.5, output: 15.0, cache_read: 0.25, cache_write: 3.125 },
-    'openai.gpt-5.6-luna' => { input: 1.0, output: 6.0, cache_read: 0.1, cache_write: 1.25 }
+    'openai.gpt-5.6-terra' => { input: 2.2, output: 13.2, cache_read: 0.22, cache_write: 2.75 },
+    'openai.gpt-5.6-luna' => { input: 0.22, output: 1.32, cache_read: 0.022, cache_write: 0.275 }
   }.each do |id, cost|
     it "resolves #{id} from the bedrock provider with the documented effort values" do
       model = RubyLLM.models.find(id, :bedrock)
