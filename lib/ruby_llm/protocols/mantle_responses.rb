@@ -4,7 +4,7 @@ module RubyLLM
   module Protocols
     # AWS Bedrock's bedrock-mantle endpoint, speaking the OpenAI Responses API.
     # Reachable only via bedrock-mantle (not bedrock-runtime), and only for models
-    # that physically cannot serve Converse or InvokeModel (the GPT-5.x frontier
+    # that physically cannot serve Converse (the GPT-5.x frontier
     # family). Talks to the provider's mantle connection instead of the default
     # bedrock-runtime connection, and SigV4-signs every request against the
     # "bedrock-mantle" service namespace instead of "bedrock".
@@ -14,7 +14,7 @@ module RubyLLM
       # AWS Bedrock model cards for GPT-5.6.
       #
       # Kept in sync with Providers::Bedrock::MANTLE_ONLY_MODEL_PATTERN — that pattern picks
-      # mantle vs Converse/InvokeModel, this one picks the /openai/v1 vs /v1 mantle path. They
+      # mantle vs Converse, this one picks the /openai/v1 vs /v1 mantle path. They
       # coincide today but are distinct concepts; update both when a new frontier family lands.
       FRONTIER_GPT5_PATTERN = /\Aopenai\.gpt-5/
 
