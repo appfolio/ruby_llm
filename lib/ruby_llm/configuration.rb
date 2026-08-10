@@ -70,11 +70,6 @@ module RubyLLM
     option :log_stream_debug, -> { ENV['RUBYLLM_STREAM_DEBUG'] == 'true' }
     option :log_regexp_timeout, -> { Regexp.respond_to?(:timeout) ? (Regexp.timeout || 1.0) : nil }
 
-    # Auto-inject Bedrock InvokeModel prompt-cache breakpoints (system + tail). See
-    # RubyLLM::Protocols::BedrockInvokeModel::Chat#render_payload. Defaults on because the
-    # only production consumer of the InvokeModel path expects native caching to take over.
-    option :bedrock_invoke_model_prompt_caching, true
-
     def initialize
       self.class.send(:defaults).each do |key, default|
         value = default.respond_to?(:call) ? instance_exec(&default) : default

@@ -282,11 +282,9 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
-  describe '#protocol_for / #invoke_model? / #anthropic_model?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-    def build_bedrock(use_invoke_model: false)
-      config = bedrock_config(api_key: 'k', secret_key: 's')
-      config.bedrock_use_invoke_model = use_invoke_model
-      described_class.new(config)
+  describe '#protocol_for' do
+    def build_bedrock
+      described_class.new(bedrock_config(api_key: 'k', secret_key: 's'))
     end
 
     def model_double(id, metadata: {}, provider: 'bedrock')
@@ -301,231 +299,36 @@ RSpec.describe RubyLLM::Providers::Bedrock do
 
     let(:haiku_id)  { 'anthropic.claude-haiku-4-5-20251001-v1:0' }
     let(:nova_id)   { 'amazon.nova-lite-v1:0' }
-    let(:llama_id)  { 'meta.llama3-8b-instruct-v1:0' }
-    let(:arn_id)    { 'arn:aws:bedrock:us-west-2:123456789012:application-inference-profile/p' }
-    let(:us_sonnet_id) { 'us.anthropic.claude-sonnet-5' }
-    let(:eu_haiku_id)  { 'eu.anthropic.claude-haiku-4-5-20251001-v1:0' }
-    let(:us_nova_id)   { 'us.amazon.nova-pro-v1:0' }
 
-    context 'with bedrock_use_invoke_model: false (default)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:provider) { build_bedrock(use_invoke_model: false) }
+    it 'routes standard Bedrock models to Converse' do
+      provider = build_bedrock
 
-      it 'routes all models to Converse' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
-        expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
+      expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
+      expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
+    end
+
+    it 'routes GPT-5.6 models to Mantle Responses' do
+      provider = build_bedrock
+
+      %w[openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna].each do |id|
+        expect(provider.protocol_for(model_double(id))).to be(RubyLLM::Protocols::MantleResponses)
       end
     end
 
-    context 'with bedrock_use_invoke_model: nil' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:provider) { build_bedrock(use_invoke_model: nil) }
+    it 'keeps routing gpt-oss models to Converse' do
+      provider = build_bedrock
 
-      it 'routes all models to Converse' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
-      end
+      expect(provider.protocol_for(model_double('openai.gpt-oss-120b'))).to be(RubyLLM::Protocols::Converse)
+      expect(provider.protocol_for(model_double('openai.gpt-oss-20b'))).to be(RubyLLM::Protocols::Converse)
     end
 
-    context 'with bedrock_use_invoke_model: true' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:provider) { build_bedrock(use_invoke_model: true) }
-
-      it 'routes Anthropic models (anthropic.* prefix) to BedrockInvokeModel' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes non-Anthropic models to Converse regardless of flag' do
-        expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
-        expect(provider.protocol_for(model_double(llama_id))).to be(RubyLLM::Protocols::Converse)
-      end
-
-      it 'routes ARN ids with Anthropic provider_name to BedrockInvokeModel' do
-        model = model_double(arn_id, metadata: { provider_name: 'Anthropic' })
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes ARN ids without provider_name to Converse with a warning' do
-        allow(RubyLLM.logger).to receive(:warn)
-        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::Converse)
-        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
-      end
-
-      it 'routes cross-region inference profile ids (us.anthropic.*) to BedrockInvokeModel' do
-        model = model_double(us_sonnet_id, provider: 'bedrock')
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes cross-region inference profile ids (eu.anthropic.*) to BedrockInvokeModel' do
-        model = model_double(eu_haiku_id, provider: 'bedrock')
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes cross-region non-Anthropic profile ids (us.amazon.*) to Converse' do
-        model = model_double(us_nova_id, provider: 'bedrock')
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::Converse)
-      end
-    end
-
-    context 'with Array selector' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:sonnet_id) { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
-      let(:provider)  { build_bedrock(use_invoke_model: [sonnet_id]) }
-
-      it 'routes only listed model ids to BedrockInvokeModel' do
-        expect(provider.protocol_for(model_double(sonnet_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes unlisted Anthropic models to Converse' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
-      end
-    end
-
-    context 'with Array selector containing a cross-region inference profile id' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:provider) { build_bedrock(use_invoke_model: [us_sonnet_id]) }
-
-      it 'routes the listed cross-region model id to BedrockInvokeModel' do
-        model = model_double(us_sonnet_id, provider: 'bedrock')
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes an unlisted cross-region model id to Converse' do
-        model = model_double(eu_haiku_id, provider: 'bedrock')
-        expect(provider.protocol_for(model)).to be(RubyLLM::Protocols::Converse)
-      end
-    end
-
-    context 'with Proc/lambda selector' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:sonnet_id) { 'anthropic.claude-sonnet-4-6-20250514-v1:0' }
-      let(:selector)  { ->(m) { m.id == sonnet_id } }
-      let(:provider)  { build_bedrock(use_invoke_model: selector) }
-
-      it 'routes models where the callable returns true to BedrockInvokeModel' do
-        expect(provider.protocol_for(model_double(sonnet_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes models where the callable returns false to Converse' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::Converse)
-      end
-    end
-
-    context 'with an unverifiable ARN id (no provider_name metadata)' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      before { allow(RubyLLM.logger).to receive(:warn) }
-
-      it 'routes to BedrockInvokeModel when an Array selector lists the ARN' do
-        provider = build_bedrock(use_invoke_model: [arn_id])
-        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes to BedrockInvokeModel when a Proc selector returns true' do
-        provider = build_bedrock(use_invoke_model: ->(_m) { true })
-        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-
-      it 'routes to Converse when a Proc selector returns false' do
-        provider = build_bedrock(use_invoke_model: ->(_m) { false })
-        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::Converse)
-      end
-
-      it 'still requires positive verification under the blanket true selector' do
-        provider = build_bedrock(use_invoke_model: true)
-        expect(provider.protocol_for(model_double(arn_id))).to be(RubyLLM::Protocols::Converse)
-        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
-      end
-    end
-
-    context 'with provably non-Anthropic ids under explicit selectors' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      it 'never routes a bare vendor id, even when an Array selector lists it' do
-        provider = build_bedrock(use_invoke_model: [nova_id])
-        expect(provider.protocol_for(model_double(nova_id))).to be(RubyLLM::Protocols::Converse)
-      end
-
-      it 'never routes a cross-region vendor id, even when a Proc selector returns true' do
-        provider = build_bedrock(use_invoke_model: ->(_m) { true })
-        expect(provider.protocol_for(model_double(us_nova_id))).to be(RubyLLM::Protocols::Converse)
-        expect(provider.protocol_for(model_double(llama_id))).to be(RubyLLM::Protocols::Converse)
-      end
-    end
-
-    context 'with GPT-5.6 (mantle-only) and gpt-oss (bedrock-runtime) model ids' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:provider) { build_bedrock(use_invoke_model: true) }
-
-      it 'routes openai.gpt-5.6-sol/-terra/-luna to MantleResponses regardless of bedrock_use_invoke_model' do
-        %w[openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna].each do |id|
-          expect(provider.protocol_for(model_double(id))).to be(RubyLLM::Protocols::MantleResponses)
-        end
-      end
-
-      it 'keeps routing openai.gpt-oss-120b and openai.gpt-oss-20b to Converse' do
-        expect(provider.protocol_for(model_double('openai.gpt-oss-120b'))).to be(RubyLLM::Protocols::Converse)
-        expect(provider.protocol_for(model_double('openai.gpt-oss-20b'))).to be(RubyLLM::Protocols::Converse)
-      end
-
-      it 'keeps routing anthropic.* ids to BedrockInvokeModel exactly as before' do
-        expect(provider.protocol_for(model_double(haiku_id))).to be(RubyLLM::Protocols::BedrockInvokeModel)
-      end
-    end
-
-    describe '#mantle_only_model?' do # rubocop:disable RSpec/MultipleMemoizedHelpers
+    describe '#mantle_only_model?' do
       let(:bedrock) { build_bedrock }
 
       it 'matches openai.gpt-5.x ids narrowly, not the broad openai. prefix' do
         expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-5.6-sol'))).to be(true)
         expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-oss-120b'))).to be(false)
         expect(bedrock.send(:mantle_only_model?, model_double('openai.gpt-5.5'))).to be(true)
-      end
-    end
-
-    describe 'anthropic_model? directly' do # rubocop:disable RSpec/MultipleMemoizedHelpers
-      let(:bedrock) { build_bedrock }
-
-      it 'returns true for anthropic.* model ids' do
-        expect(bedrock.send(:anthropic_model?, model_double('anthropic.claude-3-haiku'))).to be(true)
-      end
-
-      it 'returns false for amazon.* (Nova) model ids' do
-        expect(bedrock.send(:anthropic_model?, model_double('amazon.nova-lite-v1:0'))).to be(false)
-      end
-
-      it 'returns false for meta.* (Llama) model ids' do
-        expect(bedrock.send(:anthropic_model?, model_double('meta.llama3-8b-instruct-v1:0'))).to be(false)
-      end
-
-      it 'returns false for other NON_ANTHROPIC_PREFIXES vendors' do
-        %w[ai21. cohere. mistral. writer. stability.].each do |prefix|
-          expect(bedrock.send(:anthropic_model?, model_double("#{prefix}some-model"))).to be(false)
-        end
-      end
-
-      it 'returns true for cross-region inference profile ids regardless of geo prefix' do
-        %w[us. eu. apac. global. jp. au. us-gov.].each do |geo|
-          id = "#{geo}anthropic.claude-sonnet-5"
-          expect(bedrock.send(:anthropic_model?, model_double(id, provider: 'bedrock'))).to be(true)
-        end
-      end
-
-      it 'returns false for cross-region profile ids of non-Anthropic vendors' do
-        expect(bedrock.send(:anthropic_model?, model_double('us.amazon.nova-pro-v1:0', provider: 'bedrock')))
-          .to be(false)
-        expect(bedrock.send(:anthropic_model?,
-                            model_double('us.meta.llama3-1-405b-instruct-v1:0', provider: 'bedrock')))
-          .to be(false)
-      end
-
-      it 'returns true for ARN ids whose metadata shows Anthropic as provider' do
-        model = model_double(arn_id, metadata: { provider_name: 'Anthropic' })
-        expect(bedrock.send(:anthropic_model?, model)).to be(true)
-      end
-
-      it 'returns false and logs a warning for ARN ids without provider_name metadata' do
-        allow(RubyLLM.logger).to receive(:warn)
-        expect(bedrock.send(:anthropic_model?, model_double(arn_id))).to be(false)
-        expect(RubyLLM.logger).to have_received(:warn).with(/cannot verify.*Anthropic-backed/)
-      end
-
-      it 'returns true for models whose provider field is "anthropic" (fallback)' do
-        model = model_double('unknown-model', provider: 'anthropic')
-        expect(bedrock.send(:anthropic_model?, model)).to be(true)
-      end
-
-      it 'returns false for models with non-anthropic provider field and unknown prefix' do
-        model = model_double('unknown-model', provider: 'bedrock')
-        expect(bedrock.send(:anthropic_model?, model)).to be(false)
       end
     end
   end
