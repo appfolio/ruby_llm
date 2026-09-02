@@ -14,7 +14,7 @@ module RubyLLM
 
         module_function
 
-        # rubocop:disable Metrics/ParameterLists,Metrics/PerceivedComplexity
+        # rubocop:disable-next Metrics/ParameterLists,Metrics/PerceivedComplexity
         def render_payload(messages, tools:, temperature:, model:, stream: false, schema: nil,
                            thinking: nil, citations: false, tool_prefs: nil)
           warn_unsupported_citations(model) if citations && !model.citations?
@@ -43,7 +43,6 @@ module RubyLLM
 
           payload
         end
-        # rubocop:enable Metrics/ParameterLists,Metrics/PerceivedComplexity
 
         def parse_completion_response(response)
           parse_completion_body(response.body, raw: response)

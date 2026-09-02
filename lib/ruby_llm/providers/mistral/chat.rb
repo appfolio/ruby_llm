@@ -22,7 +22,7 @@ module RubyLLM
           end
         end
 
-        # rubocop:disable Metrics/ParameterLists
+        # rubocop:disable-next Metrics/ParameterLists
         def render_payload(messages, tools:, temperature:, model:, stream: false,
                            schema: nil, thinking: nil, citations: false, tool_prefs: nil)
           payload = super
@@ -31,7 +31,6 @@ module RubyLLM
           normalize_required_tool_choice(payload)
           payload
         end
-        # rubocop:enable Metrics/ParameterLists
 
         def build_tool_choice(tool_choice)
           return 'any' if tool_choice == :required

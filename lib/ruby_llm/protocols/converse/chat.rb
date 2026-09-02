@@ -28,7 +28,7 @@ module RubyLLM
           model_id.to_s.gsub('/', '%2F')
         end
 
-        # rubocop:disable Metrics/ParameterLists,Lint/UnusedMethodArgument
+        # rubocop:disable-next Metrics/ParameterLists,Lint/UnusedMethodArgument
         def render_payload(messages, tools:, temperature:, model:, stream: false,
                            schema: nil, thinking: nil, citations: false, tool_prefs: nil)
           warn_unsupported_citations(model) if citations
@@ -55,7 +55,6 @@ module RubyLLM
 
           payload
         end
-        # rubocop:enable Metrics/ParameterLists,Lint/UnusedMethodArgument
 
         def warn_unsupported_citations(model)
           RubyLLM.logger.warn(
