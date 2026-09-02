@@ -357,7 +357,7 @@ module RubyLLM
         end
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity
+      # rubocop:disable-next Metrics/PerceivedComplexity
       def completion_attributes(message, content_text, tool_call_id)
         attrs = { role: message.role, content: content_text,
                   input_tokens: message.input_tokens, output_tokens: message.output_tokens }
@@ -376,7 +376,6 @@ module RubyLLM
         end
         attrs
       end
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def persist_tool_calls(tool_calls, message_record: @message)
         tool_call_klass = message_record.tool_calls_association.klass

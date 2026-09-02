@@ -10,7 +10,7 @@ module RubyLLM
 
         module_function
 
-        # rubocop:disable Metrics/ParameterLists
+        # rubocop:disable-next Metrics/ParameterLists
         def render_payload(messages, tools:, temperature:, model:, stream: false, schema: nil,
                            thinking: nil, citations: false, tool_prefs: nil)
           payload = super
@@ -21,7 +21,6 @@ module RubyLLM
           payload[:reasoning] = reasoning if reasoning
           payload
         end
-        # rubocop:enable Metrics/ParameterLists
 
         def strip_schema_strict(payload)
           schema_def = payload.dig(:response_format, :json_schema, :schema)

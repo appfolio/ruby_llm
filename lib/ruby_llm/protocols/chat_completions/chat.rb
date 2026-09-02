@@ -14,7 +14,7 @@ module RubyLLM
 
         module_function
 
-        # rubocop:disable Metrics/ParameterLists,Metrics/PerceivedComplexity
+        # rubocop:disable-next Metrics/ParameterLists,Metrics/PerceivedComplexity
         def render_payload(messages, tools:, temperature:, model:, stream: false, schema: nil,
                            thinking: nil, citations: false, tool_prefs: nil)
           warn_unsupported_citations(model) if citations && !model.citations?
@@ -53,7 +53,6 @@ module RubyLLM
           payload[:stream_options] = { include_usage: true } if stream
           payload
         end
-        # rubocop:enable Metrics/ParameterLists,Metrics/PerceivedComplexity
 
         def warn_unsupported_citations(model)
           RubyLLM.logger.warn(

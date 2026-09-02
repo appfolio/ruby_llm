@@ -14,7 +14,7 @@ module RubyLLM
           'v1/messages'
         end
 
-        # rubocop:disable Metrics/ParameterLists
+        # rubocop:disable-next Metrics/ParameterLists
         def render_payload(messages, tools:, temperature:, model:, stream: false,
                            schema: nil, thinking: nil, citations: false, tool_prefs: nil)
           warn_unsupported_citations(model) if citations && !model.citations?
@@ -26,7 +26,6 @@ module RubyLLM
             add_optional_fields(payload, system_content:, tools:, tool_prefs:, temperature:, schema:)
           end
         end
-        # rubocop:enable Metrics/ParameterLists
 
         def warn_unsupported_citations(model)
           RubyLLM.logger.warn(
