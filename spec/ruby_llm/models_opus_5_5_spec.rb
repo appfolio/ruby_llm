@@ -38,18 +38,12 @@ RSpec.describe RubyLLM::Models do
   end
 
   it 'resolves us.anthropic.claude-opus-5-5 when bedrock_region is configured' do
-    entry = RubyLLM::Model::Info.new(
-      id: 'us.anthropic.claude-opus-5-5',
-      name: 'Claude Opus 5.5 (US)',
-      provider: 'bedrock',
-      metadata: { 'inference_types' => ['INFERENCE_PROFILE'] }
-    )
-    models = described_class.new([entry])
-    allow(RubyLLM).to receive(:config).and_return(
-      instance_double(RubyLLM::Configuration, bedrock_region: 'us-west-2')
-    )
-    found = models.find('us.anthropic.claude-opus-5-5', :bedrock)
+    allow(RubyLLM.config).to receive(:bedrock_region).and_return('us-west-2')
+
+    found = RubyLLM.models.find('us.anthropic.claude-opus-5-5', :bedrock)
+
     expect(found.id).to eq('us.anthropic.claude-opus-5-5')
     expect(found.provider).to eq('bedrock')
+    expect(found.reasoning_option_values('effort')).to eq(%w[low medium high xhigh max])
   end
 end
