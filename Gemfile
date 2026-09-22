@@ -15,6 +15,9 @@ group :development do # rubocop:disable Metrics/BlockLength
   gem 'flay'
   gem 'image_processing', '~> 1.2'
   gem 'irb'
+  # ActiveSupport's legacy JSON encoder passes a quirks_mode: keyword that
+  # json 3.x dropped, breaking schema/fixture loading on Rails 7.1/7.2.
+  gem 'json', '< 3.0'
   gem 'json-schema'
   gem 'nokogiri'
   gem 'overcommit', '>= 0.66'
