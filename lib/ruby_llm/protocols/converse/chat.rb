@@ -395,13 +395,33 @@ module RubyLLM
         # When the turn had more than one reasoning block (common under adaptive/interleaved
         # thinking during tool use), thinking.blocks holds the exact original blocks and must
         # be replayed verbatim instead of reconstructed from the merged text/signature.
+        #
+        # Blocks captured by the InvokeAnthropic protocol are in the Anthropic Messages shape
+        # (type: thinking / redacted_thinking); those are translated to reasoningContent so a
+        # chat that moves from InvokeModel back to Converse can still replay its reasoning.
+        # reasoningContent blocks pass through untouched.
         def format_thinking_blocks(thinking)
           return nil unless thinking
 
-          return thinking.blocks if thinking.blocks
+          return thinking.blocks.map { |block| converse_thinking_block(block) } if thinking.blocks
 
           block = format_single_thinking_block(thinking)
           block ? [block] : nil
+        end
+
+        def converse_thinking_block(block)
+          return block unless block.is_a?(Hash)
+
+          case (block['type'] || block[:type]).to_s
+          when 'thinking'
+            text = { text: block['thinking'] || block[:thinking] || '',
+                     signature: block['signature'] || block[:signature] }
+            { reasoningContent: { reasoningText: text.compact } }
+          when 'redacted_thinking'
+            { reasoningContent: { redactedContent: block['data'] || block[:data] } }
+          else
+            block
+          end
         end
 
         # Lossy fallback for messages persisted without raw thinking blocks. `signature`
