@@ -9,6 +9,9 @@ module RubyLLM
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
       protocol :mantle_responses, Protocols::MantleResponses
+      # Opt-in only (protocol: :invoke_anthropic / config.bedrock_protocol); protocol_for never
+      # picks it, so Converse stays the default for Claude.
+      protocol :invoke_anthropic, Protocols::InvokeAnthropic
       files Bedrock::Files
 
       # SigV4 requests to bedrock-mantle sign against this service namespace, not "bedrock" —
@@ -50,7 +53,13 @@ module RubyLLM
       end
 
       def complete(messages, model:, params: {}, **rest, &)
-        params = mantle_only_model?(model) ? strip_converse_only_params(params) : normalize_params(params, model:)
+        params = if mantle_only_model?(model)
+                   strip_converse_only_params(params)
+                 elsif invoke_anthropic_request?(rest[:protocol])
+                   normalize_invoke_params(params)
+                 else
+                   normalize_params(params, model:)
+                 end
         # Bare `super` forwards current bindings, so it picks up the reassigned `params` above.
         super
       end
@@ -162,6 +171,24 @@ module RubyLLM
         end
 
         normalized[:additionalModelRequestFields] = additional_fields unless additional_fields.empty?
+        normalized
+      end
+
+      def invoke_anthropic_request?(protocol)
+        (protocol || configured_protocol)&.to_sym == :invoke_anthropic
+      end
+
+      # Callers build params for Converse, where Anthropic-native request fields (thinking,
+      # output_config, top_k, anthropic_beta, context_management, ...) ride inside
+      # additionalModelRequestFields. InvokeModel takes the Messages body directly, so those
+      # fields are lifted to the top level. `model` and `stream` are never valid in an
+      # InvokeModel body.
+      def normalize_invoke_params(params)
+        normalized = RubyLLM::Utils.deep_symbolize_keys(params || {})
+        additional_fields = normalized.delete(:additionalModelRequestFields) || {}
+        normalized = RubyLLM::Utils.deep_merge(normalized, additional_fields)
+        normalized.delete(:model)
+        normalized.delete(:stream)
         normalized
       end
 
