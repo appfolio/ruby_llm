@@ -1,0 +1,1357 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5/invoke-with-response-stream
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"What
+        are the tide times at Santa Barbara harbor today? Use the tool that provides
+        them."}]}],"max_tokens":1500,"tools":[{"type":"tool_search_tool_regex_20251119","name":"tool_search_tool_regex"},{"name":"lookup_tide_times","description":"Look
+        up high and low tide times for a harbor","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_customers","description":"Get
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_orders","description":"Get
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_refunds","description":"Get
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_coupons","description":"Get
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_vendors","description":"Get
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_payroll","description":"Get
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_timesheets","description":"Get
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_badges","description":"Get
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_parcels","description":"Get
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_leases","description":"Get
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_tenants","description":"Get
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_budgets","description":"Get
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_forecasts","description":"Get
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_tickets","description":"Get
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_surveys","description":"Get
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_webinars","description":"Get
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_licenses","description":"Get
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_backups","description":"Get
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_certificates","description":"Get
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_invoices","description":"List
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_customers","description":"List
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_orders","description":"List
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_refunds","description":"List
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_coupons","description":"List
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_vendors","description":"List
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_payroll","description":"List
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_timesheets","description":"List
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_badges","description":"List
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_parcels","description":"List
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_leases","description":"List
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_tenants","description":"List
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_budgets","description":"List
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_forecasts","description":"List
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_tickets","description":"List
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_surveys","description":"List
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_webinars","description":"List
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_licenses","description":"List
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_backups","description":"List
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_certificates","description":"List
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_invoices","description":"Create
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_customers","description":"Create
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_orders","description":"Create
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_refunds","description":"Create
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_coupons","description":"Create
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_vendors","description":"Create
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_payroll","description":"Create
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_timesheets","description":"Create
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_badges","description":"Create
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_parcels","description":"Create
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_leases","description":"Create
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_tenants","description":"Create
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_budgets","description":"Create
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_forecasts","description":"Create
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_tickets","description":"Create
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_surveys","description":"Create
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_webinars","description":"Create
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_licenses","description":"Create
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_backups","description":"Create
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_certificates","description":"Create
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_invoices","description":"Update
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_customers","description":"Update
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_orders","description":"Update
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_refunds","description":"Update
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_coupons","description":"Update
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_vendors","description":"Update
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_payroll","description":"Update
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_timesheets","description":"Update
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_badges","description":"Update
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_parcels","description":"Update
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_leases","description":"Update
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_tenants","description":"Update
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_budgets","description":"Update
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_forecasts","description":"Update
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_tickets","description":"Update
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_surveys","description":"Update
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_webinars","description":"Update
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_licenses","description":"Update
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_backups","description":"Update
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_certificates","description":"Update
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_invoices","description":"Delete
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_customers","description":"Delete
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_orders","description":"Delete
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_refunds","description":"Delete
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_coupons","description":"Delete
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_vendors","description":"Delete
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_payroll","description":"Delete
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_timesheets","description":"Delete
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_badges","description":"Delete
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_parcels","description":"Delete
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_leases","description":"Delete
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_tenants","description":"Delete
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_budgets","description":"Delete
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_forecasts","description":"Delete
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_tickets","description":"Delete
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_surveys","description":"Delete
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_webinars","description":"Delete
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_licenses","description":"Delete
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_backups","description":"Delete
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_certificates","description":"Delete
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_invoices","description":"Archive
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_customers","description":"Archive
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_orders","description":"Archive
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_refunds","description":"Archive
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_coupons","description":"Archive
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_vendors","description":"Archive
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_payroll","description":"Archive
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_timesheets","description":"Archive
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_badges","description":"Archive
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_parcels","description":"Archive
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_leases","description":"Archive
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_tenants","description":"Archive
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_budgets","description":"Archive
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_forecasts","description":"Archive
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_tickets","description":"Archive
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_surveys","description":"Archive
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_webinars","description":"Archive
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_licenses","description":"Archive
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_backups","description":"Archive
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_certificates","description":"Archive
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_invoices","description":"Export
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_customers","description":"Export
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_orders","description":"Export
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_refunds","description":"Export
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_coupons","description":"Export
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_vendors","description":"Export
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_payroll","description":"Export
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_timesheets","description":"Export
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_badges","description":"Export
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_parcels","description":"Export
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_leases","description":"Export
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_tenants","description":"Export
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_budgets","description":"Export
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_forecasts","description":"Export
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_tickets","description":"Export
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_surveys","description":"Export
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_webinars","description":"Export
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_licenses","description":"Export
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_backups","description":"Export
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_certificates","description":"Export
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_invoices","description":"Import
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_customers","description":"Import
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_orders","description":"Import
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_refunds","description":"Import
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_coupons","description":"Import
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_vendors","description":"Import
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_payroll","description":"Import
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_timesheets","description":"Import
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_badges","description":"Import
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_parcels","description":"Import
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_leases","description":"Import
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_tenants","description":"Import
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_budgets","description":"Import
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_forecasts","description":"Import
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_tickets","description":"Import
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_surveys","description":"Import
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_webinars","description":"Import
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_licenses","description":"Import
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_backups","description":"Import
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_certificates","description":"Import
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_invoices","description":"Audit
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_customers","description":"Audit
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_orders","description":"Audit
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_refunds","description":"Audit
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_coupons","description":"Audit
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_vendors","description":"Audit
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_payroll","description":"Audit
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_timesheets","description":"Audit
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_badges","description":"Audit
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_parcels","description":"Audit
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_leases","description":"Audit
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_tenants","description":"Audit
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_budgets","description":"Audit
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_forecasts","description":"Audit
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_tickets","description":"Audit
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_surveys","description":"Audit
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_webinars","description":"Audit
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_licenses","description":"Audit
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_backups","description":"Audit
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_certificates","description":"Audit
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_invoices","description":"Sync
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_customers","description":"Sync
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_orders","description":"Sync
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_refunds","description":"Sync
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_coupons","description":"Sync
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_vendors","description":"Sync
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_payroll","description":"Sync
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_timesheets","description":"Sync
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_badges","description":"Sync
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_parcels","description":"Sync
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_leases","description":"Sync
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_tenants","description":"Sync
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_budgets","description":"Sync
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_forecasts","description":"Sync
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_tickets","description":"Sync
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_surveys","description":"Sync
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_webinars","description":"Sync
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_licenses","description":"Sync
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_backups","description":"Sync
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_certificates","description":"Sync
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T230112Z
+      X-Amz-Content-Sha256:
+      - 76598cead39e9b94029276af92944b753d4177bac572f76ebc1fdde2d5870897
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept:
+      - application/vnd.amazon.eventstream
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:01:13 GMT
+      Content-Type:
+      - application/vnd.amazon.eventstream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - b3677548-0c99-46ea-bd0a-a794a7c27856
+      X-Amzn-Bedrock-Content-Type:
+      - application/json
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        AAADGwAAAEsViJNMCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaWJXVnpjMkZuWlY5emRHRnlkQ0lzSW0xbGMzTmhaMlVpT25zaWJXOWtaV3dpT2lKamJHRjFaR1V0YzI5dWJtVjBMVFVpTENKcFpDSTZJbTF6WjE5aVpISnJYM0J4YldRMU5IaDRiV0l5YnpOalkzcGthVzE2Tm5WMVpXczJiR2hqWVdwMmMzUnZhbVpyWlhwaE5uZHZZV1ZxY205eFpIRWlMQ0owZVhCbElqb2liV1Z6YzJGblpTSXNJbkp2YkdVaU9pSmhjM05wYzNSaGJuUWlMQ0pqYjI1MFpXNTBJanBiWFN3aVkyOXVkR0ZwYm1WeUlqcHVkV3hzTENKemRHOXdYM0psWVhOdmJpSTZiblZzYkN3aWMzUnZjRjl6WlhGMVpXNWpaU0k2Ym5Wc2JDd2ljM1J2Y0Y5a1pYUmhhV3h6SWpwdWRXeHNMQ0oxYzJGblpTSTZleUpwYm5CMWRGOTBiMnRsYm5NaU9qYzNOQ3dpWTJGamFHVmZZM0psWVhScGIyNWZhVzV3ZFhSZmRHOXJaVzV6SWpvd0xDSmpZV05vWlY5eVpXRmtYMmx1Y0hWMFgzUnZhMlZ1Y3lJNk1Dd2lZMkZqYUdWZlkzSmxZWFJwYjI0aU9uc2laWEJvWlcxbGNtRnNYelZ0WDJsdWNIVjBYM1J2YTJWdWN5STZNQ3dpWlhCb1pXMWxjbUZzWHpGb1gybHVjSFYwWDNSdmEyVnVjeUk2TUgwc0ltOTFkSEIxZEY5MGIydGxibk1pT2pjc0luTmxjblpwWTJWZmRHbGxjaUk2SW5OMFlXNWtZWEprSW4xOWZRPT0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjAxMjM0In0UA2iDAAABBAAAAEu68DIUCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTl6ZEdGeWRDSXNJbWx1WkdWNElqb3dMQ0pqYjI1MFpXNTBYMkpzYjJOcklqcDdJblI1Y0dVaU9pSjBhR2x1YTJsdVp5SXNJblJvYVc1cmFXNW5Jam9pSWl3aWMybG5ibUYwZFhKbElqb2lJbjE5IiwicCI6ImFiY2RlZmdoaWoifbZEIy8AAAECAAAASzWwx7QLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvd0xDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWRHaHBibXRwYm1kZlpHVnNkR0VpTENKMGFHbHVhMmx1WnlJNklpSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUIifUQZQboAAALfAAAAS8JBDvILOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvd0xDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWMybG5ibUYwZFhKbFgyUmxiSFJoSWl3aWMybG5ibUYwZFhKbElqb2lSWFkwUWtOdWEwbEZhRUZDUjBGSmNWRklaSFpQZVdwb0wyaDNUSFpaTlc4MVdqSXZVMEl4ZVcwMGRrRk1Vek5GYW5SMlozZDBUVzFyT1UxRVozWnRLM1F3Tldrd1IweHJRa3BVYzNoNVpIRlNVR2RQUWtrd09YcDJlbWt3UVZJclFtOVVObGR4TUhsRWJVNXpXVmhXYTFwVE1YcFpWMXB0WTIwNWRVOUJRa05EU0ZKdllWYzFjbUZYTlc1WFozY3dUWHBaZVU5VVNYZE5lbFV3VGtSUGIwRmlibGxyVGxsSFJXZDZiMHhRWTA4MlZsQk9OVVpCUTNsTWEyRkVSUzkwYjBsaVlYSjVPV05vZUROU1YwTkpkelJCWlVWT1RtMXJUazFwV0dzeGFIaEVORlZ5TWxJeU5rd3dSVGhOZFRVelMwVXdUVkJyVG5kNVZ5OHlSamswVDFSR1REUXZiMFJOVURkdlNsQk9kR1JMYWxCaWJXZ3dVRFpVVVd0R1YwWkVOM0pZYTJOUE1tdFpjak15UTBweVdHdzViMnQzVG1jNGF6QnVSQzlWUlVSU0sxSnBURlF4ZEZaWGRHSTNVV1pWWVdzMGIyaEJiMWxCVVQwOUluMTkiLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk8ifcIA7vAAAADXAAAAS7/55DgLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOXpkRzl3SWl3aWFXNWtaWGdpT2pCOSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaMCJ9hE/WwgAAAWIAAABLrIKw+Qs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHRnlkQ0lzSW1sdVpHVjRJam94TENKamIyNTBaVzUwWDJKc2IyTnJJanA3SW5SNWNHVWlPaUp6WlhKMlpYSmZkRzl2YkY5MWMyVWlMQ0pwWkNJNkluTnlkblJ2YjJ4MVgySmtjbXRmTURGVlYydFRkWGQzVlVKaVZXVmFPVkYwWmpJM05XdHZJaXdpYm1GdFpTSTZJblJ2YjJ4ZmMyVmhjbU5vWDNSdmIyeGZjbVZuWlhnaUxDSnBibkIxZENJNmUzMTlmUT09IiwicCI6ImFiY2RlZmdoaWprbCJ9VJT5TwAAAPQAAABLOZix7As6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam94TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pYVc1d2RYUmZhbk52Ymw5a1pXeDBZU0lzSW5CaGNuUnBZV3hmYW5OdmJpSTZJaUo5ZlE9PSIsInAiOiJhYmNkZWYifen1HoMAAAEYAAAASx/gSJcLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpveExDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWFXNXdkWFJmYW5OdmJsOWtaV3gwWVNJc0luQmhjblJwWVd4ZmFuTnZiaUk2SW50Y0luQmhkSFJsY2lKOWZRPT0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNEIn20QM4QAAABEgAAAEtVUFA2CzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3hMQ0prWld4MFlTSTZleUowZVhCbElqb2lhVzV3ZFhSZmFuTnZibDlrWld4MFlTSXNJbkJoY25ScFlXeGZhbk52YmlJNkltNWNJam9pZlgwPSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRiJ9DxMzFwAAAP8AAABLTkiA/Qs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam94TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pYVc1d2RYUmZhbk52Ymw5a1pXeDBZU0lzSW5CaGNuUnBZV3hmYW5OdmJpSTZJaUJjSW5ScFpHVmNJbjBpZlgwPSIsInAiOiJhYmNkZSJ9Y1g/RgAAANgAAABLPalz6Qs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHOXdJaXdpYVc1a1pYZ2lPakY5IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMSJ9mG9WxAAAAgIAAABLsyS1Ggs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHRnlkQ0lzSW1sdVpHVjRJam95TENKamIyNTBaVzUwWDJKc2IyTnJJanA3SW5SNWNHVWlPaUowYjI5c1gzTmxZWEpqYUY5MGIyOXNYM0psYzNWc2RDSXNJblJ2YjJ4ZmRYTmxYMmxrSWpvaWMzSjJkRzl2YkhWZlltUnlhMTh3TVZWWGExTjFkM2RWUW1KVlpWbzVVWFJtTWpjMWEyOGlMQ0pqYjI1MFpXNTBJanA3SW5SNWNHVWlPaUowYjI5c1gzTmxZWEpqYUY5MGIyOXNYM05sWVhKamFGOXlaWE4xYkhRaUxDSjBiMjlzWDNKbFptVnlaVzVqWlhNaU9sdDdJblI1Y0dVaU9pSjBiMjlzWDNKbFptVnlaVzVqWlNJc0luUnZiMnhmYm1GdFpTSTZJbXh2YjJ0MWNGOTBhV1JsWDNScGJXVnpJbjFkZlgxOSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUoifXq7X0IAAACoAAAAS8R7kyYLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOXpkRzl3SWl3aWFXNWtaWGdpT2pKOSIsInAiOiJhYmNkZWYifUvdEqQAAAFsAAAASxOyDpgLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOXpkR0Z5ZENJc0ltbHVaR1Y0SWpvekxDSmpiMjUwWlc1MFgySnNiMk5ySWpwN0luUjVjR1VpT2lKMGIyOXNYM1Z6WlNJc0ltbGtJam9pZEc5dmJIVmZZbVJ5YTE4d01UbHlTMVpoTmxWelYwSjJOVlpCUVd0NGNrdEZWM1FpTENKdVlXMWxJam9pYkc5dmEzVndYM1JwWkdWZmRHbHRaWE1pTENKcGJuQjFkQ0k2ZTMxOWZRPT0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QIn2nj//zAAAA/QAAAEs0iNOdCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3pMQ0prWld4MFlTSTZleUowZVhCbElqb2lhVzV3ZFhSZmFuTnZibDlrWld4MFlTSXNJbkJoY25ScFlXeGZhbk52YmlJNklpSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ubyJ9v7oEtgAAASUAAABLRlE0oAs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam96TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pYVc1d2RYUmZhbk52Ymw5a1pXeDBZU0lzSW5CaGNuUnBZV3hmYW5OdmJpSTZJbnRjSW10bGVTSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVIn2tlGyiAAABIwAAAEvJEcEACzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3pMQ0prWld4MFlTSTZleUowZVhCbElqb2lhVzV3ZFhSZmFuTnZibDlrWld4MFlTSXNJbkJoY25ScFlXeGZhbk52YmlJNklsd2lPaUFpZlgwPSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXIn33pcoWAAABDQAAAEu34FBlCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3pMQ0prWld4MFlTSTZleUowZVhCbElqb2lhVzV3ZFhSZmFuTnZibDlrWld4MFlTSXNJbkJoY25ScFlXeGZhbk52YmlJNklsd2lVMkZ1ZEdFaWZYMD0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dncifZSRa6kAAAECAAAASzWwx7QLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvekxDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWFXNXdkWFJmYW5OdmJsOWtaV3gwWVNJc0luQmhjblJwWVd4ZmFuTnZiaUk2SWlCQ1lYSmlZWEpoWENKOUluMTkiLCJwIjoiYWJjZGVmZ2gifVeFyscAAADSAAAAS3cZa0gLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOXpkRzl3SWl3aWFXNWtaWGdpT2pOOSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUpLTE1OT1BRUlNUVVYifRxKXYAAAAIfAAAASytU5ikLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pYldWemMyRm5aVjlrWld4MFlTSXNJbVJsYkhSaElqcDdJbk4wYjNCZmNtVmhjMjl1SWpvaWRHOXZiRjkxYzJVaUxDSnpkRzl3WDNObGNYVmxibU5sSWpwdWRXeHNMQ0p6ZEc5d1gyUmxkR0ZwYkhNaU9tNTFiR3dzSW1OdmJuUmhhVzVsY2lJNmJuVnNiSDBzSW5WellXZGxJanA3SW1sdWNIVjBYM1J2YTJWdWN5STZNVGMwTVN3aVkyRmphR1ZmWTNKbFlYUnBiMjVmYVc1d2RYUmZkRzlyWlc1eklqb3dMQ0pqWVdOb1pWOXlaV0ZrWDJsdWNIVjBYM1J2YTJWdWN5STZNQ3dpYjNWMGNIVjBYM1J2YTJWdWN5STZNVE14TENKdmRYUndkWFJmZEc5clpXNXpYMlJsZEdGcGJITWlPbnNpZEdocGJtdHBibWRmZEc5clpXNXpJam94Tkgwc0luTmxjblpsY2w5MGIyOXNYM1Z6WlNJNmV5SjNaV0pmYzJWaGNtTm9YM0psY1hWbGMzUnpJam93ZlgxOSIsInAiOiJhYmNkZWZnaGkifaDJlssAAAF0AAAAS0Mi0tsLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pYldWemMyRm5aVjl6ZEc5d0lpd2lZVzFoZW05dUxXSmxaSEp2WTJzdGFXNTJiMk5oZEdsdmJrMWxkSEpwWTNNaU9uc2lhVzV3ZFhSVWIydGxia052ZFc1MElqb3hOelF4TENKdmRYUndkWFJVYjJ0bGJrTnZkVzUwSWpveE16RXNJbWx1ZG05allYUnBiMjVNWVhSbGJtTjVJam95TnpJMUxDSm1hWEp6ZEVKNWRHVk1ZWFJsYm1ONUlqb3hNRGs0ZlgwPSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaMDEifQ9sK2k=
+  recorded_at: Mon, 05 Oct 2026 23:01:15 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5/invoke-with-response-stream
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"What
+        are the tide times at Santa Barbara harbor today? Use the tool that provides
+        them."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"Ev4BCnkIEhABGAIqQHdvOyjh/hwLvY5o5Z2/SB1ym4vALS3EjtvgwtMmk9MDgvm+t05i0GLkBJTsxydqRPgOBI09zvzi0AR+BoT6Wq0yDmNsYXVkZS1zYWZmcm9uOABCCHRoaW5raW5nWgw0MzYyOTIwMzU0NDOoAbnYkNYGEgzoLPcO6VPN5FACyLkaDE/toIbary9chx3RWCIw4AeENNmkNMiXk1hxD4Ur2R26L0E8Mu53KE0MPkNwyW/2F94OTFL4/oDMP7oJPNtdKjPbmh0P6TQkFWFD7rXkcO2kYr32CJrXl9okwNg8k0nD/UEDR+RiLT1tVWtb7QfUak4ohAoYAQ=="},{"type":"server_tool_use","id":"srvtoolu_bdrk_01UWkSuwwUBbUeZ9Qtf275ko","name":"tool_search_tool_regex","input":{"pattern":"tide"}},{"type":"tool_search_tool_result","tool_use_id":"srvtoolu_bdrk_01UWkSuwwUBbUeZ9Qtf275ko","content":{"type":"tool_search_tool_search_result","tool_references":[{"type":"tool_reference","tool_name":"lookup_tide_times"}]}},{"type":"tool_use","id":"toolu_bdrk_019rKVa6UsWBv5VAAkxrKEWt","name":"lookup_tide_times","input":{"key":"Santa
+        Barbara"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_bdrk_019rKVa6UsWBv5VAAkxrKEWt","content":[{"type":"text","text":"High
+        tide 6:12 AM, low tide 12:40 PM"}]}]}],"max_tokens":1500,"tools":[{"type":"tool_search_tool_regex_20251119","name":"tool_search_tool_regex"},{"name":"lookup_tide_times","description":"Look
+        up high and low tide times for a harbor","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_customers","description":"Get
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_orders","description":"Get
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_refunds","description":"Get
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_coupons","description":"Get
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_vendors","description":"Get
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_payroll","description":"Get
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_timesheets","description":"Get
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_badges","description":"Get
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_parcels","description":"Get
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_leases","description":"Get
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_tenants","description":"Get
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_budgets","description":"Get
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_forecasts","description":"Get
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_tickets","description":"Get
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_surveys","description":"Get
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_webinars","description":"Get
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_licenses","description":"Get
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_backups","description":"Get
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"get_certificates","description":"Get
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_invoices","description":"List
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_customers","description":"List
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_orders","description":"List
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_refunds","description":"List
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_coupons","description":"List
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_vendors","description":"List
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_payroll","description":"List
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_timesheets","description":"List
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_badges","description":"List
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_parcels","description":"List
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_leases","description":"List
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_tenants","description":"List
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_budgets","description":"List
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_forecasts","description":"List
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_tickets","description":"List
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_surveys","description":"List
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_webinars","description":"List
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_licenses","description":"List
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_backups","description":"List
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"list_certificates","description":"List
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_invoices","description":"Create
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_customers","description":"Create
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_orders","description":"Create
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_refunds","description":"Create
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_coupons","description":"Create
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_vendors","description":"Create
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_payroll","description":"Create
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_timesheets","description":"Create
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_badges","description":"Create
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_parcels","description":"Create
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_leases","description":"Create
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_tenants","description":"Create
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_budgets","description":"Create
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_forecasts","description":"Create
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_tickets","description":"Create
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_surveys","description":"Create
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_webinars","description":"Create
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_licenses","description":"Create
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_backups","description":"Create
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"create_certificates","description":"Create
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_invoices","description":"Update
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_customers","description":"Update
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_orders","description":"Update
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_refunds","description":"Update
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_coupons","description":"Update
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_vendors","description":"Update
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_payroll","description":"Update
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_timesheets","description":"Update
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_badges","description":"Update
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_parcels","description":"Update
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_leases","description":"Update
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_tenants","description":"Update
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_budgets","description":"Update
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_forecasts","description":"Update
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_tickets","description":"Update
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_surveys","description":"Update
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_webinars","description":"Update
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_licenses","description":"Update
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_backups","description":"Update
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"update_certificates","description":"Update
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_invoices","description":"Delete
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_customers","description":"Delete
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_orders","description":"Delete
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_refunds","description":"Delete
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_coupons","description":"Delete
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_vendors","description":"Delete
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_payroll","description":"Delete
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_timesheets","description":"Delete
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_badges","description":"Delete
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_parcels","description":"Delete
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_leases","description":"Delete
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_tenants","description":"Delete
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_budgets","description":"Delete
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_forecasts","description":"Delete
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_tickets","description":"Delete
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_surveys","description":"Delete
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_webinars","description":"Delete
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_licenses","description":"Delete
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_backups","description":"Delete
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"delete_certificates","description":"Delete
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_invoices","description":"Archive
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_customers","description":"Archive
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_orders","description":"Archive
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_refunds","description":"Archive
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_coupons","description":"Archive
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_vendors","description":"Archive
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_payroll","description":"Archive
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_timesheets","description":"Archive
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_badges","description":"Archive
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_parcels","description":"Archive
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_leases","description":"Archive
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_tenants","description":"Archive
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_budgets","description":"Archive
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_forecasts","description":"Archive
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_tickets","description":"Archive
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_surveys","description":"Archive
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_webinars","description":"Archive
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_licenses","description":"Archive
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_backups","description":"Archive
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"archive_certificates","description":"Archive
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_invoices","description":"Export
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_customers","description":"Export
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_orders","description":"Export
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_refunds","description":"Export
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_coupons","description":"Export
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_vendors","description":"Export
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_payroll","description":"Export
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_timesheets","description":"Export
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_badges","description":"Export
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_parcels","description":"Export
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_leases","description":"Export
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_tenants","description":"Export
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_budgets","description":"Export
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_forecasts","description":"Export
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_tickets","description":"Export
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_surveys","description":"Export
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_webinars","description":"Export
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_licenses","description":"Export
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_backups","description":"Export
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"export_certificates","description":"Export
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_invoices","description":"Import
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_customers","description":"Import
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_orders","description":"Import
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_refunds","description":"Import
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_coupons","description":"Import
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_vendors","description":"Import
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_payroll","description":"Import
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_timesheets","description":"Import
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_badges","description":"Import
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_parcels","description":"Import
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_leases","description":"Import
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_tenants","description":"Import
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_budgets","description":"Import
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_forecasts","description":"Import
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_tickets","description":"Import
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_surveys","description":"Import
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_webinars","description":"Import
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_licenses","description":"Import
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_backups","description":"Import
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"import_certificates","description":"Import
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_invoices","description":"Audit
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_customers","description":"Audit
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_orders","description":"Audit
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_refunds","description":"Audit
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_coupons","description":"Audit
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_vendors","description":"Audit
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_payroll","description":"Audit
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_timesheets","description":"Audit
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_badges","description":"Audit
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_parcels","description":"Audit
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_leases","description":"Audit
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_tenants","description":"Audit
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_budgets","description":"Audit
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_forecasts","description":"Audit
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_tickets","description":"Audit
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_surveys","description":"Audit
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_webinars","description":"Audit
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_licenses","description":"Audit
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_backups","description":"Audit
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"audit_certificates","description":"Audit
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_invoices","description":"Sync
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_customers","description":"Sync
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_orders","description":"Sync
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_refunds","description":"Sync
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_coupons","description":"Sync
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_vendors","description":"Sync
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_payroll","description":"Sync
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_timesheets","description":"Sync
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_badges","description":"Sync
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_parcels","description":"Sync
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_leases","description":"Sync
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_tenants","description":"Sync
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_budgets","description":"Sync
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_forecasts","description":"Sync
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_tickets","description":"Sync
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_surveys","description":"Sync
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_webinars","description":"Sync
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_licenses","description":"Sync
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_backups","description":"Sync
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true},{"name":"sync_certificates","description":"Sync
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true},"defer_loading":true}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T230115Z
+      X-Amz-Content-Sha256:
+      - b441ba2d7877855e05404e9a78e5b0223c58dfca972228f81027b2bad9dbc273
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept:
+      - application/vnd.amazon.eventstream
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:01:16 GMT
+      Content-Type:
+      - application/vnd.amazon.eventstream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 3eed86f1-ddcd-4063-a1bd-86a39bbae235
+      X-Amzn-Bedrock-Content-Type:
+      - application/json
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        AAADHwAAAEvgCDWMCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaWJXVnpjMkZuWlY5emRHRnlkQ0lzSW0xbGMzTmhaMlVpT25zaWJXOWtaV3dpT2lKamJHRjFaR1V0YzI5dWJtVjBMVFVpTENKcFpDSTZJbTF6WjE5aVpISnJYM1oyYVhaamJ6SjVjMk4xTkdkMGVteDNNMmQwTlRObFkzUTFNM2h6TTI5a2FuVXpZMjlrTXpOamVIcGtaV2d6ZDNNMWFHRWlMQ0owZVhCbElqb2liV1Z6YzJGblpTSXNJbkp2YkdVaU9pSmhjM05wYzNSaGJuUWlMQ0pqYjI1MFpXNTBJanBiWFN3aVkyOXVkR0ZwYm1WeUlqcHVkV3hzTENKemRHOXdYM0psWVhOdmJpSTZiblZzYkN3aWMzUnZjRjl6WlhGMVpXNWpaU0k2Ym5Wc2JDd2ljM1J2Y0Y5a1pYUmhhV3h6SWpwdWRXeHNMQ0oxYzJGblpTSTZleUpwYm5CMWRGOTBiMnRsYm5NaU9qRXdOVEVzSW1OaFkyaGxYMk55WldGMGFXOXVYMmx1Y0hWMFgzUnZhMlZ1Y3lJNk1Dd2lZMkZqYUdWZmNtVmhaRjlwYm5CMWRGOTBiMnRsYm5NaU9qQXNJbU5oWTJobFgyTnlaV0YwYVc5dUlqcDdJbVZ3YUdWdFpYSmhiRjgxYlY5cGJuQjFkRjkwYjJ0bGJuTWlPakFzSW1Wd2FHVnRaWEpoYkY4eGFGOXBibkIxZEY5MGIydGxibk1pT2pCOUxDSnZkWFJ3ZFhSZmRHOXJaVzV6SWpvMExDSnpaWEoyYVdObFgzUnBaWElpT2lKemRHRnVaR0Z5WkNKOWZYMD0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjAxMjM0NTY3OCJ9YpmBwwAAAPUAAABLBPiYXAs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHRnlkQ0lzSW1sdVpHVjRJam93TENKamIyNTBaVzUwWDJKc2IyTnJJanA3SW5SNWNHVWlPaUowWlhoMElpd2lkR1Y0ZENJNklpSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3In32XKKtAAAA+AAAAEv8aFztCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3dMQ0prWld4MFlTSTZleUowZVhCbElqb2lkR1Y0ZEY5a1pXeDBZU0lzSW5SbGVIUWlPaUpJWlhKbElHRnlaU0IwYjJSaGVTSjlmUT09IiwicCI6ImFiY2RlZmdoaWoifWe7fpcAAAEDAAAASwjQ7gQLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvd0xDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWRHVjRkRjlrWld4MFlTSXNJblJsZUhRaU9pSW5jeUIwYVdSbElIUnBiV1Z6SUdadmNpSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxIn0ZcTnGAAABKgAAAEvEAaNxCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTlrWld4MFlTSXNJbWx1WkdWNElqb3dMQ0prWld4MFlTSTZleUowZVhCbElqb2lkR1Y0ZEY5a1pXeDBZU0lzSW5SbGVIUWlPaUlnVTJGdWRHRWdRbUZ5WW1GeVlTQm9ZWElpZlgwPSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5ekFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaMDEyMyJ9RoGz5gAAAPwAAABLCej6LQs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam93TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pZEdWNGRGOWtaV3gwWVNJc0luUmxlSFFpT2lKaWIzSTZYRzVjYmkwZ0tpcElhV2RvSUhRaWZYMD0iLCJwIjoiYWJjZGVmZ2hpaiJ9iBzLgAAAARgAAABLH+BIlws6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam93TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pZEdWNGRGOWtaV3gwWVNJc0luUmxlSFFpT2lKcFpHVTZLaW9nTmpveE1pQWlmWDA9IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1QifQE86+EAAAD4AAAAS/xoXO0LOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvd0xDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWRHVjRkRjlrWld4MFlTSXNJblJsZUhRaU9pSkJUVnh1TFNBcUtreHZkeUIwSW4xOSIsInAiOiJhYmNkZWZnaGlqa2xtbiJ9lKRynQAAAPAAAABLzBgXLAs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam93TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pZEdWNGRGOWtaV3gwWVNJc0luUmxlSFFpT2lKcFpHVTZLaW9nTVRJNk5EQWdJbjE5IiwicCI6ImFiY2RlZiJ9ivmqRwAAAREAAABLEvAq5gs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5a1pXeDBZU0lzSW1sdVpHVjRJam93TENKa1pXeDBZU0k2ZXlKMGVYQmxJam9pZEdWNGRGOWtaV3gwWVNJc0luUmxlSFFpT2lKUVRTSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWSJ9AIEFlAAAALQAAABLYWvppQs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHOXdJaXdpYVc1a1pYZ2lPakI5IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxciJ9gZA3+gAAAeEAAABLWsR6uws6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2liV1Z6YzJGblpWOWtaV3gwWVNJc0ltUmxiSFJoSWpwN0luTjBiM0JmY21WaGMyOXVJam9pWlc1a1gzUjFjbTRpTENKemRHOXdYM05sY1hWbGJtTmxJanB1ZFd4c0xDSnpkRzl3WDJSbGRHRnBiSE1pT201MWJHd3NJbU52Ym5SaGFXNWxjaUk2Ym5Wc2JIMHNJblZ6WVdkbElqcDdJbWx1Y0hWMFgzUnZhMlZ1Y3lJNk1UQTFNU3dpWTJGamFHVmZZM0psWVhScGIyNWZhVzV3ZFhSZmRHOXJaVzV6SWpvd0xDSmpZV05vWlY5eVpXRmtYMmx1Y0hWMFgzUnZhMlZ1Y3lJNk1Dd2liM1YwY0hWMFgzUnZhMlZ1Y3lJNk5UTXNJbTkxZEhCMWRGOTBiMnRsYm5OZlpHVjBZV2xzY3lJNmV5SjBhR2x1YTJsdVoxOTBiMnRsYm5NaU9qQjlmWDA9IiwicCI6ImFiY2RlZmcifbyNNJcAAAFIAAAASyfzh1wLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pYldWemMyRm5aVjl6ZEc5d0lpd2lZVzFoZW05dUxXSmxaSEp2WTJzdGFXNTJiMk5oZEdsdmJrMWxkSEpwWTNNaU9uc2lhVzV3ZFhSVWIydGxia052ZFc1MElqb3hNRFV4TENKdmRYUndkWFJVYjJ0bGJrTnZkVzUwSWpvMU15d2lhVzUyYjJOaGRHbHZia3hoZEdWdVkza2lPakUwT1RRc0ltWnBjbk4wUW5sMFpVeGhkR1Z1WTNraU9qRXdPVE45ZlE9PSIsInAiOiJhYmNkZWZnaGlqIn16Vfes
+  recorded_at: Mon, 05 Oct 2026 23:01:16 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"What
+        are the tide times at Santa Barbara harbor today? Use the tool that provides
+        them."}]}],"max_tokens":1500,"tools":[{"name":"lookup_tide_times","description":"Look
+        up high and low tide times for a harbor","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_customers","description":"Get
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_orders","description":"Get
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_refunds","description":"Get
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_coupons","description":"Get
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_vendors","description":"Get
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_payroll","description":"Get
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_timesheets","description":"Get
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_badges","description":"Get
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_parcels","description":"Get
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_leases","description":"Get
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_tenants","description":"Get
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_budgets","description":"Get
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_forecasts","description":"Get
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_tickets","description":"Get
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_surveys","description":"Get
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_webinars","description":"Get
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_licenses","description":"Get
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_backups","description":"Get
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"get_certificates","description":"Get
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_invoices","description":"List
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_customers","description":"List
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_orders","description":"List
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_refunds","description":"List
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_coupons","description":"List
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_vendors","description":"List
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_payroll","description":"List
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_timesheets","description":"List
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_badges","description":"List
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_parcels","description":"List
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_leases","description":"List
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_tenants","description":"List
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_budgets","description":"List
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_forecasts","description":"List
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_tickets","description":"List
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_surveys","description":"List
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_webinars","description":"List
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_licenses","description":"List
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_backups","description":"List
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"list_certificates","description":"List
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_invoices","description":"Create
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_customers","description":"Create
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_orders","description":"Create
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_refunds","description":"Create
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_coupons","description":"Create
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_vendors","description":"Create
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_payroll","description":"Create
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_timesheets","description":"Create
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_badges","description":"Create
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_parcels","description":"Create
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_leases","description":"Create
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_tenants","description":"Create
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_budgets","description":"Create
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_forecasts","description":"Create
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_tickets","description":"Create
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_surveys","description":"Create
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_webinars","description":"Create
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_licenses","description":"Create
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_backups","description":"Create
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"create_certificates","description":"Create
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_invoices","description":"Update
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_customers","description":"Update
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_orders","description":"Update
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_refunds","description":"Update
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_coupons","description":"Update
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_vendors","description":"Update
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_payroll","description":"Update
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_timesheets","description":"Update
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_badges","description":"Update
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_parcels","description":"Update
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_leases","description":"Update
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_tenants","description":"Update
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_budgets","description":"Update
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_forecasts","description":"Update
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_tickets","description":"Update
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_surveys","description":"Update
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_webinars","description":"Update
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_licenses","description":"Update
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_backups","description":"Update
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"update_certificates","description":"Update
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_invoices","description":"Delete
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_customers","description":"Delete
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_orders","description":"Delete
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_refunds","description":"Delete
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_coupons","description":"Delete
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_vendors","description":"Delete
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_payroll","description":"Delete
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_timesheets","description":"Delete
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_badges","description":"Delete
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_parcels","description":"Delete
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_leases","description":"Delete
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_tenants","description":"Delete
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_budgets","description":"Delete
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_forecasts","description":"Delete
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_tickets","description":"Delete
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_surveys","description":"Delete
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_webinars","description":"Delete
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_licenses","description":"Delete
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_backups","description":"Delete
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"delete_certificates","description":"Delete
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_invoices","description":"Archive
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_customers","description":"Archive
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_orders","description":"Archive
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_refunds","description":"Archive
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_coupons","description":"Archive
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_vendors","description":"Archive
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_payroll","description":"Archive
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_timesheets","description":"Archive
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_badges","description":"Archive
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_parcels","description":"Archive
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_leases","description":"Archive
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_tenants","description":"Archive
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_budgets","description":"Archive
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_forecasts","description":"Archive
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_tickets","description":"Archive
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_surveys","description":"Archive
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_webinars","description":"Archive
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_licenses","description":"Archive
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_backups","description":"Archive
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"archive_certificates","description":"Archive
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_invoices","description":"Export
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_customers","description":"Export
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_orders","description":"Export
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_refunds","description":"Export
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_coupons","description":"Export
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_vendors","description":"Export
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_payroll","description":"Export
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_timesheets","description":"Export
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_badges","description":"Export
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_parcels","description":"Export
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_leases","description":"Export
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_tenants","description":"Export
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_budgets","description":"Export
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_forecasts","description":"Export
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_tickets","description":"Export
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_surveys","description":"Export
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_webinars","description":"Export
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_licenses","description":"Export
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_backups","description":"Export
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"export_certificates","description":"Export
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_invoices","description":"Import
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_customers","description":"Import
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_orders","description":"Import
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_refunds","description":"Import
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_coupons","description":"Import
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_vendors","description":"Import
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_payroll","description":"Import
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_timesheets","description":"Import
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_badges","description":"Import
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_parcels","description":"Import
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_leases","description":"Import
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_tenants","description":"Import
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_budgets","description":"Import
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_forecasts","description":"Import
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_tickets","description":"Import
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_surveys","description":"Import
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_webinars","description":"Import
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_licenses","description":"Import
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_backups","description":"Import
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"import_certificates","description":"Import
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_invoices","description":"Audit
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_customers","description":"Audit
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_orders","description":"Audit
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_refunds","description":"Audit
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_coupons","description":"Audit
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_vendors","description":"Audit
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_payroll","description":"Audit
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_timesheets","description":"Audit
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_badges","description":"Audit
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_parcels","description":"Audit
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_leases","description":"Audit
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_tenants","description":"Audit
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_budgets","description":"Audit
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_forecasts","description":"Audit
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_tickets","description":"Audit
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_surveys","description":"Audit
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_webinars","description":"Audit
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_licenses","description":"Audit
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_backups","description":"Audit
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"audit_certificates","description":"Audit
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_invoices","description":"Sync
+        invoices records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_customers","description":"Sync
+        customers records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_orders","description":"Sync
+        orders records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_refunds","description":"Sync
+        refunds records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_coupons","description":"Sync
+        coupons records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_vendors","description":"Sync
+        vendors records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_payroll","description":"Sync
+        payroll records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_timesheets","description":"Sync
+        timesheets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_badges","description":"Sync
+        badges records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_parcels","description":"Sync
+        parcels records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_leases","description":"Sync
+        leases records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_tenants","description":"Sync
+        tenants records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_budgets","description":"Sync
+        budgets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_forecasts","description":"Sync
+        forecasts records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_tickets","description":"Sync
+        tickets records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_surveys","description":"Sync
+        surveys records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_webinars","description":"Sync
+        webinars records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_licenses","description":"Sync
+        licenses records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_backups","description":"Sync
+        backups records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}},{"name":"sync_certificates","description":"Sync
+        certificates records in the back-office system","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T230116Z
+      X-Amz-Content-Sha256:
+      - 350b304a2942aa3b2bd61ab770a52d8779458ae12b651d69d79225e1c84ee87a
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:01:18 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1169'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 782a1e75-4df5-42b0-a030-65a61f66ef44
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '2002'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '107'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '20474'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5","id":"msg_bdrk_lqfva27xdgdsizm5e3yweop4jgy3pm4bjggoebwh7vkqk7oeucoq","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"EvgCCnkIEhABGAIqQFvEJ4fv38OI550QRoY899z3sQf+8U7/3cRcvMtQNBlhiHTQ9xUIUrK/+peZPsmvmA2SPQXQFWHdNH5mYxccH/4yDmNsYXVkZS1zYWZmcm9uOABCCHRoaW5raW5nWgw0MzYyOTIwMzU0NDOoAb7YkNYGEgwdvRoDBJwRR4YWT34aDGLkEk9JFGiUvUReECIwzY/Sw3IFreFXxy/oawRAqHXg1z22H9JYc8Oeu85SVm/M67UisdcbjQpo1vGspEn5KqwB0UjMSRo6ri89pTMAeLzYNypfVZml9klVGw4WPCDh+8yKnOIw6hQ4bSunuqfk2OD3qceU/GDPflyOB4x6VOIs3FeJ8cCF5mZCdqpv9Z8F/Muhs5c+ms6blOF5iPJ6FiGYUiMZQZNv/LDLnpJsfoSL5o0kJyQEUBoyPO+oKNqZxlXSF+MLALMcGkCkP/ScCx/L2YWshXtp8F2PkFenmk2OS2vELGZ46PQv9kH9dhgB"},{"type":"tool_use","id":"toolu_bdrk_01Mr1ppaqgnCJ6cyJFenaKnz","name":"lookup_tide_times","input":{"key":"Santa
+        Barbara"}}],"container":null,"stop_reason":"tool_use","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":20474,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":107,"output_tokens_details":{"thinking_tokens":47},"service_tier":"standard"}}'
+  recorded_at: Mon, 05 Oct 2026 23:01:18 GMT
+recorded_with: VCR 6.4.0

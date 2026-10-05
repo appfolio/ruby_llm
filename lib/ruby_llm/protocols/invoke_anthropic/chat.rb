@@ -80,6 +80,14 @@ module RubyLLM
           false
         end
 
+        # Leading system messages form the top-level `system`; one placed after the conversation
+        # has started stays in `messages` as a `role: "system"` turn, where it does not change
+        # the cached prefix ahead of it.
+        def separate_messages(messages)
+          leading = messages.take_while { |msg| msg.role == :system }
+          [leading, messages.drop(leading.size)]
+        end
+
         def build_system_content(system_messages)
           system_messages.flat_map do |msg|
             content = msg.content
@@ -167,13 +175,17 @@ module RubyLLM
         end
 
         def format_role(role)
-          role == :assistant ? 'assistant' : 'user'
+          case role
+          when :assistant then 'assistant'
+          when :system then 'system'
+          else 'user'
+          end
         end
 
         def format_message_content(msg)
           if msg.content.is_a?(RubyLLM::Content::Raw)
             blocks = Array(msg.content.value)
-            return blocks if msg.role == :assistant
+            return blocks if %i[assistant system].include?(msg.role)
 
             return blocks.reject { |block| thinking_block?(block) }
           end
@@ -361,13 +373,14 @@ module RubyLLM
 
         # Reply fields the fork passes through unmodeled, as plain hashes: context_management
         # (applied_edits from context editing), usage.iterations (one entry per sampling step,
-        # including compaction) and input_transformations (thinking blocks the API dropped or
-        # flagged). Takes the response body, or the `message` of a message_start event / a
-        # message_delta event when streaming.
+        # including compaction), usage.cache_creation (cache writes split by TTL) and
+        # input_transformations (thinking blocks the API dropped or flagged). Takes the response
+        # body, or the `message` of a message_start event / a message_delta event when streaming.
         def provider_data_for(data)
           {
             'context_management' => data['context_management'],
             'iterations' => data.dig('usage', 'iterations'),
+            'cache_creation' => data.dig('usage', 'cache_creation'),
             'input_transformations' => data['input_transformations']
           }.compact
         end

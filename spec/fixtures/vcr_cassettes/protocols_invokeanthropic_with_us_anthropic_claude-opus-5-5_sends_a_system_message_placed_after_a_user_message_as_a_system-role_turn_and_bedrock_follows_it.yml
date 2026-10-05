@@ -1,0 +1,60 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-opus-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"Name
+        a fruit."}]},{"role":"assistant","content":[{"type":"text","text":"Apple."}]},{"role":"user","content":[{"type":"text","text":"Name
+        another fruit."}]},{"role":"system","content":[{"type":"text","text":"From
+        now on, reply in uppercase only."}]}],"max_tokens":1000,"system":[{"type":"text","text":"You
+        are terse."}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T230048Z
+      X-Amz-Content-Sha256:
+      - e1f2545df7f1b7c55e3f6005b729aa6361645bce5d9ad73a7baf25a16b3a90b2
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:00:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1882'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 4f9bf63e-c30a-442f-8e83-58d7853c11bc
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '3714'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '159'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '50'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-opus-5-5","id":"msg_bdrk_nbix33oihrnpyei2xna2bx2b3jks75tdkbldmlvowqae5dr6c5jq","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQSzwcKEggSEAEYAjgBQgh0aGlua2luZxIMJzz8MjjD9QeqnqM7GgyqH4NIxmdeugZER4AiMCwSDRmZiwWykoMUZGt0dcmFJJMcPDol4yHB40wCiFrb1VNbyd/btq+IMobJ7bsgqirqBknYX8GvD31ubiec25Zz/1LCSB6wXK5ElLcS4+hB7YR9+bDvHGVCliPqogf50WLcv2weaC+ezbQdwRJrpF7zKz4MMwdZzqLiZiikbd40j0stBpFfnaEGEp45K792N35yQvaTGbRtPkUUKCBRDy2Z4JrMpWCXvd/BcWa6e1DCRBEe8DuTAzydMyp0rog/eA6+0ImDOjBSXc32UpJccq+nIywgeGMe0pboolsS5WrwwBBIR5keyc4OJ/z7/ZxxVnUO9HMrBDHT6wRrSwkQm3eyRGFbpr1oQsGJfwD1gyvD6PLbJP2DMhJEerWkgtZkt3aQC4aEKXmzyVkPrTKCMLiXyvvqCO6ARjOiB4pxIQ9vISWcKgL1/teF0LnWkX7WqP2aQJBQoTO6z+xWftwXf/ApUa+7vtORBMc0hZ68kw2sA2RUxRUTqRJ/IF7kZv3wDn0gMVVzQmYoEfDg0hIYcCY8aCHAmVHM9O3QK66BZ0poNWDbI1YrZZuNijApnkdRn2+3wyXwoeG2W1JruKMyx6fY7uj9VTRSLex3V0ZYit1KIyyjje0ESH2Z6pgbl4WeqMiqKUadf2bDW58rc2G3OUvtfttUW8iwSlWuIMb1cuF0rwvOarAnxZPrvYVOn9ZiYMzthqPu7NMe+AANFfHq8sS3FrwwwfIFexYayekrxA4J1lzlxMKyVm4n/9VsPU/ZsBfl+JWjI0XbaGgAmwTgvQ2LcY0JScfUkgNFxsN2paz4n5ijIDfQqLgtwsl68rR9ekbD45BKWxEjU8Uwl/1GJhl2JrVyar+4Io7ExcPqUuiruMQTycb6c/PYEGyFdj5ga2ETBCuu8LupDHGyzreXjcDoZ2/hWkpkkX84VGepQAj0dtJ+yqxa94rpS9g0+1Yd/jTIfdB3tuG1sdemJv2yAbXnsucjE8WsQdjE0tzoS5NW0lSbNJW3m24/r4IFE8z7MXbi/Er69BecFMycg/QQP2bI5wJK2OQPcbkQ9ZJYEIkH79jS65eOzctMhcskAH+IjP2eIlaf0Lj3r8fhnmkSQl1+O35V0dQ6pr/Mp0JmzfALxGVCKTt2fxWf/7ND70/mzzDFRcl64jEDzu/ma7W/VJKkfFc/h0KqKwTN7Voqq4GyY4U3QmSo1lWjHn2PBn/3CyNNdmVsPH8bYbo13RMYAQ=="},{"type":"text","text":"BANANA."}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":50,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":159,"output_tokens_details":{"thinking_tokens":152},"service_tier":"standard"}}'
+  recorded_at: Mon, 05 Oct 2026 23:00:52 GMT
+recorded_with: VCR 6.4.0

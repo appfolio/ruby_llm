@@ -110,6 +110,76 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
     user('What are the tide times at Santa Barbara harbor today? Use the tool that provides them.')
   end
 
+  # --- Examples 3 and 4, shared by every model they run on ------------------------------------
+
+  def expect_compaction(model_id)
+    params = { anthropic_beta: ['compact-2026-01-12'], max_tokens: 4000 }
+    history = [user("#{ledger_lines(1..1600)}\n\nIn one sentence: what did the last ledger entry record?")]
+
+    expect { reply(model_id, history, params: params.merge(compact(49_999))) }
+      .to raise_error(RubyLLM::BadRequestError, /trigger.value must be at least 50000/)
+
+    compacted = reply(model_id, history, params: params.merge(compact(50_000))) { |_chunk| nil }
+    uncompacted = reply(model_id, history, params: params)
+
+    expect(compacted.content).to be_a(described_class::ContentBlocks)
+    expect(blocks_of(compacted, 'compaction')).to contain_exactly(include('content' => be_a(String)))
+    expect(compacted.content.text).not_to be_empty
+    expect_usage_excludes_compaction(compacted)
+    expect(uncompacted.input_tokens).to be > 50_000
+
+    history += [compacted, user('Which city was that depot in? One word.')]
+    follow_up = reply(model_id, history, params: params.merge(compact(50_000)))
+
+    expect(follow_up.content.to_s).not_to be_empty
+    expect(follow_up.input_tokens).to be < 5000
+
+    converse = RubyLLM.chat(model: model_id, provider: :bedrock).with_protocol(:converse)
+    converse.messages = history
+    expect { converse.generate }
+      .to raise_error(RubyLLM::UnsupportedContentError, /cannot send compaction content blocks/)
+  end
+
+  # Top-level usage is the final `message` iteration only; the compaction step is billed on
+  # top of it, so the cost of a compacted request is the sum of usage.iterations.
+  def expect_usage_excludes_compaction(compacted)
+    iterations = compacted.provider_data['iterations']
+    expect(iterations.map { |iteration| iteration['type'] }).to eq(%w[compaction message])
+    expect(iterations.first['input_tokens']).to be > 50_000
+    expect([compacted.input_tokens, compacted.output_tokens])
+      .to eq(iterations.last.values_at('input_tokens', 'output_tokens'))
+    expect(iterations.sum { |iteration| iteration['input_tokens'] }).to be > compacted.input_tokens + 50_000
+    expect(compacted.input_tokens).to be < 5000
+  end
+
+  def expect_tool_search(model_id)
+    tools = catalog_tools
+    search_tool = { type: 'tool_search_tool_regex_20251119', name: 'tool_search_tool_regex' }
+    chat = invoke_chat(model_id).with_tools(*tools)
+                                .with_params(max_tokens: 1500, deferred_tools: tools.map(&:name),
+                                             server_tools: [search_tool])
+    chat.messages = [tide_question]
+
+    answer = chat.complete { |_chunk| nil }
+    searched = chat.messages[1]
+
+    expect(searched.content).to be_a(described_class::ContentBlocks)
+    expect(blocks_of(searched, 'server_tool_use').first).to include(
+      'name' => 'tool_search_tool_regex', 'id' => start_with('srvtoolu_'), 'input' => include('pattern')
+    )
+    references = blocks_of(searched, 'tool_search_tool_result').flat_map do |block|
+      block.dig('content', 'tool_references').map { |reference| reference['tool_name'] }
+    end
+    expect(references).to include('lookup_tide_times')
+    expect(searched.tool_calls.values.map(&:name)).to eq(['lookup_tide_times'])
+    expect(chat.messages.map(&:role)).to eq(%i[user assistant tool assistant])
+    expect(answer.content.to_s).to include('6:12')
+
+    all_loaded = reply(model_id, [tide_question], params: { max_tokens: 1500 }, tools: tools)
+
+    expect(searched.input_tokens).to be < all_loaded.input_tokens
+  end
+
   # --- Examples 5 and 6 ------------------------------------------------------------------------
 
   # Each result carries about 1,500 tokens of movement history: Bedrock applies no
@@ -190,63 +260,11 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       end
 
       it 'compact_20260112 compacts at the 50000-token minimum and the compaction block replays' do
-        params = { anthropic_beta: ['compact-2026-01-12'], max_tokens: 4000 }
-        history = [user("#{ledger_lines(1..1600)}\n\nIn one sentence: what did the last ledger entry record?")]
-
-        expect { reply(model_id, history, params: params.merge(compact(49_999))) }
-          .to raise_error(RubyLLM::BadRequestError, /trigger.value must be at least 50000/)
-
-        compacted = reply(model_id, history, params: params.merge(compact(50_000))) { |_chunk| nil }
-        uncompacted = reply(model_id, history, params: params)
-
-        expect(compacted.content).to be_a(described_class::ContentBlocks)
-        expect(blocks_of(compacted, 'compaction')).to contain_exactly(include('content' => be_a(String)))
-        expect(compacted.content.text).not_to be_empty
-        iterations = compacted.provider_data['iterations']
-        expect(iterations.map { |iteration| iteration['type'] }).to eq(%w[compaction message])
-        expect(iterations.first['input_tokens']).to be > 50_000
-        expect(compacted.input_tokens).to eq(iterations.last['input_tokens'])
-        expect(compacted.input_tokens).to be < 5000
-        expect(uncompacted.input_tokens).to be > 50_000
-
-        history += [compacted, user('Which city was that depot in? One word.')]
-        follow_up = reply(model_id, history, params: params.merge(compact(50_000)))
-
-        expect(follow_up.content.to_s).not_to be_empty
-        expect(follow_up.input_tokens).to be < 5000
-
-        converse = RubyLLM.chat(model: model_id, provider: :bedrock).with_protocol(:converse)
-        converse.messages = history
-        expect { converse.generate }
-          .to raise_error(RubyLLM::UnsupportedContentError, /cannot send compaction content blocks/)
+        expect_compaction(model_id)
       end
 
       it 'tool_search_tool_regex_20251119 finds a deferred tool and the replayed search blocks are accepted' do
-        tools = catalog_tools
-        search_tool = { type: 'tool_search_tool_regex_20251119', name: 'tool_search_tool_regex' }
-        chat = invoke_chat(model_id).with_tools(*tools)
-                                    .with_params(max_tokens: 1500, deferred_tools: tools.map(&:name),
-                                                 server_tools: [search_tool])
-        chat.messages = [tide_question]
-
-        answer = chat.complete { |_chunk| nil }
-        searched = chat.messages[1]
-
-        expect(searched.content).to be_a(described_class::ContentBlocks)
-        expect(blocks_of(searched, 'server_tool_use').first).to include(
-          'name' => 'tool_search_tool_regex', 'id' => start_with('srvtoolu_'), 'input' => include('pattern')
-        )
-        references = blocks_of(searched, 'tool_search_tool_result').flat_map do |block|
-          block.dig('content', 'tool_references').map { |reference| reference['tool_name'] }
-        end
-        expect(references).to include('lookup_tide_times')
-        expect(searched.tool_calls.values.map(&:name)).to eq(['lookup_tide_times'])
-        expect(chat.messages.map(&:role)).to eq(%i[user assistant tool assistant])
-        expect(answer.content.to_s).to include('6:12')
-
-        all_loaded = reply(model_id, [tide_question], params: { max_tokens: 1500 }, tools: tools)
-
-        expect(searched.input_tokens).to be < all_loaded.input_tokens
+        expect_tool_search(model_id)
       end
 
       it 'thinking-binding-controls-2026-08-01 drop_block reports dropped thinking for an edited replay only' do
@@ -319,6 +337,79 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
 
         expect(answer.content).to include('7')
       end
+
+      it 'top-level cache_control caches the prefix automatically and the repeat request reads it' do
+        history = [user("Shipping ledger for the cache check.\n#{ledger_lines(1..120)}\n\n" \
+                        'How many crates did ledger entry 9 record? Only the number.')]
+        params = { max_tokens: 300, cache_control: { type: 'ephemeral' } }
+
+        written = reply(model_id, history, params: params)
+        read = reply(model_id, history, params: params)
+
+        expect(written.cache_creation_tokens).to be > 4000
+        expect(written.cached_tokens).to eq(0)
+        expect(written.provider_data['cache_creation'])
+          .to eq('ephemeral_5m_input_tokens' => written.cache_creation_tokens, 'ephemeral_1h_input_tokens' => 0)
+        expect(read.cached_tokens).to eq(written.cache_creation_tokens)
+        expect(read.cache_creation_tokens).to eq(0)
+        expect(read.input_tokens).to be < 50
+      end
+
+      it 'sends a system message placed after a user message as a system-role turn and Bedrock follows it' do
+        chat = invoke_chat(model_id).with_instructions('You are terse.').with_params(max_tokens: 1000)
+        chat.messages += [user('Name a fruit.'), RubyLLM::Message.new(role: :assistant, content: 'Apple.'),
+                          user('Name another fruit.'),
+                          RubyLLM::Message.new(role: :system, content: 'From now on, reply in uppercase only.')]
+
+        payload = chat.render
+
+        expect(payload[:system]).to eq([{ type: 'text', text: 'You are terse.' }])
+        expect(payload[:messages].map { |message| message[:role] }).to eq(%w[user assistant user system])
+        expect(payload[:messages].last)
+          .to eq(role: 'system', content: [{ type: 'text', text: 'From now on, reply in uppercase only.' }])
+
+        answer = chat.generate
+
+        expect(answer.content).to match(/[A-Z]{3}/).and(eq(answer.content.upcase))
+      end
+    end
+  end
+
+  # Supernova's default chat model (Sonnet 5) and Opus 5: examples 3 and 4 only.
+  %w[us.anthropic.claude-sonnet-5 us.anthropic.claude-opus-5].each do |model_id|
+    context "with #{model_id}" do
+      if model_id == 'us.anthropic.claude-sonnet-5'
+        it 'compact_20260112 compacts at the 50000-token minimum and the compaction block replays' do
+          expect_compaction(model_id)
+        end
+      end
+
+      it 'tool_search_tool_regex_20251119 finds a deferred tool and the replayed search blocks are accepted' do
+        expect_tool_search(model_id)
+      end
+    end
+  end
+
+  # Bedrock finding: Opus 5 accepts compact_20260112 (same 50000 minimum) but refuses the 58K-token
+  # ledger prompt as `cyber`, with or without compaction, so no summary is produced.
+  context 'with us.anthropic.claude-opus-5' do
+    it 'compact_20260112 is accepted at the 50000-token minimum but the ledger prompt is refused' do
+      model_id = 'us.anthropic.claude-opus-5'
+      params = { anthropic_beta: ['compact-2026-01-12'], max_tokens: 4000 }
+      history = [user("#{ledger_lines(1..1600)}\n\nIn one sentence: what did the last ledger entry record?")]
+
+      expect { reply(model_id, history, params: params.merge(compact(49_999))) }
+        .to raise_error(RubyLLM::BadRequestError, /trigger.value must be at least 50000/)
+
+      compacted = reply(model_id, history, params: params.merge(compact(50_000))) { |_chunk| nil }
+      uncompacted = reply(model_id, history, params: params)
+
+      expect([compacted.finish_reason, uncompacted.finish_reason]).to eq(%w[refusal refusal])
+      expect(compacted.content.value.map { |block| block['type'] }).to eq(['compaction'])
+      expect(compacted.provider_data['iterations'].map { |iteration| iteration.values_at('type', 'output_tokens') })
+        .to eq([['compaction', 0], ['message', 0]])
+      expect(compacted.input_tokens).to be > 50_000
+      expect(uncompacted.output_tokens).to eq(0)
     end
   end
 end

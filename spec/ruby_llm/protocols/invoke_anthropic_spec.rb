@@ -194,6 +194,18 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       end
     end
 
+    it 'keeps leading system messages in `system` and renders a later one as a system-role message' do
+      messages = [RubyLLM::Message.new(role: :system, content: 'Be terse.'), user('q'),
+                  RubyLLM::Message.new(role: :assistant, content: 'a'), user('next'),
+                  RubyLLM::Message.new(role: :system, content: 'Reply in uppercase.')]
+
+      payload = render(messages)
+
+      expect(payload[:system]).to eq([{ type: 'text', text: 'Be terse.' }])
+      expect(payload[:messages].map { |message| message[:role] }).to eq(%w[user assistant user system])
+      expect(payload[:messages].last).to eq(role: 'system', content: [{ type: 'text', text: 'Reply in uppercase.' }])
+    end
+
     it 'lifts nothing on its own: thinking/output_config arrive via params' do
       payload = render([user('q')], params: { thinking: { type: 'adaptive' }, output_config: { effort: 'high' } })
 
@@ -279,6 +291,20 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect(message.content).to eq('ok')
       expect(message.provider_data).to eq('context_management' => context_management, 'iterations' => iterations,
                                           'input_transformations' => transformations)
+    end
+
+    it 'exposes usage.cache_creation, the cache writes split by TTL, as provider_data' do
+      cache_creation = { 'ephemeral_5m_input_tokens' => 4000, 'ephemeral_1h_input_tokens' => 300 }
+      stub_request(:post, "#{base}#{escaped_path}/invoke")
+        .to_return(json_response('content' => [{ 'type' => 'text', 'text' => 'ok' }],
+                                 'usage' => { 'input_tokens' => 4, 'output_tokens' => 1,
+                                              'cache_creation_input_tokens' => 4300,
+                                              'cache_creation' => cache_creation }))
+
+      message = protocol.complete([user('hi')], tools: {}, temperature: nil)
+
+      expect(message.cache_creation_tokens).to eq(4300)
+      expect(message.provider_data).to eq('cache_creation' => cache_creation)
     end
 
     it 'leaves provider_data empty for a reply without those fields' do
