@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-sol","input":[{"role":"user","content":"Reply
+        with exactly: OK"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"reasoning":{"effort":"none"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234649Z
+      X-Amz-Content-Sha256:
+      - 2c8a1c3f59e41b1d86c5a86d75458913760d49916679319504de7c1d5821cb33
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:50 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '255'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"unsupported_value","message":"Unsupported value:
+        ''none'' is not supported with the ''openai.gpt-6.1-sol'' model. Supported
+        values are: ''low'', ''medium'', ''high'', ''xhigh'', and ''max''.","param":"reasoning.effort","type":"invalid_request_error"}}'
+  recorded_at: Mon, 05 Oct 2026 23:46:50 GMT
+recorded_with: VCR 6.4.0

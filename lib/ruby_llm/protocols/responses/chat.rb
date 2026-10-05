@@ -9,8 +9,16 @@ module RubyLLM
           'responses'
         end
 
+        def compaction_url
+          "#{completion_url}/compact"
+        end
+
         OPENAI_INLINE_FILE_LIMIT = 50 * 1024 * 1024
         OPENAI_FILE_UPLOAD_LIMIT = 512 * 1024 * 1024
+
+        # Output item types RubyLLM models directly. A reply holding any other type (e.g.
+        # compaction) keeps its full item list as OutputItems so it replays item-for-item.
+        CLIENT_OUTPUT_ITEM_TYPES = %w[message reasoning function_call].freeze
 
         module_function
 
@@ -54,15 +62,16 @@ module RubyLLM
           raise Error.new(raw, data.dig('error', 'message')) if data.dig('error', 'message')
 
           output = data['output'] || []
-          content = parse_output_text(output)
+          content = parse_reply_content(output)
 
           Message.new(
             role: :assistant,
             content: content,
-            citations: parse_output_citations(output, content),
+            citations: parse_output_citations(output, reply_text(content)),
             thinking: Thinking.build(
               text: parse_reasoning_summary(output),
-              signature: parse_reasoning_signature(output)
+              signature: parse_reasoning_signature(output),
+              blocks: parse_reasoning_items(output)
             ),
             tool_calls: parse_function_calls(output),
             model_id: data['model'],
@@ -81,17 +90,63 @@ module RubyLLM
         end
 
         def reasoning_model?(model_id)
-          model_id.match?(/\A(?:openai\.)?(?:o\d|gpt-5)/)
+          model_id.match?(/\A(?:openai\.)?(?:o\d|gpt-5|gpt-6)/)
         end
 
+        def render_compaction_payload(messages)
+          {
+            model: model.id,
+            input: format_input(messages),
+            instructions: format_instructions(messages)
+          }.compact
+        end
+
+        def parse_compaction_response(response)
+          body = response.body
+          unless body.is_a?(Hash) && body['object'] == 'response.compaction'
+            raise Error.new(response, 'The provider returned an invalid compaction response')
+          end
+
+          Message.new(
+            role: :assistant,
+            content: OutputItems.new(body),
+            model_id: body['model'] || model.id,
+            raw: response,
+            finish_reason: 'stop',
+            **parse_usage(body['usage'] || {})
+          )
+        end
+
+        def parse_reply_content(output)
+          output_items?(output) ? OutputItems.new(output) : parse_output_text(output)
+        end
+
+        def reply_text(content)
+          content.is_a?(OutputItems) ? content.text : content
+        end
+
+        # A reply keeps its full item list when it holds an item type RubyLLM does not model,
+        # or interim commentary, so neither is lost or merged into the answer on replay.
+        def output_items?(output)
+          output.any? do |item|
+            !CLIENT_OUTPUT_ITEM_TYPES.include?(item['type']) ||
+              (item['type'] == 'message' && item['phase'] == 'commentary')
+          end
+        end
+
+        # input_tokens includes both cache reads and cache writes; each is billed at its own
+        # rate, so both come out of the plain input count.
         def parse_usage(usage)
-          cached = usage.dig('input_tokens_details', 'cached_tokens')
+          details = usage['input_tokens_details'] || {}
+          cached = details['cached_tokens']
+          cache_writes = details['cache_write_tokens']
           input = usage['input_tokens']
 
           {
-            input_tokens: input && [input.to_i - cached.to_i, 0].max,
+            input_tokens: input && [input.to_i - cached.to_i - cache_writes.to_i, 0].max,
             output_tokens: usage['output_tokens'],
             cached_tokens: cached,
+            cache_creation_tokens: cache_writes,
             thinking_tokens: usage.dig('output_tokens_details', 'reasoning_tokens')
           }
         end
@@ -113,8 +168,30 @@ module RubyLLM
           instructions.empty? ? nil : instructions.join("\n\n")
         end
 
+        # A compaction stands in for all history before it, so the input built so far is replaced
+        # by the compacted items: a /compact response.compaction object's output, or a reply's own
+        # items from its last compaction item on. Under store: false the server does not drop that
+        # history itself. System messages travel as instructions, not input.
         def format_input(messages)
-          messages.reject { |msg| msg.role == :system }.flat_map { |msg| format_item(msg) }
+          messages.reject { |msg| msg.role == :system }.each_with_object([]) do |msg, input|
+            compacted = compaction_items(msg.content)
+            if compacted
+              input.replace(compacted)
+            else
+              input.concat([format_item(msg)].flatten(1))
+            end
+          end
+        end
+
+        def compaction_items(content)
+          return unless content.is_a?(RubyLLM::Content::Raw)
+
+          value = content.value
+          return value['output'] if value.is_a?(Hash) && value['object'] == 'response.compaction'
+          return unless value.is_a?(Array)
+
+          last = value.rindex { |item| item.is_a?(Hash) && item['type'] == 'compaction' }
+          value[last..] if last
         end
 
         def format_item(msg)
@@ -132,12 +209,30 @@ module RubyLLM
           end
         end
 
+        # A reply kept as raw output items replays them verbatim, in order. The check takes the
+        # base Content::Raw, which is what ActiveRecord-backed chats read stored raw content as.
         def format_assistant_items(msg)
-          items = []
-          items << format_reasoning_item(msg.thinking) if msg.thinking&.signature
+          return msg.content.value if msg.content.is_a?(RubyLLM::Content::Raw) && msg.content.value.is_a?(Array)
+
+          items = format_reasoning_items(msg.thinking)
           items << { role: 'assistant', content: format_output_content(msg) } unless empty_content?(msg.content)
           items.concat(format_function_call_items(msg.tool_calls)) if msg.tool_call?
           items
+        end
+
+        # Every reasoning item from the reply replays as received; a message carrying only a
+        # signature (e.g. restored without its blocks) replays a single rebuilt item as before.
+        def format_reasoning_items(thinking)
+          return [] unless thinking
+
+          blocks = Array(thinking.blocks).select { |block| reasoning_block?(block) }
+          return blocks unless blocks.empty?
+
+          thinking.signature ? [format_reasoning_item(thinking)] : []
+        end
+
+        def reasoning_block?(block)
+          block.is_a?(Hash) && (block['type'] || block[:type]).to_s == 'reasoning'
         end
 
         def format_reasoning_item(thinking)
@@ -160,7 +255,7 @@ module RubyLLM
         end
 
         def format_output_content(msg)
-          text = msg.content.is_a?(Content) ? msg.content.text : msg.content
+          text = msg.content.respond_to?(:text) ? msg.content.text : msg.content
           text = text.to_json if text.is_a?(Hash) || text.is_a?(Array)
 
           [{ type: 'output_text', text: text }]
@@ -168,7 +263,8 @@ module RubyLLM
 
         def empty_content?(content)
           content.nil? || (content.is_a?(String) && content.strip.empty?) ||
-            (content.is_a?(Content) && content.text.nil?)
+            (content.is_a?(Content) && content.text.nil?) ||
+            (content.is_a?(Content::Raw) && (!content.respond_to?(:text) || content.text.to_s.strip.empty?))
         end
 
         def parse_output_text(output)
@@ -207,6 +303,12 @@ module RubyLLM
 
         def parse_reasoning_signature(output)
           output.find { |item| item['type'] == 'reasoning' }&.dig('encrypted_content')
+        end
+
+        # Reasoning items with encrypted_content, exactly as received. Under store: false an
+        # item without it cannot be replayed, so it is not kept.
+        def parse_reasoning_items(output)
+          output.select { |item| item['type'] == 'reasoning' && item['encrypted_content'] }
         end
 
         def supports_provider_file_references?

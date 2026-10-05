@@ -17,10 +17,10 @@ module RubyLLM
       # one-line change if this assumption turns out to be wrong.
       MANTLE_SIGNING_SERVICE = 'bedrock-mantle'
 
-      # openai.gpt-5.x ids are only reachable on bedrock-mantle, not Converse.
+      # openai.gpt-5.x and openai.gpt-6.x ids are only reachable on bedrock-mantle, not Converse.
       # Deliberately narrower than /\Aopenai\./ — openai.gpt-oss-* models ARE served by
       # bedrock-runtime and must keep routing to Converse.
-      MANTLE_ONLY_MODEL_PATTERN = /\Aopenai\.gpt-5/
+      MANTLE_ONLY_MODEL_PATTERN = /\Aopenai\.gpt-[56]/
 
       # Converse-specific params that Mantle's Responses API would reject outright.
       CONVERSE_ONLY_PARAMS = %i[top_k additionalModelRequestFields].freeze
@@ -135,9 +135,9 @@ module RubyLLM
         @config.bedrock_region
       end
 
-      # openai.gpt-5.x ids cannot serve Converse; routing here is automatic.
+      # openai.gpt-5.x and openai.gpt-6.x ids cannot serve Converse; routing here is automatic.
       #
-      # Kept in sync with Protocols::MantleResponses::FRONTIER_GPT5_PATTERN — that pattern picks
+      # Kept in sync with Protocols::MantleResponses::FRONTIER_GPT_PATTERN — that pattern picks
       # the /openai/v1 vs /v1 mantle path, this one picks mantle vs Converse. They
       # coincide today but are distinct concepts; update both when a new frontier family lands.
       def mantle_only_model?(model)

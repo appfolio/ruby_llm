@@ -56,6 +56,20 @@ RSpec.describe RubyLLM::Protocols::Responses::Streaming do
     expect(chunk.thinking.signature).to eq('ENCRYPTED')
   end
 
+  it 'accumulates every completed reasoning item as a thinking block, in order' do
+    first = { 'type' => 'reasoning', 'id' => 'rs_1', 'encrypted_content' => 'ENC1' }
+    second = { 'type' => 'reasoning', 'id' => 'rs_2', 'encrypted_content' => 'ENC2' }
+    accumulator = RubyLLM::StreamAccumulator.new
+
+    accumulator.add build_chunk({ 'type' => 'response.output_item.done', 'output_index' => 0, 'item' => first })
+    accumulator.add build_chunk({ 'type' => 'response.output_item.done', 'output_index' => 2, 'item' => second })
+
+    message = accumulator.to_message(instance_double(Faraday::Response, body: {}))
+
+    expect(message.thinking.signature).to eq('ENC1')
+    expect(message.thinking.blocks).to eq([first, second])
+  end
+
   it 'reads usage and model from the completed event' do
     chunk = build_chunk({
                           'type' => 'response.completed',

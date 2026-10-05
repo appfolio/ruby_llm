@@ -1,0 +1,312 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"What
+        is the forecast for Berlin, then for Paris? Look each city up one tool call
+        at a time. Before each tool call, tell me in a few words what you are about
+        to look up. Then answer in one short sentence per city."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"tools":[{"type":"function","name":"city_code","description":"Returns
+        the internal code for a city. Forecasts can only be looked up by this code.","parameters":{"type":"object","properties":{"city":{"type":"string","description":"City
+        name, e.g. Berlin"}},"required":["city"],"additionalProperties":false,"strict":true}},{"type":"function","name":"forecast","description":"Returns
+        the forecast for a city code obtained from the city_code tool.","parameters":{"type":"object","properties":{"code":{"type":"string","description":"City
+        code, e.g. BER-7"}},"required":["code"],"additionalProperties":false,"strict":true}}],"parallel_tool_calls":false,"reasoning":{"effort":"high"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234624Z
+      X-Amz-Content-Sha256:
+      - 6de0beabe6cc434f27df6e9d0850b451d44947901216c3babbd53ec4714480de
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:25 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3373'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJiYWNrZ3JvdW5kIjpmYWxzZSwiYmlsbGluZyI6eyJwYXllciI6ImRldmVsb3BlciJ9LCJjb21wbGV0ZWRfYXQiOjE3OTEyNDM5ODUsImNyZWF0ZWRfYXQiOjE3OTEyNDM5ODQsImVycm9yIjpudWxsLCJmcmVxdWVuY3lfcGVuYWx0eSI6MC4wLCJpZCI6InJlc3BfZXpxNnZsdTRvN2N6dW5id2RrN3d0NHo3ZG1vNXF5dGd5NHZrc2V5ZHZ4eXdpazN2bHNkcSIsImluY29tcGxldGVfZGV0YWlscyI6bnVsbCwiaW5zdHJ1Y3Rpb25zIjpudWxsLCJtYXhfb3V0cHV0X3Rva2VucyI6bnVsbCwibWF4X3Rvb2xfY2FsbHMiOm51bGwsIm1ldGFkYXRhIjp7fSwibW9kZWwiOiJvcGVuYWkuZ3B0LTYtbHVuYSIsIm9iamVjdCI6InJlc3BvbnNlIiwib3V0cHV0IjpbeyJjb250ZW50IjpbXSwiZW5jcnlwdGVkX2NvbnRlbnQiOiJyc25fcnJ1NkJRSGdVYy9WV1M1dlJJQWxId0lGZUZ6SUE3VFd0UWFZREd5V21IUG90YmFFa1FPY2pnZWpmUTZhVTBNdkhqREpBRjhBQVFBVllYZHpMV055ZVhCMGJ5MXdkV0pzYVdNdGEyVjVBRVJCTlhCdFJGSldlVlk0VVdGM1RGaDNRbFZXUkRaU04xUXljWEJIVG0xb2NXMTRjbEkyUlRrNFZXVkNjMVpUVFdNM1NVeDBXazEzUnpCSlIxVXdlRVpITTNjOVBRQUJBQkZoZDNNdGEyMXpMV2hwWlhKaGNtTm9lUUFLWW1WeWJTMXpkRzl5WlFCY3grZUVrUTRmUHVBa0hHY2xsNGhjbDArOUEreTFjcjZOTkdhODNRVHlleFBRTzBQZXBSOGpSUTN6VllSUDQyTy9vTDB6TzRleXhsMUcwOGpHVWFEVkxsUG5JRmI5TzZhOWdxT1c5WTZreSt1THR4ZjhEWDNHLzBac21vWUNBQUFRQUc1SEp3a0ExTmVZd0VWSDFHWEtZeWxKSmhKbXYwOG4wSk5PWk9iU0R4ZGRJeFVLbURBUmtreVk4bTZzdU1aZy9mLy8vLzhBQUFBQkFBQUFBQUFBQUFBQUFBQUJBQUFCYitiS0lZZlI3bGFjTlZrTXFaUlhMUWUwVVpLZlIwREtFcmtOTUROYkhHM2FBeVBBMUtpdXZodlR0YkJXMlo0RWx3d2tYcW9QWGJvdFVxczFSbjc0VzYzeUh6eXAwcUNXWU9tNnpORFRqSVh3aDk2OHhURHBsVzVuVEtHSCs0aE82Ty9kZ0czOWxGOStaSHBpZmM3MGxpTE1BVkhHWmlqL1lVdUs5aithaUkyRTNiYjF4SExaZmhSY3dQdCt3bUovRnV4UUxNUExMaFBSR2pyYUw4dFNqekRtQmtjYTRBVkxJVkVlUFZFTmt5NVc4d3JscEM0Y0JteGJTR2g5TkZaSTEydjZ5d2owR2JoVlpPcTlwQTNqUWIvMkV0Y1pGZGZTNm50eTNtWXYrcUEyNnUxZGxCeW1oK2RLazVoSTRvOFBvZG1vT0FlVW5pSkxSNTQ2TTBWcDBMZ3VKK0gyRm96aWdmczhWNUhxLzVqNDFtV252aFJ3eWN4VGcyNmJvMVNxZzhiVUZyOXFJeHp4cTVkM0ZwczdVRXM4czBaZmpiUE5iM3FQYmRmMnY1S2RqelNhaUREQ2lXQlM5YUtMNjhjalJTaGl4SmdrampXT2xRd3lQS04vTlN1VmRIZmJaUGE0SE1IQi9WOHF6MHNRK3JsVDBKam4vN0ZWTkRSQ3dqZjVBR2N3WlFJd0paSTMvK3NQbk1pQ25sMDltcW40NE4ybFFVdE9Pa2x1SzZLdVlUSzdhQjN0WWZ2M0VaU0RNcUduWXV2TUM3d29BakVBc3ZCN0FUMWF3UHVhWkN2S0VYSkpISkpjQU5lc3dvMlFobXIyQjAzNG14K1UxakpBdUhXQWV5VkoraUo3M1RTMSIsImlkIjoicnNfN2QyN2U5OGJiM2ZhNTI5YmJmODkxZDlkZDM1YzI1OGIiLCJzdW1tYXJ5IjpbXSwidHlwZSI6InJlYXNvbmluZyJ9LHsiY29udGVudCI6W3siYW5ub3RhdGlvbnMiOltdLCJsb2dwcm9icyI6W10sInRleHQiOiJMb29raW5nIHVwIEJlcmxpbuKAmXMgY2l0eSBjb2RlLiIsInR5cGUiOiJvdXRwdXRfdGV4dCJ9XSwiaWQiOiJtc2dfYjEzNzczZGNkOTkzNWU5NDk5OWJkNWI4OTNjZDZhYjEiLCJwaGFzZSI6ImNvbW1lbnRhcnkiLCJyb2xlIjoiYXNzaXN0YW50Iiwic3RhdHVzIjoiY29tcGxldGVkIiwidHlwZSI6Im1lc3NhZ2UifSx7ImFyZ3VtZW50cyI6IntcImNpdHlcIjpcIkJlcmxpblwifSIsImNhbGxfaWQiOiJjYWxsX2YzM2FlNDcyYTEyOTVmNTE4OWU1ZDRhMWRhZjY1ZDJmIiwiaWQiOiJmY181NzZmOWZjNzVmY2M1ZTQwYTEyMzQ5MGQ5NzA3MTVhNSIsIm5hbWUiOiJjaXR5X2NvZGUiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJ0eXBlIjoiZnVuY3Rpb25fY2FsbCJ9XSwicGFyYWxsZWxfdG9vbF9jYWxscyI6ZmFsc2UsInByZXNlbmNlX3BlbmFsdHkiOjAuMCwicHJldmlvdXNfcmVzcG9uc2VfaWQiOm51bGwsInByb21wdF9jYWNoZV9rZXkiOm51bGwsInByb21wdF9jYWNoZV9yZXRlbnRpb24iOiJpbl9tZW1vcnkiLCJyZWFzb25pbmciOnsic3VtbWFyeSI6bnVsbCwiZWZmb3J0IjoiaGlnaCIsImNvbnRleHQiOiJhbGxfdHVybnMifSwic2FmZXR5X2lkZW50aWZpZXIiOm51bGwsInNlcnZpY2VfdGllciI6ImRlZmF1bHQiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJzdG9yZSI6ZmFsc2UsInRlbXBlcmF0dXJlIjoxLjAsInRleHQiOnsiZm9ybWF0Ijp7InR5cGUiOiJ0ZXh0In0sInZlcmJvc2l0eSI6Im1lZGl1bSJ9LCJ0b29sX2Nob2ljZSI6ImF1dG8iLCJ0b29scyI6W3siZGVzY3JpcHRpb24iOiJSZXR1cm5zIHRoZSBpbnRlcm5hbCBjb2RlIGZvciBhIGNpdHkuIEZvcmVjYXN0cyBjYW4gb25seSBiZSBsb29rZWQgdXAgYnkgdGhpcyBjb2RlLiIsIm5hbWUiOiJjaXR5X2NvZGUiLCJvdXRwdXRfc2NoZW1hIjpudWxsLCJwYXJhbWV0ZXJzIjp7InR5cGUiOiJvYmplY3QiLCJwcm9wZXJ0aWVzIjp7ImNpdHkiOnsidHlwZSI6InN0cmluZyIsImRlc2NyaXB0aW9uIjoiQ2l0eSBuYW1lLCBlLmcuIEJlcmxpbiJ9fSwicmVxdWlyZWQiOlsiY2l0eSJdLCJhZGRpdGlvbmFsUHJvcGVydGllcyI6ZmFsc2UsInN0cmljdCI6dHJ1ZX0sInN0cmljdCI6dHJ1ZSwidHlwZSI6ImZ1bmN0aW9uIn0seyJkZXNjcmlwdGlvbiI6IlJldHVybnMgdGhlIGZvcmVjYXN0IGZvciBhIGNpdHkgY29kZSBvYnRhaW5lZCBmcm9tIHRoZSBjaXR5X2NvZGUgdG9vbC4iLCJuYW1lIjoiZm9yZWNhc3QiLCJvdXRwdXRfc2NoZW1hIjpudWxsLCJwYXJhbWV0ZXJzIjp7InR5cGUiOiJvYmplY3QiLCJwcm9wZXJ0aWVzIjp7ImNvZGUiOnsidHlwZSI6InN0cmluZyIsImRlc2NyaXB0aW9uIjoiQ2l0eSBjb2RlLCBlLmcuIEJFUi03In19LCJyZXF1aXJlZCI6WyJjb2RlIl0sImFkZGl0aW9uYWxQcm9wZXJ0aWVzIjpmYWxzZSwic3RyaWN0Ijp0cnVlfSwic3RyaWN0Ijp0cnVlLCJ0eXBlIjoiZnVuY3Rpb24ifV0sInRvcF9sb2dwcm9icyI6MCwidG9wX3AiOjAuOTgsInRydW5jYXRpb24iOiJkaXNhYmxlZCIsInVzYWdlIjp7ImlucHV0X3Rva2VucyI6MjMwLCJpbnB1dF90b2tlbnNfZGV0YWlscyI6eyJjYWNoZV93cml0ZV90b2tlbnMiOjAsImNhY2hlZF90b2tlbnMiOjB9LCJvdXRwdXRfdG9rZW5zIjo4NSwib3V0cHV0X3Rva2Vuc19kZXRhaWxzIjp7InJlYXNvbmluZ190b2tlbnMiOjUxfSwidG90YWxfdG9rZW5zIjozMTV9LCJ1c2VyIjpudWxsLCJtb2RlcmF0aW9uIjpudWxsfQ==
+  recorded_at: Mon, 05 Oct 2026 23:46:25 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"What
+        is the forecast for Berlin, then for Paris? Look each city up one tool call
+        at a time. Before each tool call, tell me in a few words what you are about
+        to look up. Then answer in one short sentence per city."},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeFzIA7TWtQaYDGyWmHPotbaEkQOcjgejfQ6aU0MvHjDJAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNXBtRFJWeVY4UWF3TFh3QlVWRDZSN1QycXBHTm1ocW14clI2RTk4VWVCc1ZTTWM3SUx0Wk13RzBJR1UweEZHM3c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcx+eEkQ4fPuAkHGcll4hcl0+9A+y1cr6NNGa83QTyexPQO0PepR8jRQ3zVYRP42O/oL0zO4eyxl1G08jGUaDVLlPnIFb9O6a9gqOW9Y6ky+uLtxf8DX3G/0ZsmoYCAAAQAG5HJwkA1NeYwEVH1GXKYylJJhJmv08n0JNOZObSDxddIxUKmDARkkyY8m6suMZg/f////8AAAABAAAAAAAAAAAAAAABAAABb+bKIYfR7lacNVkMqZRXLQe0UZKfR0DKErkNMDNbHG3aAyPA1KiuvhvTtbBW2Z4ElwwkXqoPXbotUqs1Rn74W63yHzyp0qCWYOm6zNDTjIXwh968xTDplW5nTKGH+4hO6O/dgG39lF9+ZHpifc70liLMAVHGZij/YUuK9j+aiI2E3bb1xHLZfhRcwPt+wmJ/FuxQLMPLLhPRGjraL8tSjzDmBkca4AVLIVEePVENky5W8wrlpC4cBmxbSGh9NFZI12v6ywj0GbhVZOq9pA3jQb/2EtcZFdfS6nty3mYv+qA26u1dlBymh+dKk5hI4o8PodmoOAeUniJLR546M0Vp0LguJ+H2Fozigfs8V5Hq/5j41mWnvhRwycxTg26bo1Sqg8bUFr9qIxzxq5d3Fps7UEs8s0ZfjbPNb3qPbdf2v5KdjzSaiDDCiWBS9aKL68cjRShixJgkjjWOlQwyPKN/NSuVdHfbZPa4HMHB/V8qz0sQ+rlT0Jjn/7FVNDRCwjf5AGcwZQIwJZI3/+sPnMiCnl09mqn44N2lQUtOOkluK6KuYTK7aB3tYfv3EZSDMqGnYuvMC7woAjEAsvB7AT1awPuaZCvKEXJJHJJcANeswo2Qhmr2B034mx+U1jJAuHWAeyVJ+iJ73TS1","id":"rs_7d27e98bb3fa529bbf891d9dd35c258b","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s city code.","type":"output_text"}],"id":"msg_b13773dcd9935e94999bd5b893cd6ab1","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Berlin\"}","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","id":"fc_576f9fc75fcc5e40a123490d970715a5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","output":"BER-7"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"tools":[{"type":"function","name":"city_code","description":"Returns
+        the internal code for a city. Forecasts can only be looked up by this code.","parameters":{"type":"object","properties":{"city":{"type":"string","description":"City
+        name, e.g. Berlin"}},"required":["city"],"additionalProperties":false,"strict":true}},{"type":"function","name":"forecast","description":"Returns
+        the forecast for a city code obtained from the city_code tool.","parameters":{"type":"object","properties":{"code":{"type":"string","description":"City
+        code, e.g. BER-7"}},"required":["code"],"additionalProperties":false,"strict":true}}],"parallel_tool_calls":false,"reasoning":{"effort":"high"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234625Z
+      X-Amz-Content-Sha256:
+      - 5ad3b082e9e808fd6f2fd760a46e8720fdc65d558fdc3b4d43da58bb687808f6
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:26 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3193'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJiYWNrZ3JvdW5kIjpmYWxzZSwiYmlsbGluZyI6eyJwYXllciI6ImRldmVsb3BlciJ9LCJjb21wbGV0ZWRfYXQiOjE3OTEyNDM5ODYsImNyZWF0ZWRfYXQiOjE3OTEyNDM5ODUsImVycm9yIjpudWxsLCJmcmVxdWVuY3lfcGVuYWx0eSI6MC4wLCJpZCI6InJlc3BfYWxuYmk1dXk3ajJycGRhaGRrZHZybG9naWR5dGh4ZG1vZ2lncm9wN2h3Y2lldmc3djd0cSIsImluY29tcGxldGVfZGV0YWlscyI6bnVsbCwiaW5zdHJ1Y3Rpb25zIjpudWxsLCJtYXhfb3V0cHV0X3Rva2VucyI6bnVsbCwibWF4X3Rvb2xfY2FsbHMiOm51bGwsIm1ldGFkYXRhIjp7fSwibW9kZWwiOiJvcGVuYWkuZ3B0LTYtbHVuYSIsIm9iamVjdCI6InJlc3BvbnNlIiwib3V0cHV0IjpbeyJjb250ZW50IjpbXSwiZW5jcnlwdGVkX2NvbnRlbnQiOiJyc25fcnJ1NkJRSGdVYy9WV1M1dlJJQWxId0lGZUM4OU8zQ3U5ZFJ2VVlCMStTa1RIcFcrczUvZ3FKZEhXTytpeEFRMmhoR1NBRjhBQVFBVllYZHpMV055ZVhCMGJ5MXdkV0pzYVdNdGEyVjVBRVJCYVZadWJVdHpTRFZOZFRseGVqQnhjRTkxYlZCdGJVeHROWGxRVm5GalkwUjJVekU1YlhOMk4wTTVaR1JGWWxGWFEyWXZSa3B4YWtKM1FrWTFWMmd4TDJjOVBRQUJBQkZoZDNNdGEyMXpMV2hwWlhKaGNtTm9lUUFLWW1WeWJTMXpkRzl5WlFCYzU5UVM2WVRnS3lXc1R0SWxmck5BT0E2R1hNSnBBWTRKN2VPMi9nVHlleFBRTzBQZXBSOGpSUTN6VllUb2FpWHdSaFNIQW9MK2lCMGtsZzFHM3p0SjNTckFaSHJmUHcyQ0xMY1d0OGsxVTAxV2ZGYVgyUU5HZkoyWGhQNENBQUFRQUZlWFY3OTlTY3kyY3hxeTI5bHRnUXlwb1BRWnl5MjJtbEcyUnNvWW5VQ3BKcGdIZ2VBVjg4enRVZURnWmh4ZHkvLy8vLzhBQUFBQkFBQUFBQUFBQUFBQUFBQUJBQUFBNlozMDlWaDlrenBGVWllY3d5QVc1bUVCcWMySE5sVktuQVJHRm8wdm0rQmV6TmxHbERqTkVjRlNYRTZ4SmNXODMwZnZWWHNMT0xJRXRtR2VEWHlrQU1sY0RtUTJDclRKM0piMkpUYVhLYUxtakltNFlCcTdYSkxwblpSN3hrY3BGZlR4UDV0dWZVR29tWEpmbFpQamRLR1luK2pkQm4wUCtTMWREblJRQ0pGaXB2U3RKT3BydjhES3Foc1F6eXgvT3FKbHByMWF3clYxUFljMm16ZkF6NTlUVURGUllmRHQyaVA5Y0ZUaXRrNTFSR2c5Ri9MZnIwZFRNZHc2VFhZM3RVY3BZL0Z3eTBSM09oaERqOEdXVzRFenU0cXZIWGlWVTlObTM3MkV4VWs0c3lHak5mSURyRWtnK3dNbDgrZXJJT1JiUUhhenlRMCtzQUJuTUdVQ01DZWwvZVJNbDVzei9wSy9WYzUyc0tNSkhqVU1xK0VHSHptb0oyOVBxNTIvZzFXbTdNSlY5djhXbzNCM0hacWk1Z0l4QUw3aFJuenRHT2RLMHMvczNVMkFrNHRsYjI3M0pRNHVWZ05aSElJUStEZVVFbFRWZG1ldUhMaWNBUjVKUDVYV3hBPT0iLCJpZCI6InJzXzk2ZDc1YjA3MjYzMzU4OWZhNTQ3NWExMWFiMmY2OGE1Iiwic3VtbWFyeSI6W10sInR5cGUiOiJyZWFzb25pbmcifSx7ImNvbnRlbnQiOlt7ImFubm90YXRpb25zIjpbXSwibG9ncHJvYnMiOltdLCJ0ZXh0IjoiTG9va2luZyB1cCBCZXJsaW7igJlzIGZvcmVjYXN0LiIsInR5cGUiOiJvdXRwdXRfdGV4dCJ9XSwiaWQiOiJtc2dfMDU1ODQzZDlhNDU1NWM4MjkwM2M3ZjA5MGNmMmRmMzAiLCJwaGFzZSI6ImNvbW1lbnRhcnkiLCJyb2xlIjoiYXNzaXN0YW50Iiwic3RhdHVzIjoiY29tcGxldGVkIiwidHlwZSI6Im1lc3NhZ2UifSx7ImFyZ3VtZW50cyI6IntcImNvZGVcIjpcIkJFUi03XCJ9IiwiY2FsbF9pZCI6ImNhbGxfODY4NDRlNjdiOWNhNTdlZmE2MzA3NGYwN2FmM2IzNTAiLCJpZCI6ImZjX2IxMWQzZTg4NDFjODU2ZGU4M2NkNzQ4MmQzOTJiM2ViIiwibmFtZSI6ImZvcmVjYXN0Iiwic3RhdHVzIjoiY29tcGxldGVkIiwidHlwZSI6ImZ1bmN0aW9uX2NhbGwifV0sInBhcmFsbGVsX3Rvb2xfY2FsbHMiOmZhbHNlLCJwcmVzZW5jZV9wZW5hbHR5IjowLjAsInByZXZpb3VzX3Jlc3BvbnNlX2lkIjpudWxsLCJwcm9tcHRfY2FjaGVfa2V5IjpudWxsLCJwcm9tcHRfY2FjaGVfcmV0ZW50aW9uIjoiaW5fbWVtb3J5IiwicmVhc29uaW5nIjp7InN1bW1hcnkiOm51bGwsImVmZm9ydCI6ImhpZ2giLCJjb250ZXh0IjoiYWxsX3R1cm5zIn0sInNhZmV0eV9pZGVudGlmaWVyIjpudWxsLCJzZXJ2aWNlX3RpZXIiOiJkZWZhdWx0Iiwic3RhdHVzIjoiY29tcGxldGVkIiwic3RvcmUiOmZhbHNlLCJ0ZW1wZXJhdHVyZSI6MS4wLCJ0ZXh0Ijp7ImZvcm1hdCI6eyJ0eXBlIjoidGV4dCJ9LCJ2ZXJib3NpdHkiOiJtZWRpdW0ifSwidG9vbF9jaG9pY2UiOiJhdXRvIiwidG9vbHMiOlt7ImRlc2NyaXB0aW9uIjoiUmV0dXJucyB0aGUgaW50ZXJuYWwgY29kZSBmb3IgYSBjaXR5LiBGb3JlY2FzdHMgY2FuIG9ubHkgYmUgbG9va2VkIHVwIGJ5IHRoaXMgY29kZS4iLCJuYW1lIjoiY2l0eV9jb2RlIiwib3V0cHV0X3NjaGVtYSI6bnVsbCwicGFyYW1ldGVycyI6eyJ0eXBlIjoib2JqZWN0IiwicHJvcGVydGllcyI6eyJjaXR5Ijp7InR5cGUiOiJzdHJpbmciLCJkZXNjcmlwdGlvbiI6IkNpdHkgbmFtZSwgZS5nLiBCZXJsaW4ifX0sInJlcXVpcmVkIjpbImNpdHkiXSwiYWRkaXRpb25hbFByb3BlcnRpZXMiOmZhbHNlLCJzdHJpY3QiOnRydWV9LCJzdHJpY3QiOnRydWUsInR5cGUiOiJmdW5jdGlvbiJ9LHsiZGVzY3JpcHRpb24iOiJSZXR1cm5zIHRoZSBmb3JlY2FzdCBmb3IgYSBjaXR5IGNvZGUgb2J0YWluZWQgZnJvbSB0aGUgY2l0eV9jb2RlIHRvb2wuIiwibmFtZSI6ImZvcmVjYXN0Iiwib3V0cHV0X3NjaGVtYSI6bnVsbCwicGFyYW1ldGVycyI6eyJ0eXBlIjoib2JqZWN0IiwicHJvcGVydGllcyI6eyJjb2RlIjp7InR5cGUiOiJzdHJpbmciLCJkZXNjcmlwdGlvbiI6IkNpdHkgY29kZSwgZS5nLiBCRVItNyJ9fSwicmVxdWlyZWQiOlsiY29kZSJdLCJhZGRpdGlvbmFsUHJvcGVydGllcyI6ZmFsc2UsInN0cmljdCI6dHJ1ZX0sInN0cmljdCI6dHJ1ZSwidHlwZSI6ImZ1bmN0aW9uIn1dLCJ0b3BfbG9ncHJvYnMiOjAsInRvcF9wIjowLjk4LCJ0cnVuY2F0aW9uIjoiZGlzYWJsZWQiLCJ1c2FnZSI6eyJpbnB1dF90b2tlbnMiOjMyOSwiaW5wdXRfdG9rZW5zX2RldGFpbHMiOnsiY2FjaGVfd3JpdGVfdG9rZW5zIjowLCJjYWNoZWRfdG9rZW5zIjowfSwib3V0cHV0X3Rva2VucyI6NDQsIm91dHB1dF90b2tlbnNfZGV0YWlscyI6eyJyZWFzb25pbmdfdG9rZW5zIjo5fSwidG90YWxfdG9rZW5zIjozNzN9LCJ1c2VyIjpudWxsLCJtb2RlcmF0aW9uIjpudWxsfQ==
+  recorded_at: Mon, 05 Oct 2026 23:46:26 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"What
+        is the forecast for Berlin, then for Paris? Look each city up one tool call
+        at a time. Before each tool call, tell me in a few words what you are about
+        to look up. Then answer in one short sentence per city."},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeFzIA7TWtQaYDGyWmHPotbaEkQOcjgejfQ6aU0MvHjDJAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNXBtRFJWeVY4UWF3TFh3QlVWRDZSN1QycXBHTm1ocW14clI2RTk4VWVCc1ZTTWM3SUx0Wk13RzBJR1UweEZHM3c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcx+eEkQ4fPuAkHGcll4hcl0+9A+y1cr6NNGa83QTyexPQO0PepR8jRQ3zVYRP42O/oL0zO4eyxl1G08jGUaDVLlPnIFb9O6a9gqOW9Y6ky+uLtxf8DX3G/0ZsmoYCAAAQAG5HJwkA1NeYwEVH1GXKYylJJhJmv08n0JNOZObSDxddIxUKmDARkkyY8m6suMZg/f////8AAAABAAAAAAAAAAAAAAABAAABb+bKIYfR7lacNVkMqZRXLQe0UZKfR0DKErkNMDNbHG3aAyPA1KiuvhvTtbBW2Z4ElwwkXqoPXbotUqs1Rn74W63yHzyp0qCWYOm6zNDTjIXwh968xTDplW5nTKGH+4hO6O/dgG39lF9+ZHpifc70liLMAVHGZij/YUuK9j+aiI2E3bb1xHLZfhRcwPt+wmJ/FuxQLMPLLhPRGjraL8tSjzDmBkca4AVLIVEePVENky5W8wrlpC4cBmxbSGh9NFZI12v6ywj0GbhVZOq9pA3jQb/2EtcZFdfS6nty3mYv+qA26u1dlBymh+dKk5hI4o8PodmoOAeUniJLR546M0Vp0LguJ+H2Fozigfs8V5Hq/5j41mWnvhRwycxTg26bo1Sqg8bUFr9qIxzxq5d3Fps7UEs8s0ZfjbPNb3qPbdf2v5KdjzSaiDDCiWBS9aKL68cjRShixJgkjjWOlQwyPKN/NSuVdHfbZPa4HMHB/V8qz0sQ+rlT0Jjn/7FVNDRCwjf5AGcwZQIwJZI3/+sPnMiCnl09mqn44N2lQUtOOkluK6KuYTK7aB3tYfv3EZSDMqGnYuvMC7woAjEAsvB7AT1awPuaZCvKEXJJHJJcANeswo2Qhmr2B034mx+U1jJAuHWAeyVJ+iJ73TS1","id":"rs_7d27e98bb3fa529bbf891d9dd35c258b","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s city code.","type":"output_text"}],"id":"msg_b13773dcd9935e94999bd5b893cd6ab1","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Berlin\"}","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","id":"fc_576f9fc75fcc5e40a123490d970715a5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","output":"BER-7"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeC89O3Cu9dRvUYB1+SkTHpW+s5/gqJdHWO+ixAQ2hhGSAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBaVZubUtzSDVNdTlxejBxcE91bVBtbUxtNXlQVnFjY0R2UzE5bXN2N0M5ZGRFYlFXQ2YvRkpxakJ3QkY1V2gxL2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBc59QS6YTgKyWsTtIlfrNAOA6GXMJpAY4J7eO2/gTyexPQO0PepR8jRQ3zVYToaiXwRhSHAoL+iB0klg1G3ztJ3SrAZHrfPw2CLLcWt8k1U01WfFaX2QNGfJ2XhP4CAAAQAFeXV799Scy2cxqy29ltgQypoPQZyy22mlG2RsoYnUCpJpgHgeAV88ztUeDgZhxdy/////8AAAABAAAAAAAAAAAAAAABAAAA6Z309Vh9kzpFUiecwyAW5mEBqc2HNlVKnARGFo0vm+BezNlGlDjNEcFSXE6xJcW830fvVXsLOLIEtmGeDXykAMlcDmQ2CrTJ3Jb2JTaXKaLmjIm4YBq7XJLpnZR7xkcpFfTxP5tufUGomXJflZPjdKGYn+jdBn0P+S1dDnRQCJFipvStJOprv8DKqhsQzyx/OqJlpr1awrV1PYc2mzfAz59TUDFRYfDt2iP9cFTitk51RGg9F/Lfr0dTMdw6TXY3tUcpY/Fwy0R3OhhDj8GWW4Ezu4qvHXiVU9Nm372ExUk4syGjNfIDrEkg+wMl8+erIORbQHazyQ0+sABnMGUCMCel/eRMl5sz/pK/Vc52sKMJHjUMq+EGHzmoJ29Pq52/g1Wm7MJV9v8Wo3B3HZqi5gIxAL7hRnztGOdK0s/s3U2Ak4tlb273JQ4uVgNZHIIQ+DeUElTVdmeuHLicAR5JP5XWxA==","id":"rs_96d75b072633589fa5475a11ab2f68a5","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s forecast.","type":"output_text"}],"id":"msg_055843d9a4555c82903c7f090cf2df30","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"code\":\"BER-7\"}","call_id":"call_86844e67b9ca57efa63074f07af3b350","id":"fc_b11d3e8841c856de83cd7482d392b3eb","name":"forecast","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_86844e67b9ca57efa63074f07af3b350","output":"18C,
+        light rain"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"tools":[{"type":"function","name":"city_code","description":"Returns
+        the internal code for a city. Forecasts can only be looked up by this code.","parameters":{"type":"object","properties":{"city":{"type":"string","description":"City
+        name, e.g. Berlin"}},"required":["city"],"additionalProperties":false,"strict":true}},{"type":"function","name":"forecast","description":"Returns
+        the forecast for a city code obtained from the city_code tool.","parameters":{"type":"object","properties":{"code":{"type":"string","description":"City
+        code, e.g. BER-7"}},"required":["code"],"additionalProperties":false,"strict":true}}],"parallel_tool_calls":false,"reasoning":{"effort":"high"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234626Z
+      X-Amz-Content-Sha256:
+      - 579257d47bd23faf9426a2e136b5470e246e88a66d93e1855209478b67a3bff3
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:27 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3190'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJiYWNrZ3JvdW5kIjpmYWxzZSwiYmlsbGluZyI6eyJwYXllciI6ImRldmVsb3BlciJ9LCJjb21wbGV0ZWRfYXQiOjE3OTEyNDM5ODcsImNyZWF0ZWRfYXQiOjE3OTEyNDM5ODYsImVycm9yIjpudWxsLCJmcmVxdWVuY3lfcGVuYWx0eSI6MC4wLCJpZCI6InJlc3BfdW54d2h1bHZzYm9ya3N4Y28yZ3BsdWttdGdwemp2NnpvN3FjaGJ4ejY2NmN0aGV4ZWZtcSIsImluY29tcGxldGVfZGV0YWlscyI6bnVsbCwiaW5zdHJ1Y3Rpb25zIjpudWxsLCJtYXhfb3V0cHV0X3Rva2VucyI6bnVsbCwibWF4X3Rvb2xfY2FsbHMiOm51bGwsIm1ldGFkYXRhIjp7fSwibW9kZWwiOiJvcGVuYWkuZ3B0LTYtbHVuYSIsIm9iamVjdCI6InJlc3BvbnNlIiwib3V0cHV0IjpbeyJjb250ZW50IjpbXSwiZW5jcnlwdGVkX2NvbnRlbnQiOiJyc25fcnJ1NkJRSGdVYy9WV1M1dlJJQWxId0lGZUdkYWloNEp6RG41d29LYjZYbHBMQXd4ak1JcmZWOGFCRGlyNG9KbGQ1R2FBRjhBQVFBVllYZHpMV055ZVhCMGJ5MXdkV0pzYVdNdGEyVjVBRVJCY1VWeE9IUmtWV1ppYTFCd04yRXhUbWxvVFVwbk5qSnRZM1YxWVVOTFZraGxaRnBZTURkVFVsQnlTM1ZZYkhabU1XbGhiV2RaVFRocmNWZFBObUo0Y0VFOVBRQUJBQkZoZDNNdGEyMXpMV2hwWlhKaGNtTm9lUUFLWW1WeWJTMXpkRzl5WlFCY3A5UGF1RDdnOWExc1RIRzNVQ0RPQVhkNkVId2FVa1p2aWwyQXpRVHlleFBRTzBQZXBSOGpSUTN6VllSRGVDb1FXcU4yNFZkdWlFL3lKTk5QVlgyNDZPdTdXTzNHZExWaFlOSkpUdzRDbU5ra2NMeEVxWTNLbzNhZ09RY0NBQUFRQUhXeGtJZy9sa0dtN2xiNTVzcUIxTzhNdEV3WGtYdU40NEdhdCs2VEUrNFFhaU5OcEFsMitGNCs2Qnh5dUgyR1cvLy8vLzhBQUFBQkFBQUFBQUFBQUFBQUFBQUJBQUFBNXRGVC9QNzJydjRPVE5WVHlha3ZvaytBbEF5aGhWK2ljRzZkQXc5OXRlMlJld3MzWkhQVEpzalFtRXltRGtKRWtTMjZpc0JiWFZhMEJ5d1RZd3o5OG5VMlFNMzJ0WFFtNENCb1I1OGw3akxMQjVoTmd1bVJOU1BKUDJGZ3VxT3FucEVINFlJdDJSM2ozRE1kMVNRb3E3SUI3ajFKZlhWZHNpczFSRG1JaThYUXR5ZGFQL3BLTlZXZ2gxTi94TUpTeDgvNHdrT3FYbEYwWVF2YjI1NTRhNDRJVnl1cVpMQU5FbWRva2RxVHlxbFRnb3l4RlRlZEYvUHJ6aXEva0ZqVzJ3RGpkOHQ0a2hVb0xzWXhHN0tMZTloOCtoaE9XUWE1U25IUWdxWDhscEpVamFFdzFNMEtLbHQ5TVZVcVAwbldTcGpjMEFzbjhnQm5NR1VDTUhkNWM0YzZjcFpnU1BvelRYalJuUzczZ05IcHkrQVk5RXpWV0tPOXB5a0JuWGl3VFVKVktuNnUwNktzVFZQRkJBSXhBTlBYaU1hZjhjTTkvYk1QcUxiSy82Y2Y1TFZUYk5CMWlmcW9KZm9vWG1rckVNOXgwTDhKZFBNeE4vZEtjdWtMMHc9PSIsImlkIjoicnNfYzc5OTgzNDQ4MGNiNTE5M2JiYzVhYjhkOWZhMmEzOWYiLCJzdW1tYXJ5IjpbXSwidHlwZSI6InJlYXNvbmluZyJ9LHsiY29udGVudCI6W3siYW5ub3RhdGlvbnMiOltdLCJsb2dwcm9icyI6W10sInRleHQiOiJMb29raW5nIHVwIFBhcmlz4oCZcyBjaXR5IGNvZGUuIiwidHlwZSI6Im91dHB1dF90ZXh0In1dLCJpZCI6Im1zZ18zMmM1ZTI0NDIwOWQ1NDk5OGE3NTBlZGEyOWE2NDQwZSIsInBoYXNlIjoiY29tbWVudGFyeSIsInJvbGUiOiJhc3Npc3RhbnQiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJ0eXBlIjoibWVzc2FnZSJ9LHsiYXJndW1lbnRzIjoie1wiY2l0eVwiOlwiUGFyaXNcIn0iLCJjYWxsX2lkIjoiY2FsbF8yN2Y1ZGY1MTU0ODI1MDFiOTNkYTcyYjNmNWQ1MjM5NyIsImlkIjoiZmNfMWM2ZWZmYjE0ODQ4NTU3OWE2Y2FmNmY4NDM4NmEwYjUiLCJuYW1lIjoiY2l0eV9jb2RlIiwic3RhdHVzIjoiY29tcGxldGVkIiwidHlwZSI6ImZ1bmN0aW9uX2NhbGwifV0sInBhcmFsbGVsX3Rvb2xfY2FsbHMiOmZhbHNlLCJwcmVzZW5jZV9wZW5hbHR5IjowLjAsInByZXZpb3VzX3Jlc3BvbnNlX2lkIjpudWxsLCJwcm9tcHRfY2FjaGVfa2V5IjpudWxsLCJwcm9tcHRfY2FjaGVfcmV0ZW50aW9uIjoiaW5fbWVtb3J5IiwicmVhc29uaW5nIjp7InN1bW1hcnkiOm51bGwsImVmZm9ydCI6ImhpZ2giLCJjb250ZXh0IjoiYWxsX3R1cm5zIn0sInNhZmV0eV9pZGVudGlmaWVyIjpudWxsLCJzZXJ2aWNlX3RpZXIiOiJkZWZhdWx0Iiwic3RhdHVzIjoiY29tcGxldGVkIiwic3RvcmUiOmZhbHNlLCJ0ZW1wZXJhdHVyZSI6MS4wLCJ0ZXh0Ijp7ImZvcm1hdCI6eyJ0eXBlIjoidGV4dCJ9LCJ2ZXJib3NpdHkiOiJtZWRpdW0ifSwidG9vbF9jaG9pY2UiOiJhdXRvIiwidG9vbHMiOlt7ImRlc2NyaXB0aW9uIjoiUmV0dXJucyB0aGUgaW50ZXJuYWwgY29kZSBmb3IgYSBjaXR5LiBGb3JlY2FzdHMgY2FuIG9ubHkgYmUgbG9va2VkIHVwIGJ5IHRoaXMgY29kZS4iLCJuYW1lIjoiY2l0eV9jb2RlIiwib3V0cHV0X3NjaGVtYSI6bnVsbCwicGFyYW1ldGVycyI6eyJ0eXBlIjoib2JqZWN0IiwicHJvcGVydGllcyI6eyJjaXR5Ijp7InR5cGUiOiJzdHJpbmciLCJkZXNjcmlwdGlvbiI6IkNpdHkgbmFtZSwgZS5nLiBCZXJsaW4ifX0sInJlcXVpcmVkIjpbImNpdHkiXSwiYWRkaXRpb25hbFByb3BlcnRpZXMiOmZhbHNlLCJzdHJpY3QiOnRydWV9LCJzdHJpY3QiOnRydWUsInR5cGUiOiJmdW5jdGlvbiJ9LHsiZGVzY3JpcHRpb24iOiJSZXR1cm5zIHRoZSBmb3JlY2FzdCBmb3IgYSBjaXR5IGNvZGUgb2J0YWluZWQgZnJvbSB0aGUgY2l0eV9jb2RlIHRvb2wuIiwibmFtZSI6ImZvcmVjYXN0Iiwib3V0cHV0X3NjaGVtYSI6bnVsbCwicGFyYW1ldGVycyI6eyJ0eXBlIjoib2JqZWN0IiwicHJvcGVydGllcyI6eyJjb2RlIjp7InR5cGUiOiJzdHJpbmciLCJkZXNjcmlwdGlvbiI6IkNpdHkgY29kZSwgZS5nLiBCRVItNyJ9fSwicmVxdWlyZWQiOlsiY29kZSJdLCJhZGRpdGlvbmFsUHJvcGVydGllcyI6ZmFsc2UsInN0cmljdCI6dHJ1ZX0sInN0cmljdCI6dHJ1ZSwidHlwZSI6ImZ1bmN0aW9uIn1dLCJ0b3BfbG9ncHJvYnMiOjAsInRvcF9wIjowLjk4LCJ0cnVuY2F0aW9uIjoiZGlzYWJsZWQiLCJ1c2FnZSI6eyJpbnB1dF90b2tlbnMiOjM4OSwiaW5wdXRfdG9rZW5zX2RldGFpbHMiOnsiY2FjaGVfd3JpdGVfdG9rZW5zIjowLCJjYWNoZWRfdG9rZW5zIjowfSwib3V0cHV0X3Rva2VucyI6NDMsIm91dHB1dF90b2tlbnNfZGV0YWlscyI6eyJyZWFzb25pbmdfdG9rZW5zIjo5fSwidG90YWxfdG9rZW5zIjo0MzJ9LCJ1c2VyIjpudWxsLCJtb2RlcmF0aW9uIjpudWxsfQ==
+  recorded_at: Mon, 05 Oct 2026 23:46:27 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"What
+        is the forecast for Berlin, then for Paris? Look each city up one tool call
+        at a time. Before each tool call, tell me in a few words what you are about
+        to look up. Then answer in one short sentence per city."},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeFzIA7TWtQaYDGyWmHPotbaEkQOcjgejfQ6aU0MvHjDJAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNXBtRFJWeVY4UWF3TFh3QlVWRDZSN1QycXBHTm1ocW14clI2RTk4VWVCc1ZTTWM3SUx0Wk13RzBJR1UweEZHM3c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcx+eEkQ4fPuAkHGcll4hcl0+9A+y1cr6NNGa83QTyexPQO0PepR8jRQ3zVYRP42O/oL0zO4eyxl1G08jGUaDVLlPnIFb9O6a9gqOW9Y6ky+uLtxf8DX3G/0ZsmoYCAAAQAG5HJwkA1NeYwEVH1GXKYylJJhJmv08n0JNOZObSDxddIxUKmDARkkyY8m6suMZg/f////8AAAABAAAAAAAAAAAAAAABAAABb+bKIYfR7lacNVkMqZRXLQe0UZKfR0DKErkNMDNbHG3aAyPA1KiuvhvTtbBW2Z4ElwwkXqoPXbotUqs1Rn74W63yHzyp0qCWYOm6zNDTjIXwh968xTDplW5nTKGH+4hO6O/dgG39lF9+ZHpifc70liLMAVHGZij/YUuK9j+aiI2E3bb1xHLZfhRcwPt+wmJ/FuxQLMPLLhPRGjraL8tSjzDmBkca4AVLIVEePVENky5W8wrlpC4cBmxbSGh9NFZI12v6ywj0GbhVZOq9pA3jQb/2EtcZFdfS6nty3mYv+qA26u1dlBymh+dKk5hI4o8PodmoOAeUniJLR546M0Vp0LguJ+H2Fozigfs8V5Hq/5j41mWnvhRwycxTg26bo1Sqg8bUFr9qIxzxq5d3Fps7UEs8s0ZfjbPNb3qPbdf2v5KdjzSaiDDCiWBS9aKL68cjRShixJgkjjWOlQwyPKN/NSuVdHfbZPa4HMHB/V8qz0sQ+rlT0Jjn/7FVNDRCwjf5AGcwZQIwJZI3/+sPnMiCnl09mqn44N2lQUtOOkluK6KuYTK7aB3tYfv3EZSDMqGnYuvMC7woAjEAsvB7AT1awPuaZCvKEXJJHJJcANeswo2Qhmr2B034mx+U1jJAuHWAeyVJ+iJ73TS1","id":"rs_7d27e98bb3fa529bbf891d9dd35c258b","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s city code.","type":"output_text"}],"id":"msg_b13773dcd9935e94999bd5b893cd6ab1","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Berlin\"}","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","id":"fc_576f9fc75fcc5e40a123490d970715a5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","output":"BER-7"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeC89O3Cu9dRvUYB1+SkTHpW+s5/gqJdHWO+ixAQ2hhGSAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBaVZubUtzSDVNdTlxejBxcE91bVBtbUxtNXlQVnFjY0R2UzE5bXN2N0M5ZGRFYlFXQ2YvRkpxakJ3QkY1V2gxL2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBc59QS6YTgKyWsTtIlfrNAOA6GXMJpAY4J7eO2/gTyexPQO0PepR8jRQ3zVYToaiXwRhSHAoL+iB0klg1G3ztJ3SrAZHrfPw2CLLcWt8k1U01WfFaX2QNGfJ2XhP4CAAAQAFeXV799Scy2cxqy29ltgQypoPQZyy22mlG2RsoYnUCpJpgHgeAV88ztUeDgZhxdy/////8AAAABAAAAAAAAAAAAAAABAAAA6Z309Vh9kzpFUiecwyAW5mEBqc2HNlVKnARGFo0vm+BezNlGlDjNEcFSXE6xJcW830fvVXsLOLIEtmGeDXykAMlcDmQ2CrTJ3Jb2JTaXKaLmjIm4YBq7XJLpnZR7xkcpFfTxP5tufUGomXJflZPjdKGYn+jdBn0P+S1dDnRQCJFipvStJOprv8DKqhsQzyx/OqJlpr1awrV1PYc2mzfAz59TUDFRYfDt2iP9cFTitk51RGg9F/Lfr0dTMdw6TXY3tUcpY/Fwy0R3OhhDj8GWW4Ezu4qvHXiVU9Nm372ExUk4syGjNfIDrEkg+wMl8+erIORbQHazyQ0+sABnMGUCMCel/eRMl5sz/pK/Vc52sKMJHjUMq+EGHzmoJ29Pq52/g1Wm7MJV9v8Wo3B3HZqi5gIxAL7hRnztGOdK0s/s3U2Ak4tlb273JQ4uVgNZHIIQ+DeUElTVdmeuHLicAR5JP5XWxA==","id":"rs_96d75b072633589fa5475a11ab2f68a5","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s forecast.","type":"output_text"}],"id":"msg_055843d9a4555c82903c7f090cf2df30","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"code\":\"BER-7\"}","call_id":"call_86844e67b9ca57efa63074f07af3b350","id":"fc_b11d3e8841c856de83cd7482d392b3eb","name":"forecast","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_86844e67b9ca57efa63074f07af3b350","output":"18C,
+        light rain"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeGdaih4JzDn5woKb6XlpLAwxjMIrfV8aBDir4oJld5GaAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBcUVxOHRkVWZia1BwN2ExTmloTUpnNjJtY3V1YUNLVkhlZFpYMDdTUlByS3VYbHZmMWlhbWdZTThrcVdPNmJ4cEE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcp9PauD7g9a1sTHG3UCDOAXd6EHwaUkZvil2AzQTyexPQO0PepR8jRQ3zVYRDeCoQWqN24VduiE/yJNNPVX246Ou7WO3GdLVhYNJJTw4CmNkkcLxEqY3Ko3agOQcCAAAQAHWxkIg/lkGm7lb55sqB1O8MtEwXkXuN44Gat+6TE+4QaiNNpAl2+F4+6BxyuH2GW/////8AAAABAAAAAAAAAAAAAAABAAAA5tFT/P72rv4OTNVTyakvok+AlAyhhV+icG6dAw99te2Rews3ZHPTJsjQmEymDkJEkS26isBbXVa0BywTYwz98nU2QM32tXQm4CBoR58l7jLLB5hNgumRNSPJP2FguqOqnpEH4YIt2R3j3DMd1SQoq7IB7j1JfXVdsis1RDmIi8XQtydaP/pKNVWgh1N/xMJSx8/4wkOqXlF0YQvb2554a44IVyuqZLANEmdokdqTyqlTgoyxFTedF/Prziq/kFjW2wDjd8t4khUoLsYxG7KLe9h8+hhOWQa5SnHQgqX8lpJUjaEw1M0KKlt9MVUqP0nWSpjc0Asn8gBnMGUCMHd5c4c6cpZgSPozTXjRnS73gNHpy+AY9EzVWKO9pykBnXiwTUJVKn6u06KsTVPFBAIxANPXiMaf8cM9/bMPqLbK/6cf5LVTbNB1ifqoJfooXmkrEM9x0L8JdPMxN/dKcukL0w==","id":"rs_c799834480cb5193bbc5ab8d9fa2a39f","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Paris’s city code.","type":"output_text"}],"id":"msg_32c5e244209d54998a750eda29a6440e","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Paris\"}","call_id":"call_27f5df515482501b93da72b3f5d52397","id":"fc_1c6effb148485579a6caf6f84386a0b5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_27f5df515482501b93da72b3f5d52397","output":"PAR-3"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"tools":[{"type":"function","name":"city_code","description":"Returns
+        the internal code for a city. Forecasts can only be looked up by this code.","parameters":{"type":"object","properties":{"city":{"type":"string","description":"City
+        name, e.g. Berlin"}},"required":["city"],"additionalProperties":false,"strict":true}},{"type":"function","name":"forecast","description":"Returns
+        the forecast for a city code obtained from the city_code tool.","parameters":{"type":"object","properties":{"code":{"type":"string","description":"City
+        code, e.g. BER-7"}},"required":["code"],"additionalProperties":false,"strict":true}}],"parallel_tool_calls":false,"reasoning":{"effort":"high"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234627Z
+      X-Amz-Content-Sha256:
+      - 13979f3794f5ac35e6b76c304f551ca2fc96c1cdb160c8ec231ca2637c82272a
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:28 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3176'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJiYWNrZ3JvdW5kIjpmYWxzZSwiYmlsbGluZyI6eyJwYXllciI6ImRldmVsb3BlciJ9LCJjb21wbGV0ZWRfYXQiOjE3OTEyNDM5ODgsImNyZWF0ZWRfYXQiOjE3OTEyNDM5ODcsImVycm9yIjpudWxsLCJmcmVxdWVuY3lfcGVuYWx0eSI6MC4wLCJpZCI6InJlc3BfcXpkY2JsYWN1eGlyY2RybmdjaHRmbWVqM2x3bmd5N3cza2lxd3A0azZicGtjY3RxdmJscSIsImluY29tcGxldGVfZGV0YWlscyI6bnVsbCwiaW5zdHJ1Y3Rpb25zIjpudWxsLCJtYXhfb3V0cHV0X3Rva2VucyI6bnVsbCwibWF4X3Rvb2xfY2FsbHMiOm51bGwsIm1ldGFkYXRhIjp7fSwibW9kZWwiOiJvcGVuYWkuZ3B0LTYtbHVuYSIsIm9iamVjdCI6InJlc3BvbnNlIiwib3V0cHV0IjpbeyJjb250ZW50IjpbXSwiZW5jcnlwdGVkX2NvbnRlbnQiOiJyc25fcnJ1NkJRSGdVYy9WV1M1dlJJQWxId0lGZUZ6cG9hSWVoTzZoeXRUWEhEeXJHSk81Mm80TnV1SzV0V2FmNUhTWW1uV2VBRjhBQVFBVllYZHpMV055ZVhCMGJ5MXdkV0pzYVdNdGEyVjVBRVJCY1d0d00yeFRSbkpZVFRjdk5FNTFVSGhNZWpndlJuWTJZamcxVkRWVGFEVjZSREYxWmtwdVNqUXZPWFo1U3pKV2VqZHRSMUJ2UlhkRVkwWTRWWE42TDJjOVBRQUJBQkZoZDNNdGEyMXpMV2hwWlhKaGNtTm9lUUFLWW1WeWJTMXpkRzl5WlFCY1BRVER2akNMOTAyM3hZYy82aVVIZFIxeUMzQldsK1VhamhYN053VHlleFBRTzBQZXBSOGpSUTN6VllUb0R1K25DQUdvVHNPVUcwSDZBaHlFNnRyVTMvdUhZVG4wcXc0dXV4b0tOak9hR0hhU3gyOXJUYUhHZGVZWS83SUNBQUFRQUk2TjV2VmtQbUlOWExuTnNvQ1owSE04dHNYVWxRK3FualJ4WUE1NHhmT3Q5SnhqOWgxakRiM3N1ZlEwU1A1aVh2Ly8vLzhBQUFBQkFBQUFBQUFBQUFBQUFBQUJBQUFBMzRLMUhYc0JxbHlrenJjZkZwRWp4SXlBWEJaUkh0clkvNUc4bDA0c002ei9YWWNXMkQzODcya0w4VEVQWG9CQUJOTzJVL1FKRC9DUjlQRU5ZRjZMZkRCMmxyZHhGYzEzNmpqZUdWa092MUxtMTBYRUNrZ1JXZytlVzFoV3pYMyt6bCtieFY3V04vRkJ6VGducGVWWU5GOGNKZzYxWll2NjZQSGFsT2tyZzFCaTV1WndCYVdDc0w0Si9pRXFONGNEdWh0RkJYSENFMFJLekpMWi9vYTV5dFY3VURpSkN4dlkwTXZEYklBcWV2WE4xKzJFZjdHM0tXRE91c2dyckt6Yk1XYzJhOEJZZm1OVGwrcHdIRytPNDdIRGVTQ1I4UHJ3RVZEWFhIUUhaTkVnT3hsQkRrNjJJYS80Qmx1SGR4OGRBR2N3WlFJd1JDU28wWEhhVnR4aEZkQnFBUmd2WmpnNFBUdUFnVUdBVFROVTlaZjJlMm5XSDYzK3pZeGRiS0pDT1JsYmFhTElBakVBd1h4aytiaDFmY1N4N0JnZllicjIrOUcxSTdGTUw1ZUNTL2lSUGQzODI3M1RNMUlLc29HZytDUU9IRWw0NTNneSIsImlkIjoicnNfMDY5NDAwNzE5YTVmNTFhNWE3YjE3OWE0NTk2MDlkYzQiLCJzdW1tYXJ5IjpbXSwidHlwZSI6InJlYXNvbmluZyJ9LHsiY29udGVudCI6W3siYW5ub3RhdGlvbnMiOltdLCJsb2dwcm9icyI6W10sInRleHQiOiJMb29raW5nIHVwIFBhcmlz4oCZcyBmb3JlY2FzdC4iLCJ0eXBlIjoib3V0cHV0X3RleHQifV0sImlkIjoibXNnXzYxOTE1MDk2MmNhOTViOGM4ZTgxYmY3MzlkZWYxNzhmIiwicGhhc2UiOiJjb21tZW50YXJ5Iiwicm9sZSI6ImFzc2lzdGFudCIsInN0YXR1cyI6ImNvbXBsZXRlZCIsInR5cGUiOiJtZXNzYWdlIn0seyJhcmd1bWVudHMiOiJ7XCJjb2RlXCI6XCJQQVItM1wifSIsImNhbGxfaWQiOiJjYWxsXzMyYTMxMGE1MmRiMDVkOTRiY2FiZGIxODQ4YjE4ZjEwIiwiaWQiOiJmY19jNDg3MDZjZTgwNGU1MDQwOTA1NmRkYjc0M2M0OTNiNCIsIm5hbWUiOiJmb3JlY2FzdCIsInN0YXR1cyI6ImNvbXBsZXRlZCIsInR5cGUiOiJmdW5jdGlvbl9jYWxsIn1dLCJwYXJhbGxlbF90b29sX2NhbGxzIjpmYWxzZSwicHJlc2VuY2VfcGVuYWx0eSI6MC4wLCJwcmV2aW91c19yZXNwb25zZV9pZCI6bnVsbCwicHJvbXB0X2NhY2hlX2tleSI6bnVsbCwicHJvbXB0X2NhY2hlX3JldGVudGlvbiI6ImluX21lbW9yeSIsInJlYXNvbmluZyI6eyJzdW1tYXJ5IjpudWxsLCJlZmZvcnQiOiJoaWdoIiwiY29udGV4dCI6ImFsbF90dXJucyJ9LCJzYWZldHlfaWRlbnRpZmllciI6bnVsbCwic2VydmljZV90aWVyIjoiZGVmYXVsdCIsInN0YXR1cyI6ImNvbXBsZXRlZCIsInN0b3JlIjpmYWxzZSwidGVtcGVyYXR1cmUiOjEuMCwidGV4dCI6eyJmb3JtYXQiOnsidHlwZSI6InRleHQifSwidmVyYm9zaXR5IjoibWVkaXVtIn0sInRvb2xfY2hvaWNlIjoiYXV0byIsInRvb2xzIjpbeyJkZXNjcmlwdGlvbiI6IlJldHVybnMgdGhlIGludGVybmFsIGNvZGUgZm9yIGEgY2l0eS4gRm9yZWNhc3RzIGNhbiBvbmx5IGJlIGxvb2tlZCB1cCBieSB0aGlzIGNvZGUuIiwibmFtZSI6ImNpdHlfY29kZSIsIm91dHB1dF9zY2hlbWEiOm51bGwsInBhcmFtZXRlcnMiOnsidHlwZSI6Im9iamVjdCIsInByb3BlcnRpZXMiOnsiY2l0eSI6eyJ0eXBlIjoic3RyaW5nIiwiZGVzY3JpcHRpb24iOiJDaXR5IG5hbWUsIGUuZy4gQmVybGluIn19LCJyZXF1aXJlZCI6WyJjaXR5Il0sImFkZGl0aW9uYWxQcm9wZXJ0aWVzIjpmYWxzZSwic3RyaWN0Ijp0cnVlfSwic3RyaWN0Ijp0cnVlLCJ0eXBlIjoiZnVuY3Rpb24ifSx7ImRlc2NyaXB0aW9uIjoiUmV0dXJucyB0aGUgZm9yZWNhc3QgZm9yIGEgY2l0eSBjb2RlIG9idGFpbmVkIGZyb20gdGhlIGNpdHlfY29kZSB0b29sLiIsIm5hbWUiOiJmb3JlY2FzdCIsIm91dHB1dF9zY2hlbWEiOm51bGwsInBhcmFtZXRlcnMiOnsidHlwZSI6Im9iamVjdCIsInByb3BlcnRpZXMiOnsiY29kZSI6eyJ0eXBlIjoic3RyaW5nIiwiZGVzY3JpcHRpb24iOiJDaXR5IGNvZGUsIGUuZy4gQkVSLTcifX0sInJlcXVpcmVkIjpbImNvZGUiXSwiYWRkaXRpb25hbFByb3BlcnRpZXMiOmZhbHNlLCJzdHJpY3QiOnRydWV9LCJzdHJpY3QiOnRydWUsInR5cGUiOiJmdW5jdGlvbiJ9XSwidG9wX2xvZ3Byb2JzIjowLCJ0b3BfcCI6MC45OCwidHJ1bmNhdGlvbiI6ImRpc2FibGVkIiwidXNhZ2UiOnsiaW5wdXRfdG9rZW5zIjo0NDYsImlucHV0X3Rva2Vuc19kZXRhaWxzIjp7ImNhY2hlX3dyaXRlX3Rva2VucyI6MCwiY2FjaGVkX3Rva2VucyI6MH0sIm91dHB1dF90b2tlbnMiOjQyLCJvdXRwdXRfdG9rZW5zX2RldGFpbHMiOnsicmVhc29uaW5nX3Rva2VucyI6N30sInRvdGFsX3Rva2VucyI6NDg4fSwidXNlciI6bnVsbCwibW9kZXJhdGlvbiI6bnVsbH0=
+  recorded_at: Mon, 05 Oct 2026 23:46:28 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"What
+        is the forecast for Berlin, then for Paris? Look each city up one tool call
+        at a time. Before each tool call, tell me in a few words what you are about
+        to look up. Then answer in one short sentence per city."},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeFzIA7TWtQaYDGyWmHPotbaEkQOcjgejfQ6aU0MvHjDJAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNXBtRFJWeVY4UWF3TFh3QlVWRDZSN1QycXBHTm1ocW14clI2RTk4VWVCc1ZTTWM3SUx0Wk13RzBJR1UweEZHM3c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcx+eEkQ4fPuAkHGcll4hcl0+9A+y1cr6NNGa83QTyexPQO0PepR8jRQ3zVYRP42O/oL0zO4eyxl1G08jGUaDVLlPnIFb9O6a9gqOW9Y6ky+uLtxf8DX3G/0ZsmoYCAAAQAG5HJwkA1NeYwEVH1GXKYylJJhJmv08n0JNOZObSDxddIxUKmDARkkyY8m6suMZg/f////8AAAABAAAAAAAAAAAAAAABAAABb+bKIYfR7lacNVkMqZRXLQe0UZKfR0DKErkNMDNbHG3aAyPA1KiuvhvTtbBW2Z4ElwwkXqoPXbotUqs1Rn74W63yHzyp0qCWYOm6zNDTjIXwh968xTDplW5nTKGH+4hO6O/dgG39lF9+ZHpifc70liLMAVHGZij/YUuK9j+aiI2E3bb1xHLZfhRcwPt+wmJ/FuxQLMPLLhPRGjraL8tSjzDmBkca4AVLIVEePVENky5W8wrlpC4cBmxbSGh9NFZI12v6ywj0GbhVZOq9pA3jQb/2EtcZFdfS6nty3mYv+qA26u1dlBymh+dKk5hI4o8PodmoOAeUniJLR546M0Vp0LguJ+H2Fozigfs8V5Hq/5j41mWnvhRwycxTg26bo1Sqg8bUFr9qIxzxq5d3Fps7UEs8s0ZfjbPNb3qPbdf2v5KdjzSaiDDCiWBS9aKL68cjRShixJgkjjWOlQwyPKN/NSuVdHfbZPa4HMHB/V8qz0sQ+rlT0Jjn/7FVNDRCwjf5AGcwZQIwJZI3/+sPnMiCnl09mqn44N2lQUtOOkluK6KuYTK7aB3tYfv3EZSDMqGnYuvMC7woAjEAsvB7AT1awPuaZCvKEXJJHJJcANeswo2Qhmr2B034mx+U1jJAuHWAeyVJ+iJ73TS1","id":"rs_7d27e98bb3fa529bbf891d9dd35c258b","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s city code.","type":"output_text"}],"id":"msg_b13773dcd9935e94999bd5b893cd6ab1","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Berlin\"}","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","id":"fc_576f9fc75fcc5e40a123490d970715a5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_f33ae472a1295f5189e5d4a1daf65d2f","output":"BER-7"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeC89O3Cu9dRvUYB1+SkTHpW+s5/gqJdHWO+ixAQ2hhGSAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBaVZubUtzSDVNdTlxejBxcE91bVBtbUxtNXlQVnFjY0R2UzE5bXN2N0M5ZGRFYlFXQ2YvRkpxakJ3QkY1V2gxL2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBc59QS6YTgKyWsTtIlfrNAOA6GXMJpAY4J7eO2/gTyexPQO0PepR8jRQ3zVYToaiXwRhSHAoL+iB0klg1G3ztJ3SrAZHrfPw2CLLcWt8k1U01WfFaX2QNGfJ2XhP4CAAAQAFeXV799Scy2cxqy29ltgQypoPQZyy22mlG2RsoYnUCpJpgHgeAV88ztUeDgZhxdy/////8AAAABAAAAAAAAAAAAAAABAAAA6Z309Vh9kzpFUiecwyAW5mEBqc2HNlVKnARGFo0vm+BezNlGlDjNEcFSXE6xJcW830fvVXsLOLIEtmGeDXykAMlcDmQ2CrTJ3Jb2JTaXKaLmjIm4YBq7XJLpnZR7xkcpFfTxP5tufUGomXJflZPjdKGYn+jdBn0P+S1dDnRQCJFipvStJOprv8DKqhsQzyx/OqJlpr1awrV1PYc2mzfAz59TUDFRYfDt2iP9cFTitk51RGg9F/Lfr0dTMdw6TXY3tUcpY/Fwy0R3OhhDj8GWW4Ezu4qvHXiVU9Nm372ExUk4syGjNfIDrEkg+wMl8+erIORbQHazyQ0+sABnMGUCMCel/eRMl5sz/pK/Vc52sKMJHjUMq+EGHzmoJ29Pq52/g1Wm7MJV9v8Wo3B3HZqi5gIxAL7hRnztGOdK0s/s3U2Ak4tlb273JQ4uVgNZHIIQ+DeUElTVdmeuHLicAR5JP5XWxA==","id":"rs_96d75b072633589fa5475a11ab2f68a5","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Berlin’s forecast.","type":"output_text"}],"id":"msg_055843d9a4555c82903c7f090cf2df30","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"code\":\"BER-7\"}","call_id":"call_86844e67b9ca57efa63074f07af3b350","id":"fc_b11d3e8841c856de83cd7482d392b3eb","name":"forecast","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_86844e67b9ca57efa63074f07af3b350","output":"18C,
+        light rain"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeGdaih4JzDn5woKb6XlpLAwxjMIrfV8aBDir4oJld5GaAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBcUVxOHRkVWZia1BwN2ExTmloTUpnNjJtY3V1YUNLVkhlZFpYMDdTUlByS3VYbHZmMWlhbWdZTThrcVdPNmJ4cEE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcp9PauD7g9a1sTHG3UCDOAXd6EHwaUkZvil2AzQTyexPQO0PepR8jRQ3zVYRDeCoQWqN24VduiE/yJNNPVX246Ou7WO3GdLVhYNJJTw4CmNkkcLxEqY3Ko3agOQcCAAAQAHWxkIg/lkGm7lb55sqB1O8MtEwXkXuN44Gat+6TE+4QaiNNpAl2+F4+6BxyuH2GW/////8AAAABAAAAAAAAAAAAAAABAAAA5tFT/P72rv4OTNVTyakvok+AlAyhhV+icG6dAw99te2Rews3ZHPTJsjQmEymDkJEkS26isBbXVa0BywTYwz98nU2QM32tXQm4CBoR58l7jLLB5hNgumRNSPJP2FguqOqnpEH4YIt2R3j3DMd1SQoq7IB7j1JfXVdsis1RDmIi8XQtydaP/pKNVWgh1N/xMJSx8/4wkOqXlF0YQvb2554a44IVyuqZLANEmdokdqTyqlTgoyxFTedF/Prziq/kFjW2wDjd8t4khUoLsYxG7KLe9h8+hhOWQa5SnHQgqX8lpJUjaEw1M0KKlt9MVUqP0nWSpjc0Asn8gBnMGUCMHd5c4c6cpZgSPozTXjRnS73gNHpy+AY9EzVWKO9pykBnXiwTUJVKn6u06KsTVPFBAIxANPXiMaf8cM9/bMPqLbK/6cf5LVTbNB1ifqoJfooXmkrEM9x0L8JdPMxN/dKcukL0w==","id":"rs_c799834480cb5193bbc5ab8d9fa2a39f","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Paris’s city code.","type":"output_text"}],"id":"msg_32c5e244209d54998a750eda29a6440e","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"city\":\"Paris\"}","call_id":"call_27f5df515482501b93da72b3f5d52397","id":"fc_1c6effb148485579a6caf6f84386a0b5","name":"city_code","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_27f5df515482501b93da72b3f5d52397","output":"PAR-3"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeFzpoaIehO6hytTXHDyrGJO52o4NuuK5tWaf5HSYmnWeAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBcWtwM2xTRnJYTTcvNE51UHhMejgvRnY2Yjg1VDVTaDV6RDF1ZkpuSjQvOXZ5SzJWejdtR1BvRXdEY0Y4VXN6L2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcPQTDvjCL9023xYc/6iUHdR1yC3BWl+UajhX7NwTyexPQO0PepR8jRQ3zVYToDu+nCAGoTsOUG0H6AhyE6trU3/uHYTn0qw4uuxoKNjOaGHaSx29rTaHGdeYY/7ICAAAQAI6N5vVkPmINXLnNsoCZ0HM8tsXUlQ+qnjRxYA54xfOt9Jxj9h1jDb3sufQ0SP5iXv////8AAAABAAAAAAAAAAAAAAABAAAA34K1HXsBqlykzrcfFpEjxIyAXBZRHtrY/5G8l04sM6z/XYcW2D3872kL8TEPXoBABNO2U/QJD/CR9PENYF6LfDB2lrdxFc136jjeGVkOv1Lm10XECkgRWg+eW1hWzX3+zl+bxV7WN/FBzTgnpeVYNF8cJg61ZYv66PHalOkrg1Bi5uZwBaWCsL4J/iEqN4cDuhtFBXHCE0RKzJLZ/oa5ytV7UDiJCxvY0MvDbIAqevXN1+2Ef7G3KWDOusgrrKzbMWc2a8BYfmNTl+pwHG+O47HDeSCR8PrwEVDXXHQHZNEgOxlBDk62Ia/4BluHdx8dAGcwZQIwRCSo0XHaVtxhFdBqARgvZjg4PTuAgUGATTNU9Zf2e2nWH63+zYxdbKJCORlbaaLIAjEAwXxk+bh1fcSx7BgfYbr2+9G1I7FML5eCS/iRPd38273TM1IKsoGg+CQOHEl453gy","id":"rs_069400719a5f51a5a7b179a459609dc4","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"Looking
+        up Paris’s forecast.","type":"output_text"}],"id":"msg_619150962ca95b8c8e81bf739def178f","phase":"commentary","role":"assistant","status":"completed","type":"message"},{"arguments":"{\"code\":\"PAR-3\"}","call_id":"call_32a310a52db05d94bcabdb1848b18f10","id":"fc_c48706ce804e50409056ddb743c493b4","name":"forecast","status":"completed","type":"function_call"},{"type":"function_call_output","call_id":"call_32a310a52db05d94bcabdb1848b18f10","output":"22C,
+        sunny"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"tools":[{"type":"function","name":"city_code","description":"Returns
+        the internal code for a city. Forecasts can only be looked up by this code.","parameters":{"type":"object","properties":{"city":{"type":"string","description":"City
+        name, e.g. Berlin"}},"required":["city"],"additionalProperties":false,"strict":true}},{"type":"function","name":"forecast","description":"Returns
+        the forecast for a city code obtained from the city_code tool.","parameters":{"type":"object","properties":{"code":{"type":"string","description":"City
+        code, e.g. BER-7"}},"required":["code"],"additionalProperties":false,"strict":true}}],"parallel_tool_calls":false,"reasoning":{"effort":"high"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234628Z
+      X-Amz-Content-Sha256:
+      - 3d9d578634b273c1967314f99467221cac58284f3df771878bb757d83667182b
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:28 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3034'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJiYWNrZ3JvdW5kIjpmYWxzZSwiYmlsbGluZyI6eyJwYXllciI6ImRldmVsb3BlciJ9LCJjb21wbGV0ZWRfYXQiOjE3OTEyNDM5ODgsImNyZWF0ZWRfYXQiOjE3OTEyNDM5ODgsImVycm9yIjpudWxsLCJmcmVxdWVuY3lfcGVuYWx0eSI6MC4wLCJpZCI6InJlc3BfNTVzdmF3bXdlZ3N0d3RvNm1heG8zNmtrM3JmYTR1bmZuYnNjbnk0ZG10NnA2bjMzcWhlYSIsImluY29tcGxldGVfZGV0YWlscyI6bnVsbCwiaW5zdHJ1Y3Rpb25zIjpudWxsLCJtYXhfb3V0cHV0X3Rva2VucyI6bnVsbCwibWF4X3Rvb2xfY2FsbHMiOm51bGwsIm1ldGFkYXRhIjp7fSwibW9kZWwiOiJvcGVuYWkuZ3B0LTYtbHVuYSIsIm9iamVjdCI6InJlc3BvbnNlIiwib3V0cHV0IjpbeyJjb250ZW50IjpbXSwiZW5jcnlwdGVkX2NvbnRlbnQiOiJyc25fcnJ1NkJRSGdVYy9WV1M1dlJJQWxId0lGZUJGc0RLRlJJYjF1dkZtVWZCY2lJZUMvQmRoY2RjWFkwcDJnM1FZRWZ3MW1BRjhBQVFBVllYZHpMV055ZVhCMGJ5MXdkV0pzYVdNdGEyVjVBRVJCY1UxR1FVZ3hXa3BsUVhOeEszZERUa2wxZW5GaFQyTnBRWEUwUzJFNVdXTjJibVJpT1VwMVJtWTRiekpCY0dKT1UwOHhZV0ZRYkRWNFJXTlNXa05WUzBFOVBRQUJBQkZoZDNNdGEyMXpMV2hwWlhKaGNtTm9lUUFLWW1WeWJTMXpkRzl5WlFCYy93enkyN1RqQ1NWQU5CSWdySmxVQllXelgwSVMwdGxVNjVJWmdnVHlleFBRTzBQZXBSOGpSUTN6VllTVDF5djJmN3lWU2Jub09UZ1JVYUlYSFgyTWRGbXNuNU96ek83VVhaeCtsdGtSemNkTVhLdEphQnZ3SlRvWUVEZ0NBQUFRQUVhK01XL05QeUxCL0RNeFdIUWg0ZjdmR1V3eGphaGJKR3NldU55ekpYM21GRlhjdHF5QmFCZW13YmV5d1FXb2ZmLy8vLzhBQUFBQkFBQUFBQUFBQUFBQUFBQUJBQUFBN0t1cWVaTVhIMllTaUZOOHlwaW5rbEJvWi9NYktkQlFrVFp6TEwzdXhKNFdmUFZCQU1QZWNyVjVRaytpWWthYU9UYWl0dDdEZzdZcXhjK2dlVjdyWnh3MlNtSUllc2xVYUExRnhuWlp1dmRwS3QrQ21MZm1wZWxJbGVOdHlQMENVY2ZPbFlUdU5DR1FRaDhMT3lMMWQ5bis3K0R1OC92TGNrdHIyZ215dHRMTFVsTUw0NXA2N2pqZzk3QVBtckZMNFMrL3dMSmdBS3MzSVpYTlU5b2xlbWRBUE5yK1dTRUF6ZGxLemlBUUNoL2Zudzd3L1BCRy91UElYbGp3T09KL2MwbnRCTDhEbzBEREdOQ29kc3lvSmt5WDVNVEZBc3RCSmhpV3lKMno5V0kzeGhqbklSNTBsbkNGVGxaNnhPT2FlNGwwT0ZvYUVOK0dVSjU4MEFCbk1HVUNNQlB0UnNlUGR4L0gyd2QzWDQ1K2w0ZnhsQWNtUURrWm1EdTFNRHVYUVNtZkNvcEdRQlpjZ0wvaUF4R0dRLytDa3dJeEFLSHczdlhpbkpEb2psc2Y3bTFiWTZ1RGFCNUVDMlo5dUw4S0pqL3ZUcmVpL3Q4N0g0R2lROTFKRkduMlVRQ1hYZz09IiwiaWQiOiJyc182ZWUzNzU3MmZlMGU1YTZkODUxNzIyOGM5MDNkOGFjMiIsInN1bW1hcnkiOltdLCJ0eXBlIjoicmVhc29uaW5nIn0seyJjb250ZW50IjpbeyJhbm5vdGF0aW9ucyI6W10sImxvZ3Byb2JzIjpbXSwidGV4dCI6IkJlcmxpbjogMTjCsEMgd2l0aCBsaWdodCByYWluLiAgXG5QYXJpczogMjLCsEMgYW5kIHN1bm55LiIsInR5cGUiOiJvdXRwdXRfdGV4dCJ9XSwiaWQiOiJtc2dfNTNhYzNiNDMyNTVjNTYzOTk0MTRmYmQ0YWFjNjkzNDciLCJwaGFzZSI6ImZpbmFsX2Fuc3dlciIsInJvbGUiOiJhc3Npc3RhbnQiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJ0eXBlIjoibWVzc2FnZSJ9XSwicGFyYWxsZWxfdG9vbF9jYWxscyI6ZmFsc2UsInByZXNlbmNlX3BlbmFsdHkiOjAuMCwicHJldmlvdXNfcmVzcG9uc2VfaWQiOm51bGwsInByb21wdF9jYWNoZV9rZXkiOm51bGwsInByb21wdF9jYWNoZV9yZXRlbnRpb24iOiJpbl9tZW1vcnkiLCJyZWFzb25pbmciOnsic3VtbWFyeSI6bnVsbCwiZWZmb3J0IjoiaGlnaCIsImNvbnRleHQiOiJhbGxfdHVybnMifSwic2FmZXR5X2lkZW50aWZpZXIiOm51bGwsInNlcnZpY2VfdGllciI6ImRlZmF1bHQiLCJzdGF0dXMiOiJjb21wbGV0ZWQiLCJzdG9yZSI6ZmFsc2UsInRlbXBlcmF0dXJlIjoxLjAsInRleHQiOnsiZm9ybWF0Ijp7InR5cGUiOiJ0ZXh0In0sInZlcmJvc2l0eSI6Im1lZGl1bSJ9LCJ0b29sX2Nob2ljZSI6ImF1dG8iLCJ0b29scyI6W3siZGVzY3JpcHRpb24iOiJSZXR1cm5zIHRoZSBpbnRlcm5hbCBjb2RlIGZvciBhIGNpdHkuIEZvcmVjYXN0cyBjYW4gb25seSBiZSBsb29rZWQgdXAgYnkgdGhpcyBjb2RlLiIsIm5hbWUiOiJjaXR5X2NvZGUiLCJvdXRwdXRfc2NoZW1hIjpudWxsLCJwYXJhbWV0ZXJzIjp7InR5cGUiOiJvYmplY3QiLCJwcm9wZXJ0aWVzIjp7ImNpdHkiOnsidHlwZSI6InN0cmluZyIsImRlc2NyaXB0aW9uIjoiQ2l0eSBuYW1lLCBlLmcuIEJlcmxpbiJ9fSwicmVxdWlyZWQiOlsiY2l0eSJdLCJhZGRpdGlvbmFsUHJvcGVydGllcyI6ZmFsc2UsInN0cmljdCI6dHJ1ZX0sInN0cmljdCI6dHJ1ZSwidHlwZSI6ImZ1bmN0aW9uIn0seyJkZXNjcmlwdGlvbiI6IlJldHVybnMgdGhlIGZvcmVjYXN0IGZvciBhIGNpdHkgY29kZSBvYnRhaW5lZCBmcm9tIHRoZSBjaXR5X2NvZGUgdG9vbC4iLCJuYW1lIjoiZm9yZWNhc3QiLCJvdXRwdXRfc2NoZW1hIjpudWxsLCJwYXJhbWV0ZXJzIjp7InR5cGUiOiJvYmplY3QiLCJwcm9wZXJ0aWVzIjp7ImNvZGUiOnsidHlwZSI6InN0cmluZyIsImRlc2NyaXB0aW9uIjoiQ2l0eSBjb2RlLCBlLmcuIEJFUi03In19LCJyZXF1aXJlZCI6WyJjb2RlIl0sImFkZGl0aW9uYWxQcm9wZXJ0aWVzIjpmYWxzZSwic3RyaWN0Ijp0cnVlfSwic3RyaWN0Ijp0cnVlLCJ0eXBlIjoiZnVuY3Rpb24ifV0sInRvcF9sb2dwcm9icyI6MCwidG9wX3AiOjAuOTgsInRydW5jYXRpb24iOiJkaXNhYmxlZCIsInVzYWdlIjp7ImlucHV0X3Rva2VucyI6NTAzLCJpbnB1dF90b2tlbnNfZGV0YWlscyI6eyJjYWNoZV93cml0ZV90b2tlbnMiOjAsImNhY2hlZF90b2tlbnMiOjB9LCJvdXRwdXRfdG9rZW5zIjozNSwib3V0cHV0X3Rva2Vuc19kZXRhaWxzIjp7InJlYXNvbmluZ190b2tlbnMiOjExfSwidG90YWxfdG9rZW5zIjo1Mzh9LCJ1c2VyIjpudWxsLCJtb2RlcmF0aW9uIjpudWxsfQ==
+  recorded_at: Mon, 05 Oct 2026 23:46:28 GMT
+recorded_with: VCR 6.4.0

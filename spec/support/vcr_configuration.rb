@@ -119,6 +119,11 @@ VCR.configure do |config|
         interaction.request.body.gsub(/Signature=[0-9a-f]{64}/i, 'Signature=<AWS_SIGV4_SIGNATURE>')
     end
 
+    # Over-length limit probes send multi-megabyte bodies; requests match on method and URI only.
+    if interaction.request.body && interaction.request.body.bytesize > 4_000_000
+      interaction.request.body = '<OVERLENGTH_REQUEST_BODY>'
+    end
+
     if interaction.response.headers['Set-Cookie']
       interaction.response.headers['Set-Cookie'] = interaction.response.headers['Set-Cookie'].map { '<COOKIE>' }
     end

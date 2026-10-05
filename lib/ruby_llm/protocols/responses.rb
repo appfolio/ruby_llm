@@ -12,6 +12,12 @@ module RubyLLM
       include Responses::Streaming
       include Responses::Tools
 
+      # Compacts the conversation through the standalone /compact endpoint and returns the
+      # response.compaction object as an assistant Message holding OutputItems.
+      def compact(messages, headers: {})
+        compaction_response(render_compaction_payload(messages), headers)
+      end
+
       # Reasoning models reject the temperature parameter on this API.
       def maybe_normalize_temperature(temperature, model)
         return super unless reasoning_model?(model.id)
@@ -20,6 +26,15 @@ module RubyLLM
           RubyLLM.logger.debug { "Model #{model.id} does not accept temperature on the Responses API, removing" }
         end
         nil
+      end
+
+      private
+
+      def compaction_response(payload, additional_headers = {})
+        response = @connection.post compaction_url, payload do |req|
+          req.headers = additional_headers.merge(req.headers) unless additional_headers.empty?
+        end
+        parse_compaction_response response
       end
     end
   end

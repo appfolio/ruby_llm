@@ -116,6 +116,16 @@ RSpec.describe RubyLLM::Chat do
     end
   end
 
+  describe '#compact' do
+    it 'raises UnsupportedFeatureError when the protocol has no compaction endpoint' do
+      chat = RubyLLM.chat(model: 'claude-3-5-haiku-20241022', provider: :anthropic)
+      chat.add_message(role: :user, content: 'hi')
+
+      expect { chat.compact }.to raise_error(RubyLLM::UnsupportedFeatureError, /no standalone compaction endpoint/)
+      expect(chat.messages.size).to eq(1)
+    end
+  end
+
   describe '#cost' do
     let(:model) do
       RubyLLM::Model::Info.new(

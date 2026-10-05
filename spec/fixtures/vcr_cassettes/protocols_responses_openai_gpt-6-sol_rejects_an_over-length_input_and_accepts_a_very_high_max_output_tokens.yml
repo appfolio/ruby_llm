@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: "<OVERLENGTH_REQUEST_BODY>"
+    headers:
+      X-Amz-Date:
+      - 20261005T234606Z
+      X-Amz-Content-Sha256:
+      - dc01941f6a7077c6c398f63e998c5d3c2d28bf059061b3824bcdf6d366e5e8b9
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:08 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '196'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"context_length_exceeded","message":"Your input exceeds
+        the context window of this model. Please adjust your input and try again.","param":"input","type":"invalid_request_error"}}'
+  recorded_at: Mon, 05 Oct 2026 23:46:08 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-sol","input":[{"role":"user","content":"Reply
+        with exactly: OK"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"reasoning":{"effort":"low"},"max_output_tokens":5000000}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234608Z
+      X-Amz-Content-Sha256:
+      - 9c13bf187766c09d2f2fb94c6847a95c14e01b8709415f4d38b1376a080a4bfb
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:46:08 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1232'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243968,"created_at":1791243968,"error":null,"frequency_penalty":0.0,"id":"resp_ojx7divssg23glryyf57tip6fq4tfukfvlkxq76lw63nud6zfgfq","incomplete_details":null,"instructions":null,"max_output_tokens":5000000,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"OK","type":"output_text"}],"id":"msg_37619378aadd5ceaa6678aca9d632f2a","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"low","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":11,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":16},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:46:08 GMT
+recorded_with: VCR 6.4.0

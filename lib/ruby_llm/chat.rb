@@ -224,6 +224,13 @@ module RubyLLM
       response
     end
 
+    # Compacts the conversation through the provider's standalone compaction endpoint and
+    # returns the compaction Message without adding it to #messages; the caller decides
+    # whether to add it. Raises UnsupportedFeatureError for protocols without one.
+    def compact
+      @provider.compact(messages, model: @model, protocol: @protocol, headers: @headers)
+    end
+
     # The request this chat would send for its next completion.
     def render
       @provider.render(
