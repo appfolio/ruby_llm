@@ -125,6 +125,11 @@
     "bedrock": "us.anthropic.claude-sonnet-5",
     "vertexai": "claude-sonnet-5"
   },
+  "claude-sonnet-5-5": {
+    "anthropic": "claude-sonnet-5-5",
+    "bedrock": "us.anthropic.claude-sonnet-5-5",
+    "vertexai": "claude-sonnet-5-5"
+  },
   "deepseek-chat": {
     "deepseek": "deepseek-chat",
     "openrouter": "deepseek/deepseek-chat"
