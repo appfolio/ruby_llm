@@ -206,6 +206,45 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect(payload[:messages].last).to eq(role: 'system', content: [{ type: 'text', text: 'Reply in uppercase.' }])
     end
 
+    describe 'a Raw holding one Hash block' do
+      def raw(block)
+        RubyLLM::Content::Raw.new(block)
+      end
+
+      def tool_turn(content)
+        call = RubyLLM::ToolCall.new(id: 't1', name: 'weather', arguments: {})
+        [user('q'), RubyLLM::Message.new(role: :assistant, content: nil, tool_calls: { 't1' => call }),
+         RubyLLM::Message.new(role: :tool, content: content, tool_call_id: 't1')]
+      end
+
+      it 'renders it as the one block of an assistant turn' do
+        block = { type: 'text', text: 'hi' }
+        assistant = RubyLLM::Message.new(role: :assistant, content: raw(block))
+
+        expect(render([user('q'), assistant])[:messages][1][:content]).to eq([block])
+      end
+
+      it 'renders it as the one block of a user turn' do
+        block = { type: 'text', text: 'hi' }
+
+        expect(render([RubyLLM::Message.new(role: :user, content: raw(block))])[:messages][0][:content])
+          .to eq([block])
+      end
+
+      it 'renders it as the content of a tool_result block' do
+        block = { type: 'text', text: 'sunny' }
+
+        expect(render(tool_turn(raw(block)))[:messages][2][:content])
+          .to eq([{ type: 'tool_result', tool_use_id: 't1', content: [block] }])
+      end
+
+      it 'passes a complete tool_result block through as the tool turn' do
+        block = { type: 'tool_result', tool_use_id: 't1', content: 'sunny' }
+
+        expect(render(tool_turn(raw(block)))[:messages][2][:content]).to eq([block])
+      end
+    end
+
     it 'lifts nothing on its own: thinking/output_config arrive via params' do
       payload = render([user('q')], params: { thinking: { type: 'adaptive' }, output_config: { effort: 'high' } })
 

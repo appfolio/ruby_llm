@@ -53,14 +53,13 @@ module RubyLLM
       end
 
       def complete(messages, model:, params: {}, **rest, &)
-        params = if mantle_only_model?(model)
-                   strip_converse_only_params(params)
-                 elsif invoke_anthropic_request?(rest[:protocol])
-                   normalize_invoke_params(params)
-                 else
-                   normalize_params(params, model:)
-                 end
+        params = prepare_params(params, model:, protocol: rest[:protocol])
         # Bare `super` forwards current bindings, so it picks up the reassigned `params` above.
+        super
+      end
+
+      def render(messages, model:, params: {}, protocol: nil, **rest)
+        params = prepare_params(params, model:, protocol:)
         super
       end
 
@@ -158,6 +157,16 @@ module RubyLLM
           'bedrock_credential_provider responding to #credentials'
         else
           'bedrock_credential_provider or bedrock_api_key + bedrock_secret_key'
+        end
+      end
+
+      def prepare_params(params, model:, protocol:)
+        if mantle_only_model?(model)
+          strip_converse_only_params(params)
+        elsif invoke_anthropic_request?(protocol)
+          normalize_invoke_params(params)
+        else
+          normalize_params(params, model:)
         end
       end
 

@@ -91,7 +91,7 @@ module RubyLLM
         def build_system_content(system_messages)
           system_messages.flat_map do |msg|
             content = msg.content
-            content.is_a?(RubyLLM::Content::Raw) ? Array(content.value) : format_content(content)
+            content.is_a?(RubyLLM::Content::Raw) ? raw_blocks(content.value) : format_content(content)
           end
         end
 
@@ -184,7 +184,7 @@ module RubyLLM
 
         def format_message_content(msg)
           if msg.content.is_a?(RubyLLM::Content::Raw)
-            blocks = Array(msg.content.value)
+            blocks = raw_blocks(msg.content.value)
             return blocks if %i[assistant system].include?(msg.role)
 
             return blocks.reject { |block| thinking_block?(block) }
@@ -246,7 +246,7 @@ module RubyLLM
         end
 
         def format_tool_result_blocks(msg)
-          return Array(msg.content.value) if msg.content.is_a?(RubyLLM::Content::Raw) && raw_tool_result_turn?(msg)
+          return raw_blocks(msg.content.value) if msg.content.is_a?(RubyLLM::Content::Raw) && raw_tool_result_turn?(msg)
 
           [format_tool_result_block(msg)]
         end
@@ -254,7 +254,7 @@ module RubyLLM
         # A Raw tool-result whose blocks are already complete tool_result blocks (the shape the
         # first-party protocol's format_tool_result passes through) is used as-is.
         def raw_tool_result_turn?(msg)
-          blocks = Array(msg.content.value)
+          blocks = raw_blocks(msg.content.value)
           blocks.any? && blocks.all? { |block| block_type(block) == 'tool_result' }
         end
 
@@ -276,8 +276,15 @@ module RubyLLM
         end
 
         def format_raw_tool_result_content(raw_value)
-          blocks = Array(raw_value).grep(Hash)
+          blocks = raw_blocks(raw_value).grep(Hash)
           blocks.empty? ? [{ type: 'text', text: raw_value.to_s }] : blocks
+        end
+
+        # Kernel#Array would split a single Hash block into key/value pairs.
+        def raw_blocks(value)
+          return [] if value.nil?
+
+          value.is_a?(Array) ? value : [value]
         end
 
         def search_results?(content)
@@ -291,7 +298,7 @@ module RubyLLM
         # Images and PDFs always travel base64-inline: InvokeModel has no URL fetch and no
         # Files API. Everything else matches Anthropic::Media.
         def format_content(content, citations: false)
-          return Array(content.value) if content.is_a?(RubyLLM::Content::Raw)
+          return raw_blocks(content.value) if content.is_a?(RubyLLM::Content::Raw)
           return [Anthropic::Media.format_text(content.to_json)] if content.is_a?(Hash) || content.is_a?(Array)
           return [Anthropic::Media.format_text(content)] unless content.is_a?(RubyLLM::Content)
 

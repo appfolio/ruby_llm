@@ -317,6 +317,41 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
+  describe '#render' do
+    let(:provider) { described_class.new(bedrock_config(api_key: 'k', secret_key: 's')) }
+    let(:model) do
+      RubyLLM::Model::Info.new(
+        id: 'us.anthropic.claude-sonnet-5', name: 'Sonnet 5', provider: 'bedrock', family: 'claude',
+        created_at: nil, context_window: 200_000, max_output_tokens: 8192,
+        modalities: { input: [], output: [] }, capabilities: [], pricing: {}, metadata: {}
+      )
+    end
+
+    def edits
+      { edits: [{ type: 'clear_tool_uses_20250919' }] }
+    end
+
+    def render_body(**opts)
+      params = { additionalModelRequestFields: { context_management: edits }, model: 'x', stream: true }
+      provider.render([RubyLLM::Message.new(role: :user, content: 'hi')], tools: {}, temperature: nil, model: model,
+                                                                          params: params, **opts)
+    end
+
+    it 'renders the InvokeModel body complete would send, with Converse params lifted to the top level' do
+      body = render_body(protocol: :invoke_anthropic)
+
+      expect(body[:context_management]).to eq(edits)
+      expect(body.keys).not_to include(:model, :stream, :additionalModelRequestFields)
+    end
+
+    it 'leaves the default Converse body unchanged' do
+      body = render_body
+
+      expect(body[:additionalModelRequestFields]).to eq(context_management: edits)
+      expect(body).not_to have_key(:context_management)
+    end
+  end
+
   describe '#protocol_for' do
     def build_bedrock
       described_class.new(bedrock_config(api_key: 'k', secret_key: 's'))
