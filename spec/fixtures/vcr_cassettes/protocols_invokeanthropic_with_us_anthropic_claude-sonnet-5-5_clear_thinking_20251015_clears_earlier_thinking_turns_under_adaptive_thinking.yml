@@ -1,0 +1,303 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 9:47 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]}],"max_tokens":8000,"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220003Z
+      X-Amz-Content-Sha256:
+      - 4d4fefaf60c44592fc2ecf81fad39835aa3bc360ecff9a7f648f140a4bdfa8b3
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:00:07 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2148'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 8f446e77-e52f-44f0-8a3d-bf065224ae84
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '3791'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '399'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '78'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_iptvf2o7ubs7rqszv22opyrynx2s5jvds2e7thyobc3ryblcao3q","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9AgKEggSEAEYAjgBQgh0aGlua2luZxIM+ZGQz0NaN7/dl5MAGgzILWgIfRFuTAlUoqoiMBCyiBHawqbnPC4EUS+GIrVy50b5uSA1I3UjWwIIfy8NoKTAPyQh61zoVX9vES4lqCqPCOxKrEwNON+rME3KcJl/+zR2y6D9yKdiMTjSjbL6X6tekKzxUyLtnLkX7rnZRqmtZz806qxh16ugq+emC/35q2mr7pYxCK8BfYBk73OzXfObGrYqGG72IoJPDr6PxsZvzeUhB28p/RjrJT4zQalvOwyUvP7Az7qPnF1L2WMXBRIX9eTtPqDjDJzP+WXnsp6Fd07wtVMqm1cE5OdFC8bDbI9rtgXvNaAK5ErB5f/hi/jYpxeOAGjWCWoKkxVTq5z5u3wqYEYEugElY0RWZPTr3V26ZgeiDCcQcLAaGyVQEdke0V6F6hq4SL1UEM5FD91eWCaYj7cKAI7En1klj5uaF9QQJYlhzeZXJs2aFcy4ixRJS/J54YCALfsVfhExkrJjjvsU0e5av7XQPYllehnDdDKfmnoQrdBBYsQwp2M9CTrGr3VvmOMYnq1WcamSu6mk45Nbju2pR5adqj5l/L/pM3s3d4snZ9R2W2iE0bLSXb80LgnO5QoTwcYDL1YacTmIkwh7cLVCNmSFHyRXzy0IW7Jhs7ome3mb3KDuYXFZse5wE+t8YXjRS4TLDqrum4VDW480gW543K0+ZWeS5FG76CbjS9kPgp4XmfJeRs8B3I9GTuc4NOmbmbf9C4xNFc8DH7u8LqZvQt1bSToKQJ8hB9uvf+Kq7npPSnybt29iS0eYTxSDo8F9We0ehlqYPx+mWL4od6a6RR3ePatJd5hF6sUjifEZ8CXI4jDSD0Z7Y9uFjAjS6syJEkKR7chO+ehDcIFb+q/vR9+1rggi1Fchh2nb/F7VkQMAP2PDuodc6+Ns/i0KSoZmO9kWNP3g33v/CZKnBYmN0JfCsQ6ZzVGIRST/CF0PRix/ubFj6qh2RR8p6uaXtgrjHKH7zZb25j9r/JEPHW5VHCLajYgXRLPcDxyfZIXvqvFzlDzFMunFktnL7E3oFnTN6YOKYm1kZw6IfuiR0aJMh4z7/SWK9Lg1HK4XvTnoA6iUFCSmLd2ay1lEiojkuJCKeOyGrZNHtpKAsceXa22DH7bU7Kyk9NF8P66la176TI+GJ0paVpC1Cky4iIw08QhurCAF0qNFsq31IJPGnqxdxr/XCbRUoloKsYUZfKM+psNP917RE4e5Lm2jaIowNlxh/uDf7HMB72u6qFHVdNllyDlhCtjoXKpEdK6mEyI/5KHVqBRd5Ps/0iVyQIVWIUunjtgVF4yamMTHyl7g/o0kHVnXrJ/fm3dkGMBBQeKH0djAKA8fEplPwAbAvAgrTEny1EXIGJKKw40c0bfSag+jN8Wut5bZBpgPHepkT3WufO3tfNsSwj9A/mcUXZPCi4ZqOu7KLP3YvnXkqwx8I6txpBUFfyG3QtMIfkZR7KJZbHEtglBKPz7RC6gYAQ=="},{"type":"text","text":"**14:40**"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":78,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":399,"output_tokens_details":{"thinking_tokens":392},"service_tier":"standard"},"context_management":{"applied_edits":[]}}'
+  recorded_at: Mon, 05 Oct 2026 22:00:07 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 9:47 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9AgKEggSEAEYAjgBQgh0aGlua2luZxIM+ZGQz0NaN7/dl5MAGgzILWgIfRFuTAlUoqoiMBCyiBHawqbnPC4EUS+GIrVy50b5uSA1I3UjWwIIfy8NoKTAPyQh61zoVX9vES4lqCqPCOxKrEwNON+rME3KcJl/+zR2y6D9yKdiMTjSjbL6X6tekKzxUyLtnLkX7rnZRqmtZz806qxh16ugq+emC/35q2mr7pYxCK8BfYBk73OzXfObGrYqGG72IoJPDr6PxsZvzeUhB28p/RjrJT4zQalvOwyUvP7Az7qPnF1L2WMXBRIX9eTtPqDjDJzP+WXnsp6Fd07wtVMqm1cE5OdFC8bDbI9rtgXvNaAK5ErB5f/hi/jYpxeOAGjWCWoKkxVTq5z5u3wqYEYEugElY0RWZPTr3V26ZgeiDCcQcLAaGyVQEdke0V6F6hq4SL1UEM5FD91eWCaYj7cKAI7En1klj5uaF9QQJYlhzeZXJs2aFcy4ixRJS/J54YCALfsVfhExkrJjjvsU0e5av7XQPYllehnDdDKfmnoQrdBBYsQwp2M9CTrGr3VvmOMYnq1WcamSu6mk45Nbju2pR5adqj5l/L/pM3s3d4snZ9R2W2iE0bLSXb80LgnO5QoTwcYDL1YacTmIkwh7cLVCNmSFHyRXzy0IW7Jhs7ome3mb3KDuYXFZse5wE+t8YXjRS4TLDqrum4VDW480gW543K0+ZWeS5FG76CbjS9kPgp4XmfJeRs8B3I9GTuc4NOmbmbf9C4xNFc8DH7u8LqZvQt1bSToKQJ8hB9uvf+Kq7npPSnybt29iS0eYTxSDo8F9We0ehlqYPx+mWL4od6a6RR3ePatJd5hF6sUjifEZ8CXI4jDSD0Z7Y9uFjAjS6syJEkKR7chO+ehDcIFb+q/vR9+1rggi1Fchh2nb/F7VkQMAP2PDuodc6+Ns/i0KSoZmO9kWNP3g33v/CZKnBYmN0JfCsQ6ZzVGIRST/CF0PRix/ubFj6qh2RR8p6uaXtgrjHKH7zZb25j9r/JEPHW5VHCLajYgXRLPcDxyfZIXvqvFzlDzFMunFktnL7E3oFnTN6YOKYm1kZw6IfuiR0aJMh4z7/SWK9Lg1HK4XvTnoA6iUFCSmLd2ay1lEiojkuJCKeOyGrZNHtpKAsceXa22DH7bU7Kyk9NF8P66la176TI+GJ0paVpC1Cky4iIw08QhurCAF0qNFsq31IJPGnqxdxr/XCbRUoloKsYUZfKM+psNP917RE4e5Lm2jaIowNlxh/uDf7HMB72u6qFHVdNllyDlhCtjoXKpEdK6mEyI/5KHVqBRd5Ps/0iVyQIVWIUunjtgVF4yamMTHyl7g/o0kHVnXrJ/fm3dkGMBBQeKH0djAKA8fEplPwAbAvAgrTEny1EXIGJKKw40c0bfSag+jN8Wut5bZBpgPHepkT3WufO3tfNsSwj9A/mcUXZPCi4ZqOu7KLP3YvnXkqwx8I6txpBUFfyG3QtMIfkZR7KJZbHEtglBKPz7RC6gYAQ=="},{"type":"text","text":"**14:40**"}]},{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 11:23 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]}],"max_tokens":8000,"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220007Z
+      X-Amz-Content-Sha256:
+      - 42e91fa64cadcff661df463eb4d02a9f94b3f7c0a89da2226c61b4c1118d167e
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:00:08 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1471'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - e28cbca7-bf9f-488c-a4f1-72162f1e7ebb
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1000'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '52'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '551'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_gwx7umzz3sdk6tbkxbo6mgmeunj55hqj6crfrnar5ke675lqqvbq","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS+wQKEggSEAEYAjgBQgh0aGlua2luZxIMnmUd2DDGFFP6xYVCGgx6A/6t3SezI2VhYewiMB03x1Lxy3RvSGfHGGDEAOyqSsO+rnk/36NhqWL0sC5XBr6wiQgi+2C9EwOZeBnf9SqWBFDdiU4J+AXXYz8RmZW8n12xMLGA13yi5a9nsn3nyEu9ICvAd6hbOmmWjlniY/Yq5Dqh5UzGyhb46zYNgoELdhc2EnAVv4OhvhWNzwrM99jDY1G298tHO0lm5KSNnH5PHiI/iAFCBruIctYVGUulFkwIUjmEec6m4ykWL3lDGXOX26WU8iUBhQmKWSkzVWal/yRExRoUE0SNbxDXsJRkh1IpK1I8A2uJBVfQ2z/GPTgFy1X6Y3tl2B1qJ6PFgoO5Gd/EL804n7/AoSyva1DoBVI21DwfsiELyp8gUvri1vt9bFfKBsSD3wVKBjKMeWKEq4AC/qN3wMUBbMp4mE+Ezqn2SJO+lGHDwmd5tIMoHFK6QXc9yHSpGITK9LEiiF5p2HHIbmujv7Q9L1k+zenUCgPn574oEl7/8OLcWVkND1NTLr9eib+gaktEzUDpKvwIDgOsloVerpgGA+lDGkpPxI4b5k1s7lNt34UUSs4eol0jq5l7FMQX+6K0PTOapOC9gNNSVQyGIJUFBJ6sbgFOI0/lXmDf96/EVykNgkZQ4XIQoGvFMKAkZL287083dReO9v+/33SmTRFB8U8mlBheey4hFsMkG2h+ou/BR9DbhRLUdZS/vDdEpvtXJWHRF0q0Kmf56foypNIo/z2VGOgNL2yijukj6sEFld9rpnHAtQQt9KSCLjAEMtTAqyUoPrEkbC5dJagkXxgB"},{"type":"text","text":"**17:16**"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":551,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":52,"output_tokens_details":{"thinking_tokens":45},"service_tier":"standard"},"context_management":{"applied_edits":[]}}'
+  recorded_at: Mon, 05 Oct 2026 22:00:08 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 9:47 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9AgKEggSEAEYAjgBQgh0aGlua2luZxIM+ZGQz0NaN7/dl5MAGgzILWgIfRFuTAlUoqoiMBCyiBHawqbnPC4EUS+GIrVy50b5uSA1I3UjWwIIfy8NoKTAPyQh61zoVX9vES4lqCqPCOxKrEwNON+rME3KcJl/+zR2y6D9yKdiMTjSjbL6X6tekKzxUyLtnLkX7rnZRqmtZz806qxh16ugq+emC/35q2mr7pYxCK8BfYBk73OzXfObGrYqGG72IoJPDr6PxsZvzeUhB28p/RjrJT4zQalvOwyUvP7Az7qPnF1L2WMXBRIX9eTtPqDjDJzP+WXnsp6Fd07wtVMqm1cE5OdFC8bDbI9rtgXvNaAK5ErB5f/hi/jYpxeOAGjWCWoKkxVTq5z5u3wqYEYEugElY0RWZPTr3V26ZgeiDCcQcLAaGyVQEdke0V6F6hq4SL1UEM5FD91eWCaYj7cKAI7En1klj5uaF9QQJYlhzeZXJs2aFcy4ixRJS/J54YCALfsVfhExkrJjjvsU0e5av7XQPYllehnDdDKfmnoQrdBBYsQwp2M9CTrGr3VvmOMYnq1WcamSu6mk45Nbju2pR5adqj5l/L/pM3s3d4snZ9R2W2iE0bLSXb80LgnO5QoTwcYDL1YacTmIkwh7cLVCNmSFHyRXzy0IW7Jhs7ome3mb3KDuYXFZse5wE+t8YXjRS4TLDqrum4VDW480gW543K0+ZWeS5FG76CbjS9kPgp4XmfJeRs8B3I9GTuc4NOmbmbf9C4xNFc8DH7u8LqZvQt1bSToKQJ8hB9uvf+Kq7npPSnybt29iS0eYTxSDo8F9We0ehlqYPx+mWL4od6a6RR3ePatJd5hF6sUjifEZ8CXI4jDSD0Z7Y9uFjAjS6syJEkKR7chO+ehDcIFb+q/vR9+1rggi1Fchh2nb/F7VkQMAP2PDuodc6+Ns/i0KSoZmO9kWNP3g33v/CZKnBYmN0JfCsQ6ZzVGIRST/CF0PRix/ubFj6qh2RR8p6uaXtgrjHKH7zZb25j9r/JEPHW5VHCLajYgXRLPcDxyfZIXvqvFzlDzFMunFktnL7E3oFnTN6YOKYm1kZw6IfuiR0aJMh4z7/SWK9Lg1HK4XvTnoA6iUFCSmLd2ay1lEiojkuJCKeOyGrZNHtpKAsceXa22DH7bU7Kyk9NF8P66la176TI+GJ0paVpC1Cky4iIw08QhurCAF0qNFsq31IJPGnqxdxr/XCbRUoloKsYUZfKM+psNP917RE4e5Lm2jaIowNlxh/uDf7HMB72u6qFHVdNllyDlhCtjoXKpEdK6mEyI/5KHVqBRd5Ps/0iVyQIVWIUunjtgVF4yamMTHyl7g/o0kHVnXrJ/fm3dkGMBBQeKH0djAKA8fEplPwAbAvAgrTEny1EXIGJKKw40c0bfSag+jN8Wut5bZBpgPHepkT3WufO3tfNsSwj9A/mcUXZPCi4ZqOu7KLP3YvnXkqwx8I6txpBUFfyG3QtMIfkZR7KJZbHEtglBKPz7RC6gYAQ=="},{"type":"text","text":"**14:40**"}]},{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 11:23 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS+wQKEggSEAEYAjgBQgh0aGlua2luZxIMnmUd2DDGFFP6xYVCGgx6A/6t3SezI2VhYewiMB03x1Lxy3RvSGfHGGDEAOyqSsO+rnk/36NhqWL0sC5XBr6wiQgi+2C9EwOZeBnf9SqWBFDdiU4J+AXXYz8RmZW8n12xMLGA13yi5a9nsn3nyEu9ICvAd6hbOmmWjlniY/Yq5Dqh5UzGyhb46zYNgoELdhc2EnAVv4OhvhWNzwrM99jDY1G298tHO0lm5KSNnH5PHiI/iAFCBruIctYVGUulFkwIUjmEec6m4ykWL3lDGXOX26WU8iUBhQmKWSkzVWal/yRExRoUE0SNbxDXsJRkh1IpK1I8A2uJBVfQ2z/GPTgFy1X6Y3tl2B1qJ6PFgoO5Gd/EL804n7/AoSyva1DoBVI21DwfsiELyp8gUvri1vt9bFfKBsSD3wVKBjKMeWKEq4AC/qN3wMUBbMp4mE+Ezqn2SJO+lGHDwmd5tIMoHFK6QXc9yHSpGITK9LEiiF5p2HHIbmujv7Q9L1k+zenUCgPn574oEl7/8OLcWVkND1NTLr9eib+gaktEzUDpKvwIDgOsloVerpgGA+lDGkpPxI4b5k1s7lNt34UUSs4eol0jq5l7FMQX+6K0PTOapOC9gNNSVQyGIJUFBJ6sbgFOI0/lXmDf96/EVykNgkZQ4XIQoGvFMKAkZL287083dReO9v+/33SmTRFB8U8mlBheey4hFsMkG2h+ou/BR9DbhRLUdZS/vDdEpvtXJWHRF0q0Kmf56foypNIo/z2VGOgNL2yijukj6sEFld9rpnHAtQQt9KSCLjAEMtTAqyUoPrEkbC5dJagkXxgB"},{"type":"text","text":"**17:16**"}]},{"role":"user","content":[{"type":"text","text":"How
+        many minutes apart are your two arrival times? Only the number."}]}],"max_tokens":8000,"thinking":{"type":"adaptive"},"output_config":{"effort":"high"},"context_management":{"edits":[{"type":"clear_thinking_20251015","keep":{"type":"thinking_turns","value":1}}]}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220008Z
+      X-Amz-Content-Sha256:
+      - e3323e5f22ae528e9594ef79bf677cc52fb4a82f3ee2833ee89c00f330dee51b
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:00:13 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '3105'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 9b827c6b-0059-4323-b8d7-609b293ff1d0
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '4689'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '541'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '186'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_widjqlmu3ofmtikl55fndcnoyzmql2fnvkiipjhq6nrvvfjud6tq","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"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"},{"type":"text","text":"156
+        minutes, as stated. But my first answer was wrong: the correct first arrival
+        is 15:40, so the true gap is **96** minutes."}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":186,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":541,"output_tokens_details":{"thinking_tokens":493},"service_tier":"standard"},"context_management":{"applied_edits":[{"type":"clear_thinking_20251015","cleared_thinking_turns":2,"cleared_input_tokens":182}]}}'
+  recorded_at: Mon, 05 Oct 2026 22:00:13 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 9:47 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9AgKEggSEAEYAjgBQgh0aGlua2luZxIM+ZGQz0NaN7/dl5MAGgzILWgIfRFuTAlUoqoiMBCyiBHawqbnPC4EUS+GIrVy50b5uSA1I3UjWwIIfy8NoKTAPyQh61zoVX9vES4lqCqPCOxKrEwNON+rME3KcJl/+zR2y6D9yKdiMTjSjbL6X6tekKzxUyLtnLkX7rnZRqmtZz806qxh16ugq+emC/35q2mr7pYxCK8BfYBk73OzXfObGrYqGG72IoJPDr6PxsZvzeUhB28p/RjrJT4zQalvOwyUvP7Az7qPnF1L2WMXBRIX9eTtPqDjDJzP+WXnsp6Fd07wtVMqm1cE5OdFC8bDbI9rtgXvNaAK5ErB5f/hi/jYpxeOAGjWCWoKkxVTq5z5u3wqYEYEugElY0RWZPTr3V26ZgeiDCcQcLAaGyVQEdke0V6F6hq4SL1UEM5FD91eWCaYj7cKAI7En1klj5uaF9QQJYlhzeZXJs2aFcy4ixRJS/J54YCALfsVfhExkrJjjvsU0e5av7XQPYllehnDdDKfmnoQrdBBYsQwp2M9CTrGr3VvmOMYnq1WcamSu6mk45Nbju2pR5adqj5l/L/pM3s3d4snZ9R2W2iE0bLSXb80LgnO5QoTwcYDL1YacTmIkwh7cLVCNmSFHyRXzy0IW7Jhs7ome3mb3KDuYXFZse5wE+t8YXjRS4TLDqrum4VDW480gW543K0+ZWeS5FG76CbjS9kPgp4XmfJeRs8B3I9GTuc4NOmbmbf9C4xNFc8DH7u8LqZvQt1bSToKQJ8hB9uvf+Kq7npPSnybt29iS0eYTxSDo8F9We0ehlqYPx+mWL4od6a6RR3ePatJd5hF6sUjifEZ8CXI4jDSD0Z7Y9uFjAjS6syJEkKR7chO+ehDcIFb+q/vR9+1rggi1Fchh2nb/F7VkQMAP2PDuodc6+Ns/i0KSoZmO9kWNP3g33v/CZKnBYmN0JfCsQ6ZzVGIRST/CF0PRix/ubFj6qh2RR8p6uaXtgrjHKH7zZb25j9r/JEPHW5VHCLajYgXRLPcDxyfZIXvqvFzlDzFMunFktnL7E3oFnTN6YOKYm1kZw6IfuiR0aJMh4z7/SWK9Lg1HK4XvTnoA6iUFCSmLd2ay1lEiojkuJCKeOyGrZNHtpKAsceXa22DH7bU7Kyk9NF8P66la176TI+GJ0paVpC1Cky4iIw08QhurCAF0qNFsq31IJPGnqxdxr/XCbRUoloKsYUZfKM+psNP917RE4e5Lm2jaIowNlxh/uDf7HMB72u6qFHVdNllyDlhCtjoXKpEdK6mEyI/5KHVqBRd5Ps/0iVyQIVWIUunjtgVF4yamMTHyl7g/o0kHVnXrJ/fm3dkGMBBQeKH0djAKA8fEplPwAbAvAgrTEny1EXIGJKKw40c0bfSag+jN8Wut5bZBpgPHepkT3WufO3tfNsSwj9A/mcUXZPCi4ZqOu7KLP3YvnXkqwx8I6txpBUFfyG3QtMIfkZR7KJZbHEtglBKPz7RC6gYAQ=="},{"type":"text","text":"**14:40**"}]},{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 11:23 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS+wQKEggSEAEYAjgBQgh0aGlua2luZxIMnmUd2DDGFFP6xYVCGgx6A/6t3SezI2VhYewiMB03x1Lxy3RvSGfHGGDEAOyqSsO+rnk/36NhqWL0sC5XBr6wiQgi+2C9EwOZeBnf9SqWBFDdiU4J+AXXYz8RmZW8n12xMLGA13yi5a9nsn3nyEu9ICvAd6hbOmmWjlniY/Yq5Dqh5UzGyhb46zYNgoELdhc2EnAVv4OhvhWNzwrM99jDY1G298tHO0lm5KSNnH5PHiI/iAFCBruIctYVGUulFkwIUjmEec6m4ykWL3lDGXOX26WU8iUBhQmKWSkzVWal/yRExRoUE0SNbxDXsJRkh1IpK1I8A2uJBVfQ2z/GPTgFy1X6Y3tl2B1qJ6PFgoO5Gd/EL804n7/AoSyva1DoBVI21DwfsiELyp8gUvri1vt9bFfKBsSD3wVKBjKMeWKEq4AC/qN3wMUBbMp4mE+Ezqn2SJO+lGHDwmd5tIMoHFK6QXc9yHSpGITK9LEiiF5p2HHIbmujv7Q9L1k+zenUCgPn574oEl7/8OLcWVkND1NTLr9eib+gaktEzUDpKvwIDgOsloVerpgGA+lDGkpPxI4b5k1s7lNt34UUSs4eol0jq5l7FMQX+6K0PTOapOC9gNNSVQyGIJUFBJ6sbgFOI0/lXmDf96/EVykNgkZQ4XIQoGvFMKAkZL287083dReO9v+/33SmTRFB8U8mlBheey4hFsMkG2h+ou/BR9DbhRLUdZS/vDdEpvtXJWHRF0q0Kmf56foypNIo/z2VGOgNL2yijukj6sEFld9rpnHAtQQt9KSCLjAEMtTAqyUoPrEkbC5dJagkXxgB"},{"type":"text","text":"**17:16**"}]},{"role":"user","content":[{"type":"text","text":"How
+        many minutes apart are your two arrival times? Only the number."}]}],"max_tokens":8000,"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220013Z
+      X-Amz-Content-Sha256:
+      - 4dff16b13aa34fe3cfa00ca7aa60118db40019f36e026824236eaa572623ae01
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:00:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1429'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - f7a16537-880f-4712-8a8c-d2596165df4e
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '776'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '31'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '627'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_qiqsq7gzqmrswb4ifdidtsyo4f6gkoyrpo3ciygkornaluhzw6sa","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS3QQKEggSEAEYAjgBQgh0aGlua2luZxIMMk7XFDmyTlwpo+gaGgwpWKdJwVpOj/LdvRQiMG0fDImqc+CN5dAlvoh/kEtrRzzVHntvhqIBGZZHcQlAMuGsmuf48V9MT0P3RJRpeCr4Ayq3mYciPpzDbtj+ODfla0+xZohKaAecpBTdjuhZI+nXdVs8jxdG59DIahLqwDuvZlhVko+okYUOOIU7W/1ZlgRr89G+3wP1+hTZ+iHPtkBEBxk8KovBlW3kcqCL2/GEc73/bKDjE9T1DNhyB2VNOxfg3Z6+bu2ZGbgGWUr/qqLybLKMadwC6XbWrf0XipdhvEh3kKi/v9FVo9ZFjcHTfO3CqOpCBqFIEOac2TERyL3fKBU3gFp5rQZwnApoxBYvUsjTnL6TbdrPyNvvnd35nKomxX8RvD/9ESP66YyAE7CaDmJV/f3LrMT0MzK8b7703TbN7R8Ee8/c9/7ncgiFQAfOJhYzI6lN9Nk0gu3vnLHo5mRxs5ArwS3NEg7RC4R0p10wqaTRubLkl+szfH6NeRqZKRLGcjjeOjxRY2/8IlunGLJ4RonZmpJG9PDee8mIARp9aV58tzTXqUua8qMBlya/ZCzIzEfRVjByOe/0A1GYQ930zMZNINj5gwMNEFw1SxDp9VNywoFOH4+WKYDAcb/TpHv+hxYSaQamNmtnJ2xcZxwAqxt9V1HbPxd55N/c8lyMed8CEmBS48SbJmJnkFA8tlZ566aTzjGb2wNeVBn0iXZbYAgt/UsM/jwNewMccDn2HJl2koocNb2VSCSBEjHdnTvDkSTd2BgB"},{"type":"text","text":"**156**"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":627,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":31,"output_tokens_details":{"thinking_tokens":26},"service_tier":"standard"},"context_management":{"applied_edits":[]}}'
+  recorded_at: Mon, 05 Oct 2026 22:00:14 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 9:47 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9AgKEggSEAEYAjgBQgh0aGlua2luZxIM+ZGQz0NaN7/dl5MAGgzILWgIfRFuTAlUoqoiMBCyiBHawqbnPC4EUS+GIrVy50b5uSA1I3UjWwIIfy8NoKTAPyQh61zoVX9vES4lqCqPCOxKrEwNON+rME3KcJl/+zR2y6D9yKdiMTjSjbL6X6tekKzxUyLtnLkX7rnZRqmtZz806qxh16ugq+emC/35q2mr7pYxCK8BfYBk73OzXfObGrYqGG72IoJPDr6PxsZvzeUhB28p/RjrJT4zQalvOwyUvP7Az7qPnF1L2WMXBRIX9eTtPqDjDJzP+WXnsp6Fd07wtVMqm1cE5OdFC8bDbI9rtgXvNaAK5ErB5f/hi/jYpxeOAGjWCWoKkxVTq5z5u3wqYEYEugElY0RWZPTr3V26ZgeiDCcQcLAaGyVQEdke0V6F6hq4SL1UEM5FD91eWCaYj7cKAI7En1klj5uaF9QQJYlhzeZXJs2aFcy4ixRJS/J54YCALfsVfhExkrJjjvsU0e5av7XQPYllehnDdDKfmnoQrdBBYsQwp2M9CTrGr3VvmOMYnq1WcamSu6mk45Nbju2pR5adqj5l/L/pM3s3d4snZ9R2W2iE0bLSXb80LgnO5QoTwcYDL1YacTmIkwh7cLVCNmSFHyRXzy0IW7Jhs7ome3mb3KDuYXFZse5wE+t8YXjRS4TLDqrum4VDW480gW543K0+ZWeS5FG76CbjS9kPgp4XmfJeRs8B3I9GTuc4NOmbmbf9C4xNFc8DH7u8LqZvQt1bSToKQJ8hB9uvf+Kq7npPSnybt29iS0eYTxSDo8F9We0ehlqYPx+mWL4od6a6RR3ePatJd5hF6sUjifEZ8CXI4jDSD0Z7Y9uFjAjS6syJEkKR7chO+ehDcIFb+q/vR9+1rggi1Fchh2nb/F7VkQMAP2PDuodc6+Ns/i0KSoZmO9kWNP3g33v/CZKnBYmN0JfCsQ6ZzVGIRST/CF0PRix/ubFj6qh2RR8p6uaXtgrjHKH7zZb25j9r/JEPHW5VHCLajYgXRLPcDxyfZIXvqvFzlDzFMunFktnL7E3oFnTN6YOKYm1kZw6IfuiR0aJMh4z7/SWK9Lg1HK4XvTnoA6iUFCSmLd2ay1lEiojkuJCKeOyGrZNHtpKAsceXa22DH7bU7Kyk9NF8P66la176TI+GJ0paVpC1Cky4iIw08QhurCAF0qNFsq31IJPGnqxdxr/XCbRUoloKsYUZfKM+psNP917RE4e5Lm2jaIowNlxh/uDf7HMB72u6qFHVdNllyDlhCtjoXKpEdK6mEyI/5KHVqBRd5Ps/0iVyQIVWIUunjtgVF4yamMTHyl7g/o0kHVnXrJ/fm3dkGMBBQeKH0djAKA8fEplPwAbAvAgrTEny1EXIGJKKw40c0bfSag+jN8Wut5bZBpgPHepkT3WufO3tfNsSwj9A/mcUXZPCi4ZqOu7KLP3YvnXkqwx8I6txpBUFfyG3QtMIfkZR7KJZbHEtglBKPz7RC6gYAQ=="},{"type":"text","text":"**14:40**"}]},{"role":"user","content":[{"type":"text","text":"A
+        train leaves at 11:23 and travels 283 km at 71 km/h, stops 13 minutes, then
+        travels 158 km at 94 km/h. Reason carefully, then give only the arrival time
+        to the minute."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS+wQKEggSEAEYAjgBQgh0aGlua2luZxIMnmUd2DDGFFP6xYVCGgx6A/6t3SezI2VhYewiMB03x1Lxy3RvSGfHGGDEAOyqSsO+rnk/36NhqWL0sC5XBr6wiQgi+2C9EwOZeBnf9SqWBFDdiU4J+AXXYz8RmZW8n12xMLGA13yi5a9nsn3nyEu9ICvAd6hbOmmWjlniY/Yq5Dqh5UzGyhb46zYNgoELdhc2EnAVv4OhvhWNzwrM99jDY1G298tHO0lm5KSNnH5PHiI/iAFCBruIctYVGUulFkwIUjmEec6m4ykWL3lDGXOX26WU8iUBhQmKWSkzVWal/yRExRoUE0SNbxDXsJRkh1IpK1I8A2uJBVfQ2z/GPTgFy1X6Y3tl2B1qJ6PFgoO5Gd/EL804n7/AoSyva1DoBVI21DwfsiELyp8gUvri1vt9bFfKBsSD3wVKBjKMeWKEq4AC/qN3wMUBbMp4mE+Ezqn2SJO+lGHDwmd5tIMoHFK6QXc9yHSpGITK9LEiiF5p2HHIbmujv7Q9L1k+zenUCgPn574oEl7/8OLcWVkND1NTLr9eib+gaktEzUDpKvwIDgOsloVerpgGA+lDGkpPxI4b5k1s7lNt34UUSs4eol0jq5l7FMQX+6K0PTOapOC9gNNSVQyGIJUFBJ6sbgFOI0/lXmDf96/EVykNgkZQ4XIQoGvFMKAkZL287083dReO9v+/33SmTRFB8U8mlBheey4hFsMkG2h+ou/BR9DbhRLUdZS/vDdEpvtXJWHRF0q0Kmf56foypNIo/z2VGOgNL2yijukj6sEFld9rpnHAtQQt9KSCLjAEMtTAqyUoPrEkbC5dJagkXxgB"},{"type":"text","text":"**17:16**"}]},{"role":"user","content":[{"type":"text","text":"How
+        many minutes apart are your two arrival times? Only the number."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"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"},{"type":"text","text":"156
+        minutes, as stated. But my first answer was wrong: the correct first arrival
+        is 15:40, so the true gap is **96** minutes."}]},{"role":"user","content":[{"type":"text","text":"Reply
+        with OK."}]}],"max_tokens":8000,"thinking":{"type":"adaptive"},"output_config":{"effort":"high"},"context_management":{"edits":[{"type":"clear_thinking_20251015","keep":{"type":"thinking_turns","value":1}}]}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220014Z
+      X-Amz-Content-Sha256:
+      - 2119f06dbc4fe719221e8f95aad086c630f023ac1d3410fe1a0f2413f2e4ce70
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:00:17 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2574'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 5c97cb49-182d-4468-a78e-140e024e58f8
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '3654'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '420'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '243'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_xflwpuh6z4rjq4x5hukwdgurasrpxfyd75lvljmv7mo6fniktoeq","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS9woKEggSEAEYAjgBQgh0aGlua2luZxIMetoP2rGry/9GaQ44Ggxutq2TegTowYmmW7giMJDtv2M4w+9rKBjrRdKy3YMZMeOorvdhb8at6k61/V87jIWX80HPV5qtyOSW+5rDWyqSCsp4g66hs6zXf1BJk/UpT134LR4CCiujMvwUUKBBOu55/U5cLEi8r98rq5GBD6SxpbYQCMcHxMMA76jDSboB7WgwON17qR/031NhsOQ/SYANCUV8/7MJGQkXIGMy70vXsrQ0/BKpJKiDgfm+f505r/sdYcR78uZxyhk7kcF01TC/svBZnmXLm1mop5vbjCykTGmRsqW0rZsRs/zXPccD/hTrw0CqRhGIDYO/TX+mEP0Hp/8TMU66TVaVVJsCFIWX925UUyGt8tDgmxXO9PMmxElZD60RwurCmW7IMZEQZuBAVEFiSR2ERT9/+sAHqmUN9Fcpz717IIfJUPerXoH9A2UPzJbCO9+QM/q67/FaSE+Z6X8DlDZwrdzChs+yRJ5ZFLpd8WOTf5l+4vmYr3E9vzdzHaYd1ckwRklDfdRV0J5qzETxRQQWF//8ZcpXfHrA9aV4I4fZ1zPTMYP4YGAuXsevHnSE/LjBJ57NeZsbJY81DOmRTRnlreKG/LaMKD+ANMfyogLLmVTzZ3UPNPH1INJgBlBnnY4H94rf+w0W3leS2vydS/VpKnsz+hTnz6ztWDVf13VxAAY4vRE2ERpVmAqBqabia0YXa1mzmthnKtEXpURgpRo9LbUtcMGqjrxzikdyFntf1HnGjBO4Xn0FvRM7l9bgZ0RQtsMOSE5NXSCjND4uhONFBrrVISiOD2xduDsAh2uUm+p4tjGVwFYXu24J8zPCTFyTO4OKDjebZNtc0kkgIBY+QAxYREcTkJU82Qu4YDKyeybYOJcWDLMvRMrj2oKUbAlxczbdmufD3a60kmBbMjSeT3liYTXlBMmNCAVsVVJgPUgBrgBdjeFkmvX2TDYCCWIAaKanLegcqSdS2J5cs6mcPwkwnglGy4nXE4Lwe4xDp7R4m6Il1iOxAqBvT2s2dxTOpUCCGVTc929p1DAYxEnoO31Fis1AdFX/1uTlECSHjnoSHGpvrLqkI/r4WOdbZirJgNPvy5lBjsIk6AVQ6ndVedbYT5Xva5XvM5tvTlnBOIRr4wsuEU1vWSLq3obz5c2pLngOAjS4nAeeX1Ud0E96z3M0zoiefMqDPsdN+1y0iYXt46s/LP06hRTjJ7AJNvM/pjajxzOgi5LMJG89qfijqZQ8XG4jP9U/htqFGbgp+AtxH1AKwD2u0oJl5rUwPfeF4DwzRh788joT00JKEaBH98Z90gnFkgXthoL7ymtCYnGm3vuIWKFANJX9KIUD78oZSlL4ft1qWNitXYRX8yTBuihH8ddjiFSwzl7q5OeNxHezzR3smMrC9mhBSN+KvFXntlUiyuhovp9yC/KWKDMKrPto0lUfp6KBp4ob6+3x2CttZvstvOQl3SNQCZMj6vZoeARRLh2Rp8w/eNb4ZF7KrWeY8dPJB510qyGdb3oETc0tmawyJoaSZtp49LblI+6EOu1hQO0KgW7PQT3t13Cn6SrrySszwnijr57P3O4JDxliUbpe7l/ZXgtKyX8XHomvOvc1M4xUxX9MwbhHH6RJ8Waq5YcrU1GeMgFqQIjtTI0CBAFvkRLre3veMPq+ZrmJQ58w9zKyCAbTKxBqFPd/inGGB09js4xYQyb+gkh13DYoPl895YpUkOQlRcA3Ji7lUvE2Sn4pCA8Q1Rrfi6reU0Y/8W5Bz50t40B8NPGD/I7qprktDFJ137J4eaOouHSIbBGDEa7ghoCPomE/0C/eWr09v2JxckhOYFc9GAE="},{"type":"text","text":"OK"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":243,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":420,"output_tokens_details":{"thinking_tokens":416},"service_tier":"standard"},"context_management":{"applied_edits":[{"type":"clear_thinking_20251015","cleared_thinking_turns":3,"cleared_input_tokens":465}]}}'
+  recorded_at: Mon, 05 Oct 2026 22:00:17 GMT
+recorded_with: VCR 6.4.0

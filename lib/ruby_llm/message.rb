@@ -15,7 +15,7 @@ module RubyLLM
                      :CONTENT_FILTERED_FINISH_REASONS
 
     attr_reader :role, :model_id, :tool_calls, :tool_call_id, :raw, :thinking, :tokens, :citations,
-                :finish_reason
+                :finish_reason, :provider_data
     attr_writer :content
 
     def initialize(options = {})
@@ -35,6 +35,9 @@ module RubyLLM
       @thinking = options[:thinking]
       @citations = Array(options[:citations])
       @finish_reason = options[:finish_reason]
+      # Response fields a protocol passes through without modeling them, as plain string-keyed
+      # hashes (e.g. InvokeAnthropic's context_management and usage iterations).
+      @provider_data = options[:provider_data] || {}
 
       ensure_valid_role
     end

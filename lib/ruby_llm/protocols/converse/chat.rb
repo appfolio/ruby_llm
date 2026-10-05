@@ -176,7 +176,7 @@ module RubyLLM
 
         def format_message_content(msg)
           if msg.content.is_a?(RubyLLM::Content::Raw)
-            return format_raw_content(msg.content) if msg.role == :assistant
+            return reject_messages_api_blocks(format_raw_content(msg.content)) if msg.role == :assistant
 
             return sanitize_non_assistant_raw_blocks(format_raw_content(msg.content))
           end
@@ -207,6 +207,20 @@ module RubyLLM
         def format_raw_content(content)
           value = content.value
           value.is_a?(Array) ? value : [value]
+        end
+
+        # An assistant Raw block whose Anthropic `type` the fork does not model (compaction,
+        # server_tool_use, tool_search_tool_result, ...) was kept by the InvokeModel protocol
+        # because only InvokeModel can carry it; Converse has no field for it. Fail clearly
+        # rather than send a block Converse would drop or reject.
+        def reject_messages_api_blocks(blocks)
+          types = blocks.filter_map { |block| block[:type] || block['type'] if block.is_a?(Hash) }.map(&:to_s)
+          unsupported = (types - InvokeAnthropic::Chat::MODELED_BLOCK_TYPES).uniq
+          return blocks if unsupported.empty?
+
+          raise UnsupportedContentError,
+                "Bedrock Converse cannot send #{unsupported.join(', ')} content blocks; " \
+                'continue this chat with protocol: :invoke_anthropic'
         end
 
         def sanitize_non_assistant_raw_blocks(blocks)

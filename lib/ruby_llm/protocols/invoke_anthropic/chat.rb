@@ -13,6 +13,7 @@ module RubyLLM
         DEFAULT_MAX_TOKENS = 4096
 
         THINKING_TYPES = %w[thinking redacted_thinking].freeze
+        MODELED_BLOCK_TYPES = (%w[text tool_use] + THINKING_TYPES).freeze
 
         def completion_url
           "/model/#{escape_model_id(@model.id)}/invoke"
@@ -36,10 +37,33 @@ module RubyLLM
           payload.delete(:model)
           payload.delete(:stream)
           betas = (Array(payload.delete(:anthropic_beta)) + invoke_anthropic_betas).map(&:to_s).uniq
+          apply_tool_params(payload, deferred: payload.delete(:deferred_tools),
+                                     server_tools: payload.delete(:server_tools))
 
           envelope = { anthropic_version: ANTHROPIC_VERSION }
           envelope[:anthropic_beta] = betas unless betas.empty?
           envelope.merge(payload)
+        end
+
+        # Two InvokeModel-only params, removed from the body before it is sent:
+        # - `deferred_tools:` names of chat tools to render with `defer_loading: true`, so they
+        #   enter context only when the tool-search tool finds them.
+        # - `server_tools:` tool definitions sent as given ahead of the chat's tools, e.g.
+        #   `{ type: 'tool_search_tool_regex_20251119', name: 'tool_search_tool_regex' }`.
+        def apply_tool_params(payload, deferred:, server_tools:)
+          deferred = Array(deferred).map(&:to_s)
+          server_tools = Array(server_tools)
+          return if deferred.empty? && server_tools.empty?
+
+          tools = mark_deferred_tools(Array(payload[:tools]), deferred)
+          payload[:tools] = server_tools + tools
+        end
+
+        def mark_deferred_tools(tools, deferred)
+          unknown = deferred - tools.map { |tool| tool[:name].to_s }
+          raise ArgumentError, "deferred_tools names no chat tool: #{unknown.join(', ')}" unless unknown.empty?
+
+          tools.map { |tool| deferred.include?(tool[:name].to_s) ? tool.merge(defer_loading: true) : tool }
         end
 
         def invoke_anthropic_betas
@@ -288,27 +312,64 @@ module RubyLLM
           { type: 'base64', media_type: attachment.mime_type, data: attachment.encoded }
         end
 
-        # Same as Anthropic::Chat#build_message plus thinking.blocks: the raw thinking /
-        # redacted_thinking blocks, which must be replayed verbatim on the next turn.
-        def build_message(data, content, citations, thinking, thinking_signature, tool_use_blocks, raw) # rubocop:disable Metrics/ParameterLists
-          usage = data['usage'] || {}
-          blocks = raw_thinking_blocks(data['content'] || [])
+        # Same fields as Anthropic::Chat#parse_completion_body, plus what InvokeModel replies carry
+        # that Anthropic::Chat drops: thinking.blocks (replayed verbatim on the next turn), the
+        # full block list when a block isn't otherwise modeled (see #reply_content), and the
+        # provider_data fields (see #provider_data_for).
+        def parse_completion_body(data, raw:)
+          blocks = data['content'] || []
+          text, citations = extract_text_and_citations(blocks)
 
           Message.new(
             role: :assistant,
-            content: content,
+            content: reply_content(blocks, text),
             citations: citations,
-            thinking: Thinking.build(text: thinking, signature: thinking_signature, blocks: blocks),
-            tool_calls: Anthropic::Tools.parse_tool_calls(tool_use_blocks),
-            input_tokens: usage['input_tokens'],
-            output_tokens: usage['output_tokens'],
-            cached_tokens: extract_cached_tokens(data),
-            cache_creation_tokens: extract_cache_creation_tokens(data),
-            thinking_tokens: usage.dig('output_tokens_details', 'thinking_tokens'),
+            thinking: Thinking.build(text: extract_thinking_content(blocks),
+                                     signature: extract_thinking_signature(blocks),
+                                     blocks: raw_thinking_blocks(blocks)),
+            tool_calls: Anthropic::Tools.parse_tool_calls(Anthropic::Tools.find_tool_uses(blocks)),
+            tokens: reply_tokens(data),
             finish_reason: data['stop_reason'],
             model_id: data['model'],
+            provider_data: provider_data_for(data),
             raw: raw
           )
+        end
+
+        def reply_tokens(data)
+          usage = data['usage'] || {}
+          Tokens.build(
+            input: usage['input_tokens'],
+            output: usage['output_tokens'],
+            cached: extract_cached_tokens(data),
+            cache_creation: extract_cache_creation_tokens(data),
+            thinking: usage.dig('output_tokens_details', 'thinking_tokens')
+          )
+        end
+
+        # A reply made only of text, thinking and tool_use blocks keeps today's format (content is
+        # the text). Any other block (compaction, server_tool_use, tool_search_tool_result, or a
+        # type added later) must go back on the next request exactly as received, so the whole
+        # list is kept as ContentBlocks, whose #text still returns the reply's text.
+        def reply_content(blocks, text)
+          modeled_blocks?(blocks) ? text : ContentBlocks.new(blocks)
+        end
+
+        def modeled_blocks?(blocks)
+          blocks.all? { |block| MODELED_BLOCK_TYPES.include?(block['type']) }
+        end
+
+        # Reply fields the fork passes through unmodeled, as plain hashes: context_management
+        # (applied_edits from context editing), usage.iterations (one entry per sampling step,
+        # including compaction) and input_transformations (thinking blocks the API dropped or
+        # flagged). Takes the response body, or the `message` of a message_start event / a
+        # message_delta event when streaming.
+        def provider_data_for(data)
+          {
+            'context_management' => data['context_management'],
+            'iterations' => data.dig('usage', 'iterations'),
+            'input_transformations' => data['input_transformations']
+          }.compact
         end
 
         def raw_thinking_blocks(content_blocks)

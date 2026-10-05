@@ -1,0 +1,311 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"Each
+        restock pallet holds 13 units. Look up SKU A-100, work out how many full pallets
+        it fills and the remainder, then look up SKU B-200 and do the same, one call
+        at a time. Reason carefully before each call. Finish with the combined pallets
+        and remainder."}]}],"max_tokens":8000,"tools":[{"name":"lookup_inventory","description":"Look
+        up the stock count for one SKU","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}],"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220412Z
+      X-Amz-Content-Sha256:
+      - 634303f3e30bf1da1d4e2cb1fb1fd92e25ef6a667fa240869cc1e5932f656b75
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:04:13 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1538'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - bbdf3fd8-a8c8-4391-a69a-c847a9a75481
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1463'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '126'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '483'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_egeesobveq36trsk5nrkggm7b5ehu2cj5e6jxweaxlm2b4lhqi2a","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQSlQQKEggSEAEYAjgBQgh0aGlua2luZxIM/EOH7AhlJ+e/vUclGgzPts34pKdM+MoQ8nwiMMTte3lTSZJPVyr9FWD3R3hD+neJwP52RS5w6Tg/ePA0tgZBtzgRoq4I/Dm4GA/tQSqwAyuQ5uz1Cbbu2B/md7l0KE7XyUk+t9eYUcK/iE+GyxTZ+yGCLi5DfOY33Aud0QizdRnGnR0l50E38DGqEJaUuNs3VW9LLt9zOcbcqwpeQYebPxscqba36wg9iAmYmg2GGRmzIhzEgo4TBO0Z6gNRYRd2cG8xFS3N6YDaYAIHJ4CkEJgXpym0ICMt8lAsBP6bOlkx+PEj4jnT0+LKKJiiqCFMC+7TGFrxYftSkMu0Dn1cMVz9b0gT8NBNFMZ3Lu4vgBDDFypmYunP/cQvqkZGvHTtNPtY0pPQCZEp7UoDjxpJJ3T6oFq4o1XPwfhsKvrTuwrNQ76Jt301A8LGU8ogrbl31G4IixVGFZYsRm+RahPZ8QeIEe+rcseip8YrKZkaQKyv7FaarUnfLwKONGNhmAHZDOMLDbdggtFy+8Ulg6gH9cRR2k5qRwfRX8hlcm16yFKwAEhYL/gcicFvEOzBWlIokYfqz5TrfazkgfFGx8jAazQApkxpYCE+fkhI2sTWo9zcTCuSKfl1EBUEu6u2HttVIp77ghc7oaIXG5HZon4OfyVSaLXJ+pTOhgP6brmmjxgB"},{"type":"text","text":"I''ll
+        start with SKU A-100. Pallets hold 13 units, so once I have the stock count
+        I''ll divide it by 13 to get full pallets and the remainder."},{"type":"tool_use","id":"toolu_bdrk_01AR2HTN97khEHXkQdiChbhp","name":"lookup_inventory","input":{"key":"A-100"}}],"container":null,"stop_reason":"tool_use","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":483,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":126,"output_tokens_details":{"thinking_tokens":19},"service_tier":"standard"}}'
+  recorded_at: Mon, 05 Oct 2026 22:04:13 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"Each
+        restock pallet holds 13 units. Look up SKU A-100, work out how many full pallets
+        it fills and the remainder, then look up SKU B-200 and do the same, one call
+        at a time. Reason carefully before each call. Finish with the combined pallets
+        and remainder."}]},{"role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQSlQQKEggSEAEYAjgBQgh0aGlua2luZxIM/EOH7AhlJ+e/vUclGgzPts34pKdM+MoQ8nwiMMTte3lTSZJPVyr9FWD3R3hD+neJwP52RS5w6Tg/ePA0tgZBtzgRoq4I/Dm4GA/tQSqwAyuQ5uz1Cbbu2B/md7l0KE7XyUk+t9eYUcK/iE+GyxTZ+yGCLi5DfOY33Aud0QizdRnGnR0l50E38DGqEJaUuNs3VW9LLt9zOcbcqwpeQYebPxscqba36wg9iAmYmg2GGRmzIhzEgo4TBO0Z6gNRYRd2cG8xFS3N6YDaYAIHJ4CkEJgXpym0ICMt8lAsBP6bOlkx+PEj4jnT0+LKKJiiqCFMC+7TGFrxYftSkMu0Dn1cMVz9b0gT8NBNFMZ3Lu4vgBDDFypmYunP/cQvqkZGvHTtNPtY0pPQCZEp7UoDjxpJJ3T6oFq4o1XPwfhsKvrTuwrNQ76Jt301A8LGU8ogrbl31G4IixVGFZYsRm+RahPZ8QeIEe+rcseip8YrKZkaQKyv7FaarUnfLwKONGNhmAHZDOMLDbdggtFy+8Ulg6gH9cRR2k5qRwfRX8hlcm16yFKwAEhYL/gcicFvEOzBWlIokYfqz5TrfazkgfFGx8jAazQApkxpYCE+fkhI2sTWo9zcTCuSKfl1EBUEu6u2HttVIp77ghc7oaIXG5HZon4OfyVSaLXJ+pTOhgP6brmmjxgB"},{"type":"text","text":"I''ll
+        start with SKU A-100. Pallets hold 13 units, so once I have the stock count
+        I''ll divide it by 13 to get full pallets and the remainder."},{"type":"tool_use","id":"toolu_bdrk_01AR2HTN97khEHXkQdiChbhp","name":"lookup_inventory","input":{"key":"A-100"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_bdrk_01AR2HTN97khEHXkQdiChbhp","content":[{"type":"text","text":"SKU
+        A-100: 42 units\nMovement history:\nLedger entry 1: the depot in Osaka received
+        47 crates of ceramic-tiles on day 14.\nLedger entry 2: the depot in Denver
+        received 84 crates of olive-oil on day 27.\nLedger entry 3: the depot in Nairobi
+        received 121 crates of bicycle-frames on day 40.\nLedger entry 4: the depot
+        in Quito received 158 crates of solar-panels on day 53.\nLedger entry 5: the
+        depot in Tallinn received 195 crates of wool-blankets on day 66.\nLedger entry
+        6: the depot in Perth received 232 crates of glass-jars on day 79.\nLedger
+        entry 7: the depot in Hanoi received 269 crates of cedar-planks on day 92.\nLedger
+        entry 8: the depot in Bergen received 306 crates of copper-wire on day 105.\nLedger
+        entry 9: the depot in Tucson received 343 crates of ceramic-tiles on day 118.\nLedger
+        entry 10: the depot in Accra received 380 crates of olive-oil on day 131.\nLedger
+        entry 11: the depot in Cusco received 417 crates of bicycle-frames on day
+        144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}]}],"max_tokens":8000,"tools":[{"name":"lookup_inventory","description":"Look
+        up the stock count for one SKU","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}],"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220413Z
+      X-Amz-Content-Sha256:
+      - 141d0be8a198050ff30638b0bd23e03d1a57a66c843c6de879ffda2292e42012
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:04:15 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1672'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 57f6ba26-f75c-4c15-8a04-c9c5fcfea074
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1776'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '159'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '2065'
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJtb2RlbCI6ImNsYXVkZS1zb25uZXQtNS01IiwiaWQiOiJtc2dfYmRya18zaXB6emM1enpnZXVvZGM3d2RmcGhoYnNtYTZ1aWloa3pnZTVwcWU1cW01dzJmcnhkNGZhIiwidHlwZSI6Im1lc3NhZ2UiLCJyb2xlIjoiYXNzaXN0YW50IiwiY29udGVudCI6W3sidHlwZSI6InRoaW5raW5nIiwidGhpbmtpbmciOiIiLCJzaWduYXR1cmUiOiJDQVFTNlFRS0VnZ1NFQUVZQWpnQlFnaDBhR2x1YTJsdVp4SU1MT2pnbUJpbWtKUmtnbXU0R2d6dHdJbUNPN0d5SEdKbEx0RWlNS01mZmNNMFdKRnhkR3RlcWpPQUMwb3prSDlhSzkrcGErM3JMM2V4N2dPOW5sUHR0SHR2V0xQSkcvMHdwQTkyRmlxRUJDZlVBRlFENW4wc3FUcUl0SGtjTGNscHNCY2RtS0tTWUU5d1RFUHlxUE5CcWJraE9TbjB3TFRxQ2NCNlBnZnNJdnUwZkRWNEpHNDBHUG9vcTJMd0RraHcxNGszdC9LRll1KzI3ZmhyR0M2emRsQitqdEZFbG14RktWR3RGRHhta2VjTTNhbHpVVDJRSzRIY3FaRy9XUTY0UklZaXpHMGtZaCtZL3FtZk0vaHE3VWt1ZEsyNDVhK25sV2dSUkZlWi9BUG9uRGJYQkc3WmVMYmpwNEZjQk91STBlMVlKc2lRSVBiclNmUFVPdVZjbHBjNTNydERCWmNUSFVieEVZa29LaFM5bFZyVWRhM1lzNVNobkJEL0diSEYzUTl1TjlOdVZPREpRZCtaSlZUcDRJMit4b0p3K0xqWGVIbHpGWXp3VytKUzJnNVU1UTkvcnh4TVdnV29NSHRsTEpndktvY0J1b05mWE5BRzRCUFFkL2N4SDB3NC9xUVh1VzBqSGplRVF0QVZob2FFOFhRcUFDT0FzQzI5c0lXR1cvQy8xaVgvM2MyeXEvT0pwZUZ5bENpcGlDRm5CeXpaaXNnNW5NTENvQzVmcXpLNVl3QzVQM1JuMnl5eHl0NXlVNTd5NlFaZ2ltVGo5Q01DeDdZY2ViN2d0dU1xd2FpZzdTZzVGQmUraGV5R1NWb1E1eFdLd1ZTSWhXakdKcjVncHJkV3dSNTlibUViZVhJVzBvUlVkdmF6byt1a1lITE9sc2RDcklBY1pXUWVENU9KSDc3amtDSGlIV1Z1ME9ic2hHVUw4ZFRQY2MzZi9tRGhxd3Q3QXk5cEhuUi8rR0N5ai9MenUreWxmcFUvU24wZ3k4YUozTTcycTZoS3dRQVV2bVpuOTg1SGZsbUNONGRIbkwyN2NHdVdOeGdCIn0seyJ0eXBlIjoidGV4dCIsInRleHQiOiJBLTEwMCBoYXMgNDIgdW5pdHMuIDQyIMO3IDEzID0gMyBmdWxsIHBhbGxldHMgKDM5IHVuaXRzKSwgd2l0aCAzIGxlZnQgb3Zlci4gVGhlIGxlZGdlciBlbnRyaWVzIGRvbid0IGNoYW5nZSB0aGUgc3RvY2sgY291bnQsIHNvIEknbSBpZ25vcmluZyB0aGVtLiBOZXh0IGlzIEItMjAwLiJ9LHsidHlwZSI6InRvb2xfdXNlIiwiaWQiOiJ0b29sdV9iZHJrXzAxM3ZEWVFxUjJlaXVuTEg5TmNjUkIySyIsIm5hbWUiOiJsb29rdXBfaW52ZW50b3J5IiwiaW5wdXQiOnsia2V5IjoiQi0yMDAifX1dLCJjb250YWluZXIiOm51bGwsInN0b3BfcmVhc29uIjoidG9vbF91c2UiLCJzdG9wX3NlcXVlbmNlIjpudWxsLCJzdG9wX2RldGFpbHMiOm51bGwsInVzYWdlIjp7ImlucHV0X3Rva2VucyI6MjA2NSwiY2FjaGVfY3JlYXRpb25faW5wdXRfdG9rZW5zIjowLCJjYWNoZV9yZWFkX2lucHV0X3Rva2VucyI6MCwiY2FjaGVfY3JlYXRpb24iOnsiZXBoZW1lcmFsXzVtX2lucHV0X3Rva2VucyI6MCwiZXBoZW1lcmFsXzFoX2lucHV0X3Rva2VucyI6MH0sIm91dHB1dF90b2tlbnMiOjE1OSwib3V0cHV0X3Rva2Vuc19kZXRhaWxzIjp7InRoaW5raW5nX3Rva2VucyI6MzR9LCJzZXJ2aWNlX3RpZXIiOiJzdGFuZGFyZCJ9fQ==
+  recorded_at: Mon, 05 Oct 2026 22:04:15 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/converse
+    body:
+      encoding: UTF-8
+      string: '{"messages":[{"role":"user","content":[{"text":"Each restock pallet
+        holds 13 units. Look up SKU A-100, work out how many full pallets it fills
+        and the remainder, then look up SKU B-200 and do the same, one call at a time.
+        Reason carefully before each call. Finish with the combined pallets and remainder."}]},{"role":"assistant","content":[{"reasoningContent":{"reasoningText":{"text":"","signature":"CAQSlQQKEggSEAEYAjgBQgh0aGlua2luZxIM/EOH7AhlJ+e/vUclGgzPts34pKdM+MoQ8nwiMMTte3lTSZJPVyr9FWD3R3hD+neJwP52RS5w6Tg/ePA0tgZBtzgRoq4I/Dm4GA/tQSqwAyuQ5uz1Cbbu2B/md7l0KE7XyUk+t9eYUcK/iE+GyxTZ+yGCLi5DfOY33Aud0QizdRnGnR0l50E38DGqEJaUuNs3VW9LLt9zOcbcqwpeQYebPxscqba36wg9iAmYmg2GGRmzIhzEgo4TBO0Z6gNRYRd2cG8xFS3N6YDaYAIHJ4CkEJgXpym0ICMt8lAsBP6bOlkx+PEj4jnT0+LKKJiiqCFMC+7TGFrxYftSkMu0Dn1cMVz9b0gT8NBNFMZ3Lu4vgBDDFypmYunP/cQvqkZGvHTtNPtY0pPQCZEp7UoDjxpJJ3T6oFq4o1XPwfhsKvrTuwrNQ76Jt301A8LGU8ogrbl31G4IixVGFZYsRm+RahPZ8QeIEe+rcseip8YrKZkaQKyv7FaarUnfLwKONGNhmAHZDOMLDbdggtFy+8Ulg6gH9cRR2k5qRwfRX8hlcm16yFKwAEhYL/gcicFvEOzBWlIokYfqz5TrfazkgfFGx8jAazQApkxpYCE+fkhI2sTWo9zcTCuSKfl1EBUEu6u2HttVIp77ghc7oaIXG5HZon4OfyVSaLXJ+pTOhgP6brmmjxgB"}}},{"text":"I''ll
+        start with SKU A-100. Pallets hold 13 units, so once I have the stock count
+        I''ll divide it by 13 to get full pallets and the remainder."},{"toolUse":{"toolUseId":"toolu_bdrk_01AR2HTN97khEHXkQdiChbhp","name":"lookup_inventory","input":{"key":"A-100"}}}]},{"role":"user","content":[{"toolResult":{"toolUseId":"toolu_bdrk_01AR2HTN97khEHXkQdiChbhp","content":[{"text":"SKU
+        A-100: 42 units\nMovement history:\nLedger entry 1: the depot in Osaka received
+        47 crates of ceramic-tiles on day 14.\nLedger entry 2: the depot in Denver
+        received 84 crates of olive-oil on day 27.\nLedger entry 3: the depot in Nairobi
+        received 121 crates of bicycle-frames on day 40.\nLedger entry 4: the depot
+        in Quito received 158 crates of solar-panels on day 53.\nLedger entry 5: the
+        depot in Tallinn received 195 crates of wool-blankets on day 66.\nLedger entry
+        6: the depot in Perth received 232 crates of glass-jars on day 79.\nLedger
+        entry 7: the depot in Hanoi received 269 crates of cedar-planks on day 92.\nLedger
+        entry 8: the depot in Bergen received 306 crates of copper-wire on day 105.\nLedger
+        entry 9: the depot in Tucson received 343 crates of ceramic-tiles on day 118.\nLedger
+        entry 10: the depot in Accra received 380 crates of olive-oil on day 131.\nLedger
+        entry 11: the depot in Cusco received 417 crates of bicycle-frames on day
+        144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}}]},{"role":"assistant","content":[{"reasoningContent":{"reasoningText":{"text":"","signature":"CAQS6QQKEggSEAEYAjgBQgh0aGlua2luZxIMLOjgmBimkJRkgmu4GgztwImCO7GyHGJlLtEiMKMffcM0WJFxdGteqjOAC0ozkH9aK9+pa+3rL3ex7gO9nlPttHtvWLPJG/0wpA92FiqEBCfUAFQD5n0sqTqItHkcLclpsBcdmKKSYE9wTEPyqPNBqbkhOSn0wLTqCcB6PgfsIvu0fDV4JG40GPooq2LwDkhw14k3t/KFYu+27fhrGC6zdlB+jtFElmxFKVGtFDxmkecM3alzUT2QK4HcqZG/WQ64RIYizG0kYh+Y/qmfM/hq7UkudK245a+nlWgRRFeZ/APonDbXBG7ZeLbjp4FcBOuI0e1YJsiQIPbrSfPUOuVclpc53rtDBZcTHUbxEYkoKhS9lVrUda3Ys5ShnBD/GbHF3Q9uN9NuVODJQd+ZJVTp4I2+xoJw+LjXeHlzFYzwW+JS2g5U5Q9/rxxMWgWoMHtlLJgvKocBuoNfXNAG4BPQd/cxH0w4/qQXuW0jHjeEQtAVhoaE8XQqACOAsC29sIWGW/C/1iX/3c2yq/OJpeFylCipiCFnByzZisg5nMLCoC5fqzK5YwC5P3Rn2yyxyt5yU57y6QZgimTj9CMCx7Yceb7gtuMqwaig7Sg5FBe+heyGSVoQ5xWKwVSIhWjGJr5gprdWwR59bmEbeXIW0oRUdvazo+ukYHLOlsdCrIAcZWQeD5OJH77jkCHiHWVu0ObshGUL8dTPcc3f/mDhqwt7Ay9pHnR/+GCyj/Lzu+ylfpU/Sn0gy8aJ3M72q6hKwQAUvmZn985HflmCN4dHnL27cGuWNxgB"}}},{"text":"A-100
+        has 42 units. 42 ÷ 13 = 3 full pallets (39 units), with 3 left over. The ledger
+        entries don''t change the stock count, so I''m ignoring them. Next is B-200."},{"toolUse":{"toolUseId":"toolu_bdrk_013vDYQqR2eiunLH9NccRB2K","name":"lookup_inventory","input":{"key":"B-200"}}}]},{"role":"user","content":[{"toolResult":{"toolUseId":"toolu_bdrk_013vDYQqR2eiunLH9NccRB2K","content":[{"text":"SKU
+        B-200: 17 units\nMovement history:\nLedger entry 1: the depot in Osaka received
+        47 crates of ceramic-tiles on day 14.\nLedger entry 2: the depot in Denver
+        received 84 crates of olive-oil on day 27.\nLedger entry 3: the depot in Nairobi
+        received 121 crates of bicycle-frames on day 40.\nLedger entry 4: the depot
+        in Quito received 158 crates of solar-panels on day 53.\nLedger entry 5: the
+        depot in Tallinn received 195 crates of wool-blankets on day 66.\nLedger entry
+        6: the depot in Perth received 232 crates of glass-jars on day 79.\nLedger
+        entry 7: the depot in Hanoi received 269 crates of cedar-planks on day 92.\nLedger
+        entry 8: the depot in Bergen received 306 crates of copper-wire on day 105.\nLedger
+        entry 9: the depot in Tucson received 343 crates of ceramic-tiles on day 118.\nLedger
+        entry 10: the depot in Accra received 380 crates of olive-oil on day 131.\nLedger
+        entry 11: the depot in Cusco received 417 crates of bicycle-frames on day
+        144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}}]}],"inferenceConfig":{},"toolConfig":{"tools":[{"toolSpec":{"name":"lookup_inventory","description":"Look
+        up the stock count for one SKU","inputSchema":{"json":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}}}]},"additionalModelRequestFields":{"thinking":{"type":"adaptive"},"output_config":{"effort":"high"}}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T220415Z
+      X-Amz-Content-Sha256:
+      - 7eeaeac9190dab3f8a6082c22f2f73965ce17c8a37ecf6aa05389cf2f58a3929
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 22:04:18 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1791'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 4128367e-28a5-4bb6-b628-bed4bcea08ff
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJtZXRyaWNzIjp7ImxhdGVuY3lNcyI6Mjg5M30sIm91dHB1dCI6eyJtZXNzYWdlIjp7ImNvbnRlbnQiOlt7InJlYXNvbmluZ0NvbnRlbnQiOnsicmVhc29uaW5nVGV4dCI6eyJzaWduYXR1cmUiOiJDQVFTNmdVS0VnZ1NFQUVZQWpnQlFnaDBhR2x1YTJsdVp4SU1kem1OVDhwMWc0VGd3SjgyR2d6THhqYVlnVUlpTGZDSFQrZ2lNUEx3TzF3SE5XRjNWeUJRKzZiOGVOSFNaSTdzUk9wSDR4MFJuaWxxVUdTcXJyalpMSmdNWCtHK2VrSmRZWDBzNGlxRkJleVNEak5UL0NkK2Mvam9hVTkraitIeFN1eC9oSkozQ0ppRjA4ZklRckVNaVdhbGRET0gzSjhyRzQremQ4SjNPYW9vZW9GdmRGV3Z0bkxFYThQb3hreGJOMXpTMU9oYXlOWDNFNDdJRVpLdlZqU2hpUWlyMHhodFUyMktDVTJIUm5YbHl4bUZNcmdMNmRtZjVEZWFUWTJVcDAvNURWRTVBcVN4bW5GT2dNWXIvSkV1MjNLSnMvZHY1NjEwRDUrL015aEdwZEFqbmx1NngwVi9KU0l6WkJZR21vT1Uybk1YeW9aSUgxcGZVcEtJcDN0R3o2blcvRm9RZ2M0aWhQSEZnZ2hWS09yQ1dVQ3N2NUZJQlBjZGdlakJFTVkzb2NaQVQzQlc3aG53S1JicmdBU2djenhZZ1lTbHhDVWpuVFZZbTZCWk9iM2kvUkNIRDdieTFSd2VtTFcyalFwRVMxUXY3ZnloNnBRaTl6cXdQKzVMblBQRVlKTnd2a2c5bE90bi9PSWdyemQyZE9XVnVRbG9ycmViLys0MFhiczc4MHVBNG5DTjg0dytRV3RQYzJQZG5ZQ251YkNxczBFNU5vWnF1WDNBckFqU0RuS3Aza1Q0NmhwZFR4bjYrcGFKcHlMRGEwM3R5U1Q0U2dPc0tTUVpXelZjaTB2NUVWR2dhV1VVRzU5S21aUjFIa3l3Tnl2cEJEakkraG5GV2lKTllTcGxTNVlhbks1d0taaUtYcEMzWVFPcjZKc0o4NkZ0STY1N3lpOHVpcnFVVnJ1YVozRjJIT2lFNnc4bHlCRUE4elAzQy94TmFYWDZrVWpLZ1REcC9lRkR6M3hpRCsrWlZDbk5LbWVZQVVnT2JWbzdnTTJpSWJSSFhQK016VzFTZDZjZGlPb015WXd0alJpbXVZc1VWOEFEZURxaFBiYWN1anRQVHY3ZXZ3UFNmcUZtYVYvSDFobGEvejk5eHhGSTFpclV4Ni9MbkxUUkwwQVZzNWF5VUpTaXgxS2U4eW4wZmRWODhVYmNoTURxY0pjREpaSU9laWhtNVRtR1RMQThLZlc3NVgvbDVRVmFxUStwSXpqcWJGcEZvVUJ4dGFFOWpVSjNXKzgrRmd6TnlqRXAwaGNkUGhGaHBjYnRvaW9kMlJnQiIsInRleHQiOiIifX19LHsidGV4dCI6IkNvbWJpbmVkLCB0aGUgdHdvIFNLVXMgZmlsbCA0IGZ1bGwgcGFsbGV0cyB3aXRoIDcgdW5pdHMgbGVmdCBvdmVyLlxuXG58IFNLVSB8IFVuaXRzIHwgRnVsbCBwYWxsZXRzICgxMyBlYWNoKSB8IFJlbWFpbmRlciB8XG58LS0tfC0tLXwtLS18LS0tfFxufCBBLTEwMCB8IDQyIHwgMyAoMzkgdW5pdHMpIHwgMyB8XG58IEItMjAwIHwgMTcgfCAxICgxMyB1bml0cykgfCA0IHxcbnwgKipDb21iaW5lZCoqIHwgNTkgfCAqKjQqKiB8ICoqNyoqIHxcblxuVGhlIGxlZnRvdmVycyAoMyArIDQgPSA3KSBhcmUgZmV3ZXIgdGhhbiAxMywgc28gdGhleSBkb24ndCBtYWtlIGFub3RoZXIgcGFsbGV0LiBQb29saW5nIGFsbCA1OSB1bml0cyBnaXZlcyB0aGUgc2FtZSBhbnN3ZXI6IDU5IMO3IDEzID0gNCByZW1haW5kZXIgNy4ifV0sInJvbGUiOiJhc3Npc3RhbnQifX0sInN0b3BSZWFzb24iOiJlbmRfdHVybiIsInVzYWdlIjp7ImNhY2hlUmVhZElucHV0VG9rZW5Db3VudCI6MCwiY2FjaGVSZWFkSW5wdXRUb2tlbnMiOjAsImNhY2hlV3JpdGVJbnB1dFRva2VuQ291bnQiOjAsImNhY2hlV3JpdGVJbnB1dFRva2VucyI6MCwiaW5wdXRUb2tlbnMiOjM2ODAsIm91dHB1dFRva2VucyI6Mjg0LCJzZXJ2ZXJUb29sVXNhZ2UiOnt9LCJ0b3RhbFRva2VucyI6Mzk2NH19
+  recorded_at: Mon, 05 Oct 2026 22:04:18 GMT
+recorded_with: VCR 6.4.0

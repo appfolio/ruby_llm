@@ -9,7 +9,17 @@ module RubyLLM
       # eventstream (decoded by Converse::EventStream) whose `chunk` events each carry one
       # Anthropic Messages streaming event as base64 `bytes`; the decoded event is then
       # interpreted exactly as the first-party Anthropic SSE stream would be, plus raw thinking
-      # block capture for verbatim replay.
+      # block capture for verbatim replay, the full block list for replies that need it (see
+      # Chat#reply_content) and provider_data.
+      #
+      # Event formats recorded from Bedrock (spec/ruby_llm/protocols/invoke_anthropic_server_features_spec.rb):
+      # - compaction: content_block_start with `content: null`, then one compaction_delta
+      #   carrying the whole summary in `content`, then content_block_stop.
+      # - server_tool_use: content_block_start with `input: {}`, then input_json_delta events,
+      #   like tool_use.
+      # - tool_search_tool_result: complete in content_block_start, no deltas.
+      # - message_start carries input_transformations and the pre-compaction input_tokens;
+      #   message_delta carries context_management, usage.iterations and the final input_tokens.
       module Streaming
         include Converse::EventStream
 
@@ -23,23 +33,26 @@ module RubyLLM
           accumulator = StreamAccumulator.new
           decoder = event_stream_decoder
           thinking_state = {}
+          block_state = {}
 
           response = post_event_stream(stream_url, payload, additional_headers) do |raw_chunk|
-            parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state, &block)
+            parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state, block_state, &block)
           end
 
           message = accumulator.to_message(response)
+          apply_streamed_blocks(message, block_state)
           RubyLLM.logger.debug { "Stream completed: #{message.content}" }
           message
         end
 
-        def parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state)
+        def parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state, block_state)
           handle_non_eventstream_error_chunk(raw_chunk)
 
           decode_event_messages(decoder, raw_chunk).each do |message|
             data = decode_invoke_event(message)
             next unless data
 
+            track_content_block(data, block_state)
             chunk = build_chunk(data, thinking_state)
             accumulator.add(chunk)
             yield chunk
@@ -90,8 +103,48 @@ module RubyLLM
             cached_tokens: extract_cached_tokens(data),
             cache_creation_tokens: extract_cache_creation_tokens(data),
             tool_calls: extract_tool_calls(data),
-            finish_reason: data.dig('delta', 'stop_reason')
+            finish_reason: data.dig('delta', 'stop_reason'),
+            provider_data: provider_data_for(data['message'] || data)
           )
+        end
+
+        # message_delta's usage.input_tokens is the final count (after compaction, and after any
+        # server-tool iterations); message_start's is taken before either. Matches the sync
+        # response's top-level usage.input_tokens.
+        def extract_input_tokens(data)
+          data.dig('usage', 'input_tokens') || super
+        end
+
+        # Rebuilds every content block from its start event and deltas, keyed by index, in the
+        # format the sync response returns.
+        def track_content_block(data, block_state)
+          case data['type']
+          when 'content_block_start'
+            block_state[data['index']] = { block: RubyLLM::Utils.deep_dup(data['content_block'] || {}), json: +'' }
+          when 'content_block_delta'
+            state = block_state[data['index']]
+            apply_block_delta(state, data['delta'] || {}) if state
+          when 'content_block_stop'
+            state = block_state[data['index']]
+            state[:block]['input'] = JSON.parse(state[:json]) if state && !state[:json].empty?
+          end
+        end
+
+        def apply_block_delta(state, delta)
+          block = state[:block]
+          case delta['type']
+          when 'text_delta' then block['text'] = block['text'].to_s + delta['text'].to_s
+          when 'thinking_delta' then block['thinking'] = block['thinking'].to_s + delta['thinking'].to_s
+          when 'signature_delta' then block['signature'] = delta['signature']
+          when 'input_json_delta' then state[:json] << delta['partial_json'].to_s
+          when 'citations_delta' then (block['citations'] ||= []) << delta['citation']
+          when 'compaction_delta' then block['content'] = block['content'].to_s + delta['content'].to_s
+          end
+        end
+
+        def apply_streamed_blocks(message, block_state)
+          blocks = block_state.keys.sort.map { |index| block_state[index][:block] }
+          message.content = ContentBlocks.new(blocks) unless modeled_blocks?(blocks)
         end
 
         # Thinking blocks arrive as content_block_start (type thinking / redacted_thinking,

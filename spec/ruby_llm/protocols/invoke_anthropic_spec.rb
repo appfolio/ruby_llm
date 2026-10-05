@@ -145,6 +145,55 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       )
     end
 
+    it 'replays a ContentBlocks reply block-for-block, without re-rendering its tool calls' do
+      blocks = [{ 'type' => 'compaction', 'content' => 'summary' }, { 'type' => 'text', 'text' => 'ok' },
+                { 'type' => 'tool_use', 'id' => 't1', 'name' => 'weather', 'input' => {} }]
+      assistant = RubyLLM::Message.new(
+        role: :assistant, content: RubyLLM::Protocols::InvokeAnthropic::ContentBlocks.new(blocks),
+        tool_calls: { 't1' => RubyLLM::ToolCall.new(id: 't1', name: 'weather', arguments: {}) }
+      )
+
+      expect(render([user('q'), assistant])[:messages][1]).to eq(role: 'assistant', content: blocks)
+    end
+
+    describe 'deferred_tools and server_tools params' do
+      def tool_named(tool_name)
+        Class.new(RubyLLM::Tool) do
+          description "Tool #{tool_name}"
+          define_method(:name) { tool_name }
+        end.new
+      end
+
+      def tools
+        { 'weather' => tool_named('weather'), 'stocks' => tool_named('stocks') }
+      end
+
+      def search_tool
+        { type: 'tool_search_tool_regex_20251119', name: 'tool_search_tool_regex' }
+      end
+
+      it 'marks named tools defer_loading: true and puts server tools first' do
+        payload = render([user('q')], tools: tools,
+                                      params: { deferred_tools: ['stocks'], server_tools: [search_tool] })
+
+        expect(payload[:tools].first).to eq(search_tool)
+        expect(payload[:tools][1]).to include(name: 'weather')
+        expect(payload[:tools][1]).not_to have_key(:defer_loading)
+        expect(payload[:tools][2]).to include(name: 'stocks', defer_loading: true)
+        expect(payload).not_to have_key(:deferred_tools)
+        expect(payload).not_to have_key(:server_tools)
+      end
+
+      it 'leaves tools unchanged when neither param is given' do
+        expect(render([user('q')], tools: tools)[:tools]).to all(satisfy { |tool| !tool.key?(:defer_loading) })
+      end
+
+      it 'raises for a deferred tool name that is not a chat tool' do
+        expect { render([user('q')], tools: tools, params: { deferred_tools: ['nope'] }) }
+          .to raise_error(ArgumentError, /deferred_tools names no chat tool: nope/)
+      end
+    end
+
     it 'lifts nothing on its own: thinking/output_config arrive via params' do
       payload = render([user('q')], params: { thinking: { type: 'adaptive' }, output_config: { effort: 'high' } })
 
@@ -186,6 +235,58 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect(message.output_tokens).to eq(34)
       expect(message.cached_tokens).to eq(1000)
       expect(message.cache_creation_tokens).to eq(200)
+    end
+
+    it 'keeps the full block list as ContentBlocks when a reply holds a block the fork does not model' do
+      blocks = [
+        { 'type' => 'server_tool_use', 'id' => 'srvtoolu_1', 'name' => 'tool_search_tool_regex',
+          'input' => { 'pattern' => 'weather' } },
+        { 'type' => 'tool_search_tool_result', 'tool_use_id' => 'srvtoolu_1',
+          'content' => { 'type' => 'tool_search_tool_search_result',
+                         'tool_references' => [{ 'type' => 'tool_reference', 'tool_name' => 'weather' }] } },
+        { 'type' => 'text', 'text' => 'Found it.' },
+        { 'type' => 'tool_use', 'id' => 'toolu_1', 'name' => 'weather', 'input' => { 'city' => 'SF' } }
+      ]
+      stub_request(:post, "#{base}#{escaped_path}/invoke")
+        .to_return(json_response('content' => blocks, 'stop_reason' => 'tool_use',
+                                 'usage' => { 'input_tokens' => 5, 'output_tokens' => 6 }))
+
+      message = protocol.complete([user('weather?')], tools: {}, temperature: nil)
+
+      expect(message.content).to be_a(RubyLLM::Protocols::InvokeAnthropic::ContentBlocks)
+      expect(message.content.value).to eq(blocks)
+      expect(message.content.text).to eq('Found it.')
+      expect(message.content.to_s).to eq('Found it.')
+      expect(message.tool_calls['toolu_1'].arguments).to eq('city' => 'SF')
+    end
+
+    it 'exposes context_management, usage.iterations and input_transformations as provider_data' do
+      context_management = { 'applied_edits' => [{ 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => 4,
+                                                   'cleared_input_tokens' => 9000 }] }
+      iterations = [{ 'type' => 'compaction', 'input_tokens' => 90_000, 'output_tokens' => 200 },
+                    { 'type' => 'message', 'input_tokens' => 300, 'output_tokens' => 50 }]
+      transformations = [{ 'type' => 'thinking_dropped', 'path' => 'messages.1.content.0',
+                           'reason' => 'prefix_binding_mismatch' }]
+      stub_request(:post, "#{base}#{escaped_path}/invoke")
+        .to_return(json_response('content' => [{ 'type' => 'text', 'text' => 'ok' }], 'stop_reason' => 'end_turn',
+                                 'context_management' => context_management,
+                                 'input_transformations' => transformations,
+                                 'usage' => { 'input_tokens' => 300, 'output_tokens' => 50,
+                                              'iterations' => iterations }))
+
+      message = protocol.complete([user('hi')], tools: {}, temperature: nil)
+
+      expect(message.content).to eq('ok')
+      expect(message.provider_data).to eq('context_management' => context_management, 'iterations' => iterations,
+                                          'input_transformations' => transformations)
+    end
+
+    it 'leaves provider_data empty for a reply without those fields' do
+      stub_request(:post, "#{base}#{escaped_path}/invoke")
+        .to_return(json_response('content' => [{ 'type' => 'text', 'text' => 'ok' }],
+                                 'usage' => { 'input_tokens' => 1, 'output_tokens' => 1 }))
+
+      expect(protocol.complete([user('hi')], tools: {}, temperature: nil).provider_data).to eq({})
     end
 
     it 'maps a Bedrock throttling response to RateLimitError' do
@@ -298,6 +399,60 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect(message.cache_creation_tokens).to eq(100)
     end
 
+    it 'rebuilds compaction and server-tool blocks as ContentBlocks and reads provider_data from both ends' do
+      iterations = [{ 'type' => 'compaction', 'input_tokens' => 94_994, 'output_tokens' => 215 },
+                    { 'type' => 'message', 'input_tokens' => 282, 'output_tokens' => 72 }]
+      result = { 'type' => 'tool_search_tool_search_result',
+                 'tool_references' => [{ 'type' => 'tool_reference', 'tool_name' => 'weather' }] }
+      stub_stream(wire(
+                    event('type' => 'message_start',
+                          'message' => { 'model' => 'claude-sonnet-5', 'input_transformations' => [],
+                                         'usage' => { 'input_tokens' => 94_994, 'output_tokens' => 1 } }),
+                    event('type' => 'content_block_start', 'index' => 0,
+                          'content_block' => { 'type' => 'compaction', 'content' => nil }),
+                    event('type' => 'content_block_delta', 'index' => 0,
+                          'delta' => { 'type' => 'compaction_delta', 'content' => 'the summary' }),
+                    event('type' => 'content_block_stop', 'index' => 0),
+                    event('type' => 'content_block_start', 'index' => 1,
+                          'content_block' => { 'type' => 'server_tool_use', 'id' => 'srvtoolu_1',
+                                               'name' => 'tool_search_tool_regex', 'input' => {} }),
+                    event('type' => 'content_block_delta', 'index' => 1,
+                          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '{"pattern":' }),
+                    event('type' => 'content_block_delta', 'index' => 1,
+                          'delta' => { 'type' => 'input_json_delta', 'partial_json' => '"weather"}' }),
+                    event('type' => 'content_block_stop', 'index' => 1),
+                    event('type' => 'content_block_start', 'index' => 2,
+                          'content_block' => { 'type' => 'tool_search_tool_result', 'tool_use_id' => 'srvtoolu_1',
+                                               'content' => result }),
+                    event('type' => 'content_block_stop', 'index' => 2),
+                    event('type' => 'content_block_start', 'index' => 3,
+                          'content_block' => { 'type' => 'text', 'text' => '' }),
+                    event('type' => 'content_block_delta', 'index' => 3,
+                          'delta' => { 'type' => 'text_delta', 'text' => 'Done.' }),
+                    event('type' => 'content_block_stop', 'index' => 3),
+                    event('type' => 'message_delta', 'delta' => { 'stop_reason' => 'end_turn' },
+                          'context_management' => { 'applied_edits' => [] },
+                          'usage' => { 'input_tokens' => 282, 'output_tokens' => 72, 'iterations' => iterations }),
+                    event('type' => 'message_stop')
+                  ))
+
+      message, = stream
+
+      expect(message.content).to be_a(RubyLLM::Protocols::InvokeAnthropic::ContentBlocks)
+      expect(message.content.value).to eq(
+        [{ 'type' => 'compaction', 'content' => 'the summary' },
+         { 'type' => 'server_tool_use', 'id' => 'srvtoolu_1', 'name' => 'tool_search_tool_regex',
+           'input' => { 'pattern' => 'weather' } },
+         { 'type' => 'tool_search_tool_result', 'tool_use_id' => 'srvtoolu_1', 'content' => result },
+         { 'type' => 'text', 'text' => 'Done.' }]
+      )
+      expect(message.content.text).to eq('Done.')
+      expect(message.input_tokens).to eq(282)
+      expect(message.provider_data).to eq('input_transformations' => [],
+                                          'context_management' => { 'applied_edits' => [] },
+                                          'iterations' => iterations)
+    end
+
     it 'keeps a signed thinking block left open at message_stop and drops an unsigned one' do
       stub_stream(wire(
                     event('type' => 'message_start', 'message' => { 'usage' => { 'input_tokens' => 1 } }),
@@ -353,6 +508,25 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
         [{ reasoningContent: { reasoningText: { text: 'hmm', signature: 'sig' } } },
          { reasoningContent: { redactedContent: 'opaque' } }]
       )
+    end
+
+    it 'raises UnsupportedContentError for a block only InvokeModel can carry' do
+      assistant = RubyLLM::Message.new(
+        role: :assistant,
+        content: RubyLLM::Protocols::InvokeAnthropic::ContentBlocks.new(
+          [{ 'type' => 'compaction', 'content' => 'summary' }, { 'type' => 'text', 'text' => 'ok' }]
+        )
+      )
+
+      expect { RubyLLM::Protocols::Converse::Chat.format_messages([user('q'), assistant]) }
+        .to raise_error(RubyLLM::UnsupportedContentError, /cannot send compaction content blocks/)
+    end
+
+    it 'still passes Converse-format assistant Raw blocks through unchanged' do
+      blocks = [{ text: 'ok' }, { toolUse: { toolUseId: 't1', name: 'weather', input: {} } }]
+      assistant = RubyLLM::Message.new(role: :assistant, content: RubyLLM::Content::Raw.new(blocks))
+
+      expect(RubyLLM::Protocols::Converse::Chat.format_messages([assistant]).first[:content]).to eq(blocks)
     end
   end
 end
