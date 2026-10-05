@@ -12,20 +12,29 @@ RSpec.describe RubyLLM::Models do
   # account, global standard tier, checked 2026-10-05.
   #
   # Unlike Sonnet 5, these entries have no toggle reasoning option: Sonnet 5.5
-  # rejects thinking: {type: "disabled"} (verified live on Bedrock 2026-10-05)
-  # and only accepts adaptive thinking with output_config.effort, the same as
-  # Opus 5.5.
+  # rejects thinking: {type: "disabled"} (verified live on the
+  # appfolio-ci-dev-tooling Bedrock account, 2026-10-05, outside this PR's
+  # container) and only accepts adaptive thinking with output_config.effort,
+  # the same as Opus 5.5.
+  standard = { input: 2, output: 10, cache_read: 0.20, cache_write: 2.5 }
+  eu = { input: 2.2, output: 11, cache_read: 0.22, cache_write: 2.75 }
+
   {
-    'claude-sonnet-5-5' => { input: 2, output: 10, cache_read: 0.20, cache_write: 2.5 },
-    'global.anthropic.claude-sonnet-5-5' => { input: 2, output: 10, cache_read: 0.20, cache_write: 2.5 },
-    'us.anthropic.claude-sonnet-5-5' => { input: 2, output: 10, cache_read: 0.20, cache_write: 2.5 },
-    'eu.anthropic.claude-sonnet-5-5' => { input: 2.2, output: 11, cache_read: 0.22, cache_write: 2.75 }
-  }.each do |id, cost|
-    it "registers #{id} with effort-only reasoning and the documented pricing" do
-      # Look up by raw id rather than RubyLLM.models.find(id, :bedrock) — bedrock
-      # lookups renormalize the region prefix to the configured bedrock_region,
-      # which would mask the EU-specific entry's own pricing.
-      model = RubyLLM.models.all.find { |m| m.id == id }
+    %w[anthropic claude-sonnet-5-5] => standard,
+    %w[vertexai claude-sonnet-5-5] => standard,
+    %w[bedrock anthropic.claude-sonnet-5-5] => standard,
+    %w[bedrock global.anthropic.claude-sonnet-5-5] => standard,
+    %w[bedrock us.anthropic.claude-sonnet-5-5] => standard,
+    %w[bedrock eu.anthropic.claude-sonnet-5-5] => eu,
+    %w[bedrock au.anthropic.claude-sonnet-5-5] => standard,
+    %w[bedrock jp.anthropic.claude-sonnet-5-5] => standard
+  }.each do |(provider, id), cost|
+    it "registers #{provider} #{id} with effort-only reasoning and the documented pricing" do
+      # Match on provider and raw id: the anthropic and vertexai entries share
+      # an id, and RubyLLM.models.find(id, :bedrock) renormalizes the region
+      # prefix to the configured bedrock_region, which would mask the
+      # EU-specific entry's own pricing.
+      model = RubyLLM.models.all.find { |m| m.provider == provider && m.id == id }
 
       expect(model).not_to be_nil
       expect(model.reasoning_option_values('effort')).to eq(%w[low medium high xhigh max])
