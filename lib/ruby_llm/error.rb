@@ -39,6 +39,10 @@ module RubyLLM
     end
   end
 
+  # Raised when a message holds content blocks the selected protocol cannot send, e.g. an
+  # InvokeModel compaction block replayed through Bedrock Converse.
+  class UnsupportedContentError < StandardError; end
+
   # Error classes for different HTTP status codes
   # Raised when the API request is invalid.
   class BadRequestError < Error

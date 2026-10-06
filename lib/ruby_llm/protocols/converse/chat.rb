@@ -176,7 +176,7 @@ module RubyLLM
 
         def format_message_content(msg)
           if msg.content.is_a?(RubyLLM::Content::Raw)
-            return format_raw_content(msg.content) if msg.role == :assistant
+            return reject_messages_api_blocks(format_raw_content(msg.content)) if msg.role == :assistant
 
             return sanitize_non_assistant_raw_blocks(format_raw_content(msg.content))
           end
@@ -207,6 +207,20 @@ module RubyLLM
         def format_raw_content(content)
           value = content.value
           value.is_a?(Array) ? value : [value]
+        end
+
+        # An assistant Raw block whose Anthropic `type` the fork does not model (compaction,
+        # server_tool_use, tool_search_tool_result, ...) was kept by the InvokeModel protocol
+        # because only InvokeModel can carry it; Converse has no field for it. Fail clearly
+        # rather than send a block Converse would drop or reject.
+        def reject_messages_api_blocks(blocks)
+          types = blocks.filter_map { |block| block[:type] || block['type'] if block.is_a?(Hash) }.map(&:to_s)
+          unsupported = (types - InvokeAnthropic::Chat::MODELED_BLOCK_TYPES).uniq
+          return blocks if unsupported.empty?
+
+          raise UnsupportedContentError,
+                "Bedrock Converse cannot send #{unsupported.join(', ')} content blocks; " \
+                'continue this chat with protocol: :invoke_anthropic'
         end
 
         def sanitize_non_assistant_raw_blocks(blocks)
@@ -395,13 +409,33 @@ module RubyLLM
         # When the turn had more than one reasoning block (common under adaptive/interleaved
         # thinking during tool use), thinking.blocks holds the exact original blocks and must
         # be replayed verbatim instead of reconstructed from the merged text/signature.
+        #
+        # Blocks captured by the InvokeAnthropic protocol are in the Anthropic Messages shape
+        # (type: thinking / redacted_thinking); those are translated to reasoningContent so a
+        # chat that moves from InvokeModel back to Converse can still replay its reasoning.
+        # reasoningContent blocks pass through untouched.
         def format_thinking_blocks(thinking)
           return nil unless thinking
 
-          return thinking.blocks if thinking.blocks
+          return thinking.blocks.map { |block| converse_thinking_block(block) } if thinking.blocks
 
           block = format_single_thinking_block(thinking)
           block ? [block] : nil
+        end
+
+        def converse_thinking_block(block)
+          return block unless block.is_a?(Hash)
+
+          case (block['type'] || block[:type]).to_s
+          when 'thinking'
+            text = { text: block['thinking'] || block[:thinking] || '',
+                     signature: block['signature'] || block[:signature] }
+            { reasoningContent: { reasoningText: text.compact } }
+          when 'redacted_thinking'
+            { reasoningContent: { redactedContent: block['data'] || block[:data] } }
+          else
+            block
+          end
         end
 
         # Lossy fallback for messages persisted without raw thinking blocks. `signature`

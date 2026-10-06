@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'base64'
-require 'faraday'
 require 'json'
 
 module RubyLLM
@@ -9,7 +7,9 @@ module RubyLLM
     class Converse
       # Streaming implementation for Bedrock ConverseStream (AWS Event Stream).
       module Streaming
-        ErrorResponse = Struct.new(:body, :status)
+        include EventStream
+
+        ErrorResponse = EventStream::ErrorResponse
 
         private
 
@@ -21,48 +21,14 @@ module RubyLLM
           accumulator = StreamAccumulator.new
           decoder = event_stream_decoder
           thinking_state = {}
-          body = JSON.generate(payload)
 
-          response = @connection.post(stream_url, payload) do |req|
-            req.headers.merge!(@provider.sign_headers('POST', stream_url, body))
-            req.headers.merge!(additional_headers) unless additional_headers.empty?
-            req.headers['Accept'] = 'application/vnd.amazon.eventstream'
-
-            if Faraday::VERSION.start_with?('1')
-              req.options[:on_data] = proc do |chunk, _size|
-                parse_stream_chunk(decoder, chunk, accumulator, thinking_state, &block)
-              end
-            else
-              req.options.on_data = proc do |chunk, _bytes, env|
-                if env&.status == 200
-                  parse_stream_chunk(decoder, chunk, accumulator, thinking_state, &block)
-                else
-                  handle_failed_stream(chunk, env)
-                end
-              end
-            end
+          response = post_event_stream(stream_url, payload, additional_headers) do |chunk|
+            parse_stream_chunk(decoder, chunk, accumulator, thinking_state, &block)
           end
 
           message = accumulator.to_message(response)
           RubyLLM.logger.debug { "Stream completed: #{message.content}" }
           message
-        end
-
-        def event_stream_decoder
-          require 'aws-eventstream'
-          Aws::EventStream::Decoder.new
-        rescue LoadError
-          raise Error,
-                'The aws-eventstream gem is required for Bedrock streaming. ' \
-                'Please add it to your Gemfile: gem "aws-eventstream"'
-        end
-
-        def handle_failed_stream(chunk, env)
-          data = JSON.parse(chunk)
-          error_response = env.merge(body: data)
-          ErrorMiddleware.parse_error(provider: self, response: error_response)
-        rescue JSON::ParserError
-          RubyLLM.logger.debug { "Failed Bedrock stream error chunk: #{chunk}" }
         end
 
         def parse_stream_chunk(decoder, raw_chunk, accumulator, thinking_state)
@@ -77,48 +43,15 @@ module RubyLLM
           end
         end
 
-        def handle_non_eventstream_error_chunk(raw_chunk)
-          text = raw_chunk.to_s
-
-          if text.start_with?('event: error')
-            payload = text.lines.find { |line| line.start_with?('data:') }&.delete_prefix('data:')&.strip
-            raise_streaming_chunk_error(payload) if payload
-            return
-          end
-
-          return unless text.lstrip.start_with?('{') && text.include?('"error"')
-
-          raise_streaming_chunk_error(text)
-        end
-
-        def raise_streaming_chunk_error(payload)
-          parsed = JSON.parse(payload)
-          message = parsed.dig('error', 'message') || parsed['message'] || 'Bedrock streaming error'
-          response = ErrorResponse.new({ 'message' => message }, 500)
-          ErrorMiddleware.parse_error(provider: self, response: response)
-        rescue JSON::ParserError
-          nil
-        end
-
         def decode_events(decoder, raw_chunk)
-          events = []
-          message, eof = decoder.decode_chunk(raw_chunk)
-
-          while message
+          decode_event_messages(decoder, raw_chunk).filter_map do |message|
             event = decode_event_payload(message.payload.read)
-            event = nest_event_under_type(event, message) if event
-            if event && RubyLLM.config.log_stream_debug
-              RubyLLM.logger.debug do
-                "Bedrock stream event keys: #{event.keys}"
-              end
-            end
-            events << event if event
-            break if eof
+            next unless event
 
-            message, eof = decoder.decode_chunk
+            event = nest_event_under_type(event, message)
+            RubyLLM.logger.debug { "Bedrock stream event keys: #{event.keys}" } if RubyLLM.config.log_stream_debug
+            event
           end
-
-          events
         end
 
         # A ConverseStream wire message carries its event type in the eventstream
@@ -135,28 +68,6 @@ module RubyLLM
           return event if event.key?(type)
 
           { type => event }
-        end
-
-        def event_type_header(message)
-          headers = message.headers
-          header = headers[':event-type'] || headers[':exception-type']
-          value = header.respond_to?(:value) ? header.value : header
-          value.is_a?(String) && !value.empty? ? value : nil
-        rescue StandardError
-          nil
-        end
-
-        def decode_event_payload(payload)
-          outer = JSON.parse(payload)
-
-          if outer['bytes'].is_a?(String)
-            JSON.parse(Base64.decode64(outer['bytes']))
-          else
-            outer
-          end
-        rescue JSON::ParserError => e
-          RubyLLM.logger.debug { "Failed to decode Bedrock stream event payload: #{e.message}" }
-          nil
         end
 
         def build_chunk(event, thinking_state = {})
@@ -317,18 +228,7 @@ module RubyLLM
           end
 
           key = event.keys.find { |candidate| candidate.end_with?('Exception') }
-          payload = event[key]
-          message = payload['message'] || key
-          status = case key
-                   when 'throttlingException' then 429
-                   when 'validationException' then 400
-                   when 'accessDeniedException', 'unrecognizedClientException' then 401
-                   when 'serviceUnavailableException' then 503
-                   else 500
-                   end
-
-          response = ErrorResponse.new({ 'message' => message }, status)
-          ErrorMiddleware.parse_error(provider: self, response: response)
+          raise_event_stream_exception(key, event[key]['message'])
         end
 
         def extract_content_delta(event)

@@ -1,0 +1,972 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"Read
+        ledger pages 1 to 6 with read_ledger_page, one page per call."}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_1","name":"read_ledger_page","input":{"key":"1"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_1","content":[{"type":"text","text":"Ledger
+        entry 1: the depot in Osaka received 47 crates of ceramic-tiles on day 14.\nLedger
+        entry 2: the depot in Denver received 84 crates of olive-oil on day 27.\nLedger
+        entry 3: the depot in Nairobi received 121 crates of bicycle-frames on day
+        40.\nLedger entry 4: the depot in Quito received 158 crates of solar-panels
+        on day 53.\nLedger entry 5: the depot in Tallinn received 195 crates of wool-blankets
+        on day 66.\nLedger entry 6: the depot in Perth received 232 crates of glass-jars
+        on day 79.\nLedger entry 7: the depot in Hanoi received 269 crates of cedar-planks
+        on day 92.\nLedger entry 8: the depot in Bergen received 306 crates of copper-wire
+        on day 105.\nLedger entry 9: the depot in Tucson received 343 crates of ceramic-tiles
+        on day 118.\nLedger entry 10: the depot in Accra received 380 crates of olive-oil
+        on day 131.\nLedger entry 11: the depot in Cusco received 417 crates of bicycle-frames
+        on day 144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_2","name":"read_ledger_page","input":{"key":"2"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_2","content":[{"type":"text","text":"Ledger
+        entry 41: the depot in Tallinn received 627 crates of ceramic-tiles on day
+        169.\nLedger entry 42: the depot in Perth received 664 crates of olive-oil
+        on day 182.\nLedger entry 43: the depot in Hanoi received 701 crates of bicycle-frames
+        on day 195.\nLedger entry 44: the depot in Bergen received 738 crates of solar-panels
+        on day 208.\nLedger entry 45: the depot in Tucson received 775 crates of wool-blankets
+        on day 221.\nLedger entry 46: the depot in Accra received 812 crates of glass-jars
+        on day 234.\nLedger entry 47: the depot in Cusco received 849 crates of cedar-planks
+        on day 247.\nLedger entry 48: the depot in Lisbon received 886 crates of copper-wire
+        on day 260.\nLedger entry 49: the depot in Osaka received 23 crates of ceramic-tiles
+        on day 273.\nLedger entry 50: the depot in Denver received 60 crates of olive-oil
+        on day 286.\nLedger entry 51: the depot in Nairobi received 97 crates of bicycle-frames
+        on day 299.\nLedger entry 52: the depot in Quito received 134 crates of solar-panels
+        on day 312.\nLedger entry 53: the depot in Tallinn received 171 crates of
+        wool-blankets on day 325.\nLedger entry 54: the depot in Perth received 208
+        crates of glass-jars on day 338.\nLedger entry 55: the depot in Hanoi received
+        245 crates of cedar-planks on day 351.\nLedger entry 56: the depot in Bergen
+        received 282 crates of copper-wire on day 364.\nLedger entry 57: the depot
+        in Tucson received 319 crates of ceramic-tiles on day 12.\nLedger entry 58:
+        the depot in Accra received 356 crates of olive-oil on day 25.\nLedger entry
+        59: the depot in Cusco received 393 crates of bicycle-frames on day 38.\nLedger
+        entry 60: the depot in Lisbon received 430 crates of solar-panels on day 51.\nLedger
+        entry 61: the depot in Osaka received 467 crates of wool-blankets on day 64.\nLedger
+        entry 62: the depot in Denver received 504 crates of glass-jars on day 77.\nLedger
+        entry 63: the depot in Nairobi received 541 crates of cedar-planks on day
+        90.\nLedger entry 64: the depot in Quito received 578 crates of copper-wire
+        on day 103.\nLedger entry 65: the depot in Tallinn received 615 crates of
+        ceramic-tiles on day 116.\nLedger entry 66: the depot in Perth received 652
+        crates of olive-oil on day 129.\nLedger entry 67: the depot in Hanoi received
+        689 crates of bicycle-frames on day 142.\nLedger entry 68: the depot in Bergen
+        received 726 crates of solar-panels on day 155.\nLedger entry 69: the depot
+        in Tucson received 763 crates of wool-blankets on day 168.\nLedger entry 70:
+        the depot in Accra received 800 crates of glass-jars on day 181.\nLedger entry
+        71: the depot in Cusco received 837 crates of cedar-planks on day 194.\nLedger
+        entry 72: the depot in Lisbon received 874 crates of copper-wire on day 207.\nLedger
+        entry 73: the depot in Osaka received 11 crates of ceramic-tiles on day 220.\nLedger
+        entry 74: the depot in Denver received 48 crates of olive-oil on day 233.\nLedger
+        entry 75: the depot in Nairobi received 85 crates of bicycle-frames on day
+        246.\nLedger entry 76: the depot in Quito received 122 crates of solar-panels
+        on day 259.\nLedger entry 77: the depot in Tallinn received 159 crates of
+        wool-blankets on day 272.\nLedger entry 78: the depot in Perth received 196
+        crates of glass-jars on day 285.\nLedger entry 79: the depot in Hanoi received
+        233 crates of cedar-planks on day 298.\nLedger entry 80: the depot in Bergen
+        received 270 crates of copper-wire on day 311."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_3","name":"read_ledger_page","input":{"key":"3"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_3","content":[{"type":"text","text":"Ledger
+        entry 81: the depot in Tucson received 307 crates of ceramic-tiles on day
+        324.\nLedger entry 82: the depot in Accra received 344 crates of olive-oil
+        on day 337.\nLedger entry 83: the depot in Cusco received 381 crates of bicycle-frames
+        on day 350.\nLedger entry 84: the depot in Lisbon received 418 crates of solar-panels
+        on day 363.\nLedger entry 85: the depot in Osaka received 455 crates of wool-blankets
+        on day 11.\nLedger entry 86: the depot in Denver received 492 crates of glass-jars
+        on day 24.\nLedger entry 87: the depot in Nairobi received 529 crates of cedar-planks
+        on day 37.\nLedger entry 88: the depot in Quito received 566 crates of copper-wire
+        on day 50.\nLedger entry 89: the depot in Tallinn received 603 crates of ceramic-tiles
+        on day 63.\nLedger entry 90: the depot in Perth received 640 crates of olive-oil
+        on day 76.\nLedger entry 91: the depot in Hanoi received 677 crates of bicycle-frames
+        on day 89.\nLedger entry 92: the depot in Bergen received 714 crates of solar-panels
+        on day 102.\nLedger entry 93: the depot in Tucson received 751 crates of wool-blankets
+        on day 115.\nLedger entry 94: the depot in Accra received 788 crates of glass-jars
+        on day 128.\nLedger entry 95: the depot in Cusco received 825 crates of cedar-planks
+        on day 141.\nLedger entry 96: the depot in Lisbon received 862 crates of copper-wire
+        on day 154.\nLedger entry 97: the depot in Osaka received 899 crates of ceramic-tiles
+        on day 167.\nLedger entry 98: the depot in Denver received 36 crates of olive-oil
+        on day 180.\nLedger entry 99: the depot in Nairobi received 73 crates of bicycle-frames
+        on day 193.\nLedger entry 100: the depot in Quito received 110 crates of solar-panels
+        on day 206.\nLedger entry 101: the depot in Tallinn received 147 crates of
+        wool-blankets on day 219.\nLedger entry 102: the depot in Perth received 184
+        crates of glass-jars on day 232.\nLedger entry 103: the depot in Hanoi received
+        221 crates of cedar-planks on day 245.\nLedger entry 104: the depot in Bergen
+        received 258 crates of copper-wire on day 258.\nLedger entry 105: the depot
+        in Tucson received 295 crates of ceramic-tiles on day 271.\nLedger entry 106:
+        the depot in Accra received 332 crates of olive-oil on day 284.\nLedger entry
+        107: the depot in Cusco received 369 crates of bicycle-frames on day 297.\nLedger
+        entry 108: the depot in Lisbon received 406 crates of solar-panels on day
+        310.\nLedger entry 109: the depot in Osaka received 443 crates of wool-blankets
+        on day 323.\nLedger entry 110: the depot in Denver received 480 crates of
+        glass-jars on day 336.\nLedger entry 111: the depot in Nairobi received 517
+        crates of cedar-planks on day 349.\nLedger entry 112: the depot in Quito received
+        554 crates of copper-wire on day 362.\nLedger entry 113: the depot in Tallinn
+        received 591 crates of ceramic-tiles on day 10.\nLedger entry 114: the depot
+        in Perth received 628 crates of olive-oil on day 23.\nLedger entry 115: the
+        depot in Hanoi received 665 crates of bicycle-frames on day 36.\nLedger entry
+        116: the depot in Bergen received 702 crates of solar-panels on day 49.\nLedger
+        entry 117: the depot in Tucson received 739 crates of wool-blankets on day
+        62.\nLedger entry 118: the depot in Accra received 776 crates of glass-jars
+        on day 75.\nLedger entry 119: the depot in Cusco received 813 crates of cedar-planks
+        on day 88.\nLedger entry 120: the depot in Lisbon received 850 crates of copper-wire
+        on day 101."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_4","name":"read_ledger_page","input":{"key":"4"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_4","content":[{"type":"text","text":"Ledger
+        entry 121: the depot in Osaka received 887 crates of ceramic-tiles on day
+        114.\nLedger entry 122: the depot in Denver received 24 crates of olive-oil
+        on day 127.\nLedger entry 123: the depot in Nairobi received 61 crates of
+        bicycle-frames on day 140.\nLedger entry 124: the depot in Quito received
+        98 crates of solar-panels on day 153.\nLedger entry 125: the depot in Tallinn
+        received 135 crates of wool-blankets on day 166.\nLedger entry 126: the depot
+        in Perth received 172 crates of glass-jars on day 179.\nLedger entry 127:
+        the depot in Hanoi received 209 crates of cedar-planks on day 192.\nLedger
+        entry 128: the depot in Bergen received 246 crates of copper-wire on day 205.\nLedger
+        entry 129: the depot in Tucson received 283 crates of ceramic-tiles on day
+        218.\nLedger entry 130: the depot in Accra received 320 crates of olive-oil
+        on day 231.\nLedger entry 131: the depot in Cusco received 357 crates of bicycle-frames
+        on day 244.\nLedger entry 132: the depot in Lisbon received 394 crates of
+        solar-panels on day 257.\nLedger entry 133: the depot in Osaka received 431
+        crates of wool-blankets on day 270.\nLedger entry 134: the depot in Denver
+        received 468 crates of glass-jars on day 283.\nLedger entry 135: the depot
+        in Nairobi received 505 crates of cedar-planks on day 296.\nLedger entry 136:
+        the depot in Quito received 542 crates of copper-wire on day 309.\nLedger
+        entry 137: the depot in Tallinn received 579 crates of ceramic-tiles on day
+        322.\nLedger entry 138: the depot in Perth received 616 crates of olive-oil
+        on day 335.\nLedger entry 139: the depot in Hanoi received 653 crates of bicycle-frames
+        on day 348.\nLedger entry 140: the depot in Bergen received 690 crates of
+        solar-panels on day 361.\nLedger entry 141: the depot in Tucson received 727
+        crates of wool-blankets on day 9.\nLedger entry 142: the depot in Accra received
+        764 crates of glass-jars on day 22.\nLedger entry 143: the depot in Cusco
+        received 801 crates of cedar-planks on day 35.\nLedger entry 144: the depot
+        in Lisbon received 838 crates of copper-wire on day 48.\nLedger entry 145:
+        the depot in Osaka received 875 crates of ceramic-tiles on day 61.\nLedger
+        entry 146: the depot in Denver received 12 crates of olive-oil on day 74.\nLedger
+        entry 147: the depot in Nairobi received 49 crates of bicycle-frames on day
+        87.\nLedger entry 148: the depot in Quito received 86 crates of solar-panels
+        on day 100.\nLedger entry 149: the depot in Tallinn received 123 crates of
+        wool-blankets on day 113.\nLedger entry 150: the depot in Perth received 160
+        crates of glass-jars on day 126.\nLedger entry 151: the depot in Hanoi received
+        197 crates of cedar-planks on day 139.\nLedger entry 152: the depot in Bergen
+        received 234 crates of copper-wire on day 152.\nLedger entry 153: the depot
+        in Tucson received 271 crates of ceramic-tiles on day 165.\nLedger entry 154:
+        the depot in Accra received 308 crates of olive-oil on day 178.\nLedger entry
+        155: the depot in Cusco received 345 crates of bicycle-frames on day 191.\nLedger
+        entry 156: the depot in Lisbon received 382 crates of solar-panels on day
+        204.\nLedger entry 157: the depot in Osaka received 419 crates of wool-blankets
+        on day 217.\nLedger entry 158: the depot in Denver received 456 crates of
+        glass-jars on day 230.\nLedger entry 159: the depot in Nairobi received 493
+        crates of cedar-planks on day 243.\nLedger entry 160: the depot in Quito received
+        530 crates of copper-wire on day 256."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_5","name":"read_ledger_page","input":{"key":"5"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_5","content":[{"type":"text","text":"Ledger
+        entry 161: the depot in Tallinn received 567 crates of ceramic-tiles on day
+        269.\nLedger entry 162: the depot in Perth received 604 crates of olive-oil
+        on day 282.\nLedger entry 163: the depot in Hanoi received 641 crates of bicycle-frames
+        on day 295.\nLedger entry 164: the depot in Bergen received 678 crates of
+        solar-panels on day 308.\nLedger entry 165: the depot in Tucson received 715
+        crates of wool-blankets on day 321.\nLedger entry 166: the depot in Accra
+        received 752 crates of glass-jars on day 334.\nLedger entry 167: the depot
+        in Cusco received 789 crates of cedar-planks on day 347.\nLedger entry 168:
+        the depot in Lisbon received 826 crates of copper-wire on day 360.\nLedger
+        entry 169: the depot in Osaka received 863 crates of ceramic-tiles on day
+        8.\nLedger entry 170: the depot in Denver received 900 crates of olive-oil
+        on day 21.\nLedger entry 171: the depot in Nairobi received 37 crates of bicycle-frames
+        on day 34.\nLedger entry 172: the depot in Quito received 74 crates of solar-panels
+        on day 47.\nLedger entry 173: the depot in Tallinn received 111 crates of
+        wool-blankets on day 60.\nLedger entry 174: the depot in Perth received 148
+        crates of glass-jars on day 73.\nLedger entry 175: the depot in Hanoi received
+        185 crates of cedar-planks on day 86.\nLedger entry 176: the depot in Bergen
+        received 222 crates of copper-wire on day 99.\nLedger entry 177: the depot
+        in Tucson received 259 crates of ceramic-tiles on day 112.\nLedger entry 178:
+        the depot in Accra received 296 crates of olive-oil on day 125.\nLedger entry
+        179: the depot in Cusco received 333 crates of bicycle-frames on day 138.\nLedger
+        entry 180: the depot in Lisbon received 370 crates of solar-panels on day
+        151.\nLedger entry 181: the depot in Osaka received 407 crates of wool-blankets
+        on day 164.\nLedger entry 182: the depot in Denver received 444 crates of
+        glass-jars on day 177.\nLedger entry 183: the depot in Nairobi received 481
+        crates of cedar-planks on day 190.\nLedger entry 184: the depot in Quito received
+        518 crates of copper-wire on day 203.\nLedger entry 185: the depot in Tallinn
+        received 555 crates of ceramic-tiles on day 216.\nLedger entry 186: the depot
+        in Perth received 592 crates of olive-oil on day 229.\nLedger entry 187: the
+        depot in Hanoi received 629 crates of bicycle-frames on day 242.\nLedger entry
+        188: the depot in Bergen received 666 crates of solar-panels on day 255.\nLedger
+        entry 189: the depot in Tucson received 703 crates of wool-blankets on day
+        268.\nLedger entry 190: the depot in Accra received 740 crates of glass-jars
+        on day 281.\nLedger entry 191: the depot in Cusco received 777 crates of cedar-planks
+        on day 294.\nLedger entry 192: the depot in Lisbon received 814 crates of
+        copper-wire on day 307.\nLedger entry 193: the depot in Osaka received 851
+        crates of ceramic-tiles on day 320.\nLedger entry 194: the depot in Denver
+        received 888 crates of olive-oil on day 333.\nLedger entry 195: the depot
+        in Nairobi received 25 crates of bicycle-frames on day 346.\nLedger entry
+        196: the depot in Quito received 62 crates of solar-panels on day 359.\nLedger
+        entry 197: the depot in Tallinn received 99 crates of wool-blankets on day
+        7.\nLedger entry 198: the depot in Perth received 136 crates of glass-jars
+        on day 20.\nLedger entry 199: the depot in Hanoi received 173 crates of cedar-planks
+        on day 33.\nLedger entry 200: the depot in Bergen received 210 crates of copper-wire
+        on day 46."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_6","name":"read_ledger_page","input":{"key":"6"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_6","content":[{"type":"text","text":"Ledger
+        entry 201: the depot in Tucson received 247 crates of ceramic-tiles on day
+        59.\nLedger entry 202: the depot in Accra received 284 crates of olive-oil
+        on day 72.\nLedger entry 203: the depot in Cusco received 321 crates of bicycle-frames
+        on day 85.\nLedger entry 204: the depot in Lisbon received 358 crates of solar-panels
+        on day 98.\nLedger entry 205: the depot in Osaka received 395 crates of wool-blankets
+        on day 111.\nLedger entry 206: the depot in Denver received 432 crates of
+        glass-jars on day 124.\nLedger entry 207: the depot in Nairobi received 469
+        crates of cedar-planks on day 137.\nLedger entry 208: the depot in Quito received
+        506 crates of copper-wire on day 150.\nLedger entry 209: the depot in Tallinn
+        received 543 crates of ceramic-tiles on day 163.\nLedger entry 210: the depot
+        in Perth received 580 crates of olive-oil on day 176.\nLedger entry 211: the
+        depot in Hanoi received 617 crates of bicycle-frames on day 189.\nLedger entry
+        212: the depot in Bergen received 654 crates of solar-panels on day 202.\nLedger
+        entry 213: the depot in Tucson received 691 crates of wool-blankets on day
+        215.\nLedger entry 214: the depot in Accra received 728 crates of glass-jars
+        on day 228.\nLedger entry 215: the depot in Cusco received 765 crates of cedar-planks
+        on day 241.\nLedger entry 216: the depot in Lisbon received 802 crates of
+        copper-wire on day 254.\nLedger entry 217: the depot in Osaka received 839
+        crates of ceramic-tiles on day 267.\nLedger entry 218: the depot in Denver
+        received 876 crates of olive-oil on day 280.\nLedger entry 219: the depot
+        in Nairobi received 13 crates of bicycle-frames on day 293.\nLedger entry
+        220: the depot in Quito received 50 crates of solar-panels on day 306.\nLedger
+        entry 221: the depot in Tallinn received 87 crates of wool-blankets on day
+        319.\nLedger entry 222: the depot in Perth received 124 crates of glass-jars
+        on day 332.\nLedger entry 223: the depot in Hanoi received 161 crates of cedar-planks
+        on day 345.\nLedger entry 224: the depot in Bergen received 198 crates of
+        copper-wire on day 358.\nLedger entry 225: the depot in Tucson received 235
+        crates of ceramic-tiles on day 6.\nLedger entry 226: the depot in Accra received
+        272 crates of olive-oil on day 19.\nLedger entry 227: the depot in Cusco received
+        309 crates of bicycle-frames on day 32.\nLedger entry 228: the depot in Lisbon
+        received 346 crates of solar-panels on day 45.\nLedger entry 229: the depot
+        in Osaka received 383 crates of wool-blankets on day 58.\nLedger entry 230:
+        the depot in Denver received 420 crates of glass-jars on day 71.\nLedger entry
+        231: the depot in Nairobi received 457 crates of cedar-planks on day 84.\nLedger
+        entry 232: the depot in Quito received 494 crates of copper-wire on day 97.\nLedger
+        entry 233: the depot in Tallinn received 531 crates of ceramic-tiles on day
+        110.\nLedger entry 234: the depot in Perth received 568 crates of olive-oil
+        on day 123.\nLedger entry 235: the depot in Hanoi received 605 crates of bicycle-frames
+        on day 136.\nLedger entry 236: the depot in Bergen received 642 crates of
+        solar-panels on day 149.\nLedger entry 237: the depot in Tucson received 679
+        crates of wool-blankets on day 162.\nLedger entry 238: the depot in Accra
+        received 716 crates of glass-jars on day 175.\nLedger entry 239: the depot
+        in Cusco received 753 crates of cedar-planks on day 188.\nLedger entry 240:
+        the depot in Lisbon received 790 crates of copper-wire on day 201."}]},{"type":"text","text":"Without
+        calling any tool, name in one sentence the city of the last entry on page
+        6."}]}],"max_tokens":300,"tools":[{"name":"read_ledger_page","description":"Read
+        one page of the shipping ledger by page number","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}],"context_management":{"edits":[{"type":"clear_tool_uses_20250919","trigger":{"type":"input_tokens","value":3000},"keep":{"type":"tool_uses","value":2}}]}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T215614Z
+      X-Amz-Content-Sha256:
+      - 1919925efc2570cade2b903ad1ddfec42402569ae03cd207449a523d5e33f760
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 21:56:15 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '706'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - fd3c44e6-4546-42cf-a441-166e70dc3a27
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '904'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '28'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '3714'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_mugnqbuwfzvskfzkmahjyr7rymolza7wuet4brecorgt5cf5iy4q","type":"message","role":"assistant","content":[{"type":"text","text":"The
+        last entry on page 6, entry 240, is for the depot in Lisbon."}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":3714,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":28,"output_tokens_details":{"thinking_tokens":0},"service_tier":"standard"},"context_management":{"applied_edits":[{"type":"clear_tool_uses_20250919","cleared_input_tokens":5647,"cleared_tool_uses":4}]}}'
+  recorded_at: Mon, 05 Oct 2026 21:56:15 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"type":"text","text":"Read
+        ledger pages 1 to 6 with read_ledger_page, one page per call."}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_1","name":"read_ledger_page","input":{"key":"1"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_1","content":[{"type":"text","text":"Ledger
+        entry 1: the depot in Osaka received 47 crates of ceramic-tiles on day 14.\nLedger
+        entry 2: the depot in Denver received 84 crates of olive-oil on day 27.\nLedger
+        entry 3: the depot in Nairobi received 121 crates of bicycle-frames on day
+        40.\nLedger entry 4: the depot in Quito received 158 crates of solar-panels
+        on day 53.\nLedger entry 5: the depot in Tallinn received 195 crates of wool-blankets
+        on day 66.\nLedger entry 6: the depot in Perth received 232 crates of glass-jars
+        on day 79.\nLedger entry 7: the depot in Hanoi received 269 crates of cedar-planks
+        on day 92.\nLedger entry 8: the depot in Bergen received 306 crates of copper-wire
+        on day 105.\nLedger entry 9: the depot in Tucson received 343 crates of ceramic-tiles
+        on day 118.\nLedger entry 10: the depot in Accra received 380 crates of olive-oil
+        on day 131.\nLedger entry 11: the depot in Cusco received 417 crates of bicycle-frames
+        on day 144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_2","name":"read_ledger_page","input":{"key":"2"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_2","content":[{"type":"text","text":"Ledger
+        entry 41: the depot in Tallinn received 627 crates of ceramic-tiles on day
+        169.\nLedger entry 42: the depot in Perth received 664 crates of olive-oil
+        on day 182.\nLedger entry 43: the depot in Hanoi received 701 crates of bicycle-frames
+        on day 195.\nLedger entry 44: the depot in Bergen received 738 crates of solar-panels
+        on day 208.\nLedger entry 45: the depot in Tucson received 775 crates of wool-blankets
+        on day 221.\nLedger entry 46: the depot in Accra received 812 crates of glass-jars
+        on day 234.\nLedger entry 47: the depot in Cusco received 849 crates of cedar-planks
+        on day 247.\nLedger entry 48: the depot in Lisbon received 886 crates of copper-wire
+        on day 260.\nLedger entry 49: the depot in Osaka received 23 crates of ceramic-tiles
+        on day 273.\nLedger entry 50: the depot in Denver received 60 crates of olive-oil
+        on day 286.\nLedger entry 51: the depot in Nairobi received 97 crates of bicycle-frames
+        on day 299.\nLedger entry 52: the depot in Quito received 134 crates of solar-panels
+        on day 312.\nLedger entry 53: the depot in Tallinn received 171 crates of
+        wool-blankets on day 325.\nLedger entry 54: the depot in Perth received 208
+        crates of glass-jars on day 338.\nLedger entry 55: the depot in Hanoi received
+        245 crates of cedar-planks on day 351.\nLedger entry 56: the depot in Bergen
+        received 282 crates of copper-wire on day 364.\nLedger entry 57: the depot
+        in Tucson received 319 crates of ceramic-tiles on day 12.\nLedger entry 58:
+        the depot in Accra received 356 crates of olive-oil on day 25.\nLedger entry
+        59: the depot in Cusco received 393 crates of bicycle-frames on day 38.\nLedger
+        entry 60: the depot in Lisbon received 430 crates of solar-panels on day 51.\nLedger
+        entry 61: the depot in Osaka received 467 crates of wool-blankets on day 64.\nLedger
+        entry 62: the depot in Denver received 504 crates of glass-jars on day 77.\nLedger
+        entry 63: the depot in Nairobi received 541 crates of cedar-planks on day
+        90.\nLedger entry 64: the depot in Quito received 578 crates of copper-wire
+        on day 103.\nLedger entry 65: the depot in Tallinn received 615 crates of
+        ceramic-tiles on day 116.\nLedger entry 66: the depot in Perth received 652
+        crates of olive-oil on day 129.\nLedger entry 67: the depot in Hanoi received
+        689 crates of bicycle-frames on day 142.\nLedger entry 68: the depot in Bergen
+        received 726 crates of solar-panels on day 155.\nLedger entry 69: the depot
+        in Tucson received 763 crates of wool-blankets on day 168.\nLedger entry 70:
+        the depot in Accra received 800 crates of glass-jars on day 181.\nLedger entry
+        71: the depot in Cusco received 837 crates of cedar-planks on day 194.\nLedger
+        entry 72: the depot in Lisbon received 874 crates of copper-wire on day 207.\nLedger
+        entry 73: the depot in Osaka received 11 crates of ceramic-tiles on day 220.\nLedger
+        entry 74: the depot in Denver received 48 crates of olive-oil on day 233.\nLedger
+        entry 75: the depot in Nairobi received 85 crates of bicycle-frames on day
+        246.\nLedger entry 76: the depot in Quito received 122 crates of solar-panels
+        on day 259.\nLedger entry 77: the depot in Tallinn received 159 crates of
+        wool-blankets on day 272.\nLedger entry 78: the depot in Perth received 196
+        crates of glass-jars on day 285.\nLedger entry 79: the depot in Hanoi received
+        233 crates of cedar-planks on day 298.\nLedger entry 80: the depot in Bergen
+        received 270 crates of copper-wire on day 311."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_3","name":"read_ledger_page","input":{"key":"3"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_3","content":[{"type":"text","text":"Ledger
+        entry 81: the depot in Tucson received 307 crates of ceramic-tiles on day
+        324.\nLedger entry 82: the depot in Accra received 344 crates of olive-oil
+        on day 337.\nLedger entry 83: the depot in Cusco received 381 crates of bicycle-frames
+        on day 350.\nLedger entry 84: the depot in Lisbon received 418 crates of solar-panels
+        on day 363.\nLedger entry 85: the depot in Osaka received 455 crates of wool-blankets
+        on day 11.\nLedger entry 86: the depot in Denver received 492 crates of glass-jars
+        on day 24.\nLedger entry 87: the depot in Nairobi received 529 crates of cedar-planks
+        on day 37.\nLedger entry 88: the depot in Quito received 566 crates of copper-wire
+        on day 50.\nLedger entry 89: the depot in Tallinn received 603 crates of ceramic-tiles
+        on day 63.\nLedger entry 90: the depot in Perth received 640 crates of olive-oil
+        on day 76.\nLedger entry 91: the depot in Hanoi received 677 crates of bicycle-frames
+        on day 89.\nLedger entry 92: the depot in Bergen received 714 crates of solar-panels
+        on day 102.\nLedger entry 93: the depot in Tucson received 751 crates of wool-blankets
+        on day 115.\nLedger entry 94: the depot in Accra received 788 crates of glass-jars
+        on day 128.\nLedger entry 95: the depot in Cusco received 825 crates of cedar-planks
+        on day 141.\nLedger entry 96: the depot in Lisbon received 862 crates of copper-wire
+        on day 154.\nLedger entry 97: the depot in Osaka received 899 crates of ceramic-tiles
+        on day 167.\nLedger entry 98: the depot in Denver received 36 crates of olive-oil
+        on day 180.\nLedger entry 99: the depot in Nairobi received 73 crates of bicycle-frames
+        on day 193.\nLedger entry 100: the depot in Quito received 110 crates of solar-panels
+        on day 206.\nLedger entry 101: the depot in Tallinn received 147 crates of
+        wool-blankets on day 219.\nLedger entry 102: the depot in Perth received 184
+        crates of glass-jars on day 232.\nLedger entry 103: the depot in Hanoi received
+        221 crates of cedar-planks on day 245.\nLedger entry 104: the depot in Bergen
+        received 258 crates of copper-wire on day 258.\nLedger entry 105: the depot
+        in Tucson received 295 crates of ceramic-tiles on day 271.\nLedger entry 106:
+        the depot in Accra received 332 crates of olive-oil on day 284.\nLedger entry
+        107: the depot in Cusco received 369 crates of bicycle-frames on day 297.\nLedger
+        entry 108: the depot in Lisbon received 406 crates of solar-panels on day
+        310.\nLedger entry 109: the depot in Osaka received 443 crates of wool-blankets
+        on day 323.\nLedger entry 110: the depot in Denver received 480 crates of
+        glass-jars on day 336.\nLedger entry 111: the depot in Nairobi received 517
+        crates of cedar-planks on day 349.\nLedger entry 112: the depot in Quito received
+        554 crates of copper-wire on day 362.\nLedger entry 113: the depot in Tallinn
+        received 591 crates of ceramic-tiles on day 10.\nLedger entry 114: the depot
+        in Perth received 628 crates of olive-oil on day 23.\nLedger entry 115: the
+        depot in Hanoi received 665 crates of bicycle-frames on day 36.\nLedger entry
+        116: the depot in Bergen received 702 crates of solar-panels on day 49.\nLedger
+        entry 117: the depot in Tucson received 739 crates of wool-blankets on day
+        62.\nLedger entry 118: the depot in Accra received 776 crates of glass-jars
+        on day 75.\nLedger entry 119: the depot in Cusco received 813 crates of cedar-planks
+        on day 88.\nLedger entry 120: the depot in Lisbon received 850 crates of copper-wire
+        on day 101."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_4","name":"read_ledger_page","input":{"key":"4"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_4","content":[{"type":"text","text":"Ledger
+        entry 121: the depot in Osaka received 887 crates of ceramic-tiles on day
+        114.\nLedger entry 122: the depot in Denver received 24 crates of olive-oil
+        on day 127.\nLedger entry 123: the depot in Nairobi received 61 crates of
+        bicycle-frames on day 140.\nLedger entry 124: the depot in Quito received
+        98 crates of solar-panels on day 153.\nLedger entry 125: the depot in Tallinn
+        received 135 crates of wool-blankets on day 166.\nLedger entry 126: the depot
+        in Perth received 172 crates of glass-jars on day 179.\nLedger entry 127:
+        the depot in Hanoi received 209 crates of cedar-planks on day 192.\nLedger
+        entry 128: the depot in Bergen received 246 crates of copper-wire on day 205.\nLedger
+        entry 129: the depot in Tucson received 283 crates of ceramic-tiles on day
+        218.\nLedger entry 130: the depot in Accra received 320 crates of olive-oil
+        on day 231.\nLedger entry 131: the depot in Cusco received 357 crates of bicycle-frames
+        on day 244.\nLedger entry 132: the depot in Lisbon received 394 crates of
+        solar-panels on day 257.\nLedger entry 133: the depot in Osaka received 431
+        crates of wool-blankets on day 270.\nLedger entry 134: the depot in Denver
+        received 468 crates of glass-jars on day 283.\nLedger entry 135: the depot
+        in Nairobi received 505 crates of cedar-planks on day 296.\nLedger entry 136:
+        the depot in Quito received 542 crates of copper-wire on day 309.\nLedger
+        entry 137: the depot in Tallinn received 579 crates of ceramic-tiles on day
+        322.\nLedger entry 138: the depot in Perth received 616 crates of olive-oil
+        on day 335.\nLedger entry 139: the depot in Hanoi received 653 crates of bicycle-frames
+        on day 348.\nLedger entry 140: the depot in Bergen received 690 crates of
+        solar-panels on day 361.\nLedger entry 141: the depot in Tucson received 727
+        crates of wool-blankets on day 9.\nLedger entry 142: the depot in Accra received
+        764 crates of glass-jars on day 22.\nLedger entry 143: the depot in Cusco
+        received 801 crates of cedar-planks on day 35.\nLedger entry 144: the depot
+        in Lisbon received 838 crates of copper-wire on day 48.\nLedger entry 145:
+        the depot in Osaka received 875 crates of ceramic-tiles on day 61.\nLedger
+        entry 146: the depot in Denver received 12 crates of olive-oil on day 74.\nLedger
+        entry 147: the depot in Nairobi received 49 crates of bicycle-frames on day
+        87.\nLedger entry 148: the depot in Quito received 86 crates of solar-panels
+        on day 100.\nLedger entry 149: the depot in Tallinn received 123 crates of
+        wool-blankets on day 113.\nLedger entry 150: the depot in Perth received 160
+        crates of glass-jars on day 126.\nLedger entry 151: the depot in Hanoi received
+        197 crates of cedar-planks on day 139.\nLedger entry 152: the depot in Bergen
+        received 234 crates of copper-wire on day 152.\nLedger entry 153: the depot
+        in Tucson received 271 crates of ceramic-tiles on day 165.\nLedger entry 154:
+        the depot in Accra received 308 crates of olive-oil on day 178.\nLedger entry
+        155: the depot in Cusco received 345 crates of bicycle-frames on day 191.\nLedger
+        entry 156: the depot in Lisbon received 382 crates of solar-panels on day
+        204.\nLedger entry 157: the depot in Osaka received 419 crates of wool-blankets
+        on day 217.\nLedger entry 158: the depot in Denver received 456 crates of
+        glass-jars on day 230.\nLedger entry 159: the depot in Nairobi received 493
+        crates of cedar-planks on day 243.\nLedger entry 160: the depot in Quito received
+        530 crates of copper-wire on day 256."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_5","name":"read_ledger_page","input":{"key":"5"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_5","content":[{"type":"text","text":"Ledger
+        entry 161: the depot in Tallinn received 567 crates of ceramic-tiles on day
+        269.\nLedger entry 162: the depot in Perth received 604 crates of olive-oil
+        on day 282.\nLedger entry 163: the depot in Hanoi received 641 crates of bicycle-frames
+        on day 295.\nLedger entry 164: the depot in Bergen received 678 crates of
+        solar-panels on day 308.\nLedger entry 165: the depot in Tucson received 715
+        crates of wool-blankets on day 321.\nLedger entry 166: the depot in Accra
+        received 752 crates of glass-jars on day 334.\nLedger entry 167: the depot
+        in Cusco received 789 crates of cedar-planks on day 347.\nLedger entry 168:
+        the depot in Lisbon received 826 crates of copper-wire on day 360.\nLedger
+        entry 169: the depot in Osaka received 863 crates of ceramic-tiles on day
+        8.\nLedger entry 170: the depot in Denver received 900 crates of olive-oil
+        on day 21.\nLedger entry 171: the depot in Nairobi received 37 crates of bicycle-frames
+        on day 34.\nLedger entry 172: the depot in Quito received 74 crates of solar-panels
+        on day 47.\nLedger entry 173: the depot in Tallinn received 111 crates of
+        wool-blankets on day 60.\nLedger entry 174: the depot in Perth received 148
+        crates of glass-jars on day 73.\nLedger entry 175: the depot in Hanoi received
+        185 crates of cedar-planks on day 86.\nLedger entry 176: the depot in Bergen
+        received 222 crates of copper-wire on day 99.\nLedger entry 177: the depot
+        in Tucson received 259 crates of ceramic-tiles on day 112.\nLedger entry 178:
+        the depot in Accra received 296 crates of olive-oil on day 125.\nLedger entry
+        179: the depot in Cusco received 333 crates of bicycle-frames on day 138.\nLedger
+        entry 180: the depot in Lisbon received 370 crates of solar-panels on day
+        151.\nLedger entry 181: the depot in Osaka received 407 crates of wool-blankets
+        on day 164.\nLedger entry 182: the depot in Denver received 444 crates of
+        glass-jars on day 177.\nLedger entry 183: the depot in Nairobi received 481
+        crates of cedar-planks on day 190.\nLedger entry 184: the depot in Quito received
+        518 crates of copper-wire on day 203.\nLedger entry 185: the depot in Tallinn
+        received 555 crates of ceramic-tiles on day 216.\nLedger entry 186: the depot
+        in Perth received 592 crates of olive-oil on day 229.\nLedger entry 187: the
+        depot in Hanoi received 629 crates of bicycle-frames on day 242.\nLedger entry
+        188: the depot in Bergen received 666 crates of solar-panels on day 255.\nLedger
+        entry 189: the depot in Tucson received 703 crates of wool-blankets on day
+        268.\nLedger entry 190: the depot in Accra received 740 crates of glass-jars
+        on day 281.\nLedger entry 191: the depot in Cusco received 777 crates of cedar-planks
+        on day 294.\nLedger entry 192: the depot in Lisbon received 814 crates of
+        copper-wire on day 307.\nLedger entry 193: the depot in Osaka received 851
+        crates of ceramic-tiles on day 320.\nLedger entry 194: the depot in Denver
+        received 888 crates of olive-oil on day 333.\nLedger entry 195: the depot
+        in Nairobi received 25 crates of bicycle-frames on day 346.\nLedger entry
+        196: the depot in Quito received 62 crates of solar-panels on day 359.\nLedger
+        entry 197: the depot in Tallinn received 99 crates of wool-blankets on day
+        7.\nLedger entry 198: the depot in Perth received 136 crates of glass-jars
+        on day 20.\nLedger entry 199: the depot in Hanoi received 173 crates of cedar-planks
+        on day 33.\nLedger entry 200: the depot in Bergen received 210 crates of copper-wire
+        on day 46."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_6","name":"read_ledger_page","input":{"key":"6"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_6","content":[{"type":"text","text":"Ledger
+        entry 201: the depot in Tucson received 247 crates of ceramic-tiles on day
+        59.\nLedger entry 202: the depot in Accra received 284 crates of olive-oil
+        on day 72.\nLedger entry 203: the depot in Cusco received 321 crates of bicycle-frames
+        on day 85.\nLedger entry 204: the depot in Lisbon received 358 crates of solar-panels
+        on day 98.\nLedger entry 205: the depot in Osaka received 395 crates of wool-blankets
+        on day 111.\nLedger entry 206: the depot in Denver received 432 crates of
+        glass-jars on day 124.\nLedger entry 207: the depot in Nairobi received 469
+        crates of cedar-planks on day 137.\nLedger entry 208: the depot in Quito received
+        506 crates of copper-wire on day 150.\nLedger entry 209: the depot in Tallinn
+        received 543 crates of ceramic-tiles on day 163.\nLedger entry 210: the depot
+        in Perth received 580 crates of olive-oil on day 176.\nLedger entry 211: the
+        depot in Hanoi received 617 crates of bicycle-frames on day 189.\nLedger entry
+        212: the depot in Bergen received 654 crates of solar-panels on day 202.\nLedger
+        entry 213: the depot in Tucson received 691 crates of wool-blankets on day
+        215.\nLedger entry 214: the depot in Accra received 728 crates of glass-jars
+        on day 228.\nLedger entry 215: the depot in Cusco received 765 crates of cedar-planks
+        on day 241.\nLedger entry 216: the depot in Lisbon received 802 crates of
+        copper-wire on day 254.\nLedger entry 217: the depot in Osaka received 839
+        crates of ceramic-tiles on day 267.\nLedger entry 218: the depot in Denver
+        received 876 crates of olive-oil on day 280.\nLedger entry 219: the depot
+        in Nairobi received 13 crates of bicycle-frames on day 293.\nLedger entry
+        220: the depot in Quito received 50 crates of solar-panels on day 306.\nLedger
+        entry 221: the depot in Tallinn received 87 crates of wool-blankets on day
+        319.\nLedger entry 222: the depot in Perth received 124 crates of glass-jars
+        on day 332.\nLedger entry 223: the depot in Hanoi received 161 crates of cedar-planks
+        on day 345.\nLedger entry 224: the depot in Bergen received 198 crates of
+        copper-wire on day 358.\nLedger entry 225: the depot in Tucson received 235
+        crates of ceramic-tiles on day 6.\nLedger entry 226: the depot in Accra received
+        272 crates of olive-oil on day 19.\nLedger entry 227: the depot in Cusco received
+        309 crates of bicycle-frames on day 32.\nLedger entry 228: the depot in Lisbon
+        received 346 crates of solar-panels on day 45.\nLedger entry 229: the depot
+        in Osaka received 383 crates of wool-blankets on day 58.\nLedger entry 230:
+        the depot in Denver received 420 crates of glass-jars on day 71.\nLedger entry
+        231: the depot in Nairobi received 457 crates of cedar-planks on day 84.\nLedger
+        entry 232: the depot in Quito received 494 crates of copper-wire on day 97.\nLedger
+        entry 233: the depot in Tallinn received 531 crates of ceramic-tiles on day
+        110.\nLedger entry 234: the depot in Perth received 568 crates of olive-oil
+        on day 123.\nLedger entry 235: the depot in Hanoi received 605 crates of bicycle-frames
+        on day 136.\nLedger entry 236: the depot in Bergen received 642 crates of
+        solar-panels on day 149.\nLedger entry 237: the depot in Tucson received 679
+        crates of wool-blankets on day 162.\nLedger entry 238: the depot in Accra
+        received 716 crates of glass-jars on day 175.\nLedger entry 239: the depot
+        in Cusco received 753 crates of cedar-planks on day 188.\nLedger entry 240:
+        the depot in Lisbon received 790 crates of copper-wire on day 201."}]},{"type":"text","text":"Without
+        calling any tool, name in one sentence the city of the last entry on page
+        6."}]}],"max_tokens":300,"tools":[{"name":"read_ledger_page","description":"Read
+        one page of the shipping ledger by page number","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}]}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T215615Z
+      X-Amz-Content-Sha256:
+      - 0f44fa433d81ec65365d44894a8b8245c54c94a65a87fb882470bb842f29b6a7
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 21:56:16 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '616'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - e0989a04-a051-4105-9740-baf5bb16b5b3
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '955'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '42'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '9397'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_ugvdqw4vt6ub4cn6rb5jp45p52bv3dy74jnk3prs5fbmgsdgem2q","type":"message","role":"assistant","content":[{"type":"text","text":"The
+        last entry on page 6 is entry 240, and its city is Lisbon (790 crates of copper-wire
+        on day 201)."}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":9397,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":42,"output_tokens_details":{"thinking_tokens":0},"service_tier":"standard"}}'
+  recorded_at: Mon, 05 Oct 2026 21:56:16 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","anthropic_beta":["context-management-2025-06-27"],"messages":[{"role":"user","content":[{"type":"text","text":"Read
+        ledger pages 1 to 6 with read_ledger_page, one page per call."}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_1","name":"read_ledger_page","input":{"key":"1"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_1","content":[{"type":"text","text":"Ledger
+        entry 1: the depot in Osaka received 47 crates of ceramic-tiles on day 14.\nLedger
+        entry 2: the depot in Denver received 84 crates of olive-oil on day 27.\nLedger
+        entry 3: the depot in Nairobi received 121 crates of bicycle-frames on day
+        40.\nLedger entry 4: the depot in Quito received 158 crates of solar-panels
+        on day 53.\nLedger entry 5: the depot in Tallinn received 195 crates of wool-blankets
+        on day 66.\nLedger entry 6: the depot in Perth received 232 crates of glass-jars
+        on day 79.\nLedger entry 7: the depot in Hanoi received 269 crates of cedar-planks
+        on day 92.\nLedger entry 8: the depot in Bergen received 306 crates of copper-wire
+        on day 105.\nLedger entry 9: the depot in Tucson received 343 crates of ceramic-tiles
+        on day 118.\nLedger entry 10: the depot in Accra received 380 crates of olive-oil
+        on day 131.\nLedger entry 11: the depot in Cusco received 417 crates of bicycle-frames
+        on day 144.\nLedger entry 12: the depot in Lisbon received 454 crates of solar-panels
+        on day 157.\nLedger entry 13: the depot in Osaka received 491 crates of wool-blankets
+        on day 170.\nLedger entry 14: the depot in Denver received 528 crates of glass-jars
+        on day 183.\nLedger entry 15: the depot in Nairobi received 565 crates of
+        cedar-planks on day 196.\nLedger entry 16: the depot in Quito received 602
+        crates of copper-wire on day 209.\nLedger entry 17: the depot in Tallinn received
+        639 crates of ceramic-tiles on day 222.\nLedger entry 18: the depot in Perth
+        received 676 crates of olive-oil on day 235.\nLedger entry 19: the depot in
+        Hanoi received 713 crates of bicycle-frames on day 248.\nLedger entry 20:
+        the depot in Bergen received 750 crates of solar-panels on day 261.\nLedger
+        entry 21: the depot in Tucson received 787 crates of wool-blankets on day
+        274.\nLedger entry 22: the depot in Accra received 824 crates of glass-jars
+        on day 287.\nLedger entry 23: the depot in Cusco received 861 crates of cedar-planks
+        on day 300.\nLedger entry 24: the depot in Lisbon received 898 crates of copper-wire
+        on day 313.\nLedger entry 25: the depot in Osaka received 35 crates of ceramic-tiles
+        on day 326.\nLedger entry 26: the depot in Denver received 72 crates of olive-oil
+        on day 339.\nLedger entry 27: the depot in Nairobi received 109 crates of
+        bicycle-frames on day 352.\nLedger entry 28: the depot in Quito received 146
+        crates of solar-panels on day 365.\nLedger entry 29: the depot in Tallinn
+        received 183 crates of wool-blankets on day 13.\nLedger entry 30: the depot
+        in Perth received 220 crates of glass-jars on day 26.\nLedger entry 31: the
+        depot in Hanoi received 257 crates of cedar-planks on day 39.\nLedger entry
+        32: the depot in Bergen received 294 crates of copper-wire on day 52.\nLedger
+        entry 33: the depot in Tucson received 331 crates of ceramic-tiles on day
+        65.\nLedger entry 34: the depot in Accra received 368 crates of olive-oil
+        on day 78.\nLedger entry 35: the depot in Cusco received 405 crates of bicycle-frames
+        on day 91.\nLedger entry 36: the depot in Lisbon received 442 crates of solar-panels
+        on day 104.\nLedger entry 37: the depot in Osaka received 479 crates of wool-blankets
+        on day 117.\nLedger entry 38: the depot in Denver received 516 crates of glass-jars
+        on day 130.\nLedger entry 39: the depot in Nairobi received 553 crates of
+        cedar-planks on day 143.\nLedger entry 40: the depot in Quito received 590
+        crates of copper-wire on day 156."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_2","name":"read_ledger_page","input":{"key":"2"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_2","content":[{"type":"text","text":"Ledger
+        entry 41: the depot in Tallinn received 627 crates of ceramic-tiles on day
+        169.\nLedger entry 42: the depot in Perth received 664 crates of olive-oil
+        on day 182.\nLedger entry 43: the depot in Hanoi received 701 crates of bicycle-frames
+        on day 195.\nLedger entry 44: the depot in Bergen received 738 crates of solar-panels
+        on day 208.\nLedger entry 45: the depot in Tucson received 775 crates of wool-blankets
+        on day 221.\nLedger entry 46: the depot in Accra received 812 crates of glass-jars
+        on day 234.\nLedger entry 47: the depot in Cusco received 849 crates of cedar-planks
+        on day 247.\nLedger entry 48: the depot in Lisbon received 886 crates of copper-wire
+        on day 260.\nLedger entry 49: the depot in Osaka received 23 crates of ceramic-tiles
+        on day 273.\nLedger entry 50: the depot in Denver received 60 crates of olive-oil
+        on day 286.\nLedger entry 51: the depot in Nairobi received 97 crates of bicycle-frames
+        on day 299.\nLedger entry 52: the depot in Quito received 134 crates of solar-panels
+        on day 312.\nLedger entry 53: the depot in Tallinn received 171 crates of
+        wool-blankets on day 325.\nLedger entry 54: the depot in Perth received 208
+        crates of glass-jars on day 338.\nLedger entry 55: the depot in Hanoi received
+        245 crates of cedar-planks on day 351.\nLedger entry 56: the depot in Bergen
+        received 282 crates of copper-wire on day 364.\nLedger entry 57: the depot
+        in Tucson received 319 crates of ceramic-tiles on day 12.\nLedger entry 58:
+        the depot in Accra received 356 crates of olive-oil on day 25.\nLedger entry
+        59: the depot in Cusco received 393 crates of bicycle-frames on day 38.\nLedger
+        entry 60: the depot in Lisbon received 430 crates of solar-panels on day 51.\nLedger
+        entry 61: the depot in Osaka received 467 crates of wool-blankets on day 64.\nLedger
+        entry 62: the depot in Denver received 504 crates of glass-jars on day 77.\nLedger
+        entry 63: the depot in Nairobi received 541 crates of cedar-planks on day
+        90.\nLedger entry 64: the depot in Quito received 578 crates of copper-wire
+        on day 103.\nLedger entry 65: the depot in Tallinn received 615 crates of
+        ceramic-tiles on day 116.\nLedger entry 66: the depot in Perth received 652
+        crates of olive-oil on day 129.\nLedger entry 67: the depot in Hanoi received
+        689 crates of bicycle-frames on day 142.\nLedger entry 68: the depot in Bergen
+        received 726 crates of solar-panels on day 155.\nLedger entry 69: the depot
+        in Tucson received 763 crates of wool-blankets on day 168.\nLedger entry 70:
+        the depot in Accra received 800 crates of glass-jars on day 181.\nLedger entry
+        71: the depot in Cusco received 837 crates of cedar-planks on day 194.\nLedger
+        entry 72: the depot in Lisbon received 874 crates of copper-wire on day 207.\nLedger
+        entry 73: the depot in Osaka received 11 crates of ceramic-tiles on day 220.\nLedger
+        entry 74: the depot in Denver received 48 crates of olive-oil on day 233.\nLedger
+        entry 75: the depot in Nairobi received 85 crates of bicycle-frames on day
+        246.\nLedger entry 76: the depot in Quito received 122 crates of solar-panels
+        on day 259.\nLedger entry 77: the depot in Tallinn received 159 crates of
+        wool-blankets on day 272.\nLedger entry 78: the depot in Perth received 196
+        crates of glass-jars on day 285.\nLedger entry 79: the depot in Hanoi received
+        233 crates of cedar-planks on day 298.\nLedger entry 80: the depot in Bergen
+        received 270 crates of copper-wire on day 311."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_3","name":"read_ledger_page","input":{"key":"3"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_3","content":[{"type":"text","text":"Ledger
+        entry 81: the depot in Tucson received 307 crates of ceramic-tiles on day
+        324.\nLedger entry 82: the depot in Accra received 344 crates of olive-oil
+        on day 337.\nLedger entry 83: the depot in Cusco received 381 crates of bicycle-frames
+        on day 350.\nLedger entry 84: the depot in Lisbon received 418 crates of solar-panels
+        on day 363.\nLedger entry 85: the depot in Osaka received 455 crates of wool-blankets
+        on day 11.\nLedger entry 86: the depot in Denver received 492 crates of glass-jars
+        on day 24.\nLedger entry 87: the depot in Nairobi received 529 crates of cedar-planks
+        on day 37.\nLedger entry 88: the depot in Quito received 566 crates of copper-wire
+        on day 50.\nLedger entry 89: the depot in Tallinn received 603 crates of ceramic-tiles
+        on day 63.\nLedger entry 90: the depot in Perth received 640 crates of olive-oil
+        on day 76.\nLedger entry 91: the depot in Hanoi received 677 crates of bicycle-frames
+        on day 89.\nLedger entry 92: the depot in Bergen received 714 crates of solar-panels
+        on day 102.\nLedger entry 93: the depot in Tucson received 751 crates of wool-blankets
+        on day 115.\nLedger entry 94: the depot in Accra received 788 crates of glass-jars
+        on day 128.\nLedger entry 95: the depot in Cusco received 825 crates of cedar-planks
+        on day 141.\nLedger entry 96: the depot in Lisbon received 862 crates of copper-wire
+        on day 154.\nLedger entry 97: the depot in Osaka received 899 crates of ceramic-tiles
+        on day 167.\nLedger entry 98: the depot in Denver received 36 crates of olive-oil
+        on day 180.\nLedger entry 99: the depot in Nairobi received 73 crates of bicycle-frames
+        on day 193.\nLedger entry 100: the depot in Quito received 110 crates of solar-panels
+        on day 206.\nLedger entry 101: the depot in Tallinn received 147 crates of
+        wool-blankets on day 219.\nLedger entry 102: the depot in Perth received 184
+        crates of glass-jars on day 232.\nLedger entry 103: the depot in Hanoi received
+        221 crates of cedar-planks on day 245.\nLedger entry 104: the depot in Bergen
+        received 258 crates of copper-wire on day 258.\nLedger entry 105: the depot
+        in Tucson received 295 crates of ceramic-tiles on day 271.\nLedger entry 106:
+        the depot in Accra received 332 crates of olive-oil on day 284.\nLedger entry
+        107: the depot in Cusco received 369 crates of bicycle-frames on day 297.\nLedger
+        entry 108: the depot in Lisbon received 406 crates of solar-panels on day
+        310.\nLedger entry 109: the depot in Osaka received 443 crates of wool-blankets
+        on day 323.\nLedger entry 110: the depot in Denver received 480 crates of
+        glass-jars on day 336.\nLedger entry 111: the depot in Nairobi received 517
+        crates of cedar-planks on day 349.\nLedger entry 112: the depot in Quito received
+        554 crates of copper-wire on day 362.\nLedger entry 113: the depot in Tallinn
+        received 591 crates of ceramic-tiles on day 10.\nLedger entry 114: the depot
+        in Perth received 628 crates of olive-oil on day 23.\nLedger entry 115: the
+        depot in Hanoi received 665 crates of bicycle-frames on day 36.\nLedger entry
+        116: the depot in Bergen received 702 crates of solar-panels on day 49.\nLedger
+        entry 117: the depot in Tucson received 739 crates of wool-blankets on day
+        62.\nLedger entry 118: the depot in Accra received 776 crates of glass-jars
+        on day 75.\nLedger entry 119: the depot in Cusco received 813 crates of cedar-planks
+        on day 88.\nLedger entry 120: the depot in Lisbon received 850 crates of copper-wire
+        on day 101."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_4","name":"read_ledger_page","input":{"key":"4"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_4","content":[{"type":"text","text":"Ledger
+        entry 121: the depot in Osaka received 887 crates of ceramic-tiles on day
+        114.\nLedger entry 122: the depot in Denver received 24 crates of olive-oil
+        on day 127.\nLedger entry 123: the depot in Nairobi received 61 crates of
+        bicycle-frames on day 140.\nLedger entry 124: the depot in Quito received
+        98 crates of solar-panels on day 153.\nLedger entry 125: the depot in Tallinn
+        received 135 crates of wool-blankets on day 166.\nLedger entry 126: the depot
+        in Perth received 172 crates of glass-jars on day 179.\nLedger entry 127:
+        the depot in Hanoi received 209 crates of cedar-planks on day 192.\nLedger
+        entry 128: the depot in Bergen received 246 crates of copper-wire on day 205.\nLedger
+        entry 129: the depot in Tucson received 283 crates of ceramic-tiles on day
+        218.\nLedger entry 130: the depot in Accra received 320 crates of olive-oil
+        on day 231.\nLedger entry 131: the depot in Cusco received 357 crates of bicycle-frames
+        on day 244.\nLedger entry 132: the depot in Lisbon received 394 crates of
+        solar-panels on day 257.\nLedger entry 133: the depot in Osaka received 431
+        crates of wool-blankets on day 270.\nLedger entry 134: the depot in Denver
+        received 468 crates of glass-jars on day 283.\nLedger entry 135: the depot
+        in Nairobi received 505 crates of cedar-planks on day 296.\nLedger entry 136:
+        the depot in Quito received 542 crates of copper-wire on day 309.\nLedger
+        entry 137: the depot in Tallinn received 579 crates of ceramic-tiles on day
+        322.\nLedger entry 138: the depot in Perth received 616 crates of olive-oil
+        on day 335.\nLedger entry 139: the depot in Hanoi received 653 crates of bicycle-frames
+        on day 348.\nLedger entry 140: the depot in Bergen received 690 crates of
+        solar-panels on day 361.\nLedger entry 141: the depot in Tucson received 727
+        crates of wool-blankets on day 9.\nLedger entry 142: the depot in Accra received
+        764 crates of glass-jars on day 22.\nLedger entry 143: the depot in Cusco
+        received 801 crates of cedar-planks on day 35.\nLedger entry 144: the depot
+        in Lisbon received 838 crates of copper-wire on day 48.\nLedger entry 145:
+        the depot in Osaka received 875 crates of ceramic-tiles on day 61.\nLedger
+        entry 146: the depot in Denver received 12 crates of olive-oil on day 74.\nLedger
+        entry 147: the depot in Nairobi received 49 crates of bicycle-frames on day
+        87.\nLedger entry 148: the depot in Quito received 86 crates of solar-panels
+        on day 100.\nLedger entry 149: the depot in Tallinn received 123 crates of
+        wool-blankets on day 113.\nLedger entry 150: the depot in Perth received 160
+        crates of glass-jars on day 126.\nLedger entry 151: the depot in Hanoi received
+        197 crates of cedar-planks on day 139.\nLedger entry 152: the depot in Bergen
+        received 234 crates of copper-wire on day 152.\nLedger entry 153: the depot
+        in Tucson received 271 crates of ceramic-tiles on day 165.\nLedger entry 154:
+        the depot in Accra received 308 crates of olive-oil on day 178.\nLedger entry
+        155: the depot in Cusco received 345 crates of bicycle-frames on day 191.\nLedger
+        entry 156: the depot in Lisbon received 382 crates of solar-panels on day
+        204.\nLedger entry 157: the depot in Osaka received 419 crates of wool-blankets
+        on day 217.\nLedger entry 158: the depot in Denver received 456 crates of
+        glass-jars on day 230.\nLedger entry 159: the depot in Nairobi received 493
+        crates of cedar-planks on day 243.\nLedger entry 160: the depot in Quito received
+        530 crates of copper-wire on day 256."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_5","name":"read_ledger_page","input":{"key":"5"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_5","content":[{"type":"text","text":"Ledger
+        entry 161: the depot in Tallinn received 567 crates of ceramic-tiles on day
+        269.\nLedger entry 162: the depot in Perth received 604 crates of olive-oil
+        on day 282.\nLedger entry 163: the depot in Hanoi received 641 crates of bicycle-frames
+        on day 295.\nLedger entry 164: the depot in Bergen received 678 crates of
+        solar-panels on day 308.\nLedger entry 165: the depot in Tucson received 715
+        crates of wool-blankets on day 321.\nLedger entry 166: the depot in Accra
+        received 752 crates of glass-jars on day 334.\nLedger entry 167: the depot
+        in Cusco received 789 crates of cedar-planks on day 347.\nLedger entry 168:
+        the depot in Lisbon received 826 crates of copper-wire on day 360.\nLedger
+        entry 169: the depot in Osaka received 863 crates of ceramic-tiles on day
+        8.\nLedger entry 170: the depot in Denver received 900 crates of olive-oil
+        on day 21.\nLedger entry 171: the depot in Nairobi received 37 crates of bicycle-frames
+        on day 34.\nLedger entry 172: the depot in Quito received 74 crates of solar-panels
+        on day 47.\nLedger entry 173: the depot in Tallinn received 111 crates of
+        wool-blankets on day 60.\nLedger entry 174: the depot in Perth received 148
+        crates of glass-jars on day 73.\nLedger entry 175: the depot in Hanoi received
+        185 crates of cedar-planks on day 86.\nLedger entry 176: the depot in Bergen
+        received 222 crates of copper-wire on day 99.\nLedger entry 177: the depot
+        in Tucson received 259 crates of ceramic-tiles on day 112.\nLedger entry 178:
+        the depot in Accra received 296 crates of olive-oil on day 125.\nLedger entry
+        179: the depot in Cusco received 333 crates of bicycle-frames on day 138.\nLedger
+        entry 180: the depot in Lisbon received 370 crates of solar-panels on day
+        151.\nLedger entry 181: the depot in Osaka received 407 crates of wool-blankets
+        on day 164.\nLedger entry 182: the depot in Denver received 444 crates of
+        glass-jars on day 177.\nLedger entry 183: the depot in Nairobi received 481
+        crates of cedar-planks on day 190.\nLedger entry 184: the depot in Quito received
+        518 crates of copper-wire on day 203.\nLedger entry 185: the depot in Tallinn
+        received 555 crates of ceramic-tiles on day 216.\nLedger entry 186: the depot
+        in Perth received 592 crates of olive-oil on day 229.\nLedger entry 187: the
+        depot in Hanoi received 629 crates of bicycle-frames on day 242.\nLedger entry
+        188: the depot in Bergen received 666 crates of solar-panels on day 255.\nLedger
+        entry 189: the depot in Tucson received 703 crates of wool-blankets on day
+        268.\nLedger entry 190: the depot in Accra received 740 crates of glass-jars
+        on day 281.\nLedger entry 191: the depot in Cusco received 777 crates of cedar-planks
+        on day 294.\nLedger entry 192: the depot in Lisbon received 814 crates of
+        copper-wire on day 307.\nLedger entry 193: the depot in Osaka received 851
+        crates of ceramic-tiles on day 320.\nLedger entry 194: the depot in Denver
+        received 888 crates of olive-oil on day 333.\nLedger entry 195: the depot
+        in Nairobi received 25 crates of bicycle-frames on day 346.\nLedger entry
+        196: the depot in Quito received 62 crates of solar-panels on day 359.\nLedger
+        entry 197: the depot in Tallinn received 99 crates of wool-blankets on day
+        7.\nLedger entry 198: the depot in Perth received 136 crates of glass-jars
+        on day 20.\nLedger entry 199: the depot in Hanoi received 173 crates of cedar-planks
+        on day 33.\nLedger entry 200: the depot in Bergen received 210 crates of copper-wire
+        on day 46."}]}]},{"role":"assistant","content":[{"type":"tool_use","id":"toolu_ledger_6","name":"read_ledger_page","input":{"key":"6"}}]},{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_ledger_6","content":[{"type":"text","text":"Ledger
+        entry 201: the depot in Tucson received 247 crates of ceramic-tiles on day
+        59.\nLedger entry 202: the depot in Accra received 284 crates of olive-oil
+        on day 72.\nLedger entry 203: the depot in Cusco received 321 crates of bicycle-frames
+        on day 85.\nLedger entry 204: the depot in Lisbon received 358 crates of solar-panels
+        on day 98.\nLedger entry 205: the depot in Osaka received 395 crates of wool-blankets
+        on day 111.\nLedger entry 206: the depot in Denver received 432 crates of
+        glass-jars on day 124.\nLedger entry 207: the depot in Nairobi received 469
+        crates of cedar-planks on day 137.\nLedger entry 208: the depot in Quito received
+        506 crates of copper-wire on day 150.\nLedger entry 209: the depot in Tallinn
+        received 543 crates of ceramic-tiles on day 163.\nLedger entry 210: the depot
+        in Perth received 580 crates of olive-oil on day 176.\nLedger entry 211: the
+        depot in Hanoi received 617 crates of bicycle-frames on day 189.\nLedger entry
+        212: the depot in Bergen received 654 crates of solar-panels on day 202.\nLedger
+        entry 213: the depot in Tucson received 691 crates of wool-blankets on day
+        215.\nLedger entry 214: the depot in Accra received 728 crates of glass-jars
+        on day 228.\nLedger entry 215: the depot in Cusco received 765 crates of cedar-planks
+        on day 241.\nLedger entry 216: the depot in Lisbon received 802 crates of
+        copper-wire on day 254.\nLedger entry 217: the depot in Osaka received 839
+        crates of ceramic-tiles on day 267.\nLedger entry 218: the depot in Denver
+        received 876 crates of olive-oil on day 280.\nLedger entry 219: the depot
+        in Nairobi received 13 crates of bicycle-frames on day 293.\nLedger entry
+        220: the depot in Quito received 50 crates of solar-panels on day 306.\nLedger
+        entry 221: the depot in Tallinn received 87 crates of wool-blankets on day
+        319.\nLedger entry 222: the depot in Perth received 124 crates of glass-jars
+        on day 332.\nLedger entry 223: the depot in Hanoi received 161 crates of cedar-planks
+        on day 345.\nLedger entry 224: the depot in Bergen received 198 crates of
+        copper-wire on day 358.\nLedger entry 225: the depot in Tucson received 235
+        crates of ceramic-tiles on day 6.\nLedger entry 226: the depot in Accra received
+        272 crates of olive-oil on day 19.\nLedger entry 227: the depot in Cusco received
+        309 crates of bicycle-frames on day 32.\nLedger entry 228: the depot in Lisbon
+        received 346 crates of solar-panels on day 45.\nLedger entry 229: the depot
+        in Osaka received 383 crates of wool-blankets on day 58.\nLedger entry 230:
+        the depot in Denver received 420 crates of glass-jars on day 71.\nLedger entry
+        231: the depot in Nairobi received 457 crates of cedar-planks on day 84.\nLedger
+        entry 232: the depot in Quito received 494 crates of copper-wire on day 97.\nLedger
+        entry 233: the depot in Tallinn received 531 crates of ceramic-tiles on day
+        110.\nLedger entry 234: the depot in Perth received 568 crates of olive-oil
+        on day 123.\nLedger entry 235: the depot in Hanoi received 605 crates of bicycle-frames
+        on day 136.\nLedger entry 236: the depot in Bergen received 642 crates of
+        solar-panels on day 149.\nLedger entry 237: the depot in Tucson received 679
+        crates of wool-blankets on day 162.\nLedger entry 238: the depot in Accra
+        received 716 crates of glass-jars on day 175.\nLedger entry 239: the depot
+        in Cusco received 753 crates of cedar-planks on day 188.\nLedger entry 240:
+        the depot in Lisbon received 790 crates of copper-wire on day 201."}]},{"type":"text","text":"Without
+        calling any tool, name in one sentence the city of the last entry on page
+        6."}]},{"role":"assistant","content":[{"type":"text","text":"The last entry
+        on page 6, entry 240, is for the depot in Lisbon."}]},{"role":"user","content":[{"type":"text","text":"Which
+        page numbers did you read? One line."}]}],"max_tokens":300,"tools":[{"name":"read_ledger_page","description":"Read
+        one page of the shipping ledger by page number","input_schema":{"type":"object","properties":{"key":{"type":"string","description":"What
+        to look up"}},"required":["key"],"additionalProperties":false,"strict":true}}],"context_management":{"edits":[{"type":"clear_tool_uses_20250919","trigger":{"type":"input_tokens","value":3000},"keep":{"type":"tool_uses","value":2}}]}}'
+    headers:
+      User-Agent:
+      - Faraday v2.14.4
+      X-Amz-Date:
+      - 20261005T215616Z
+      X-Amz-Content-Sha256:
+      - d5864e7fbd030545b32898759de7830b2406453cc4d70554608a64ebac4172b6
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 21:56:17 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1682'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 8d276525-2870-433c-abe0-05abbd73c400
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1340'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '89'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '3757'
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJtb2RlbCI6ImNsYXVkZS1zb25uZXQtNS01IiwiaWQiOiJtc2dfYmRya19zdzJ5NDUyZ3lxbGQzY2RpaWlxZ3lpeHE0NWJwYWRldWV3N29oNHF2Y3U1YWZ1amlyc3ZhIiwidHlwZSI6Im1lc3NhZ2UiLCJyb2xlIjoiYXNzaXN0YW50IiwiY29udGVudCI6W3sidHlwZSI6InRoaW5raW5nIiwidGhpbmtpbmciOiIiLCJzaWduYXR1cmUiOiJDQVFTL3dRS0VnZ1NFQUVZQWpnQlFnaDBhR2x1YTJsdVp4SU1YbEs0N3Y4R2tIRWFsNi9lR2d6cDMydU9zYzFGd2N4TFJ0d2lNTEJsRExIMEpmQUtheU9PQ1kxbTR4eldBQ0F0L0VNOTE5TitXNFJlQ2xTOE1YYkdYM05jbjRrcTlnRmFqdEw3UVNxYUJPcjdaeXhYbUhVMHQ4bUNqbFd5VFFmdUJjRXRvbUhqNmJFQjZKWGdlTDRNRXpHZjFzbDQwYW96WFVHeEFxVXM3dU1mVEt1eGVCZW5OcU9WTi9vRUdpYnZlRlRwWGdncnVMRzREODBZZG54cjVVUUlUVXFlU0h1VE82RWJYUTV3WEN0WlR4R215Y2QxdkVqUzF3NFpZcFlMaU13OENlZW1tZW1jTXkrWVZDL2UzRUw3dFErT2dhMGk1ZVY1WHQ1L2hJSHlHMHYvNGIwT1BSS3ZNM29jSmV0eDY4MVNSK2o0U011U2grNlYwSlgrWUdQOFdsZmR3OEFOcVR3QnpkQXlnWFFUWCtYcm9BaVFhcHc3NjBWRVMrVFZ3ekE4b0trOVFKa3psQk9QTEs0M2N0NUZ4Y2N0S2tnbnZKbSs5NmFlVHIyVHVlYnhEVXdEUUtTY1k3UDByVFBTSUx2TzBOTENmY1NPZ3dMRmxmb2E0TXY4cnZTQjgxcm9vLzRrRE5XRXc1WkdqWFVTbEoxMG9ISlFlU2pXamVYcGc4MUh2UDJNb1BIWDR0ZW0vMjRReUV3MERXWXJQeW54S1I1RHA4U0dFdCtlb3FVaWdFWnd6d2pyYkpxYnNlaTNEdUx0UFVBV0FDUUNQWDIwOHhVWDZGWm5OSTlaSFFzNGRIK092N2FWc0xrQklHWlpTMHNSeGxFNWFwaFBMZ3JvL0ZWNzJWV2h3S2E1c2hvVjdjdlc1cTFVWHY4M2RXTmVaclk0NWtYcEVyYzFjWlhCUVZGdllPdm9LZ2Vrdmt4MVgwUmtaUTNMM0Y1aGVDYjgwWGdXdHpQNXQ0bnh2ckxxWmVuUFo0U2hFM0wvSlZ4eDRsZ0ZqdDVDV0t1REJySDhibEM4b2R3Vmx0QjJKZWlPanBQZ3YyWlNIQkN2eHR1VHBlc29sK055YitveVlwZENUTDhOUFo4WUFRPT0ifSx7InR5cGUiOiJ0ZXh0IiwidGV4dCI6IkkgcmVhZCBwYWdlcyAxLCAyLCAzLCA0LCA1IGFuZCA2LCBidXQgdGhlIHJlc3VsdHMgZm9yIHBhZ2VzIDHigJM0IHdlcmUgY2xlYXJlZCwgc28gb25seSBwYWdlcyA1IGFuZCA2IGFyZSBzdGlsbCB2aXNpYmxlIHRvIG1lLiJ9XSwiY29udGFpbmVyIjpudWxsLCJzdG9wX3JlYXNvbiI6ImVuZF90dXJuIiwic3RvcF9zZXF1ZW5jZSI6bnVsbCwic3RvcF9kZXRhaWxzIjpudWxsLCJ1c2FnZSI6eyJpbnB1dF90b2tlbnMiOjM3NTcsImNhY2hlX2NyZWF0aW9uX2lucHV0X3Rva2VucyI6MCwiY2FjaGVfcmVhZF9pbnB1dF90b2tlbnMiOjAsImNhY2hlX2NyZWF0aW9uIjp7ImVwaGVtZXJhbF81bV9pbnB1dF90b2tlbnMiOjAsImVwaGVtZXJhbF8xaF9pbnB1dF90b2tlbnMiOjB9LCJvdXRwdXRfdG9rZW5zIjo4OSwib3V0cHV0X3Rva2Vuc19kZXRhaWxzIjp7InRoaW5raW5nX3Rva2VucyI6MzB9LCJzZXJ2aWNlX3RpZXIiOiJzdGFuZGFyZCJ9LCJjb250ZXh0X21hbmFnZW1lbnQiOnsiYXBwbGllZF9lZGl0cyI6W3sidHlwZSI6ImNsZWFyX3Rvb2xfdXNlc18yMDI1MDkxOSIsImNsZWFyZWRfaW5wdXRfdG9rZW5zIjo1NjQ3LCJjbGVhcmVkX3Rvb2xfdXNlcyI6NH1dfX0=
+  recorded_at: Mon, 05 Oct 2026 21:56:17 GMT
+recorded_with: VCR 6.4.0

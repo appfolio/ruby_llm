@@ -282,6 +282,76 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
+  describe '#complete invoke_anthropic params normalization' do
+    let(:provider) { described_class.new(bedrock_config(api_key: 'k', secret_key: 's')) }
+    let(:model) do
+      instance_double(RubyLLM::Model::Info, id: 'us.anthropic.claude-sonnet-5', max_tokens: 4096, metadata: {},
+                                            provider: 'bedrock')
+    end
+    let(:protocol) { instance_double(RubyLLM::Protocols::InvokeAnthropic) }
+
+    before do
+      allow(RubyLLM::Protocols::InvokeAnthropic).to receive(:new).and_return(protocol)
+      allow(protocol).to receive(:complete)
+    end
+
+    it 'lifts additionalModelRequestFields to the top level and drops model/stream' do
+      params = { additionalModelRequestFields: { thinking: { type: 'adaptive' }, output_config: { effort: 'high' } },
+                 top_k: 5, model: 'x', stream: true }
+
+      provider.complete([], model: model, tools: {}, temperature: nil, params: params, protocol: :invoke_anthropic)
+
+      expect(protocol).to have_received(:complete).with(
+        [], hash_including(params: { thinking: { type: 'adaptive' }, output_config: { effort: 'high' }, top_k: 5 }),
+        any_args
+      )
+    end
+
+    it 'is selectable by config.bedrock_protocol too' do
+      config = bedrock_config(api_key: 'k', secret_key: 's').tap { |c| c.bedrock_protocol = :invoke_anthropic }
+
+      described_class.new(config).complete([], model: model, tools: {}, temperature: nil,
+                                               params: { additionalModelRequestFields: { top_k: 3 } })
+
+      expect(protocol).to have_received(:complete).with([], hash_including(params: { top_k: 3 }), any_args)
+    end
+  end
+
+  describe '#render' do
+    let(:provider) { described_class.new(bedrock_config(api_key: 'k', secret_key: 's')) }
+    let(:model) do
+      RubyLLM::Model::Info.new(
+        id: 'us.anthropic.claude-sonnet-5', name: 'Sonnet 5', provider: 'bedrock', family: 'claude',
+        created_at: nil, context_window: 200_000, max_output_tokens: 8192,
+        modalities: { input: [], output: [] }, capabilities: [], pricing: {}, metadata: {}
+      )
+    end
+
+    def edits
+      { edits: [{ type: 'clear_tool_uses_20250919' }] }
+    end
+
+    def render_body(**opts)
+      params = { additionalModelRequestFields: { context_management: edits }, model: 'x', stream: true }
+      provider.render([RubyLLM::Message.new(role: :user, content: 'hi')], tools: {}, temperature: nil, model: model,
+                                                                          params: params, **opts)
+    end
+
+    it 'renders the InvokeModel body complete would send, with Converse params lifted to the top level' do
+      body = render_body(protocol: :invoke_anthropic)
+
+      expect(body[:context_management]).to eq(edits)
+      expect(body.keys).not_to include(:model, :stream, :additionalModelRequestFields)
+    end
+
+    it 'leaves the default Converse body unchanged' do
+      body = render_body
+
+      expect(body[:additionalModelRequestFields]).to eq(context_management: edits)
+      expect(body).not_to have_key(:context_management)
+    end
+  end
+
   describe '#protocol_for' do
     def build_bedrock
       described_class.new(bedrock_config(api_key: 'k', secret_key: 's'))
