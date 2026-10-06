@@ -180,12 +180,20 @@ RSpec.describe RubyLLM::Protocols::Responses do
       .to raise_error(RubyLLM::BadRequestError, /'none' is not supported/)
   end
 
-  it 'replays every reasoning item through a tool round trip on openai.gpt-5.6-sol' do
-    chat, response = run_tool_loop('openai.gpt-5.6-sol')
-    replies = chat.messages.select { |msg| msg.role == :assistant }
+  # GPT-5.6 keeps today's behaviour: the request replays only the first reasoning item of a reply,
+  # and the parsed reply is plain String content with a single signature and no blocks.
+  it 'keeps the existing replay through a tool round trip on openai.gpt-5.6-sol' do
+    chat = chat_for('openai.gpt-5.6-sol').with_thinking(effort: 'high').with_tools(city_code_tool, calls: :one)
+    response = chat.ask('What is the internal code for Berlin? Use the city_code tool, then reply with the code.')
+    tool_reply = chat.messages.find { |msg| msg.role == :assistant && msg.tool_call? }
 
-    expect(replies.size).to be >= 2
-    expect_reasoning_replayed(replies)
-    expect(response.content.to_s).to match(/rain/i)
+    expect(tool_reply.content).to be_a(String)
+    expect(tool_reply.thinking&.blocks).to be_nil
+    expect(response.content).to be_a(String).and include('BER-7')
+
+    replayed = request_input(response).select { |item| item['type'] == 'reasoning' }
+    first = reasoning_items(tool_reply).first
+    expect(replayed).to eq(first ? [{ 'type' => 'reasoning', 'summary' => first['summary'],
+                                      'encrypted_content' => first['encrypted_content'] }] : [])
   end
 end

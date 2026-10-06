@@ -8,10 +8,12 @@ module RubyLLM
       module Streaming
         module_function
 
-        # Streamed text deltas (commentary included) accumulate into content as they arrive.
-        # Once the stream ends, a reply that needs its full item list (see Chat#output_items?)
-        # gets it as OutputItems, the same content a sync reply would hold.
+        # GPT-6 only: streamed text deltas (commentary included) accumulate into content as they
+        # arrive. Once the stream ends, a reply that needs its full item list (see
+        # Chat#output_items?) gets it as OutputItems, the same content a sync reply would hold.
         def stream_response(payload, additional_headers = {}, &)
+          return super unless gpt6_model?(model&.id)
+
           @streamed_output = nil
           @streamed_items = {}
           message = super
@@ -60,19 +62,22 @@ module RubyLLM
 
         def build_item_done_chunk(data)
           item = data['item']
-          (@streamed_items ||= {})[data['output_index']] = item unless data['output_index'].nil?
+          gpt6 = gpt6_model?(model&.id)
+          @streamed_items[data['output_index']] = item if gpt6 && @streamed_items && !data['output_index'].nil?
           return chunk unless item['type'] == 'reasoning' && item['encrypted_content']
+          return chunk thinking: Thinking.build(text: nil, signature: item['encrypted_content']) unless gpt6
 
           chunk thinking: Thinking.build(text: nil, signature: item['encrypted_content'], blocks: [item])
         end
 
         def build_completed_chunk(data)
           response = data['response'] || {}
-          @streamed_output = response['output']
+          gpt6 = gpt6_model?(model&.id || response['model'])
+          @streamed_output = response['output'] if gpt6
 
           chunk model_id: response['model'],
                 finish_reason: response.dig('incomplete_details', 'reason'),
-                **parse_usage(response['usage'] || {})
+                **parse_usage(response['usage'] || {}, gpt6:)
         end
 
         def chunk(content: nil, **attributes)

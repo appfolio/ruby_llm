@@ -21,9 +21,15 @@ RSpec.describe RubyLLM::Protocols::MantleResponses do
   end
 
   describe '#completion_url' do
-    it 'uses /openai/v1/responses for frontier openai.gpt-5.x and openai.gpt-6.x ids' do
-      %w[openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna openai.gpt-5.5
-         openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol].each do |id|
+    it 'uses /openai/v1/responses for frontier openai.gpt-5.x ids' do
+      %w[openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna openai.gpt-5.5].each do |id|
+        protocol = described_class.new(provider, model_info(id))
+        expect(protocol.completion_url).to eq('/openai/v1/responses')
+      end
+    end
+
+    it 'uses /openai/v1/responses for openai.gpt-6.x ids' do
+      %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol].each do |id|
         protocol = described_class.new(provider, model_info(id))
         expect(protocol.completion_url).to eq('/openai/v1/responses')
       end

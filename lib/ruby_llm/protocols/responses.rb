@@ -13,8 +13,12 @@ module RubyLLM
       include Responses::Tools
 
       # Compacts the conversation through the standalone /compact endpoint and returns the
-      # response.compaction object as an assistant Message holding OutputItems.
+      # response.compaction object as an assistant Message holding OutputItems. GPT-6 only.
       def compact(messages, headers: {})
+        unless gpt6_model?(model.id)
+          raise UnsupportedFeatureError, "Standalone compaction is only supported for GPT-6 models, not #{model.id}"
+        end
+
         compaction_response(render_compaction_payload(messages), headers)
       end
 

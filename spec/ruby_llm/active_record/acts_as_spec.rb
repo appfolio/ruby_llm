@@ -317,7 +317,17 @@ RSpec.describe RubyLLM::ActiveRecord::ActsAs do
       protocol = RubyLLM::Protocols::Responses.allocate
       payload = protocol.send(:render_payload, [reconstructed], tools: {}, temperature: nil, tool_prefs: nil,
                                                                 model: RubyLLM.models.find('gpt-6-sol'))
-      expect(payload[:input]).to eq(items)
+      expect(payload[:input]).to eq(items.drop(1))
+    end
+
+    it 'stores a plain string assistant reply exactly as before' do
+      chat = Chat.create!(model: 'gpt-6-sol')
+
+      message = chat.add_message(role: :assistant, content: 'Done.')
+
+      expect(message.reload.content).to eq('Done.')
+      expect(message.content_raw).to be_nil
+      expect(message.to_llm.content).to eq('Done.')
     end
 
     it 'round-trips cached token metrics through ActiveRecord models' do

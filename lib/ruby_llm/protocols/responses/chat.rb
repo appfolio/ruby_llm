@@ -16,9 +16,13 @@ module RubyLLM
         OPENAI_INLINE_FILE_LIMIT = 50 * 1024 * 1024
         OPENAI_FILE_UPLOAD_LIMIT = 512 * 1024 * 1024
 
-        # Output item types RubyLLM models directly. A reply holding any other type (e.g.
+        # Output item types RubyLLM models directly. A GPT-6 reply holding any other type (e.g.
         # compaction) keeps its full item list as OutputItems so it replays item-for-item.
         CLIENT_OUTPUT_ITEM_TYPES = %w[message reasoning function_call].freeze
+
+        # Full output-item handling (every reasoning item, OutputItems, compaction, cache-write
+        # accounting) applies only to GPT-6 ids; every other model keeps its existing behaviour.
+        GPT6_MODEL_PATTERN = /\A(?:openai\.)?gpt-6/
 
         module_function
 
@@ -29,7 +33,7 @@ module RubyLLM
           tool_prefs ||= {}
           payload = {
             model: model.id,
-            input: format_input(messages),
+            input: format_input(messages, gpt6: gpt6_model?(model.id)),
             instructions: format_instructions(messages),
             stream: stream,
             store: false
@@ -62,23 +66,32 @@ module RubyLLM
           raise Error.new(raw, data.dig('error', 'message')) if data.dig('error', 'message')
 
           output = data['output'] || []
-          content = parse_reply_content(output)
+          gpt6 = gpt6_model?(model&.id || data['model'])
+          content = parse_reply_content(output, gpt6:)
 
           Message.new(
             role: :assistant,
             content: content,
             citations: parse_output_citations(output, reply_text(content)),
-            thinking: Thinking.build(
-              text: parse_reasoning_summary(output),
-              signature: parse_reasoning_signature(output),
-              blocks: parse_reasoning_items(output)
-            ),
+            thinking: parse_thinking(output, gpt6:),
             tool_calls: parse_function_calls(output),
             model_id: data['model'],
             raw: raw,
             finish_reason: data.dig('incomplete_details', 'reason'),
-            **parse_usage(data['usage'] || {})
+            **parse_usage(data['usage'] || {}, gpt6:)
           )
+        end
+
+        def gpt6_model?(model_id)
+          model_id.to_s.match?(GPT6_MODEL_PATTERN)
+        end
+
+        def parse_thinking(output, gpt6:)
+          text = parse_reasoning_summary(output)
+          signature = parse_reasoning_signature(output)
+          return Thinking.build(text:, signature:) unless gpt6
+
+          Thinking.build(text:, signature:, blocks: parse_reasoning_items(output))
         end
 
         def parse_output_citations(output, content)
@@ -96,7 +109,7 @@ module RubyLLM
         def render_compaction_payload(messages)
           {
             model: model.id,
-            input: format_input(messages),
+            input: format_input(messages, gpt6: true),
             instructions: format_instructions(messages)
           }.compact
         end
@@ -113,12 +126,12 @@ module RubyLLM
             model_id: body['model'] || model.id,
             raw: response,
             finish_reason: 'stop',
-            **parse_usage(body['usage'] || {})
+            **parse_usage(body['usage'] || {}, gpt6: true)
           )
         end
 
-        def parse_reply_content(output)
-          output_items?(output) ? OutputItems.new(output) : parse_output_text(output)
+        def parse_reply_content(output, gpt6:)
+          gpt6 && output_items?(output) ? OutputItems.new(output) : parse_output_text(output)
         end
 
         def reply_text(content)
@@ -134,9 +147,11 @@ module RubyLLM
           end
         end
 
-        # input_tokens includes both cache reads and cache writes; each is billed at its own
+        # GPT-6 input_tokens includes both cache reads and cache writes; each is billed at its own
         # rate, so both come out of the plain input count.
-        def parse_usage(usage)
+        def parse_usage(usage, gpt6: false)
+          return parse_legacy_usage(usage) unless gpt6
+
           details = usage['input_tokens_details'] || {}
           cached = details['cached_tokens']
           cache_writes = details['cache_write_tokens']
@@ -147,6 +162,18 @@ module RubyLLM
             output_tokens: usage['output_tokens'],
             cached_tokens: cached,
             cache_creation_tokens: cache_writes,
+            thinking_tokens: usage.dig('output_tokens_details', 'reasoning_tokens')
+          }
+        end
+
+        def parse_legacy_usage(usage)
+          cached = usage.dig('input_tokens_details', 'cached_tokens')
+          input = usage['input_tokens']
+
+          {
+            input_tokens: input && [input.to_i - cached.to_i, 0].max,
+            output_tokens: usage['output_tokens'],
+            cached_tokens: cached,
             thinking_tokens: usage.dig('output_tokens_details', 'reasoning_tokens')
           }
         end
@@ -172,13 +199,16 @@ module RubyLLM
         # by the compacted items: a /compact response.compaction object's output, or a reply's own
         # items from its last compaction item on. Under store: false the server does not drop that
         # history itself. System messages travel as instructions, not input.
-        def format_input(messages)
-          messages.reject { |msg| msg.role == :system }.each_with_object([]) do |msg, input|
+        def format_input(messages, gpt6: false)
+          conversation = messages.reject { |msg| msg.role == :system }
+          return conversation.flat_map { |msg| format_item(msg) } unless gpt6
+
+          conversation.each_with_object([]) do |msg, input|
             compacted = compaction_items(msg.content)
             if compacted
               input.replace(compacted)
             else
-              input.concat([format_item(msg)].flatten(1))
+              input.concat([format_item(msg, gpt6: true)].flatten(1))
             end
           end
         end
@@ -194,7 +224,7 @@ module RubyLLM
           value[last..] if last
         end
 
-        def format_item(msg)
+        def format_item(msg, gpt6: false)
           case msg.role
           when :tool
             {
@@ -203,15 +233,23 @@ module RubyLLM
               output: format_content(msg.content)
             }
           when :assistant
-            format_assistant_items(msg)
+            gpt6 ? format_gpt6_assistant_items(msg) : format_assistant_items(msg)
           else
             { role: 'user', content: format_content(msg.content) }
           end
         end
 
+        def format_assistant_items(msg)
+          items = []
+          items << format_reasoning_item(msg.thinking) if msg.thinking&.signature
+          items << { role: 'assistant', content: format_output_content(msg) } unless empty_content?(msg.content)
+          items.concat(format_function_call_items(msg.tool_calls)) if msg.tool_call?
+          items
+        end
+
         # A reply kept as raw output items replays them verbatim, in order. The check takes the
         # base Content::Raw, which is what ActiveRecord-backed chats read stored raw content as.
-        def format_assistant_items(msg)
+        def format_gpt6_assistant_items(msg)
           return msg.content.value if msg.content.is_a?(RubyLLM::Content::Raw) && msg.content.value.is_a?(Array)
 
           items = format_reasoning_items(msg.thinking)
@@ -255,7 +293,7 @@ module RubyLLM
         end
 
         def format_output_content(msg)
-          text = msg.content.respond_to?(:text) ? msg.content.text : msg.content
+          text = msg.content.is_a?(Content) ? msg.content.text : msg.content
           text = text.to_json if text.is_a?(Hash) || text.is_a?(Array)
 
           [{ type: 'output_text', text: text }]
@@ -263,8 +301,7 @@ module RubyLLM
 
         def empty_content?(content)
           content.nil? || (content.is_a?(String) && content.strip.empty?) ||
-            (content.is_a?(Content) && content.text.nil?) ||
-            (content.is_a?(Content::Raw) && (!content.respond_to?(:text) || content.text.to_s.strip.empty?))
+            (content.is_a?(Content) && content.text.nil?)
         end
 
         def parse_output_text(output)
