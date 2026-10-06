@@ -1,0 +1,619 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-sol","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560.\nFact 121:
+        warehouse 121 stores 847 crates of item 1573.\nFact 122: warehouse 122 stores
+        854 crates of item 1586.\nFact 123: warehouse 123 stores 861 crates of item
+        1599.\nFact 124: warehouse 124 stores 868 crates of item 1612.\nFact 125:
+        warehouse 125 stores 875 crates of item 1625.\nFact 126: warehouse 126 stores
+        882 crates of item 1638.\nFact 127: warehouse 127 stores 889 crates of item
+        1651.\nFact 128: warehouse 128 stores 896 crates of item 1664.\nFact 129:
+        warehouse 129 stores 903 crates of item 1677.\nFact 130: warehouse 130 stores
+        910 crates of item 1690.\nFact 131: warehouse 131 stores 917 crates of item
+        1703.\nFact 132: warehouse 132 stores 924 crates of item 1716.\nFact 133:
+        warehouse 133 stores 931 crates of item 1729.\nFact 134: warehouse 134 stores
+        938 crates of item 1742.\nFact 135: warehouse 135 stores 945 crates of item
+        1755.\nFact 136: warehouse 136 stores 952 crates of item 1768.\nFact 137:
+        warehouse 137 stores 959 crates of item 1781.\nFact 138: warehouse 138 stores
+        966 crates of item 1794.\nFact 139: warehouse 139 stores 973 crates of item
+        1807.\nFact 140: warehouse 140 stores 980 crates of item 1820.\nFact 141:
+        warehouse 141 stores 987 crates of item 1833.\nFact 142: warehouse 142 stores
+        994 crates of item 1846.\nFact 143: warehouse 143 stores 1001 crates of item
+        1859.\nFact 144: warehouse 144 stores 1008 crates of item 1872.\nFact 145:
+        warehouse 145 stores 1015 crates of item 1885.\nFact 146: warehouse 146 stores
+        1022 crates of item 1898.\nFact 147: warehouse 147 stores 1029 crates of item
+        1911.\nFact 148: warehouse 148 stores 1036 crates of item 1924.\nFact 149:
+        warehouse 149 stores 1043 crates of item 1937.\nFact 150: warehouse 150 stores
+        1050 crates of item 1950.\nFact 151: warehouse 151 stores 1057 crates of item
+        1963.\nFact 152: warehouse 152 stores 1064 crates of item 1976.\nFact 153:
+        warehouse 153 stores 1071 crates of item 1989.\nFact 154: warehouse 154 stores
+        1078 crates of item 2002.\nFact 155: warehouse 155 stores 1085 crates of item
+        2015.\nFact 156: warehouse 156 stores 1092 crates of item 2028.\nFact 157:
+        warehouse 157 stores 1099 crates of item 2041.\nFact 158: warehouse 158 stores
+        1106 crates of item 2054.\nFact 159: warehouse 159 stores 1113 crates of item
+        2067.\nFact 160: warehouse 160 stores 1120 crates of item 2080.\nFact 161:
+        warehouse 161 stores 1127 crates of item 2093.\nFact 162: warehouse 162 stores
+        1134 crates of item 2106.\nFact 163: warehouse 163 stores 1141 crates of item
+        2119.\nFact 164: warehouse 164 stores 1148 crates of item 2132.\nFact 165:
+        warehouse 165 stores 1155 crates of item 2145.\nFact 166: warehouse 166 stores
+        1162 crates of item 2158.\nFact 167: warehouse 167 stores 1169 crates of item
+        2171.\nFact 168: warehouse 168 stores 1176 crates of item 2184.\nFact 169:
+        warehouse 169 stores 1183 crates of item 2197.\nFact 170: warehouse 170 stores
+        1190 crates of item 2210.\nFact 171: warehouse 171 stores 1197 crates of item
+        2223.\nFact 172: warehouse 172 stores 1204 crates of item 2236.\nFact 173:
+        warehouse 173 stores 1211 crates of item 2249.\nFact 174: warehouse 174 stores
+        1218 crates of item 2262.\nFact 175: warehouse 175 stores 1225 crates of item
+        2275.\nFact 176: warehouse 176 stores 1232 crates of item 2288.\nFact 177:
+        warehouse 177 stores 1239 crates of item 2301.\nFact 178: warehouse 178 stores
+        1246 crates of item 2314.\nFact 179: warehouse 179 stores 1253 crates of item
+        2327.\nFact 180: warehouse 180 stores 1260 crates of item 2340.\nFact 181:
+        warehouse 181 stores 1267 crates of item 2353.\nFact 182: warehouse 182 stores
+        1274 crates of item 2366.\nFact 183: warehouse 183 stores 1281 crates of item
+        2379.\nFact 184: warehouse 184 stores 1288 crates of item 2392.\nFact 185:
+        warehouse 185 stores 1295 crates of item 2405.\nFact 186: warehouse 186 stores
+        1302 crates of item 2418.\nFact 187: warehouse 187 stores 1309 crates of item
+        2431.\nFact 188: warehouse 188 stores 1316 crates of item 2444.\nFact 189:
+        warehouse 189 stores 1323 crates of item 2457.\nFact 190: warehouse 190 stores
+        1330 crates of item 2470.\nFact 191: warehouse 191 stores 1337 crates of item
+        2483.\nFact 192: warehouse 192 stores 1344 crates of item 2496.\nFact 193:
+        warehouse 193 stores 1351 crates of item 2509.\nFact 194: warehouse 194 stores
+        1358 crates of item 2522.\nFact 195: warehouse 195 stores 1365 crates of item
+        2535.\nFact 196: warehouse 196 stores 1372 crates of item 2548.\nFact 197:
+        warehouse 197 stores 1379 crates of item 2561.\nFact 198: warehouse 198 stores
+        1386 crates of item 2574.\nFact 199: warehouse 199 stores 1393 crates of item
+        2587.\nFact 200: warehouse 200 stores 1400 crates of item 2600.\nFact 201:
+        warehouse 201 stores 1407 crates of item 2613.\nFact 202: warehouse 202 stores
+        1414 crates of item 2626.\nFact 203: warehouse 203 stores 1421 crates of item
+        2639.\nFact 204: warehouse 204 stores 1428 crates of item 2652.\nFact 205:
+        warehouse 205 stores 1435 crates of item 2665.\nFact 206: warehouse 206 stores
+        1442 crates of item 2678.\nFact 207: warehouse 207 stores 1449 crates of item
+        2691.\nFact 208: warehouse 208 stores 1456 crates of item 2704.\nFact 209:
+        warehouse 209 stores 1463 crates of item 2717.\nFact 210: warehouse 210 stores
+        1470 crates of item 2730.\nFact 211: warehouse 211 stores 1477 crates of item
+        2743.\nFact 212: warehouse 212 stores 1484 crates of item 2756.\nFact 213:
+        warehouse 213 stores 1491 crates of item 2769.\nFact 214: warehouse 214 stores
+        1498 crates of item 2782.\nFact 215: warehouse 215 stores 1505 crates of item
+        2795.\nFact 216: warehouse 216 stores 1512 crates of item 2808.\nFact 217:
+        warehouse 217 stores 1519 crates of item 2821.\nFact 218: warehouse 218 stores
+        1526 crates of item 2834.\nFact 219: warehouse 219 stores 1533 crates of item
+        2847.\nFact 220: warehouse 220 stores 1540 crates of item 2860.\nFact 221:
+        warehouse 221 stores 1547 crates of item 2873.\nFact 222: warehouse 222 stores
+        1554 crates of item 2886.\nFact 223: warehouse 223 stores 1561 crates of item
+        2899.\nFact 224: warehouse 224 stores 1568 crates of item 2912.\nFact 225:
+        warehouse 225 stores 1575 crates of item 2925.\nFact 226: warehouse 226 stores
+        1582 crates of item 2938.\nFact 227: warehouse 227 stores 1589 crates of item
+        2951.\nFact 228: warehouse 228 stores 1596 crates of item 2964.\nFact 229:
+        warehouse 229 stores 1603 crates of item 2977.\nFact 230: warehouse 230 stores
+        1610 crates of item 2990.\nFact 231: warehouse 231 stores 1617 crates of item
+        3003.\nFact 232: warehouse 232 stores 1624 crates of item 3016.\nFact 233:
+        warehouse 233 stores 1631 crates of item 3029.\nFact 234: warehouse 234 stores
+        1638 crates of item 3042.\nFact 235: warehouse 235 stores 1645 crates of item
+        3055.\nFact 236: warehouse 236 stores 1652 crates of item 3068.\nFact 237:
+        warehouse 237 stores 1659 crates of item 3081.\nFact 238: warehouse 238 stores
+        1666 crates of item 3094.\nFact 239: warehouse 239 stores 1673 crates of item
+        3107.\nFact 240: warehouse 240 stores 1680 crates of item 3120.\nFact 241:
+        warehouse 241 stores 1687 crates of item 3133.\nFact 242: warehouse 242 stores
+        1694 crates of item 3146.\nFact 243: warehouse 243 stores 1701 crates of item
+        3159.\nFact 244: warehouse 244 stores 1708 crates of item 3172.\nFact 245:
+        warehouse 245 stores 1715 crates of item 3185.\nFact 246: warehouse 246 stores
+        1722 crates of item 3198.\nFact 247: warehouse 247 stores 1729 crates of item
+        3211.\nFact 248: warehouse 248 stores 1736 crates of item 3224.\nFact 249:
+        warehouse 249 stores 1743 crates of item 3237.\nFact 250: warehouse 250 stores
+        1750 crates of item 3250.\nFact 251: warehouse 251 stores 1757 crates of item
+        3263.\nFact 252: warehouse 252 stores 1764 crates of item 3276.\nFact 253:
+        warehouse 253 stores 1771 crates of item 3289.\nFact 254: warehouse 254 stores
+        1778 crates of item 3302.\nFact 255: warehouse 255 stores 1785 crates of item
+        3315.\nFact 256: warehouse 256 stores 1792 crates of item 3328.\nFact 257:
+        warehouse 257 stores 1799 crates of item 3341.\nFact 258: warehouse 258 stores
+        1806 crates of item 3354.\nFact 259: warehouse 259 stores 1813 crates of item
+        3367.\nFact 260: warehouse 260 stores 1820 crates of item 3380.\nFact 261:
+        warehouse 261 stores 1827 crates of item 3393.\nFact 262: warehouse 262 stores
+        1834 crates of item 3406.\nFact 263: warehouse 263 stores 1841 crates of item
+        3419.\nFact 264: warehouse 264 stores 1848 crates of item 3432.\nFact 265:
+        warehouse 265 stores 1855 crates of item 3445.\nFact 266: warehouse 266 stores
+        1862 crates of item 3458.\nFact 267: warehouse 267 stores 1869 crates of item
+        3471.\nFact 268: warehouse 268 stores 1876 crates of item 3484.\nFact 269:
+        warehouse 269 stores 1883 crates of item 3497.\nFact 270: warehouse 270 stores
+        1890 crates of item 3510.\nFact 271: warehouse 271 stores 1897 crates of item
+        3523.\nFact 272: warehouse 272 stores 1904 crates of item 3536.\nFact 273:
+        warehouse 273 stores 1911 crates of item 3549.\nFact 274: warehouse 274 stores
+        1918 crates of item 3562.\nFact 275: warehouse 275 stores 1925 crates of item
+        3575.\nFact 276: warehouse 276 stores 1932 crates of item 3588.\nFact 277:
+        warehouse 277 stores 1939 crates of item 3601.\nFact 278: warehouse 278 stores
+        1946 crates of item 3614.\nFact 279: warehouse 279 stores 1953 crates of item
+        3627.\nFact 280: warehouse 280 stores 1960 crates of item 3640.\nFact 281:
+        warehouse 281 stores 1967 crates of item 3653.\nFact 282: warehouse 282 stores
+        1974 crates of item 3666.\nFact 283: warehouse 283 stores 1981 crates of item
+        3679.\nFact 284: warehouse 284 stores 1988 crates of item 3692.\nFact 285:
+        warehouse 285 stores 1995 crates of item 3705.\nFact 286: warehouse 286 stores
+        2002 crates of item 3718.\nFact 287: warehouse 287 stores 2009 crates of item
+        3731.\nFact 288: warehouse 288 stores 2016 crates of item 3744.\nFact 289:
+        warehouse 289 stores 2023 crates of item 3757.\nFact 290: warehouse 290 stores
+        2030 crates of item 3770.\nFact 291: warehouse 291 stores 2037 crates of item
+        3783.\nFact 292: warehouse 292 stores 2044 crates of item 3796.\nFact 293:
+        warehouse 293 stores 2051 crates of item 3809.\nFact 294: warehouse 294 stores
+        2058 crates of item 3822.\nFact 295: warehouse 295 stores 2065 crates of item
+        3835.\nFact 296: warehouse 296 stores 2072 crates of item 3848.\nFact 297:
+        warehouse 297 stores 2079 crates of item 3861.\nFact 298: warehouse 298 stores
+        2086 crates of item 3874.\nFact 299: warehouse 299 stores 2093 crates of item
+        3887.\nFact 300: warehouse 300 stores 2100 crates of item 3900.\nFact 301:
+        warehouse 301 stores 2107 crates of item 3913.\nFact 302: warehouse 302 stores
+        2114 crates of item 3926.\nFact 303: warehouse 303 stores 2121 crates of item
+        3939.\nFact 304: warehouse 304 stores 2128 crates of item 3952.\nFact 305:
+        warehouse 305 stores 2135 crates of item 3965.\nFact 306: warehouse 306 stores
+        2142 crates of item 3978.\nFact 307: warehouse 307 stores 2149 crates of item
+        3991.\nFact 308: warehouse 308 stores 2156 crates of item 4004.\nFact 309:
+        warehouse 309 stores 2163 crates of item 4017.\nFact 310: warehouse 310 stores
+        2170 crates of item 4030.\nFact 311: warehouse 311 stores 2177 crates of item
+        4043.\nFact 312: warehouse 312 stores 2184 crates of item 4056.\nFact 313:
+        warehouse 313 stores 2191 crates of item 4069.\nFact 314: warehouse 314 stores
+        2198 crates of item 4082.\nFact 315: warehouse 315 stores 2205 crates of item
+        4095.\nFact 316: warehouse 316 stores 2212 crates of item 4108.\nFact 317:
+        warehouse 317 stores 2219 crates of item 4121.\nFact 318: warehouse 318 stores
+        2226 crates of item 4134.\nFact 319: warehouse 319 stores 2233 crates of item
+        4147.\nFact 320: warehouse 320 stores 2240 crates of item 4160.\nFact 321:
+        warehouse 321 stores 2247 crates of item 4173.\nFact 322: warehouse 322 stores
+        2254 crates of item 4186.\nFact 323: warehouse 323 stores 2261 crates of item
+        4199.\nFact 324: warehouse 324 stores 2268 crates of item 4212.\nFact 325:
+        warehouse 325 stores 2275 crates of item 4225.\nFact 326: warehouse 326 stores
+        2282 crates of item 4238.\nFact 327: warehouse 327 stores 2289 crates of item
+        4251.\nFact 328: warehouse 328 stores 2296 crates of item 4264.\nFact 329:
+        warehouse 329 stores 2303 crates of item 4277.\nFact 330: warehouse 330 stores
+        2310 crates of item 4290.\nFact 331: warehouse 331 stores 2317 crates of item
+        4303.\nFact 332: warehouse 332 stores 2324 crates of item 4316.\nFact 333:
+        warehouse 333 stores 2331 crates of item 4329.\nFact 334: warehouse 334 stores
+        2338 crates of item 4342.\nFact 335: warehouse 335 stores 2345 crates of item
+        4355.\nFact 336: warehouse 336 stores 2352 crates of item 4368.\nFact 337:
+        warehouse 337 stores 2359 crates of item 4381.\nFact 338: warehouse 338 stores
+        2366 crates of item 4394.\nFact 339: warehouse 339 stores 2373 crates of item
+        4407.\nFact 340: warehouse 340 stores 2380 crates of item 4420.\nFact 341:
+        warehouse 341 stores 2387 crates of item 4433.\nFact 342: warehouse 342 stores
+        2394 crates of item 4446.\nFact 343: warehouse 343 stores 2401 crates of item
+        4459.\nFact 344: warehouse 344 stores 2408 crates of item 4472.\nFact 345:
+        warehouse 345 stores 2415 crates of item 4485.\nFact 346: warehouse 346 stores
+        2422 crates of item 4498.\nFact 347: warehouse 347 stores 2429 crates of item
+        4511.\nFact 348: warehouse 348 stores 2436 crates of item 4524.\nFact 349:
+        warehouse 349 stores 2443 crates of item 4537.\nFact 350: warehouse 350 stores
+        2450 crates of item 4550.\n\nHow many crates does warehouse 3 store? Number
+        only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"prompt_cache_key":"ruby-llm-gpt6-cache-openai.gpt-6.1-sol"}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234748Z
+      X-Amz-Content-Sha256:
+      - 5d9048b86c021d58cada86103747c623aaf760336d66082d2928184af0bc9aa6
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:47:49 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1277'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791244069,"created_at":1791244068,"error":null,"frequency_penalty":0.0,"id":"resp_64essw4ua2pi53rjin23v2f4xozbjachon5fi66koidja4vfezwa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.1-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_4849aeca1a6b5503ab5626e635f6da5f","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"ruby-llm-gpt6-cache-openai.gpt-6.1-sol","prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":6100,"input_tokens_details":{"cache_write_tokens":6098,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":6105},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:47:49 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-sol","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560.\nFact 121:
+        warehouse 121 stores 847 crates of item 1573.\nFact 122: warehouse 122 stores
+        854 crates of item 1586.\nFact 123: warehouse 123 stores 861 crates of item
+        1599.\nFact 124: warehouse 124 stores 868 crates of item 1612.\nFact 125:
+        warehouse 125 stores 875 crates of item 1625.\nFact 126: warehouse 126 stores
+        882 crates of item 1638.\nFact 127: warehouse 127 stores 889 crates of item
+        1651.\nFact 128: warehouse 128 stores 896 crates of item 1664.\nFact 129:
+        warehouse 129 stores 903 crates of item 1677.\nFact 130: warehouse 130 stores
+        910 crates of item 1690.\nFact 131: warehouse 131 stores 917 crates of item
+        1703.\nFact 132: warehouse 132 stores 924 crates of item 1716.\nFact 133:
+        warehouse 133 stores 931 crates of item 1729.\nFact 134: warehouse 134 stores
+        938 crates of item 1742.\nFact 135: warehouse 135 stores 945 crates of item
+        1755.\nFact 136: warehouse 136 stores 952 crates of item 1768.\nFact 137:
+        warehouse 137 stores 959 crates of item 1781.\nFact 138: warehouse 138 stores
+        966 crates of item 1794.\nFact 139: warehouse 139 stores 973 crates of item
+        1807.\nFact 140: warehouse 140 stores 980 crates of item 1820.\nFact 141:
+        warehouse 141 stores 987 crates of item 1833.\nFact 142: warehouse 142 stores
+        994 crates of item 1846.\nFact 143: warehouse 143 stores 1001 crates of item
+        1859.\nFact 144: warehouse 144 stores 1008 crates of item 1872.\nFact 145:
+        warehouse 145 stores 1015 crates of item 1885.\nFact 146: warehouse 146 stores
+        1022 crates of item 1898.\nFact 147: warehouse 147 stores 1029 crates of item
+        1911.\nFact 148: warehouse 148 stores 1036 crates of item 1924.\nFact 149:
+        warehouse 149 stores 1043 crates of item 1937.\nFact 150: warehouse 150 stores
+        1050 crates of item 1950.\nFact 151: warehouse 151 stores 1057 crates of item
+        1963.\nFact 152: warehouse 152 stores 1064 crates of item 1976.\nFact 153:
+        warehouse 153 stores 1071 crates of item 1989.\nFact 154: warehouse 154 stores
+        1078 crates of item 2002.\nFact 155: warehouse 155 stores 1085 crates of item
+        2015.\nFact 156: warehouse 156 stores 1092 crates of item 2028.\nFact 157:
+        warehouse 157 stores 1099 crates of item 2041.\nFact 158: warehouse 158 stores
+        1106 crates of item 2054.\nFact 159: warehouse 159 stores 1113 crates of item
+        2067.\nFact 160: warehouse 160 stores 1120 crates of item 2080.\nFact 161:
+        warehouse 161 stores 1127 crates of item 2093.\nFact 162: warehouse 162 stores
+        1134 crates of item 2106.\nFact 163: warehouse 163 stores 1141 crates of item
+        2119.\nFact 164: warehouse 164 stores 1148 crates of item 2132.\nFact 165:
+        warehouse 165 stores 1155 crates of item 2145.\nFact 166: warehouse 166 stores
+        1162 crates of item 2158.\nFact 167: warehouse 167 stores 1169 crates of item
+        2171.\nFact 168: warehouse 168 stores 1176 crates of item 2184.\nFact 169:
+        warehouse 169 stores 1183 crates of item 2197.\nFact 170: warehouse 170 stores
+        1190 crates of item 2210.\nFact 171: warehouse 171 stores 1197 crates of item
+        2223.\nFact 172: warehouse 172 stores 1204 crates of item 2236.\nFact 173:
+        warehouse 173 stores 1211 crates of item 2249.\nFact 174: warehouse 174 stores
+        1218 crates of item 2262.\nFact 175: warehouse 175 stores 1225 crates of item
+        2275.\nFact 176: warehouse 176 stores 1232 crates of item 2288.\nFact 177:
+        warehouse 177 stores 1239 crates of item 2301.\nFact 178: warehouse 178 stores
+        1246 crates of item 2314.\nFact 179: warehouse 179 stores 1253 crates of item
+        2327.\nFact 180: warehouse 180 stores 1260 crates of item 2340.\nFact 181:
+        warehouse 181 stores 1267 crates of item 2353.\nFact 182: warehouse 182 stores
+        1274 crates of item 2366.\nFact 183: warehouse 183 stores 1281 crates of item
+        2379.\nFact 184: warehouse 184 stores 1288 crates of item 2392.\nFact 185:
+        warehouse 185 stores 1295 crates of item 2405.\nFact 186: warehouse 186 stores
+        1302 crates of item 2418.\nFact 187: warehouse 187 stores 1309 crates of item
+        2431.\nFact 188: warehouse 188 stores 1316 crates of item 2444.\nFact 189:
+        warehouse 189 stores 1323 crates of item 2457.\nFact 190: warehouse 190 stores
+        1330 crates of item 2470.\nFact 191: warehouse 191 stores 1337 crates of item
+        2483.\nFact 192: warehouse 192 stores 1344 crates of item 2496.\nFact 193:
+        warehouse 193 stores 1351 crates of item 2509.\nFact 194: warehouse 194 stores
+        1358 crates of item 2522.\nFact 195: warehouse 195 stores 1365 crates of item
+        2535.\nFact 196: warehouse 196 stores 1372 crates of item 2548.\nFact 197:
+        warehouse 197 stores 1379 crates of item 2561.\nFact 198: warehouse 198 stores
+        1386 crates of item 2574.\nFact 199: warehouse 199 stores 1393 crates of item
+        2587.\nFact 200: warehouse 200 stores 1400 crates of item 2600.\nFact 201:
+        warehouse 201 stores 1407 crates of item 2613.\nFact 202: warehouse 202 stores
+        1414 crates of item 2626.\nFact 203: warehouse 203 stores 1421 crates of item
+        2639.\nFact 204: warehouse 204 stores 1428 crates of item 2652.\nFact 205:
+        warehouse 205 stores 1435 crates of item 2665.\nFact 206: warehouse 206 stores
+        1442 crates of item 2678.\nFact 207: warehouse 207 stores 1449 crates of item
+        2691.\nFact 208: warehouse 208 stores 1456 crates of item 2704.\nFact 209:
+        warehouse 209 stores 1463 crates of item 2717.\nFact 210: warehouse 210 stores
+        1470 crates of item 2730.\nFact 211: warehouse 211 stores 1477 crates of item
+        2743.\nFact 212: warehouse 212 stores 1484 crates of item 2756.\nFact 213:
+        warehouse 213 stores 1491 crates of item 2769.\nFact 214: warehouse 214 stores
+        1498 crates of item 2782.\nFact 215: warehouse 215 stores 1505 crates of item
+        2795.\nFact 216: warehouse 216 stores 1512 crates of item 2808.\nFact 217:
+        warehouse 217 stores 1519 crates of item 2821.\nFact 218: warehouse 218 stores
+        1526 crates of item 2834.\nFact 219: warehouse 219 stores 1533 crates of item
+        2847.\nFact 220: warehouse 220 stores 1540 crates of item 2860.\nFact 221:
+        warehouse 221 stores 1547 crates of item 2873.\nFact 222: warehouse 222 stores
+        1554 crates of item 2886.\nFact 223: warehouse 223 stores 1561 crates of item
+        2899.\nFact 224: warehouse 224 stores 1568 crates of item 2912.\nFact 225:
+        warehouse 225 stores 1575 crates of item 2925.\nFact 226: warehouse 226 stores
+        1582 crates of item 2938.\nFact 227: warehouse 227 stores 1589 crates of item
+        2951.\nFact 228: warehouse 228 stores 1596 crates of item 2964.\nFact 229:
+        warehouse 229 stores 1603 crates of item 2977.\nFact 230: warehouse 230 stores
+        1610 crates of item 2990.\nFact 231: warehouse 231 stores 1617 crates of item
+        3003.\nFact 232: warehouse 232 stores 1624 crates of item 3016.\nFact 233:
+        warehouse 233 stores 1631 crates of item 3029.\nFact 234: warehouse 234 stores
+        1638 crates of item 3042.\nFact 235: warehouse 235 stores 1645 crates of item
+        3055.\nFact 236: warehouse 236 stores 1652 crates of item 3068.\nFact 237:
+        warehouse 237 stores 1659 crates of item 3081.\nFact 238: warehouse 238 stores
+        1666 crates of item 3094.\nFact 239: warehouse 239 stores 1673 crates of item
+        3107.\nFact 240: warehouse 240 stores 1680 crates of item 3120.\nFact 241:
+        warehouse 241 stores 1687 crates of item 3133.\nFact 242: warehouse 242 stores
+        1694 crates of item 3146.\nFact 243: warehouse 243 stores 1701 crates of item
+        3159.\nFact 244: warehouse 244 stores 1708 crates of item 3172.\nFact 245:
+        warehouse 245 stores 1715 crates of item 3185.\nFact 246: warehouse 246 stores
+        1722 crates of item 3198.\nFact 247: warehouse 247 stores 1729 crates of item
+        3211.\nFact 248: warehouse 248 stores 1736 crates of item 3224.\nFact 249:
+        warehouse 249 stores 1743 crates of item 3237.\nFact 250: warehouse 250 stores
+        1750 crates of item 3250.\nFact 251: warehouse 251 stores 1757 crates of item
+        3263.\nFact 252: warehouse 252 stores 1764 crates of item 3276.\nFact 253:
+        warehouse 253 stores 1771 crates of item 3289.\nFact 254: warehouse 254 stores
+        1778 crates of item 3302.\nFact 255: warehouse 255 stores 1785 crates of item
+        3315.\nFact 256: warehouse 256 stores 1792 crates of item 3328.\nFact 257:
+        warehouse 257 stores 1799 crates of item 3341.\nFact 258: warehouse 258 stores
+        1806 crates of item 3354.\nFact 259: warehouse 259 stores 1813 crates of item
+        3367.\nFact 260: warehouse 260 stores 1820 crates of item 3380.\nFact 261:
+        warehouse 261 stores 1827 crates of item 3393.\nFact 262: warehouse 262 stores
+        1834 crates of item 3406.\nFact 263: warehouse 263 stores 1841 crates of item
+        3419.\nFact 264: warehouse 264 stores 1848 crates of item 3432.\nFact 265:
+        warehouse 265 stores 1855 crates of item 3445.\nFact 266: warehouse 266 stores
+        1862 crates of item 3458.\nFact 267: warehouse 267 stores 1869 crates of item
+        3471.\nFact 268: warehouse 268 stores 1876 crates of item 3484.\nFact 269:
+        warehouse 269 stores 1883 crates of item 3497.\nFact 270: warehouse 270 stores
+        1890 crates of item 3510.\nFact 271: warehouse 271 stores 1897 crates of item
+        3523.\nFact 272: warehouse 272 stores 1904 crates of item 3536.\nFact 273:
+        warehouse 273 stores 1911 crates of item 3549.\nFact 274: warehouse 274 stores
+        1918 crates of item 3562.\nFact 275: warehouse 275 stores 1925 crates of item
+        3575.\nFact 276: warehouse 276 stores 1932 crates of item 3588.\nFact 277:
+        warehouse 277 stores 1939 crates of item 3601.\nFact 278: warehouse 278 stores
+        1946 crates of item 3614.\nFact 279: warehouse 279 stores 1953 crates of item
+        3627.\nFact 280: warehouse 280 stores 1960 crates of item 3640.\nFact 281:
+        warehouse 281 stores 1967 crates of item 3653.\nFact 282: warehouse 282 stores
+        1974 crates of item 3666.\nFact 283: warehouse 283 stores 1981 crates of item
+        3679.\nFact 284: warehouse 284 stores 1988 crates of item 3692.\nFact 285:
+        warehouse 285 stores 1995 crates of item 3705.\nFact 286: warehouse 286 stores
+        2002 crates of item 3718.\nFact 287: warehouse 287 stores 2009 crates of item
+        3731.\nFact 288: warehouse 288 stores 2016 crates of item 3744.\nFact 289:
+        warehouse 289 stores 2023 crates of item 3757.\nFact 290: warehouse 290 stores
+        2030 crates of item 3770.\nFact 291: warehouse 291 stores 2037 crates of item
+        3783.\nFact 292: warehouse 292 stores 2044 crates of item 3796.\nFact 293:
+        warehouse 293 stores 2051 crates of item 3809.\nFact 294: warehouse 294 stores
+        2058 crates of item 3822.\nFact 295: warehouse 295 stores 2065 crates of item
+        3835.\nFact 296: warehouse 296 stores 2072 crates of item 3848.\nFact 297:
+        warehouse 297 stores 2079 crates of item 3861.\nFact 298: warehouse 298 stores
+        2086 crates of item 3874.\nFact 299: warehouse 299 stores 2093 crates of item
+        3887.\nFact 300: warehouse 300 stores 2100 crates of item 3900.\nFact 301:
+        warehouse 301 stores 2107 crates of item 3913.\nFact 302: warehouse 302 stores
+        2114 crates of item 3926.\nFact 303: warehouse 303 stores 2121 crates of item
+        3939.\nFact 304: warehouse 304 stores 2128 crates of item 3952.\nFact 305:
+        warehouse 305 stores 2135 crates of item 3965.\nFact 306: warehouse 306 stores
+        2142 crates of item 3978.\nFact 307: warehouse 307 stores 2149 crates of item
+        3991.\nFact 308: warehouse 308 stores 2156 crates of item 4004.\nFact 309:
+        warehouse 309 stores 2163 crates of item 4017.\nFact 310: warehouse 310 stores
+        2170 crates of item 4030.\nFact 311: warehouse 311 stores 2177 crates of item
+        4043.\nFact 312: warehouse 312 stores 2184 crates of item 4056.\nFact 313:
+        warehouse 313 stores 2191 crates of item 4069.\nFact 314: warehouse 314 stores
+        2198 crates of item 4082.\nFact 315: warehouse 315 stores 2205 crates of item
+        4095.\nFact 316: warehouse 316 stores 2212 crates of item 4108.\nFact 317:
+        warehouse 317 stores 2219 crates of item 4121.\nFact 318: warehouse 318 stores
+        2226 crates of item 4134.\nFact 319: warehouse 319 stores 2233 crates of item
+        4147.\nFact 320: warehouse 320 stores 2240 crates of item 4160.\nFact 321:
+        warehouse 321 stores 2247 crates of item 4173.\nFact 322: warehouse 322 stores
+        2254 crates of item 4186.\nFact 323: warehouse 323 stores 2261 crates of item
+        4199.\nFact 324: warehouse 324 stores 2268 crates of item 4212.\nFact 325:
+        warehouse 325 stores 2275 crates of item 4225.\nFact 326: warehouse 326 stores
+        2282 crates of item 4238.\nFact 327: warehouse 327 stores 2289 crates of item
+        4251.\nFact 328: warehouse 328 stores 2296 crates of item 4264.\nFact 329:
+        warehouse 329 stores 2303 crates of item 4277.\nFact 330: warehouse 330 stores
+        2310 crates of item 4290.\nFact 331: warehouse 331 stores 2317 crates of item
+        4303.\nFact 332: warehouse 332 stores 2324 crates of item 4316.\nFact 333:
+        warehouse 333 stores 2331 crates of item 4329.\nFact 334: warehouse 334 stores
+        2338 crates of item 4342.\nFact 335: warehouse 335 stores 2345 crates of item
+        4355.\nFact 336: warehouse 336 stores 2352 crates of item 4368.\nFact 337:
+        warehouse 337 stores 2359 crates of item 4381.\nFact 338: warehouse 338 stores
+        2366 crates of item 4394.\nFact 339: warehouse 339 stores 2373 crates of item
+        4407.\nFact 340: warehouse 340 stores 2380 crates of item 4420.\nFact 341:
+        warehouse 341 stores 2387 crates of item 4433.\nFact 342: warehouse 342 stores
+        2394 crates of item 4446.\nFact 343: warehouse 343 stores 2401 crates of item
+        4459.\nFact 344: warehouse 344 stores 2408 crates of item 4472.\nFact 345:
+        warehouse 345 stores 2415 crates of item 4485.\nFact 346: warehouse 346 stores
+        2422 crates of item 4498.\nFact 347: warehouse 347 stores 2429 crates of item
+        4511.\nFact 348: warehouse 348 stores 2436 crates of item 4524.\nFact 349:
+        warehouse 349 stores 2443 crates of item 4537.\nFact 350: warehouse 350 stores
+        2450 crates of item 4550.\n\nHow many crates does warehouse 5 store? Number
+        only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"prompt_cache_key":"ruby-llm-gpt6-cache-openai.gpt-6.1-sol"}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234754Z
+      X-Amz-Content-Sha256:
+      - 5c41d7f69bc684f763b3b724a6decfbc34049301351766d311a97fd36ac95dbe
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:47:55 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1277'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791244075,"created_at":1791244074,"error":null,"frequency_penalty":0.0,"id":"resp_c3vnzked7jrfmobxxcq6f7sexembayfn5iucqccwlye2q74bppqa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.1-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"35","type":"output_text"}],"id":"msg_bd30ed5e791b5979adbff26febaeaf80","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":"ruby-llm-gpt6-cache-openai.gpt-6.1-sol","prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":6100,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":6098},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":6105},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:47:55 GMT
+recorded_with: VCR 6.4.0

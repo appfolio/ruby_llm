@@ -447,6 +447,15 @@
   "gpt-5.6-terra": {
     "bedrock": "openai.gpt-5.6-terra"
   },
+  "gpt-6-luna": {
+    "bedrock": "openai.gpt-6-luna"
+  },
+  "gpt-6-sol": {
+    "bedrock": "openai.gpt-6-sol"
+  },
+  "gpt-6.1-sol": {
+    "bedrock": "openai.gpt-6.1-sol"
+  },
   "gpt-audio": {
     "openai": "gpt-audio",
     "openrouter": "openai/gpt-audio"

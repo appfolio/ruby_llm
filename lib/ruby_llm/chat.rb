@@ -224,6 +224,13 @@ module RubyLLM
       response
     end
 
+    # Compacts the conversation through the provider's standalone compaction endpoint and
+    # returns the compaction Message without adding it to #messages; the caller decides
+    # whether to add it. Raises UnsupportedFeatureError for protocols without one.
+    def compact_context
+      @provider.compact(messages, model: @model, protocol: @protocol, headers: @headers)
+    end
+
     # The request this chat would send for its next completion.
     def render
       @provider.render(
@@ -361,9 +368,14 @@ module RubyLLM
     end
 
     def normalize_schema_response(response)
-      return unless @schema && response.content.is_a?(String) && !response.tool_call?
+      return unless @schema && !response.tool_call?
 
-      response.content = JSON.parse(response.content)
+      case response.content
+      when String
+        response.content = JSON.parse(response.content)
+      when RubyLLM::Protocols::Responses::OutputItems
+        response.content = JSON.parse(response.content.text)
+      end
     rescue JSON::ParserError
       # If parsing fails, keep content as string.
     end

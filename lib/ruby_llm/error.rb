@@ -27,6 +27,7 @@ module RubyLLM
   class InvalidRoleError < StandardError; end
   class InvalidToolChoiceError < StandardError; end
   class ModelNotFoundError < StandardError; end
+  class UnsupportedFeatureError < StandardError; end
 
   # Raised when RubyLLM cannot format an attachment for the selected provider.
   class UnsupportedAttachmentError < StandardError

@@ -4,6 +4,8 @@ require 'spec_helper'
 
 RSpec.describe RubyLLM::Protocols::Responses::Streaming do
   let(:protocol) { RubyLLM::Protocols::Responses.allocate }
+  let(:second_reasoning) { { 'type' => 'reasoning', 'id' => 'rs_2', 'encrypted_content' => 'ENC2' } }
+  let(:first_reasoning) { { 'type' => 'reasoning', 'id' => 'rs_1', 'encrypted_content' => 'ENC1' } }
 
   def build_chunk(data)
     protocol.send(:build_chunk, data)
@@ -54,6 +56,30 @@ RSpec.describe RubyLLM::Protocols::Responses::Streaming do
                         })
 
     expect(chunk.thinking.signature).to eq('ENCRYPTED')
+  end
+
+  def stream_reasoning_items(model_id)
+    protocol.instance_variable_set(:@model, instance_double(RubyLLM::Model::Info, id: model_id))
+    accumulator = RubyLLM::StreamAccumulator.new
+    [first_reasoning, second_reasoning].each_with_index do |item, index|
+      accumulator.add build_chunk({ 'type' => 'response.output_item.done', 'output_index' => index * 2,
+                                    'item' => item })
+    end
+    accumulator.to_message(instance_double(Faraday::Response, body: {}))
+  end
+
+  it 'accumulates every completed reasoning item as a thinking block, in order, for GPT-6' do
+    message = stream_reasoning_items('openai.gpt-6-sol')
+
+    expect(message.thinking.signature).to eq('ENC1')
+    expect(message.thinking.blocks).to eq([first_reasoning, second_reasoning])
+  end
+
+  it 'keeps only the first signature and no blocks for GPT-5.6 Sol' do
+    message = stream_reasoning_items('openai.gpt-5.6-sol')
+
+    expect(message.thinking.signature).to eq('ENC1')
+    expect(message.thinking.blocks).to be_nil
   end
 
   it 'reads usage and model from the completed event' do

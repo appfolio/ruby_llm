@@ -1,0 +1,159 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"My
+        favourite colour is teal. Reply with exactly: NOTED"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234334Z
+      X-Amz-Content-Sha256:
+      - 3a78c66009c98f8a77d529af849833cc8462bc37f7c9df6aafff60d4c250aac8
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:43:35 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2278'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243815,"created_at":1791243815,"error":null,"frequency_penalty":0.0,"id":"resp_jorhzlky76oz6l5zkwsebtipy6oof5gbtxocoghrcvc3k4fxoz3a","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeLaq5TUH9vBy2NnqLZojKeY6isVKD6Qj0MZeWL30eUcxAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBaVVXOUZia2RhZ0MrRmRyY29MaDJKNFp6WXNpc2FTWGZXTGwzQmNUOFI0N1BRY0tCZjdlTzdvOWZwdUJJUVdZV0E9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcP5FWqPo3fXwQcBOvbXvo10W9w6b9SKN2hi/+yATyexPQO0PepR8jRQ3zVYRyJeKKa+SYciN2RBfbmxPqTwbhJex0cSO99qcx8G/sXMhlGRvE8rl3w/CJHvmDonoCAAAQADF/dONV4N/Z3TfngQ4NHy79sPtLeiKTdaLTlkjrW8FE8J3IDt/FiPSBkfhkkU9X0/////8AAAABAAAAAAAAAAAAAAABAAAA3OxjEEt2eVrBdM/0pjy8wNnSkb8v98j+zKxpe8skrADS+xznW0l3k9p34RVFMdcoQaUDbbXy2EWIUAbm929kKj5O2mCQzOhXagBbrnrPWcgjEQPHZtSPdpP+tULH5c/wN25QBtUbifXS1DOzKFAefAyU95ihmggsL5RNha5h3ahi9tdZS9RRjYVy4h6tZQ3REw1m0D2W+EZn9UKhEEWHxAjv+mFcQAvzIKg0Ge4l0BIpVkjpbhG++1zYEQ2TRUk1vuOYJTodj6P9/DXIN0QUhdLKjy5q0jvX9ppssReea6yLUCgYUqAX8Uqke1gIAGcwZQIwHYJ2RxUwhj8vgMP+EUyFjIfGAX5S9rkgKaEvSCaiAW8dUyxQgz98nNfuBYNbJd9UAjEAihXhCNx4xN2p9Z2AA5g/PWHl5GVzVGe/UBRXB+7mhtWopDEM7+6iOoF5xeUQslPF","id":"rs_34a5b0bf15d550658dd1a5c689c5d1c9","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"NOTED","type":"output_text"}],"id":"msg_cb06d60869a75b2e81f810f6ac966dfc","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":18,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":17,"output_tokens_details":{"reasoning_tokens":9},"total_tokens":35},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:43:35 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses/compact
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"My
+        favourite colour is teal. Reply with exactly: NOTED"},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeLaq5TUH9vBy2NnqLZojKeY6isVKD6Qj0MZeWL30eUcxAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBaVVXOUZia2RhZ0MrRmRyY29MaDJKNFp6WXNpc2FTWGZXTGwzQmNUOFI0N1BRY0tCZjdlTzdvOWZwdUJJUVdZV0E9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcP5FWqPo3fXwQcBOvbXvo10W9w6b9SKN2hi/+yATyexPQO0PepR8jRQ3zVYRyJeKKa+SYciN2RBfbmxPqTwbhJex0cSO99qcx8G/sXMhlGRvE8rl3w/CJHvmDonoCAAAQADF/dONV4N/Z3TfngQ4NHy79sPtLeiKTdaLTlkjrW8FE8J3IDt/FiPSBkfhkkU9X0/////8AAAABAAAAAAAAAAAAAAABAAAA3OxjEEt2eVrBdM/0pjy8wNnSkb8v98j+zKxpe8skrADS+xznW0l3k9p34RVFMdcoQaUDbbXy2EWIUAbm929kKj5O2mCQzOhXagBbrnrPWcgjEQPHZtSPdpP+tULH5c/wN25QBtUbifXS1DOzKFAefAyU95ihmggsL5RNha5h3ahi9tdZS9RRjYVy4h6tZQ3REw1m0D2W+EZn9UKhEEWHxAjv+mFcQAvzIKg0Ge4l0BIpVkjpbhG++1zYEQ2TRUk1vuOYJTodj6P9/DXIN0QUhdLKjy5q0jvX9ppssReea6yLUCgYUqAX8Uqke1gIAGcwZQIwHYJ2RxUwhj8vgMP+EUyFjIfGAX5S9rkgKaEvSCaiAW8dUyxQgz98nNfuBYNbJd9UAjEAihXhCNx4xN2p9Z2AA5g/PWHl5GVzVGe/UBRXB+7mhtWopDEM7+6iOoF5xeUQslPF","id":"rs_34a5b0bf15d550658dd1a5c689c5d1c9","summary":[],"type":"reasoning"},{"role":"assistant","content":[{"type":"output_text","text":"NOTED"}]}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234335Z
+      X-Amz-Content-Sha256:
+      - 2d052bc3ffac9b795c6ec00d7f99907177ac75e8d705c84d6fd3b837c00d7411
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:43:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1489'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"created_at":1791243815,"id":"resp_tkbt7vyuga32ys2al7xo4kvxlj4kgjotsozbkhfu2jxerwdwnw7a","object":"response.compaction","output":[{"encrypted_content":"smry_rru6BQHgUc/VWS5vRIAlHwIFeM0vl0esrnzK8CO8AXvdqS6GV2Wv27Dm7hZarB2l7WJgAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNmFpaWVRN0ZwTisxVDA4T0hLYm5Sd0xBZ1h1S1k4UzNnNTk2RE5LOEZGQUw0TUJUOXhDaG9UZ3Z6NWwzaTQ0YXc9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcTfsaJrihnGnCF4TBGRgpgtdUSE89dTIBxZ2fwgTyexPQO0PepR8jRQ3zVYTgdE3D+t+w54z+7bg07UDx3inUOFMUEC2P5FdlXMKCNAFtKOVntTpreR4HMx+VgZwCAAAQAF0PtbTtTzFtnTIrMs5FMRyNymZzNT5BY8qrXARkiMWCv1cyew58/I6fKMguadtL/v////8AAAABAAAAAAAAAAAAAAABAAABQmcDbuarsWG5PVYuEdM/JHVf8IgGAvEGtGyGs0boqk4KPnyJIpzC05ggnusaTvQVw31BY04fCeaIFOMqzyFrL/JpU/VbJId4zy+TRO+fFJMLVAbKINsUNqVfDLFQ35Hj5SI4e6Sf46vpZBDH+VUXZ6WyULpIOnKjmo+PdxhAuHIjIzw0SCZ8j+rQPw4ynBZpM1e3jMHrRcuIhVBJv5in7T4WBJSTuno7dzQRA95Tl8HxXZnTY5JifgpmaThKG0B1OhrR+VNqOkNfvxAdyjqImAmQX9C1nPu7sPMl55PYJIwmVJgci0gqMbC0TF32/yowTizFSSokFPZz3JbrIjZramhgymud+p16tQ3vlJHlxoq4lg42Y2cEv1t1Abl2+fR758JKu5/Wah/SVkHjrT0/ttRZocy5bxwWdqA/Ek7OejpgxcEF/NKZZVbdmHP6Q+tNp3cQAGcwZQIxAMrQY03CvGyBv31Vw1TchY2Xe/2O1jCy7sd69IlGwnCgpXlfRedfXs1cVVPU7bU3uAIwHp0vgB8HXT0AzhI6hobFgiBllo6jONjyNMlEmQlI7zgh44GV9xKgcWwlM8nPNDFm","id":"cmp_resp_tkbt7vyuga32ys2al7xo4kvxlj4kgjotsozbkhfu2jxerwdwnw7a","type":"compaction"}],"usage":{"input_tokens":44,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":35,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":79}}'
+  recorded_at: Mon, 05 Oct 2026 23:43:36 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"encrypted_content":"smry_rru6BQHgUc/VWS5vRIAlHwIFeM0vl0esrnzK8CO8AXvdqS6GV2Wv27Dm7hZarB2l7WJgAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNmFpaWVRN0ZwTisxVDA4T0hLYm5Sd0xBZ1h1S1k4UzNnNTk2RE5LOEZGQUw0TUJUOXhDaG9UZ3Z6NWwzaTQ0YXc9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcTfsaJrihnGnCF4TBGRgpgtdUSE89dTIBxZ2fwgTyexPQO0PepR8jRQ3zVYTgdE3D+t+w54z+7bg07UDx3inUOFMUEC2P5FdlXMKCNAFtKOVntTpreR4HMx+VgZwCAAAQAF0PtbTtTzFtnTIrMs5FMRyNymZzNT5BY8qrXARkiMWCv1cyew58/I6fKMguadtL/v////8AAAABAAAAAAAAAAAAAAABAAABQmcDbuarsWG5PVYuEdM/JHVf8IgGAvEGtGyGs0boqk4KPnyJIpzC05ggnusaTvQVw31BY04fCeaIFOMqzyFrL/JpU/VbJId4zy+TRO+fFJMLVAbKINsUNqVfDLFQ35Hj5SI4e6Sf46vpZBDH+VUXZ6WyULpIOnKjmo+PdxhAuHIjIzw0SCZ8j+rQPw4ynBZpM1e3jMHrRcuIhVBJv5in7T4WBJSTuno7dzQRA95Tl8HxXZnTY5JifgpmaThKG0B1OhrR+VNqOkNfvxAdyjqImAmQX9C1nPu7sPMl55PYJIwmVJgci0gqMbC0TF32/yowTizFSSokFPZz3JbrIjZramhgymud+p16tQ3vlJHlxoq4lg42Y2cEv1t1Abl2+fR758JKu5/Wah/SVkHjrT0/ttRZocy5bxwWdqA/Ek7OejpgxcEF/NKZZVbdmHP6Q+tNp3cQAGcwZQIxAMrQY03CvGyBv31Vw1TchY2Xe/2O1jCy7sd69IlGwnCgpXlfRedfXs1cVVPU7bU3uAIwHp0vgB8HXT0AzhI6hobFgiBllo6jONjyNMlEmQlI7zgh44GV9xKgcWwlM8nPNDFm","id":"cmp_resp_tkbt7vyuga32ys2al7xo4kvxlj4kgjotsozbkhfu2jxerwdwnw7a","type":"compaction"},{"role":"user","content":"What
+        is my favourite colour? Reply with one word."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234336Z
+      X-Amz-Content-Sha256:
+      - 5ae970f0ec466d1499242fc1b6cb877bc9b3d1fa2e2fd5dee32bfda409341e02
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:43:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1235'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243816,"created_at":1791243816,"error":null,"frequency_penalty":0.0,"id":"resp_hpzrivnpdcyrl2shevw7ezzu7vfvuwqdn6izfu6heaxczttn3lha","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"Teal","type":"output_text"}],"id":"msg_3b55ac9de0455236a09f19f9c176fcb5","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":54,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":6,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":60},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:43:37 GMT
+recorded_with: VCR 6.4.0

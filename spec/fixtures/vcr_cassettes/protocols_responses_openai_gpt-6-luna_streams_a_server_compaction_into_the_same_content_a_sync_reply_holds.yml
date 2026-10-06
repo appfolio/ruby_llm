@@ -1,0 +1,310 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560."},{"role":"user","content":"How
+        many crates does warehouse 3 store? Answer with the number only."}],"stream":true,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234328Z
+      X-Amz-Content-Sha256:
+      - deb3ba21e9e7f8559efa8e180f731c9d4d1edde7e24863ac285a1ad193872145
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:43:29 GMT
+      Content-Type:
+      - text/event-stream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Cache-Control:
+      - no-cache
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: |+
+        data: {"response":{"background":false,"completed_at":null,"created_at":1791243809,"error":null,"frequency_penalty":0.0,"id":"resp_txicttbxu5mac43hnfmvgcrj72t7fyft5omvhvntn6rsizkn5goa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"auto","status":"in_progress","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"moderation":null},"sequence_number":0,"type":"response.created"}
+        event: response.created
+
+        data: {"response":{"background":false,"completed_at":null,"created_at":1791243809,"error":null,"frequency_penalty":0.0,"id":"resp_txicttbxu5mac43hnfmvgcrj72t7fyft5omvhvntn6rsizkn5goa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"auto","status":"in_progress","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":null,"user":null,"moderation":null},"sequence_number":1,"type":"response.in_progress"}
+        event: response.in_progress
+
+        data: {"item":{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFePhOA/W2vzIgfuJ6iuTW4OuFnJozQlhiiPDwKtQRn9UiAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBd2w5K1BUelpTdk5IMWVHVU1kKy9Cbi80Mm4wdG1PNFA3bE5vUTlsanQ1b2lnT3FueXc3K1lNUFV3UmlpemdCYlE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBc0WK1j4LR73jJ2bjUeIl7tGcy59XSMS+qGh/jAwTyexPQO0PepR8jRQ3zVYRKhwZ4os1c0ffkalueb17ykqJbUTcV0RrIGBr232BbLnfC4jg/wgXimaJhiA4ql5QCAAAQAIaN0IwflfCRWut++JZqV3zHojXkfQF2rVa8zSy9dfAepAHCPZh+FIHs1rDKZeWx6v////8AAAABAAAAAAAAAAAAAAABAAAA3gSHwTted1med+jxcE9/1Nw/4/oQJDd9bHNFuTzOvwyCWl5fd/rsctMPFLPVjvv0Qwg+up60JMFfxVC3amzn3s0dTREVFO/T6WQ60QfBxHppBJa5L+y7xE83sy6e1qsWWry/Jat7wj8OeiXBZrzA72f4iJ2eQ+pUBLe6OCQlpBQzmvTuszQzCF9108xs+TySatoGII6gXatde9YcDBbFnFsUUZt0AQclUffH0Xjz4DqLcJhQG+phXLHTYaqhX4tyCDlc3f9DUdfFpz4ulonjaVY/Y6vU3dbN0gxiSeP+M7nqfH0PR0kRUnB+FH0vTJgAZzBlAjAcyroX3TTaRvCeUmf//XdYALHpDRxZg1Sv7FxLoYpi0xQPHBdnB7MaeJOyx4yqTgMCMQDS5iv0FzNoWl2ZD0SD9Zg8p/O04FcWPhN8XQBFYjGN0aKhkLy5DcH/Sp4Oyh7MGcE=","id":"cmp_74184663ae8d59778cd9cd40876cb736","type":"compaction"},"output_index":0,"sequence_number":2,"type":"response.output_item.added"}
+        event: response.output_item.added
+
+        data: {"item":{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeNGmVRvPjGcxJvtLyYvu1MXacVBZvS8bCMj3/9YVbxYdAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBeWQwZnNVQXozdmE3YlpreUJQcGZ5WWZRNlBycyt0UG9oTURNbEtxb0VBR1pIUXl2c05LNjh5M3BGVUhZejNZc2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcBEJCwU2jGXDsY9EKyntQWapDdLMSCwMk6JtPmgTyexPQO0PepR8jRQ3zVYR6176zCaY/mJ/Xlcx2b4y+ky5G0Atg+1fp3Nvy1epnEOMAlFZ/82bYmW/czFhwoEICAAAQAFuCJg+bTUeK1P1yaQq1UBTF/yvxV4cYEViGTLpSgUQHSbY+h3eaisqYsC09Ra7Kcv////8AAAABAAAAAAAAAAAAAAABAAABexSfWXRp7RBT9+HUwh2dsONre4dlDbu56bgD+BWlNZ/KrXYqJd77QvKsAGpsq3jWut1WbP4YOra2HKSTIjjYtkhI5+jSdDnvU7v0di7tVXgRH3/29sPaG1zU5X2AHeHBNi0a20UakCcq3ijRz+6lJtX99YLiZMcFoXGO65PULEOx0ULqBVG+8LUqDFaC/X7Sl03LcPg1njY4cZf2kA+xiggioy5WUUwoypbOTaokJ7hH9/ORi/In3uEAA0gi9UX87sA0GrWOl6JnaNo7JBxTiycjchezd69L9JBBMYaRVlTj1RUe1pupHYvj4kX8opVqjHPCpYOVMcrrP52EtiUKHlSbQpEmc8P1+/YhtQTxWqfAlgiLlU/+YkJ4RW4UP0OzB8Ymy6jEnRyvfRoNWTvypDQAsPz5Q6SLjDhntcPEUKYCI/rM36Upzzgc3QcmZhCN6DHcrRF7tpw/b7UZr3hJZn/HyTbBvi1S9GIY4qyVWXE8FhtbBgMYID1i6qixCXe6UcK0FltRHNOZolRsAGcwZQIxAPlWQKXOjHCrEaxWOK3jb8PiBQlb5euWsKfs8/1rM0TExVUeOfWvb8wuYWunZT9a9AIwKz2qokzhhh7234WVF3LCH9RkQ5aSoC8XQ1327Z6Ajq/AgHVVZMpwtTG8qK1gfxLn","id":"cmp_74184663ae8d59778cd9cd40876cb736","type":"compaction"},"output_index":0,"sequence_number":3,"type":"response.output_item.done"}
+        event: response.output_item.done
+
+        data: {"item":{"content":[],"id":"msg_db42acaf6db5579aae6a515260ab622b","phase":"final_answer","role":"assistant","status":"in_progress","type":"message"},"output_index":1,"sequence_number":4,"type":"response.output_item.added"}
+        event: response.output_item.added
+
+        data: {"content_index":0,"item_id":"msg_db42acaf6db5579aae6a515260ab622b","output_index":1,"part":{"annotations":[],"logprobs":[],"text":"","type":"output_text"},"sequence_number":5,"type":"response.content_part.added"}
+        event: response.content_part.added
+
+        data: {"content_index":0,"delta":"21","item_id":"msg_db42acaf6db5579aae6a515260ab622b","logprobs":[],"obfuscation":"abcdefghijklmnopqrstu","output_index":1,"sequence_number":6,"type":"response.output_text.delta"}
+        event: response.output_text.delta
+
+        data: {"content_index":0,"item_id":"msg_db42acaf6db5579aae6a515260ab622b","logprobs":[],"output_index":1,"sequence_number":7,"text":"21","type":"response.output_text.done"}
+        event: response.output_text.done
+
+        data: {"content_index":0,"item_id":"msg_db42acaf6db5579aae6a515260ab622b","output_index":1,"part":{"annotations":[],"logprobs":[],"text":"21","type":"output_text"},"sequence_number":8,"type":"response.content_part.done"}
+        event: response.content_part.done
+
+        data: {"item":{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_db42acaf6db5579aae6a515260ab622b","phase":"final_answer","role":"assistant","status":"completed","type":"message"},"output_index":1,"sequence_number":9,"type":"response.output_item.done"}
+        event: response.output_item.done
+
+        data: {"response":{"background":false,"completed_at":1791243811,"created_at":1791243809,"error":null,"frequency_penalty":0.0,"id":"resp_txicttbxu5mac43hnfmvgcrj72t7fyft5omvhvntn6rsizkn5goa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeNGmVRvPjGcxJvtLyYvu1MXacVBZvS8bCMj3/9YVbxYdAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBeWQwZnNVQXozdmE3YlpreUJQcGZ5WWZRNlBycyt0UG9oTURNbEtxb0VBR1pIUXl2c05LNjh5M3BGVUhZejNZc2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcBEJCwU2jGXDsY9EKyntQWapDdLMSCwMk6JtPmgTyexPQO0PepR8jRQ3zVYR6176zCaY/mJ/Xlcx2b4y+ky5G0Atg+1fp3Nvy1epnEOMAlFZ/82bYmW/czFhwoEICAAAQAFuCJg+bTUeK1P1yaQq1UBTF/yvxV4cYEViGTLpSgUQHSbY+h3eaisqYsC09Ra7Kcv////8AAAABAAAAAAAAAAAAAAABAAABexSfWXRp7RBT9+HUwh2dsONre4dlDbu56bgD+BWlNZ/KrXYqJd77QvKsAGpsq3jWut1WbP4YOra2HKSTIjjYtkhI5+jSdDnvU7v0di7tVXgRH3/29sPaG1zU5X2AHeHBNi0a20UakCcq3ijRz+6lJtX99YLiZMcFoXGO65PULEOx0ULqBVG+8LUqDFaC/X7Sl03LcPg1njY4cZf2kA+xiggioy5WUUwoypbOTaokJ7hH9/ORi/In3uEAA0gi9UX87sA0GrWOl6JnaNo7JBxTiycjchezd69L9JBBMYaRVlTj1RUe1pupHYvj4kX8opVqjHPCpYOVMcrrP52EtiUKHlSbQpEmc8P1+/YhtQTxWqfAlgiLlU/+YkJ4RW4UP0OzB8Ymy6jEnRyvfRoNWTvypDQAsPz5Q6SLjDhntcPEUKYCI/rM36Upzzgc3QcmZhCN6DHcrRF7tpw/b7UZr3hJZn/HyTbBvi1S9GIY4qyVWXE8FhtbBgMYID1i6qixCXe6UcK0FltRHNOZolRsAGcwZQIxAPlWQKXOjHCrEaxWOK3jb8PiBQlb5euWsKfs8/1rM0TExVUeOfWvb8wuYWunZT9a9AIwKz2qokzhhh7234WVF3LCH9RkQ5aSoC8XQ1327Z6Ajq/AgHVVZMpwtTG8qK1gfxLn","id":"cmp_74184663ae8d59778cd9cd40876cb736","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_db42acaf6db5579aae6a515260ab622b","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":1989,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":47,"output_tokens_details":{"reasoning_tokens":42},"total_tokens":2036},"user":null,"moderation":null},"sequence_number":10,"type":"response.completed"}
+        event: response.completed
+
+  recorded_at: Mon, 05 Oct 2026 23:43:31 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560."},{"role":"user","content":"How
+        many crates does warehouse 3 store? Answer with the number only."},{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeNGmVRvPjGcxJvtLyYvu1MXacVBZvS8bCMj3/9YVbxYdAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBeWQwZnNVQXozdmE3YlpreUJQcGZ5WWZRNlBycyt0UG9oTURNbEtxb0VBR1pIUXl2c05LNjh5M3BGVUhZejNZc2c9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcBEJCwU2jGXDsY9EKyntQWapDdLMSCwMk6JtPmgTyexPQO0PepR8jRQ3zVYR6176zCaY/mJ/Xlcx2b4y+ky5G0Atg+1fp3Nvy1epnEOMAlFZ/82bYmW/czFhwoEICAAAQAFuCJg+bTUeK1P1yaQq1UBTF/yvxV4cYEViGTLpSgUQHSbY+h3eaisqYsC09Ra7Kcv////8AAAABAAAAAAAAAAAAAAABAAABexSfWXRp7RBT9+HUwh2dsONre4dlDbu56bgD+BWlNZ/KrXYqJd77QvKsAGpsq3jWut1WbP4YOra2HKSTIjjYtkhI5+jSdDnvU7v0di7tVXgRH3/29sPaG1zU5X2AHeHBNi0a20UakCcq3ijRz+6lJtX99YLiZMcFoXGO65PULEOx0ULqBVG+8LUqDFaC/X7Sl03LcPg1njY4cZf2kA+xiggioy5WUUwoypbOTaokJ7hH9/ORi/In3uEAA0gi9UX87sA0GrWOl6JnaNo7JBxTiycjchezd69L9JBBMYaRVlTj1RUe1pupHYvj4kX8opVqjHPCpYOVMcrrP52EtiUKHlSbQpEmc8P1+/YhtQTxWqfAlgiLlU/+YkJ4RW4UP0OzB8Ymy6jEnRyvfRoNWTvypDQAsPz5Q6SLjDhntcPEUKYCI/rM36Upzzgc3QcmZhCN6DHcrRF7tpw/b7UZr3hJZn/HyTbBvi1S9GIY4qyVWXE8FhtbBgMYID1i6qixCXe6UcK0FltRHNOZolRsAGcwZQIxAPlWQKXOjHCrEaxWOK3jb8PiBQlb5euWsKfs8/1rM0TExVUeOfWvb8wuYWunZT9a9AIwKz2qokzhhh7234WVF3LCH9RkQ5aSoC8XQ1327Z6Ajq/AgHVVZMpwtTG8qK1gfxLn","id":"cmp_74184663ae8d59778cd9cd40876cb736","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_db42acaf6db5579aae6a515260ab622b","phase":"final_answer","role":"assistant","status":"completed","type":"message"},{"role":"user","content":"What
+        was your previous answer? Reply with the number only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234331Z
+      X-Amz-Content-Sha256:
+      - b9a8683dc75fb0518508c60dfc8d07e80a581fe422ad1712dcd627b4cc92da89
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:43:34 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2516'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243814,"created_at":1791243812,"error":null,"frequency_penalty":0.0,"id":"resp_dkwa3us2hvx45irv62yuf7ttyggg4mhl3ghily555p6qkqqnpnvq","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeMRaVGE+8Ly631A1P9278zyhS05t2aTSREy4SSN0wAhVAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNkN5RGtrUkhEUXhuU0tlZ1haVG5LRUVUQTBoRkVBYjEvaVhaY2RlRWJKVHhXYXdWM2NyekhnZEYwRnBtVitoWlE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcf9SzZdI7iIgpxMqtqLdbxHc8J+LJzxvdNObnyATyexPQO0PepR8jRQ3zVYQsl3t2q3cOv7+CYB4Q9+KwU4VCkokJUJvxbsV33AOGEZj0s/3zRwg/0Aj8A7bWDn0CAAAQACFWlRBFIemnHjDkHjpOSTH2LAJh8s80DvBMHepHmBpLakNy5imoJgpYjF/N3j5rKf////8AAAABAAAAAAAAAAAAAAABAAABmCYzVr/wqLsK0SqJRtLbq+wsHGoS7mmfz7qGwWra+ULEoE/622m5M58NQut7t5rx1rvPfEhW1VFZ1Cj2mRj2UT41wwsRIYSxlmW+y/TCA6yOlQB5TB0R8fWpjbb3FENaWO0o26aV7eptsjTnUJkCTRDAlWwhb/3fENSWXqjADoCjlhcXQdjZ0JJcW/4Hlf4w7n9nt71c+NRQL6d3VjmUl2cj3q0A65ppCOBdXCAw9RBY0TsWmu6lo6rlVsfShAgCbTMrZLT7n4/GAeGQxFBcLjpr8BosfihO6otcW88QLuMQoNJD4Kkt/0qihcibWjqL66jYgaR5FN5l+8LmK6bwbTzS7y2Hh8Y48YSjuI+m1gZv22AMQiK3f0QiQHjxYUZ0RLafN7fM1Pl9FBkUuJAp8UvDrpeXjgYk7gLN+pRwkx//pnci923KB9epXEqDgmC7HM3E6cZfkWBNHpjnz7iPMetEPT1lAw0r19vLal0yv2F1ku54KV0hSShz0uI+aCYGd41LG6pl3ryjilZ30oqpwLkrMwVv/C29BxUzYu9Hr7/dNQbbHXSgRJ0AZzBlAjAdKC0VGNWtCsAq7Q+g5pEJWyDaFLj789dPOxekNGFXyueMXVxMdabs7VtI6Jf3PVcCMQDV9Iuoq59RdQWx1p37nQwUz0sZ1F/Y+eNZ1Div4rYZtNuRpaw1dElqF+T0p2GKK7c=","id":"cmp_ab99c3b4cda653059149f9ff09c094b2","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_00c405a3da765b43a758f2b0a74436b5","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":2056,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":53,"output_tokens_details":{"reasoning_tokens":48},"total_tokens":2109},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:43:34 GMT
+recorded_with: VCR 6.4.0
+...

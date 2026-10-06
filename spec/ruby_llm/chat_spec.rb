@@ -116,6 +116,44 @@ RSpec.describe RubyLLM::Chat do
     end
   end
 
+  describe '#compact_context' do
+    it 'raises UnsupportedFeatureError when the protocol has no compaction endpoint' do
+      chat = RubyLLM.chat(model: 'claude-3-5-haiku-20241022', provider: :anthropic)
+      chat.add_message(role: :user, content: 'hi')
+
+      expect do
+        chat.compact_context
+      end.to raise_error(RubyLLM::UnsupportedFeatureError, /no standalone compaction endpoint/)
+      expect(chat.messages.size).to eq(1)
+    end
+
+    it 'leaves Enumerable#compact returning the messages' do
+      chat = RubyLLM.chat(model: 'claude-3-5-haiku-20241022', provider: :anthropic)
+      chat.add_message(role: :user, content: 'hi')
+
+      expect(chat.to_a.compact).to eq(chat.messages)
+    end
+  end
+
+  describe 'with_schema on an OutputItems reply' do
+    it 'parses the final answer text as JSON and leaves commentary out' do
+      items = [
+        { 'type' => 'message', 'phase' => 'commentary',
+          'content' => [{ 'type' => 'output_text', 'text' => 'Working it out.' }] },
+        { 'type' => 'message', 'phase' => 'final_answer',
+          'content' => [{ 'type' => 'output_text', 'text' => '{"city":"Berlin","code":"BER-7"}' }] }
+      ]
+      reply = RubyLLM::Message.new(role: :assistant, content: RubyLLM::Protocols::Responses::OutputItems.new(items))
+      chat = RubyLLM.chat(model: 'gpt-6-sol', provider: :bedrock)
+                    .with_schema({ type: 'object', properties: { city: { type: 'string' } } })
+      allow(chat.instance_variable_get(:@provider)).to receive(:complete).and_return(reply)
+
+      response = chat.ask('Which city?')
+
+      expect(response.content).to eq({ 'city' => 'Berlin', 'code' => 'BER-7' })
+    end
+  end
+
   describe '#cost' do
     let(:model) do
       RubyLLM::Model::Info.new(

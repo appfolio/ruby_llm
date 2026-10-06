@@ -1,0 +1,246 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560."},{"role":"user","content":"How
+        many crates does warehouse 3 store? Answer with the number only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234424Z
+      X-Amz-Content-Sha256:
+      - a8f7d5d77db53c8eb97f597626123c36badc221ac363d205f629b47d8d83b412
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:44:27 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2432'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243867,"created_at":1791243864,"error":null,"frequency_penalty":0.0,"id":"resp_qtkim7vg2jnclhsndjeoow7scbdkqickpglu3w63h6kgomfke6wq","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeGBP/A7SpgZgwgXLl25OMY0xICiy3sWnAIZzOt9+RKmZAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNHcxTDNFVXJYbEZUQjVxYUFSUGFPYlpPNjM0a2hqTlM1MGlFYXhreElkMlpRNEI4MXk3YU1vQXJsS3RTcmRJelE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcZJWrTJaSql7S/RkGunKA7+qtHz2xFENr9zYeTwTyexPQO0PepR8jRQ3zVYSQMCvVJj0Hq3kiBmmQxKden9jmH0GAu1BoUOUgpMJghTkK+jjzoiF0DP3Pej49xSMCAAAQAN2J34mbqh3EJAKwIIfcnlkFBbAbng6lMvepGvB7nnhno76CmSbdoPUR2lhYkbk9Hf////8AAAABAAAAAAAAAAAAAAABAAABUjRafGRdljSVE3KqXmp395LZ6MWC4grsSQrs3DtPNUc2UJpsCtqypl1rDDxMcc+bp5lX6cFG+a4DvYZfF3TMZu20+jCtwY0ee8wEP9kq4nP7J+zsXhdJz1rPNr/0HcjsKfD6h/7MpjXoZLC+xRWgZAgIFM/HHuGJy209K1Y/5hi+YVBPLg1+BLzFXQyho3HqWi93gdjpwXLQdJuYi2pP119oUe29nuLajEljbHCoLN2kJRIEISJ6XgsHOII1uQR6RD+0eaMJdajjzLrudOtDEjN37vx91B5UWz1GPlAsyBgg0esREsPXhtLRa046uskog8dejYhwa9p2ovfDLyKfK8sRoPQhULyp3B+O9ZHlmkrlyBsHlgt9MPgsY5KlMWpAgh2NISXSHYfu11jJ7HmzlPSHamsjwUCZbmvkF9mRVUsQit3LAok0U66QRSiBf3FbSyZ7xQU445eVwy0/iNU2aLSy9ABnMGUCMGW1AEpy9OzQe4Uc8dc8qCORZURnvxAwqLRPmE5jkTjVFFdZSINrR3LlySEiSycoGwIxAMIGEXzkPlFlXosuzUZrslSY0nDccxSTrdac+bPtoArnruCHVB2y4FbAXyloIa5u1A==","id":"cmp_1bdba04ca38d588f8ed5032fd0de915f","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21
+        crates.","type":"output_text"}],"id":"msg_4a1335b1ae8355c6a7a9eb55e5d4873b","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":1989,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":40,"output_tokens_details":{"reasoning_tokens":33},"total_tokens":2029},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:44:27 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeGBP/A7SpgZgwgXLl25OMY0xICiy3sWnAIZzOt9+RKmZAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNHcxTDNFVXJYbEZUQjVxYUFSUGFPYlpPNjM0a2hqTlM1MGlFYXhreElkMlpRNEI4MXk3YU1vQXJsS3RTcmRJelE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcZJWrTJaSql7S/RkGunKA7+qtHz2xFENr9zYeTwTyexPQO0PepR8jRQ3zVYSQMCvVJj0Hq3kiBmmQxKden9jmH0GAu1BoUOUgpMJghTkK+jjzoiF0DP3Pej49xSMCAAAQAN2J34mbqh3EJAKwIIfcnlkFBbAbng6lMvepGvB7nnhno76CmSbdoPUR2lhYkbk9Hf////8AAAABAAAAAAAAAAAAAAABAAABUjRafGRdljSVE3KqXmp395LZ6MWC4grsSQrs3DtPNUc2UJpsCtqypl1rDDxMcc+bp5lX6cFG+a4DvYZfF3TMZu20+jCtwY0ee8wEP9kq4nP7J+zsXhdJz1rPNr/0HcjsKfD6h/7MpjXoZLC+xRWgZAgIFM/HHuGJy209K1Y/5hi+YVBPLg1+BLzFXQyho3HqWi93gdjpwXLQdJuYi2pP119oUe29nuLajEljbHCoLN2kJRIEISJ6XgsHOII1uQR6RD+0eaMJdajjzLrudOtDEjN37vx91B5UWz1GPlAsyBgg0esREsPXhtLRa046uskog8dejYhwa9p2ovfDLyKfK8sRoPQhULyp3B+O9ZHlmkrlyBsHlgt9MPgsY5KlMWpAgh2NISXSHYfu11jJ7HmzlPSHamsjwUCZbmvkF9mRVUsQit3LAok0U66QRSiBf3FbSyZ7xQU445eVwy0/iNU2aLSy9ABnMGUCMGW1AEpy9OzQe4Uc8dc8qCORZURnvxAwqLRPmE5jkTjVFFdZSINrR3LlySEiSycoGwIxAMIGEXzkPlFlXosuzUZrslSY0nDccxSTrdac+bPtoArnruCHVB2y4FbAXyloIa5u1A==","id":"cmp_1bdba04ca38d588f8ed5032fd0de915f","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21
+        crates.","type":"output_text"}],"id":"msg_4a1335b1ae8355c6a7a9eb55e5d4873b","phase":"final_answer","role":"assistant","status":"completed","type":"message"},{"role":"user","content":"What
+        was your previous answer? Reply with the number only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234427Z
+      X-Amz-Content-Sha256:
+      - ce09ef0c8c74e989e88d897d9f1d2b013be0a7d056ac9ced5ec55ede4e6ec22a
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:44:37 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2280'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243877,"created_at":1791243867,"error":null,"frequency_penalty":0.0,"id":"resp_uxet7tcurhnvbdk2cpuz566y26mvp3iwx4dvgqah5w4axvzv7hca","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeNzjksuwJ4O0odOilAAciEa/X6MkJNyvyEzzIyWDf+0BAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBbnhYRXJadnVhWUVsS3FDQzZyemV3TEFHUkowaDJYMkVzRC8zTFpkRlA1MFlBeFlWTFAvck5ndXRPNEY3ZTd5RHc9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcsy5J41QUp7SzgZKLJ9f0pcNU82d+R884PZ2YNwTyexPQO0PepR8jRQ3zVYQo1RrXmUozPdPk0E7tsoSzulOWrCAwMpYydmlioi0jIdyvMCUwTK+9Vn0dVrJ8vVcCAAAQAN1FvoJZt73zbQrbhCtrJIJHy37XGrq2nZZ46PzEf0C7X7B7pa/2nXwQu4cLe1GvBf////8AAAABAAAAAAAAAAAAAAABAAAA3QMTpEsB1LXVEUPiQjsjrEHyA5Rhny7I/IAjh8pNfAmynFkvItj2AIG7sfOK3YSmvVOI3pHeOaxI7y0C/uuPYAx9JUowM3a3OQHT6cvXfjN+OWOC/4uwQDHde2rOPzw2KKqpPsbbl81bLUPUv5+P2Z1sU61zCsrlVIOs9FCmGKqWBjL6QUPFaH0kpemG6GCCAejQS9Asg8rgX0tnVuuS8xogMVZLJYMF/rmaZ/Fqmxt6xEc3+aN1j1PBbhnMnBxLdv5yEuDTfkFUd3zdwqDWJlU44/KtPquGs0RBA2egj+zhUyzU/6E6ncCj095aRABnMGUCMQDRKJF4NniDsfHTdfjtde6F0dlZCpd8e/RoTDHECqpb6BrgKyJ/SrMihJrhadjd/fECMEiZE4Ta012EkH0Uj1VfqmjBub+8gu2za5S4s/TDZt4CAkP4vJZwHEZfx/7hIV0feA==","id":"rs_2f410dfaf86c5fd3ba29bde3837d4fba","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_3fe19e1f77d2598aa1a66ac01def0e86","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":62,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":17,"output_tokens_details":{"reasoning_tokens":10},"total_tokens":79},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:44:37 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-sol","input":[{"encrypted_content":"smry_pv1_pv_rru6BQHgUc/VWS5vRIAlHwIFeGBP/A7SpgZgwgXLl25OMY0xICiy3sWnAIZzOt9+RKmZAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBNHcxTDNFVXJYbEZUQjVxYUFSUGFPYlpPNjM0a2hqTlM1MGlFYXhreElkMlpRNEI4MXk3YU1vQXJsS3RTcmRJelE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcZJWrTJaSql7S/RkGunKA7+qtHz2xFENr9zYeTwTyexPQO0PepR8jRQ3zVYSQMCvVJj0Hq3kiBmmQxKden9jmH0GAu1BoUOUgpMJghTkK+jjzoiF0DP3Pej49xSMCAAAQAN2J34mbqh3EJAKwIIfcnlkFBbAbng6lMvepGvB7nnhno76CmSbdoPUR2lhYkbk9Hf////8AAAABAAAAAAAAAAAAAAABAAABUjRafGRdljSVE3KqXmp395LZ6MWC4grsSQrs3DtPNUc2UJpsCtqypl1rDDxMcc+bp5lX6cFG+a4DvYZfF3TMZu20+jCtwY0ee8wEP9kq4nP7J+zsXhdJz1rPNr/0HcjsKfD6h/7MpjXoZLC+xRWgZAgIFM/HHuGJy209K1Y/5hi+YVBPLg1+BLzFXQyho3HqWi93gdjpwXLQdJuYi2pP119oUe29nuLajEljbHCoLN2kJRIEISJ6XgsHOII1uQR6RD+0eaMJdajjzLrudOtDEjN37vx91B5UWz1GPlAsyBgg0esREsPXhtLRa046uskog8dejYhwa9p2ovfDLyKfK8sRoPQhULyp3B+O9ZHlmkrlyBsHlgt9MPgsY5KlMWpAgh2NISXSHYfu11jJ7HmzlPSHamsjwUCZbmvkF9mRVUsQit3LAok0U66QRSiBf3FbSyZ7xQU445eVwy0/iNU2aLSy9ABnMGUCMGW1AEpy9OzQe4Uc8dc8qCORZURnvxAwqLRPmE5jkTjVFFdZSINrR3LlySEiSycoGwIxAMIGEXzkPlFlXosuzUZrslSY0nDccxSTrdac+bPtoArnruCHVB2y4FbAXyloIa5u1A==","id":"cmp_1bdba04ca38d588f8ed5032fd0de915f","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21
+        crates.","type":"output_text"}],"id":"msg_4a1335b1ae8355c6a7a9eb55e5d4873b","phase":"final_answer","role":"assistant","status":"completed","type":"message"},{"role":"user","content":"What
+        was your previous answer? Reply with the number only."},{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeNzjksuwJ4O0odOilAAciEa/X6MkJNyvyEzzIyWDf+0BAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBbnhYRXJadnVhWUVsS3FDQzZyemV3TEFHUkowaDJYMkVzRC8zTFpkRlA1MFlBeFlWTFAvck5ndXRPNEY3ZTd5RHc9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcsy5J41QUp7SzgZKLJ9f0pcNU82d+R884PZ2YNwTyexPQO0PepR8jRQ3zVYQo1RrXmUozPdPk0E7tsoSzulOWrCAwMpYydmlioi0jIdyvMCUwTK+9Vn0dVrJ8vVcCAAAQAN1FvoJZt73zbQrbhCtrJIJHy37XGrq2nZZ46PzEf0C7X7B7pa/2nXwQu4cLe1GvBf////8AAAABAAAAAAAAAAAAAAABAAAA3QMTpEsB1LXVEUPiQjsjrEHyA5Rhny7I/IAjh8pNfAmynFkvItj2AIG7sfOK3YSmvVOI3pHeOaxI7y0C/uuPYAx9JUowM3a3OQHT6cvXfjN+OWOC/4uwQDHde2rOPzw2KKqpPsbbl81bLUPUv5+P2Z1sU61zCsrlVIOs9FCmGKqWBjL6QUPFaH0kpemG6GCCAejQS9Asg8rgX0tnVuuS8xogMVZLJYMF/rmaZ/Fqmxt6xEc3+aN1j1PBbhnMnBxLdv5yEuDTfkFUd3zdwqDWJlU44/KtPquGs0RBA2egj+zhUyzU/6E6ncCj095aRABnMGUCMQDRKJF4NniDsfHTdfjtde6F0dlZCpd8e/RoTDHECqpb6BrgKyJ/SrMihJrhadjd/fECMEiZE4Ta012EkH0Uj1VfqmjBub+8gu2za5S4s/TDZt4CAkP4vJZwHEZfx/7hIV0feA==","id":"rs_2f410dfaf86c5fd3ba29bde3837d4fba","summary":[],"type":"reasoning"},{"role":"assistant","content":[{"type":"output_text","text":"21"}]},{"role":"user","content":"Repeat
+        that number once more."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234437Z
+      X-Amz-Content-Sha256:
+      - 51f7ddbabd5120f8da221a693ceb912e801ca6d9d7dbca7cbd6b4a37caf8a61c
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:44:47 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1232'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243887,"created_at":1791243877,"error":null,"frequency_penalty":0.0,"id":"resp_efwxhwvdjmup7fmhte6jhzko6kgtfqsgvtizx26fpha5zudlbzha","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_5fdd95f061c655f78df1a122cd4ef95d","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":91,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":96},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:44:47 GMT
+recorded_with: VCR 6.4.0

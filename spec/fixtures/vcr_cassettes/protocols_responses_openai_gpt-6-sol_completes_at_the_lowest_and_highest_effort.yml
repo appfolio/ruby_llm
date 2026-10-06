@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-sol","input":[{"role":"user","content":"Reply
+        with exactly: OK"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"reasoning":{"effort":"none"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234526Z
+      X-Amz-Content-Sha256:
+      - 54f8f77ec442e4bbe13d0c9868dddd6e21dfb37e4a70af381b259babd0f58ea8
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:45:26 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1230'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243926,"created_at":1791243926,"error":null,"frequency_penalty":0.0,"id":"resp_k7deuwbakgt72qfshd5jz6zyyshrf77chbikn7flmamuphxiooza","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"OK","type":"output_text"}],"id":"msg_b159a55e842351b3836490f494fc39a7","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"none","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":11,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":16},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:45:26 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-sol","input":[{"role":"user","content":"Reply
+        with exactly: OK"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"reasoning":{"effort":"max"}}'
+    headers:
+      X-Amz-Date:
+      - 20261005T234526Z
+      X-Amz-Content-Sha256:
+      - ebc657ac8d1e3f79dbdba8ab48fee27884d0f11fe592880308e0d276f22026d2
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.14.4
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 05 Oct 2026 23:45:27 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '2284'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1791243927,"created_at":1791243927,"error":null,"frequency_penalty":0.0,"id":"resp_hs5r2sbd5ouiaf2osfd7xd6ughfk4iezad4fubk4xk2h36pet4ba","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-sol","object":"response","output":[{"content":[],"encrypted_content":"rsn_rru6BQHgUc/VWS5vRIAlHwIFeNI1EzAiwIewcHZnqWCe+bp9k8Lw/U+r813PMyNYD29mAF8AAQAVYXdzLWNyeXB0by1wdWJsaWMta2V5AERBMnRreVhSRzM0N2FKRWQrOWthK21KL2VvbmJaZzVjMnBuSUlpZTQ4amh1ZTMwNk1DdVZsck5BbDdwSVc5R2xoYVE9PQABABFhd3Mta21zLWhpZXJhcmNoeQAKYmVybS1zdG9yZQBcT+UCbES/i5SOxonj65Iin9Wcq/Qhib4cpHhvgATyexPQO0PepR8jRQ3zVYQ97GVbz0lkmn2XdoZTTdHYy3y1s5eh3Q/FF2G+1Rm6PRN5NpSSzHfe2pTEaBivV+cCAAAQAJ8rqdehl/JiMhd1g+pVLDoMp8aymD8jtjYjatr5u1PMqNIAZwSjuWWU2w+WOOXIdP////8AAAABAAAAAAAAAAAAAAABAAAA5P5YDO5Fw2nHGQ6Bb6bHqay0EoHCc0wmI/Fw7EH6XONfiAP77TfkWxS5ftZb5zFZDu2V6+3ovmK+8AYOsukcSf0F4BWjvoCoAQXG+6QEYNs7zqAZ950XqPpj60m931Lc6VqM43H4i/ybJ5vM1Gyn8q0UUa8HU5exbw+BdNIagKfjnNoOgabLPHxLt2waHPjAoXR7ur7b5/5QMNVxvCBIXwx75ttUpmRFsESslvx15GnKluw43PuQAeMS74fc8FCmjaCVof7Ya2c0pT+DzFJz+J8NlAQaLyun2/99TxC5zH2mo3ww1EgCkhuSF4hvPY/oAUWKh8MAZzBlAjBSobNLRrOC31/F8LNXXpJfG6PvEveOafayyykdQxIaCYGVEvWcREOcVgSI6KiorxkCMQCBVrOLxqBdlILpG9pB7Mr4j4MHyZ4HEitPFHAtHDzzITApbmbtrOtwImP9k8h55c8=","id":"rs_342357c146fc572493fb48d29139d46a","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"OK","type":"output_text"}],"id":"msg_79fa5f3cccba59fc878d7464856fd5b8","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"max","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":11,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":17,"output_tokens_details":{"reasoning_tokens":10},"total_tokens":28},"user":null,"moderation":null}'
+  recorded_at: Mon, 05 Oct 2026 23:45:27 GMT
+recorded_with: VCR 6.4.0

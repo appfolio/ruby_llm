@@ -417,7 +417,7 @@ module RubyLLM
         case content
         when RubyLLM::Content::Raw
           content_raw = content.value
-          content_text = nil
+          content_text = content.respond_to?(:text) ? content.text.presence : nil
         when RubyLLM::Content
           attachments = content.attachments if content.attachments.any?
           content_text = content.text

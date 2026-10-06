@@ -98,6 +98,17 @@ module RubyLLM
       protocol_class.new(self, model).preprocess_message(message)
     end
 
+    # Compacts the conversation through the protocol's standalone compaction endpoint.
+    def compact(messages, model:, protocol: nil, headers: {})
+      protocol_class = resolve_protocol(protocol, model, tools: {}, schema: nil, thinking: nil, tool_prefs: nil,
+                                                         citations: false)
+      unless protocol_class.public_method_defined?(:compact)
+        raise UnsupportedFeatureError, "#{name} (#{protocol_class.name}) has no standalone compaction endpoint"
+      end
+
+      protocol_class.new(self, model).compact(messages, headers:)
+    end
+
     def batches?
       batch_protocol.public_method_defined?(:create_batch)
     end

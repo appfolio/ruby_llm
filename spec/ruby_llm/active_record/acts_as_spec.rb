@@ -296,6 +296,40 @@ RSpec.describe RubyLLM::ActiveRecord::ActsAs do
       expect(reconstructed.content.value).to eq(JSON.parse(raw_block.value.to_json))
     end
 
+    it 'stores the answer text and the raw items of a Responses OutputItems reply, and replays them' do
+      items = [
+        { 'type' => 'message', 'phase' => 'commentary',
+          'content' => [{ 'type' => 'output_text', 'text' => 'Checking.' }] },
+        { 'type' => 'compaction', 'encrypted_content' => 'CMP' },
+        { 'type' => 'message', 'phase' => 'final_answer',
+          'content' => [{ 'type' => 'output_text', 'text' => 'Done.' }] }
+      ]
+      chat = Chat.create!(model: 'gpt-6-sol')
+
+      message = chat.add_message(role: :assistant, content: RubyLLM::Protocols::Responses::OutputItems.new(items))
+
+      expect(message.reload.content).to eq('Done.')
+      expect(message.content_raw).to eq(items)
+
+      reconstructed = message.to_llm
+      expect(reconstructed.content).to be_a(RubyLLM::Content::Raw)
+
+      protocol = RubyLLM::Protocols::Responses.allocate
+      payload = protocol.send(:render_payload, [reconstructed], tools: {}, temperature: nil, tool_prefs: nil,
+                                                                model: RubyLLM.models.find('gpt-6-sol'))
+      expect(payload[:input]).to eq(items.drop(1))
+    end
+
+    it 'stores a plain string assistant reply exactly as before' do
+      chat = Chat.create!(model: 'gpt-6-sol')
+
+      message = chat.add_message(role: :assistant, content: 'Done.')
+
+      expect(message.reload.content).to eq('Done.')
+      expect(message.content_raw).to be_nil
+      expect(message.to_llm.content).to eq('Done.')
+    end
+
     it 'round-trips cached token metrics through ActiveRecord models' do
       chat = Chat.create!(model: anthropic_model)
       message = chat.messages.create!(role: 'assistant', content: 'Hi there',
