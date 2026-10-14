@@ -5,21 +5,18 @@ require 'spec_helper'
 RSpec.describe RubyLLM::Models do
   include_context 'with configured RubyLLM'
 
-  # cache_read_input_per_million (0.25 on the base/global/US entries, 0.275 on
-  # EU) is NOT independently verified against Anthropic's live pricing page.
-  # It comes from Anthropic's Claude Fable 5.1 launch announcement
-  # (anthropic.com/claude-fable-and-mythos-5-1) and same-day AWS/Microsoft
-  # partner blog posts reporting a ~75% cache-read price cut versus Claude
-  # Fable 5's cache_read_input_per_million of 1 (i.e. roughly 1/4 of Fable 5's
-  # rate, scaled per-region the same way Fable 5's own regional entries are).
-  # Base input/output pricing ($10/$50) and cache_write_input_per_million
-  # (12.5, i.e. 1.25x input, unchanged from Fable 5) are confirmed unchanged
-  # by the same sources. Revisit the cache_read figures once models.dev or
-  # Anthropic's pricing page publish real data for claude-fable-5-1.
+  # Prices are per million tokens (input/output/cache_read/cache_write).
+  # Anthropic's pricing page (platform.claude.com/docs/en/about-claude/pricing,
+  # read 2026-10-14) lists Claude Fable 5.1 at 10 / 50 / 0.25 / 12.5 on global
+  # endpoints. The 0.25 cache read is verified by its footnote 1: "Cache hits
+  # and refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at
+  # 0.025x the base input price." The eu. and us. entries are regional
+  # endpoints and are recorded at 1.1x: the same page says "Regional and
+  # multi-region endpoints include a 10% premium over global endpoints."
   {
     'claude-fable-5-1' => { input: 10, output: 50, cache_read: 0.25, cache_write: 12.5 },
     'global.anthropic.claude-fable-5-1' => { input: 10, output: 50, cache_read: 0.25, cache_write: 12.5 },
-    'us.anthropic.claude-fable-5-1' => { input: 10, output: 50, cache_read: 0.25, cache_write: 12.5 },
+    'us.anthropic.claude-fable-5-1' => { input: 11, output: 55, cache_read: 0.275, cache_write: 13.75 },
     'eu.anthropic.claude-fable-5-1' => { input: 11, output: 55, cache_read: 0.275, cache_write: 13.75 }
   }.each do |id, cost|
     it "registers #{id} with the documented effort values and pricing" do
