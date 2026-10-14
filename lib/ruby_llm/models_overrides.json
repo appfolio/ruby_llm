@@ -1,0 +1,137 @@
+{
+  "description": [
+    "Prices verified by hand against the vendor. rake models:update re-applies every entry here after it merges the provider listings with models.dev (RubyLLM::Models.apply_overrides), so a regeneration cannot replace them.",
+    "Each entry sets the model's pricing.text_tokens to { standard: ... } only and replaces metadata.cost whole, so no long-context tier is kept for these ids in either place.",
+    "rake models:update also keeps every models.json entry with metadata source 'manual' that no provider listing or models.dev returns (RubyLLM::Models.keep_manual_models). Such an entry stays until it is deleted from models.json by hand.",
+    "No long-context tier exists for these models. Anthropic's pricing page (platform.claude.com/docs/en/about-claude/pricing, read 2026-10-14) says: 'Claude 4.6 and later models (except Claude Haiku 5.5) ... include the full 1M token context window at standard pricing.' The AWS Price List has long_ctx SKUs only for Claude Haiku 5.5 and Claude Sonnet 4.",
+    "Edit models.json and this file together. spec/ruby_llm/models_overrides_spec.rb fails when they disagree."
+  ],
+  "overrides": {
+    "bedrock:us.anthropic.claude-fable-5-1": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 11,
+        "output": 55,
+        "cache_read": 0.275,
+        "cache_write": 13.75
+      }
+    },
+    "bedrock:us.anthropic.claude-fable-5": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 11,
+        "output": 55,
+        "cache_read": 1.1,
+        "cache_write": 13.75
+      }
+    },
+    "bedrock:us.anthropic.claude-sonnet-5-5": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75
+      }
+    },
+    "bedrock:us.anthropic.claude-sonnet-5": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.22,
+        "cache_write": 2.75
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-5-5": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 4.4,
+        "output": 22,
+        "cache_read": 0.22,
+        "cache_write": 5.5
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-5": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 5.5,
+        "output": 27.5,
+        "cache_read": 0.55,
+        "cache_write": 6.875
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-4-8": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 5.5,
+        "output": 27.5,
+        "cache_read": 0.55,
+        "cache_write": 6.875
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-4-7": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 5.5,
+        "output": 27.5,
+        "cache_read": 0.55,
+        "cache_write": 6.875
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-4-6-v1": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 5.5,
+        "output": 27.5,
+        "cache_read": 0.55,
+        "cache_write": 6.875
+      }
+    },
+    "bedrock:us.anthropic.claude-opus-4-5-20251101-v1:0": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 5.5,
+        "output": 27.5,
+        "cache_read": 0.55,
+        "cache_write": 6.875
+      }
+    },
+    "bedrock:us.anthropic.claude-sonnet-4-6": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 3.3,
+        "output": 16.5,
+        "cache_read": 0.33,
+        "cache_write": 4.125
+      }
+    },
+    "bedrock:us.anthropic.claude-sonnet-4-5-20250929-v1:0": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand regional ('Standard' / 'Regional') SKUs",
+      "cost": {
+        "input": 3.3,
+        "output": 16.5,
+        "cache_read": 0.33,
+        "cache_write": 4.125
+      }
+    },
+    "bedrock:us.anthropic.claude-haiku-4-5-20251001-v1:0": {
+      "source": "Global rate on purpose: the AWS bill for 2026-10-05 to 2026-10-12 shows us. Haiku 4.5 at 94% of its regional rate (reason unknown), and the global rate (AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand 'Standard, Global' SKUs) is closer to the bill.",
+      "cost": {
+        "input": 1,
+        "output": 5,
+        "cache_read": 0.1,
+        "cache_write": 1.25
+      }
+    },
+    "bedrock:global.anthropic.claude-fable-5-1": {
+      "source": "AWS Price List API, AmazonBedrockFoundationModels offer, us-west-2, publication 2026-10-12: on-demand 'Standard, Global' SKUs",
+      "cost": {
+        "input": 10,
+        "output": 50,
+        "cache_read": 0.25,
+        "cache_write": 12.5
+      }
+    }
+  }
+}
