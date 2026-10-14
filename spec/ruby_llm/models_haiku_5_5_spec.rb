@@ -43,6 +43,7 @@ RSpec.describe RubyLLM::Models do
       expect(model).not_to be_nil
       expect(model.reasoning_option_values('effort')).to eq(%w[low medium high xhigh max])
       expect(model.reasoning_option('toggle')).to be_nil
+      expect(model.supports?(:structured_output)).to be(true)
       expect(model.metadata[:cost]).to include(cost)
 
       tier = model.metadata[:cost][:tiers].first
@@ -63,5 +64,17 @@ RSpec.describe RubyLLM::Models do
     expect(found.id).to eq('us.anthropic.claude-haiku-5-5')
     expect(found.provider).to eq('bedrock')
     expect(found.reasoning_option_values('effort')).to eq(%w[low medium high xhigh max])
+  end
+
+  it 'resolves bare anthropic.claude-haiku-5-5 to the us. inference profile in us-west-2' do
+    # The bare foundation model is callable through an inference profile only,
+    # so the lookup must take the region prefix from the us. entry's
+    # inference_types.
+    allow(RubyLLM.config).to receive(:bedrock_region).and_return('us-west-2')
+
+    found = RubyLLM.models.find('anthropic.claude-haiku-5-5', :bedrock)
+
+    expect(found.id).to eq('us.anthropic.claude-haiku-5-5')
+    expect(found.provider).to eq('bedrock')
   end
 end

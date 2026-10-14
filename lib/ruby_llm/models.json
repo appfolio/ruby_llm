@@ -11590,6 +11590,7 @@
     },
     "capabilities": [
       "function_calling",
+      "structured_output",
       "reasoning",
       "vision"
     ],
@@ -14439,6 +14440,7 @@
     },
     "capabilities": [
       "function_calling",
+      "structured_output",
       "reasoning",
       "vision"
     ],
@@ -19911,6 +19913,7 @@
     },
     "capabilities": [
       "function_calling",
+      "structured_output",
       "reasoning",
       "vision"
     ],
@@ -19925,6 +19928,9 @@
       }
     },
     "metadata": {
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
