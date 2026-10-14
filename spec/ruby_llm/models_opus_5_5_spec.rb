@@ -9,16 +9,15 @@ RSpec.describe RubyLLM::Models do
   # id is recorded at the same rate structure as that id's Opus 5 entry. Base
   # rates (input/output/cache_read/cache_write per million tokens) come from
   # AWS's price list ("Standard, Global" tier for Claude Opus 5.5 on Amazon
-  # Bedrock), and only the eu. entry is recorded at 1.1x base, matching the
-  # 1.1x the eu.anthropic.claude-opus-5 entry already uses. This does not
-  # correct the separate, pre-existing question of whether us. (and other
-  # non-eu regional prefixes) should also be at 1.1x on Bedrock's own price
-  # list; that is out of scope here and applies equally to the existing Opus
-  # 5 entries.
+  # Bedrock). The eu. and us. entries are regional endpoints and are recorded
+  # at 1.1x base: Anthropic's pricing page
+  # (platform.claude.com/docs/en/about-claude/pricing, read 2026-10-14) says
+  # "Regional and multi-region endpoints include a 10% premium over global
+  # endpoints."
   {
     'claude-opus-5-5' => { input: 4, output: 20, cache_read: 0.20, cache_write: 5 },
     'global.anthropic.claude-opus-5-5' => { input: 4, output: 20, cache_read: 0.20, cache_write: 5 },
-    'us.anthropic.claude-opus-5-5' => { input: 4, output: 20, cache_read: 0.20, cache_write: 5 },
+    'us.anthropic.claude-opus-5-5' => { input: 4.4, output: 22, cache_read: 0.22, cache_write: 5.5 },
     'eu.anthropic.claude-opus-5-5' => { input: 4.4, output: 22, cache_read: 0.22, cache_write: 5.5 }
   }.each do |id, cost|
     it "registers #{id} with the documented effort values and pricing" do
