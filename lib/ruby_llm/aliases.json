@@ -45,6 +45,10 @@
     "vertexai": "claude-haiku-4-5",
     "azure": "claude-haiku-4-5-20251001"
   },
+  "claude-haiku-5-5": {
+    "anthropic": "claude-haiku-5-5",
+    "bedrock": "us.anthropic.claude-haiku-5-5"
+  },
   "claude-opus-4": {
     "anthropic": "claude-opus-4-20250514",
     "openrouter": "anthropic/claude-opus-4",
