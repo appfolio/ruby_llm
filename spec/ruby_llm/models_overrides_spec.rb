@@ -65,6 +65,36 @@ RSpec.describe RubyLLM::Models do
     end
   end
 
+  describe '.apply_overrides' do
+    let(:cost) { { input: 4.4, output: 22, cache_read: 0.22, cache_write: 5.5 } }
+    let(:tiered_model) do
+      RubyLLM::Model::Info.new(
+        id: 'us.anthropic.claude-opus-5-5', name: 'Claude Opus 5.5 (US)', provider: 'bedrock',
+        pricing: {
+          text_tokens: {
+            standard: { input_per_million: 4, output_per_million: 20 },
+            context_over_200k: { input_per_million: 8, output_per_million: 30 }
+          }
+        },
+        metadata: {
+          cost: { input: 4, output: 20, context_over_200k: { input: 8, output: 30 },
+                  tiers: [{ input: 8, output: 30, tier: { type: 'context', size: 200_000 } }] }
+        }
+      )
+    end
+
+    # Model::Pricing already drops any text tier but standard and batch, so the tier that
+    # matters is the one in metadata.cost; this pins both places.
+    it 'drops a long-context tier from both pricing and metadata.cost' do
+      model = described_class.apply_overrides([tiered_model],
+                                              { 'bedrock:us.anthropic.claude-opus-5-5' => { cost: cost } })
+                             .first
+
+      expect(model.pricing.to_h[:text_tokens]).to eq(standard: expected_standard(cost))
+      expect(model.metadata[:cost]).to eq(cost)
+    end
+  end
+
   describe 'refresh' do
     let(:overridden_id) { 'us.anthropic.claude-opus-5-5' }
     let(:models_dev_model) do

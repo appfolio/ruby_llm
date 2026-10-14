@@ -1,7 +1,8 @@
 {
   "description": [
     "Prices verified by hand against the vendor. rake models:update re-applies every entry here after it merges the provider listings with models.dev (RubyLLM::Models.apply_overrides), so a regeneration cannot replace them.",
-    "Each entry replaces the model's pricing.text_tokens.standard and metadata.cost. metadata.cost is replaced whole, so no long-context tier is kept for these ids.",
+    "Each entry sets the model's pricing.text_tokens to { standard: ... } only and replaces metadata.cost whole, so no long-context tier is kept for these ids in either place.",
+    "rake models:update also keeps every models.json entry with metadata source 'manual' that no provider listing or models.dev returns (RubyLLM::Models.keep_manual_models). Such an entry stays until it is deleted from models.json by hand.",
     "No long-context tier exists for these models. Anthropic's pricing page (platform.claude.com/docs/en/about-claude/pricing, read 2026-10-14) says: 'Claude 4.6 and later models (except Claude Haiku 5.5) ... include the full 1M token context window at standard pricing.' The AWS Price List has long_ctx SKUs only for Claude Haiku 5.5 and Claude Sonnet 4.",
     "Edit models.json and this file together. spec/ruby_llm/models_overrides_spec.rb fails when they disagree."
   ],

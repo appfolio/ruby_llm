@@ -248,6 +248,7 @@ module RubyLLM
 
       # A model with metadata source 'manual' was added by hand. Keep it when neither the
       # provider listing nor models.dev returns it, instead of dropping it from the registry.
+      # A manual model therefore stays until someone deletes it from models.json by hand.
       def keep_manual_models(merged_models, existing_models)
         merged_keys = index_by_key(merged_models)
         missing = existing_models.select do |model|
@@ -258,11 +259,14 @@ module RubyLLM
         (merged_models + missing).sort_by { |m| [m.provider, m.id] }
       end
 
+      # text_tokens becomes { standard: ... } only, so no other text tier survives for an
+      # overridden id (a batch tier is dropped too). Model::Pricing keeps only standard and
+      # batch, so a long-context tier can only arrive through metadata.cost (tiers[] or
+      # context_over_200k, which Supernova's Llm::PricingRegistry reads); replacing
+      # metadata.cost whole is what removes it.
       def apply_override(model, cost)
         data = model.to_h
-        pricing = data[:pricing] || {}
-        text_tokens = (pricing[:text_tokens] || {}).merge(models_dev_pricing(cost)[:text_tokens])
-        data[:pricing] = pricing.merge(text_tokens: text_tokens)
+        data[:pricing] = (data[:pricing] || {}).merge(text_tokens: models_dev_pricing(cost)[:text_tokens])
         data[:metadata] = (data[:metadata] || {}).merge(cost: cost)
         Model::Info.new(data)
       end
