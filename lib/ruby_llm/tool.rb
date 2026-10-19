@@ -3,7 +3,7 @@
 require 'ruby_llm/schema'
 
 module RubyLLM
-  # Parameter definition for Tool methods.
+  # Parameter definition for Tool methods. `desc:` is the 1.x name for `description:`.
   class Parameter
     attr_reader :name, :type, :description, :required
 
@@ -20,8 +20,6 @@ module RubyLLM
     POSITIONAL_PARAMETER_KINDS = %i[req opt rest].freeze
 
     class << self
-      attr_reader :params_schema_definition
-
       def description(text = nil)
         return @description unless text
 
@@ -29,17 +27,40 @@ module RubyLLM
       end
       alias desc description
 
+      # RubyLLM 2.0 name. Stores into declared_parameters, as 2.0 does.
+      def parameter(name, **options)
+        declared_parameters[name] = Parameter.new(name, **options)
+      end
+
+      # 1.x name for parameter.
       def param(name, **options)
-        parameters[name] = Parameter.new(name, **options)
+        parameter(name, **options)
       end
 
-      def parameters
-        @parameters ||= {}
+      # RubyLLM 2.0 name for the declared parameter hash (the storage).
+      def declared_parameters
+        @declared_parameters ||= {}
       end
 
+      # Called with a schema or a block: the 2.0 form of params. Called with neither: the 1.x
+      # getter for the parameter hash (2.0 raises ArgumentError here instead; this fork keeps
+      # the getter until Supernova no longer calls it).
+      def parameters(schema = nil, &block)
+        return declared_parameters if schema.nil? && block.nil?
+
+        define_parameters_schema(schema, block)
+      end
+
+      # 1.x name for parameters(schema) / parameters do ... end.
       def params(schema = nil, &block)
-        @params_schema_definition = SchemaDefinition.new(schema:, block:)
-        self
+        define_parameters_schema(schema, block)
+      end
+
+      attr_reader :parameters_schema_definition
+
+      # 1.x name for parameters_schema_definition.
+      def params_schema_definition
+        parameters_schema_definition
       end
 
       def with_params(**params)
@@ -49,6 +70,13 @@ module RubyLLM
 
       def provider_params
         @provider_params ||= {}
+      end
+
+      private
+
+      def define_parameters_schema(schema, block)
+        @parameters_schema_definition = SchemaDefinition.new(schema:, block:)
+        self
       end
     end
 
@@ -63,7 +91,14 @@ module RubyLLM
       self.class.description
     end
 
+    # 1.x name for declared_parameters.
     def parameters
+      declared_parameters
+    end
+
+    # RubyLLM 2.0 name. Calls the class through its 1.x getter so a class-level override of
+    # either name is honored.
+    def declared_parameters
       self.class.parameters
     end
 
@@ -71,10 +106,16 @@ module RubyLLM
       self.class.provider_params
     end
 
+    # 1.x name for parameters_schema.
     def params_schema
-      return @params_schema if defined?(@params_schema)
+      parameters_schema
+    end
 
-      @params_schema = begin
+    # RubyLLM 2.0 name; holds what params_schema did before.
+    def parameters_schema
+      return @parameters_schema if defined?(@parameters_schema)
+
+      @parameters_schema = begin
         definition = self.class.params_schema_definition
         if definition&.present?
           definition.json_schema

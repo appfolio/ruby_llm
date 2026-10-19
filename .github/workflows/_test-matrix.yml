@@ -15,7 +15,8 @@ permissions:
 jobs:
   test:
     name: Test (${{ matrix.ruby-version }} / ${{ matrix.rails-version }})
-    runs-on: ubuntu-latest
+    # ubuntu-26.04 has no Ruby 3.1 or JRuby 10.0.2.0 build in ruby/setup-ruby, so pin to 24.04.
+    runs-on: ubuntu-24.04
     env:
       BUNDLE_PATH: vendor/bundle
       BUNDLE_DISABLE_SHARED_GEMS: "true"

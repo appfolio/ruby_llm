@@ -49,7 +49,7 @@ Define a tool by creating a class that inherits from `RubyLLM::Tool`.
 
 ```ruby
 class Weather < RubyLLM::Tool
-  desc "Gets current weather for a location"
+  description "Gets current weather for a location"
 
   def execute(latitude:, longitude:)
     url = "https://api.open-meteo.com/v1/forecast?latitude=#{latitude}&longitude=#{longitude}&current=temperature_2m,wind_speed_10m"
@@ -65,9 +65,9 @@ end
 ### Tool Components
 
 1.  **Inheritance:** Must inherit from `RubyLLM::Tool`.
-2.  **`desc` / `description`:** A class method defining what the tool does. Crucial for the AI model to understand its purpose. Keep it clear and concise.
+2.  **`description`:** A class method defining what the tool does. Crucial for the AI model to understand its purpose. Keep it clear and concise.
 3.  **`execute` Method:** The instance method containing your Ruby code. RubyLLM v1.15+ infers simple keyword parameters from this signature when no explicit parameter schema is declared.
-4.  **Parameter declarations:** Optional. Use `param` for simple descriptions and types, or `params` for nested objects, arrays, enums, and full JSON Schema control.
+4.  **Parameter declarations:** Optional. Use `parameter` for simple descriptions and types, or `parameters` for nested objects, arrays, enums, and full JSON Schema control.
 
 > The tool's class name is automatically converted to a snake_case name used in the API call (e.g., `WeatherLookup` becomes `weather_lookup`). This is how the LLM would call it. You can override this by defining a `name` method in your tool class:
 >
@@ -94,14 +94,16 @@ end
 RubyLLM ships with three complementary approaches to telling the model what arguments a tool accepts:
 
 *   **Signature inference** for simple flat arguments.
-*   The **`param` helper** for quick, flat argument lists. (v1.0+)
-*   The **`params` DSL** for expressive, structured inputs. (v1.9+)
+*   The **`parameter` helper** for quick, flat argument lists. (v1.0+)
+*   The **`parameters` DSL** for expressive, structured inputs. (v1.9+)
 
-The simplest case needs nothing extra. When a tool has no `param` or `params` declaration, RubyLLM builds a JSON Schema from the `execute` keyword arguments:
+The 1.x names (`param`, `desc:`, `params`, and class-level `desc`) still work on this fork.
+
+The simplest case needs nothing extra. When a tool has no `parameter` or `parameters` declaration, RubyLLM builds a JSON Schema from the `execute` keyword arguments:
 
 ```ruby
 class Weather < RubyLLM::Tool
-  desc "Gets current weather for a location"
+  description "Gets current weather for a location"
 
   def execute(latitude:, longitude:, units: "metric")
     # ...
@@ -111,7 +113,7 @@ end
 
 Required keywords become required string parameters. Optional keywords become optional string parameters. A tool with `def execute` receives an empty object schema.
 
-Ruby method signatures do not expose reliable JSON Schema types or descriptions, so add explicit declarations when those details matter. For the `param` helper, the `params` DSL, and supplying JSON Schema manually, see [Tool Parameters]({% link _core_features/tool-parameters.md %}).
+Ruby method signatures do not expose reliable JSON Schema types or descriptions, so add explicit declarations when those details matter. For the `parameter` helper, the `parameters` DSL, and supplying JSON Schema manually, see [Tool Parameters]({% link _core_features/tool-parameters.md %}).
 
 ## Using Tools in Chat
 

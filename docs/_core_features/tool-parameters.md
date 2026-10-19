@@ -23,7 +23,7 @@ description: Declare tool arguments - from inferred signatures to full JSON Sche
 After reading this guide, you will know:
 
 * How RubyLLM infers parameters from an `execute` signature.
-* When to reach for the `param` helper versus the `params` DSL.
+* When to reach for the `parameter` helper versus the `parameters` DSL.
 * How to supply your own JSON Schema for full control.
 * How to return rich content, such as images and documents, from a tool.
 * How to inject dependencies through custom initialization.
@@ -36,18 +36,20 @@ The model only knows what arguments a tool accepts from the schema you give it. 
 RubyLLM ships with three complementary approaches:
 
 *   **Signature inference** for simple flat arguments.
-*   The **`param` helper** for quick, flat argument lists. (v1.0+)
-*   The **`params` DSL** for expressive, structured inputs. (v1.9+)
+*   The **`parameter` helper** for quick, flat argument lists. (v1.0+)
+*   The **`parameters` DSL** for expressive, structured inputs. (v1.9+)
 
-Start with the method signature. Add `param` when a flat argument needs a description, type, or optionality that is not obvious from Ruby alone. Use the `params` DSL whenever you need nested objects, arrays, enums, or union types.
+The 1.x names (`param`, `desc:`, `params`, and class-level `desc`) still work on this fork.
+
+Start with the method signature. Add `parameter` when a flat argument needs a description, type, or optionality that is not obvious from Ruby alone. Use the `parameters` DSL whenever you need nested objects, arrays, enums, or union types.
 
 ### Signature Inference
 
-When a tool has no `param` or `params` declaration, RubyLLM builds a JSON Schema from `execute` keyword arguments:
+When a tool has no `parameter` or `parameters` declaration, RubyLLM builds a JSON Schema from `execute` keyword arguments:
 
 ```ruby
 class Weather < RubyLLM::Tool
-  desc "Gets current weather for a location"
+  description "Gets current weather for a location"
 
   def execute(latitude:, longitude:, units: "metric")
     # ...
@@ -59,16 +61,16 @@ Required keywords become required string parameters. Optional keywords become op
 
 Ruby method signatures do not expose reliable JSON Schema types or descriptions, so add explicit declarations when those details matter.
 
-### Using the `param` Helper for Simple Tools
+### Using the `parameter` Helper for Simple Tools
 
-If your tool just needs a few scalar arguments with descriptions or non-string types, use the `param` helper. RubyLLM translates these declarations into JSON Schema under the hood.
+If your tool just needs a few scalar arguments with descriptions or non-string types, use the `parameter` helper. RubyLLM translates these declarations into JSON Schema under the hood.
 
 ```ruby
 class Distance < RubyLLM::Tool
-  desc "Calculates distance between two cities"
-  param :origin, desc: "Origin city name"
-  param :destination, description: "Destination city name"
-  param :units, type: :string, desc: "Unit system (metric or imperial)", required: false
+  description "Calculates distance between two cities"
+  parameter :origin, description: "Origin city name"
+  parameter :destination, description: "Destination city name"
+  parameter :units, type: :string, description: "Unit system (metric or imperial)", required: false
 
   def execute(origin:, destination:, units: "metric")
     # ...
@@ -76,15 +78,15 @@ class Distance < RubyLLM::Tool
 end
 ```
 
-### params DSL
+### parameters DSL
 
-When you need nested objects, arrays, enums, or union types, the `params do ... end` DSL produces the JSON Schema that function-calling models expect while staying Ruby-flavoured.
+When you need nested objects, arrays, enums, or union types, the `parameters do ... end` DSL produces the JSON Schema that function-calling models expect while staying Ruby-flavoured.
 
 ```ruby
 class Scheduler < RubyLLM::Tool
-  desc "Books a meeting"
+  description "Books a meeting"
 
-  params do
+  parameters do
     object :window, description: "Time window to reserve" do
       string :start, description: "ISO8601 start time"
       string :finish, description: "ISO8601 end time"
@@ -108,13 +110,13 @@ RubyLLM bundles the DSL through [`ruby_llm-schema`](https://github.com/danielfri
 
 ### Supplying JSON Schema Manually
 
-Prefer to own the JSON Schema yourself? Pass a schema hash (or a class/object responding to `#to_json_schema`) directly to `params`:
+Prefer to own the JSON Schema yourself? Pass a schema hash (or a class/object responding to `#to_json_schema`) directly to `parameters`:
 
 ```ruby
 class Lookup < RubyLLM::Tool
   description "Performs catalog lookups"
 
-  params type: "object",
+  parameters type: "object",
     properties: {
       sku: { type: "string", description: "Product SKU" },
       locale: { type: "string", description: "Country code", default: "US" }
@@ -138,7 +140,7 @@ Tools can return `RubyLLM::Content` objects with file attachments, allowing you 
 ```ruby
 class AnalyzeTool < RubyLLM::Tool
   description "Analyzes data and returns results with visualizations"
-  param :query, desc: "Analysis query"
+  parameter :query, description: "Analysis query"
 
   def execute(query:)
     chart_path = generate_chart(query)
@@ -180,12 +182,12 @@ Tools can have custom initialization:
 class DocumentSearch < RubyLLM::Tool
   description "Searches documents by relevance"
 
-  param :query,
-    desc: "The search query"
+  parameter :query,
+    description: "The search query"
 
-  param :limit,
+  parameter :limit,
     type: :integer,
-    desc: "Maximum number of results",
+    description: "Maximum number of results",
     required: false
 
   def initialize(database)
@@ -215,7 +217,7 @@ Some providers accept additional metadata alongside the JSON Schema, for example
 class TodoTool < RubyLLM::Tool
   description "Adds a task to the shared TODO list"
 
-  params do
+  parameters do
     string :title, description: "Human-friendly task description"
   end
 

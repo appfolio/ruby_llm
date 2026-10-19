@@ -130,7 +130,7 @@ The same idea applies to tool definitions:
 ```ruby
 class ChangelogTool < RubyLLM::Tool
   description "Formats commits into human-readable changelog entries."
-  param :commits, type: :array, desc: "List of commits to summarize"
+  parameter :commits, type: :array, description: "List of commits to summarize"
 
   with_params cache_control: { type: 'ephemeral' }
 

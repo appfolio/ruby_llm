@@ -59,7 +59,7 @@ Tools allow AI models to call Ruby code during conversations. This powerful feat
 
 ```ruby
 class Calculator < RubyLLM::Tool
-  desc "Performs basic arithmetic"
+  description "Performs basic arithmetic"
 
   def execute(expression:)
     { result: eval(expression) }
