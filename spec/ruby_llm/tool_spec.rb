@@ -197,4 +197,218 @@ RSpec.describe RubyLLM::Tool do
       )
     end
   end
+
+  describe 'RubyLLM 2.0 tool DSL names' do
+    def expected_schema
+      {
+        'type' => 'object',
+        'properties' => {
+          'city' => { 'type' => 'string', 'description' => 'City name' },
+          'days' => { 'type' => 'integer', 'description' => 'Forecast days' },
+          'tags' => { 'type' => 'array', 'description' => 'Tags', 'items' => { 'type' => 'string' } }
+        },
+        'required' => %w[city tags],
+        'additionalProperties' => false,
+        'strict' => true
+      }
+    end
+
+    def fixed_schema
+      { 'type' => 'object', 'properties' => { 'q' => { 'type' => 'string' } }, 'required' => ['q'] }
+    end
+
+    def gemini_fixed_schema
+      { type: 'OBJECT', properties: { 'q' => { type: 'STRING' } }, required: ['q'] }
+    end
+
+    def base_tool
+      Class.new(described_class) do
+        parameter :base, description: 'Base value'
+
+        def execute(base:)
+          base
+        end
+      end
+    end
+
+    def merged_hash
+      base_tool.declared_parameters.merge(extra: RubyLLM::Parameter.new(:extra, description: 'Extra value'))
+    end
+
+    def merged_schema
+      {
+        'type' => 'object',
+        'properties' => {
+          'base' => { 'type' => 'string', 'description' => 'Base value' },
+          'extra' => { 'type' => 'string', 'description' => 'Extra value' }
+        },
+        'required' => %w[base extra],
+        'additionalProperties' => false,
+        'strict' => true
+      }
+    end
+
+    def build_tool(const_name, &)
+      klass = Class.new(described_class, &)
+      stub_const(const_name, klass)
+      klass.new
+    end
+
+    it 'builds the same schema from param/desc and parameter/description' do
+      old_tool = build_tool('OldNamesTool') do
+        param :city, desc: 'City name'
+        param :days, type: :integer, desc: 'Forecast days', required: false
+        param :tags, type: :array, desc: 'Tags'
+      end
+      new_tool = build_tool('NewNamesTool') do
+        parameter :city, description: 'City name'
+        parameter :days, type: :integer, description: 'Forecast days', required: false
+        parameter :tags, type: :array, description: 'Tags'
+      end
+
+      [old_tool, new_tool].each do |tool|
+        expect(tool.params_schema).to eq(expected_schema)
+        expect(tool.parameters_schema).to eq(expected_schema)
+      end
+    end
+
+    it 'accepts params and parameters with a schema hash' do
+      schema = { type: 'object', properties: { q: { type: 'string' } }, required: ['q'] }
+      old_tool = build_tool('OldHashTool') { params schema }
+      new_tool = build_tool('NewHashTool') { parameters schema }
+
+      expect(old_tool.parameters_schema).to eq(fixed_schema)
+      expect(new_tool.parameters_schema).to eq(old_tool.parameters_schema)
+    end
+
+    it 'accepts params and parameters with a RubyLLM::Schema block' do
+      old_tool = build_tool('OldBlockTool') do
+        params do
+          string :q
+        end
+      end
+      new_tool = build_tool('NewBlockTool') do
+        parameters do
+          string :q
+        end
+      end
+
+      expect(old_tool.parameters_schema).to eq(new_tool.parameters_schema)
+      expect(new_tool.parameters_schema['properties']).to eq('q' => { 'type' => 'string' })
+      expect(new_tool.params_schema).to eq(new_tool.parameters_schema)
+    end
+
+    it 'returns the parameter hash from parameters without arguments and the class from params' do
+      klass = Class.new(described_class) { parameter :a }
+
+      expect(klass.parameters).to be(klass.declared_parameters)
+      expect(klass.parameters.keys).to eq([:a])
+      expect(klass.params).to be(klass)
+    end
+
+    it 'honors a class-level parameters override through both names' do
+      merged = merged_hash
+      tool = build_tool('ClassParametersOverrideTool') do
+        define_singleton_method(:parameters) { |*| merged }
+      end
+
+      expect(tool.params_schema).to eq(merged_schema)
+      expect(tool.parameters_schema).to eq(merged_schema)
+      expect(tool.parameters).to eq(merged)
+      expect(tool.declared_parameters).to eq(merged)
+    end
+
+    it 'honors a class-level declared_parameters override through both names' do
+      merged = merged_hash
+      tool = build_tool('ClassDeclaredOverrideTool') do
+        define_singleton_method(:declared_parameters) { merged }
+      end
+
+      expect(tool.params_schema).to eq(merged_schema)
+      expect(tool.parameters_schema).to eq(merged_schema)
+      expect(tool.parameters).to eq(merged)
+      expect(tool.declared_parameters).to eq(merged)
+    end
+
+    it 'honors instance-level parameters and params_schema overrides at the 1.x names' do
+      schema = fixed_schema
+      tool = build_tool('InstanceOldOverrideTool') do
+        define_method(:parameters) { {} }
+        define_method(:params_schema) { schema }
+      end
+
+      # parameters_schema and declared_parameters sit further down the chains than these overrides
+      # and so deliberately do not see them. The protocols call params_schema and parameters.
+      expect(tool.params_schema).to eq(fixed_schema)
+      expect(tool.parameters).to eq({})
+    end
+
+    it 'honors instance-level declared_parameters and parameters_schema overrides at the 2.0 names' do
+      schema = fixed_schema
+      tool = build_tool('InstanceNewOverrideTool') do
+        define_method(:declared_parameters) { {} }
+        define_method(:parameters_schema) { schema }
+      end
+
+      expect(tool.params_schema).to eq(fixed_schema)
+      expect(tool.parameters_schema).to eq(fixed_schema)
+      expect(tool.parameters).to eq({})
+      expect(tool.declared_parameters).to eq({})
+    end
+
+    %w[InstanceOldOverrideTool InstanceNewOverrideTool].each do |const_name|
+      context "with #{const_name}" do
+        let(:tool) do
+          schema = fixed_schema
+          if const_name == 'InstanceOldOverrideTool'
+            build_tool(const_name) do
+              define_method(:parameters) { {} }
+              define_method(:params_schema) { schema }
+            end
+          else
+            build_tool(const_name) do
+              define_method(:declared_parameters) { {} }
+              define_method(:parameters_schema) { schema }
+            end
+          end
+        end
+
+        it 'reaches Anthropic' do
+          definition = RubyLLM::Protocols::Anthropic::Tools.function_for(tool)
+          expect(definition[:input_schema]).to eq(fixed_schema)
+        end
+
+        it 'reaches Chat Completions' do
+          definition = RubyLLM::Protocols::ChatCompletions::Tools.tool_for(tool)
+          expect(definition[:function][:parameters]).to eq(fixed_schema)
+        end
+
+        it 'reaches Converse' do
+          definition = RubyLLM::Protocols::Converse::Chat.format_tool(tool)
+          expect(definition[:toolSpec][:inputSchema][:json]).to eq(fixed_schema)
+        end
+
+        it 'reaches Gemini' do
+          formatter = Object.new.extend(RubyLLM::Protocols::Gemini::Tools)
+          definitions = formatter.format_tools({ tool.name.to_sym => tool })
+          expect(definitions[0][:functionDeclarations][0][:parameters]).to eq(gemini_fixed_schema)
+        end
+
+        it 'reaches Responses' do
+          definition = RubyLLM::Protocols::Responses::Tools.tool_for(tool)
+          expect(definition[:parameters]).to eq(fixed_schema)
+        end
+      end
+    end
+
+    it 'does not copy declared parameters into subclasses' do
+      parent = Class.new(described_class) { parameter :query }
+      child = Class.new(parent)
+
+      # RubyLLM 2.0 copies a parent's parameters and schema definition into each subclass.
+      # 1.16 does not, and Supernova handles the difference at the gem bump.
+      expect(child.declared_parameters).to eq({})
+      expect(parent.declared_parameters.keys).to eq([:query])
+    end
+  end
 end

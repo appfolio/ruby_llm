@@ -204,7 +204,7 @@ Tools are Ruby classes that the AI can call. While the tool classes themselves a
 ```ruby
 class Weather < RubyLLM::Tool
   description "Gets current weather for a location"
-  param :city, desc: "City name"
+  parameter :city, description: "City name"
 
   def execute(city:)
     "The weather in #{city} is sunny and 22°C."

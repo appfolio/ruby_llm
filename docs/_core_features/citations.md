@@ -77,7 +77,7 @@ When your tools fetch documents, e.g. from a vector store, Google Drive, a wiki,
 ```ruby
 class KnowledgeBase < RubyLLM::Tool
   description "Searches the company knowledge base"
-  param :query, desc: "What to look for"
+  parameter :query, description: "What to look for"
 
   def execute(query:)
     docs = MyVectorStore.search(query)
