@@ -69,6 +69,30 @@ module RubyLLM
         File.expand_path('models_schema.json', __dir__)
       end
 
+      def overrides_file
+        File.expand_path('models_overrides.json', __dir__)
+      end
+
+      # Hand-verified prices keyed "provider:id", re-applied on top of every refresh so a
+      # models.dev regeneration cannot silently replace them (see models_overrides.json).
+      def read_overrides(file = overrides_file)
+        return {} unless File.exist?(file)
+
+        JSON.parse(File.read(file), symbolize_names: true).fetch(:overrides, {}).transform_keys(&:to_s)
+      end
+
+      # Replaces each overridden model's standard text pricing and metadata.cost with the
+      # override's cost. metadata.cost is replaced whole, so a tier models.dev adds for an
+      # overridden id is dropped too: the override is the authority for that id.
+      def apply_overrides(models, overrides = read_overrides)
+        return models if overrides.empty?
+
+        models.map do |model|
+          override = overrides["#{model.provider}:#{model.id}"]
+          override ? apply_override(model, override[:cost]) : model
+        end
+      end
+
       def load_models(file = RubyLLM.config.model_registry_file)
         source = RubyLLM.config.model_registry_source
         if source && file == RubyLLM.config.model_registry_file
@@ -109,6 +133,7 @@ module RubyLLM
           log_models_dev_fetch(models_dev_fetch)
 
           merged_models = merge_with_existing(existing_models, provider_fetch, models_dev_fetch)
+          merged_models = apply_overrides(merged_models)
           payload[:model_count] = merged_models.size
           merged_models
         end
@@ -218,7 +243,32 @@ module RubyLLM
                               existing_models.select { |model| model.metadata[:source] == 'models.dev' }
                             end
 
-        merge_models(provider_models, models_dev_models)
+        keep_manual_models(merge_models(provider_models, models_dev_models), existing_models)
+      end
+
+      # A model with metadata source 'manual' was added by hand. Keep it when neither the
+      # provider listing nor models.dev returns it, instead of dropping it from the registry.
+      # A manual model therefore stays until someone deletes it from models.json by hand.
+      def keep_manual_models(merged_models, existing_models)
+        merged_keys = index_by_key(merged_models)
+        missing = existing_models.select do |model|
+          model.metadata[:source] == 'manual' && !merged_keys.key?("#{model.provider}:#{model.id}")
+        end
+        return merged_models if missing.empty?
+
+        (merged_models + missing).sort_by { |m| [m.provider, m.id] }
+      end
+
+      # text_tokens becomes { standard: ... } only, so no other text tier survives for an
+      # overridden id (a batch tier is dropped too). Model::Pricing keeps only standard and
+      # batch, so a long-context tier can only arrive through metadata.cost (tiers[] or
+      # context_over_200k, which Supernova's Llm::PricingRegistry reads); replacing
+      # metadata.cost whole is what removes it.
+      def apply_override(model, cost)
+        data = model.to_h
+        data[:pricing] = (data[:pricing] || {}).merge(text_tokens: models_dev_pricing(cost)[:text_tokens])
+        data[:metadata] = (data[:metadata] || {}).merge(cost: cost)
+        Model::Info.new(data)
       end
 
       def merge_models(provider_models, models_dev_models)
