@@ -53,6 +53,7 @@ Fine-tune how RubyLLM handles network connections:
 RubyLLM.configure do |config|
   # Basic settings
   config.request_timeout = 120        # Seconds to wait for response (default: 300)
+  config.open_timeout = 10            # Seconds to wait for the connection (default: adapter's own)
   config.max_retries = 3              # Retry attempts on failure (default: 3)
 
   # Advanced retry behavior
@@ -64,6 +65,8 @@ end
 ```
 
 When a provider reports how long to wait through rate-limit headers (the standard `Retry-After`, or OpenAI's `x-ratelimit-reset-requests` and `x-ratelimit-reset-tokens`), retries wait that long instead of the backoff interval. If the requested wait exceeds `retry_max_interval`, the request fails immediately with `RubyLLM::RateLimitError` rather than sleeping.
+
+A request that times out waiting for a response is not retried when it is a POST, because the provider may still be working on it and a retry would wait a second full `request_timeout`. A request that times out connecting never reached the provider, so it is retried.
 
 These settings cover requests you can safely repeat. Requests that create something on the provider's side, such as submitting a batch, starting a video generation job, uploading a file, or creating a content cache, are sent once and raise on failure, because a retry after a lost response would create a second job.
 

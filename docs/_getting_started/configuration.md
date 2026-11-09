@@ -203,6 +203,7 @@ RubyLLM.configure do |config|
 
   # Connection Settings
   config.request_timeout = Integer
+  config.open_timeout = Integer
   config.video_generation_timeout = Integer
   config.video_generation_poll_interval = Integer
   config.max_retries = Integer

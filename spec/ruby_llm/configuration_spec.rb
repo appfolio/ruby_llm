@@ -9,6 +9,7 @@ RSpec.describe RubyLLM::Configuration do
     it 'applies core default values' do
       expect(config.model_registry_store).to be_nil
       expect(config.request_timeout).to eq(300)
+      expect(config.open_timeout).to be_nil
       expect(config.max_retries).to eq(3)
       expect(config.retry_interval).to eq(0.1)
       expect(config.retry_backoff_factor).to eq(2)
@@ -22,6 +23,7 @@ RSpec.describe RubyLLM::Configuration do
     it 'exposes a discoverable options API' do
       expect(described_class.options).to include(
         :request_timeout,
+        :open_timeout,
         :tool_concurrency,
         :default_model,
         :default_speech_model,
