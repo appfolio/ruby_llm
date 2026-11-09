@@ -182,6 +182,13 @@ RSpec.describe RubyLLM::Transport::Connection do
         end
         socket
       end
+      probe = Socket.new(:INET, :STREAM)
+      begin
+        probe.connect_nonblock(Socket.sockaddr_in(port, '127.0.0.1'))
+      rescue IO::WaitWritable
+        nil
+      end
+      skip 'this OS (e.g. macOS) completes connects on a full listen backlog' if probe.wait_writable(0.2)
       config.open_timeout = 1
       config.request_timeout = 30
       config.max_retries = 0
@@ -195,6 +202,7 @@ RSpec.describe RubyLLM::Transport::Connection do
     ensure
       WebMock.enable!
       backlog&.each(&:close)
+      probe&.close
       server&.close
     end
   end
