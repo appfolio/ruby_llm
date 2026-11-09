@@ -29,7 +29,7 @@ RSpec.describe RubyLLM::Protocols::MantleResponses do
     end
 
     it 'uses /openai/v1/responses for openai.gpt-6.x ids' do
-      %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol].each do |id|
+      %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol openai.gpt-6.1-terra].each do |id|
         protocol = described_class.new(provider, model_info(id))
         expect(protocol.completion_url).to eq('/openai/v1/responses')
       end
