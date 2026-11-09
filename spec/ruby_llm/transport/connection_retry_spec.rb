@@ -17,6 +17,7 @@ RSpec.describe RubyLLM::Transport::Connection do
       instance_double(
         RubyLLM::Configuration,
         request_timeout: 300,
+        open_timeout: nil,
         max_retries: 3,
         retry_interval: 0.1,
         retry_max_interval: 30,
@@ -64,6 +65,137 @@ RSpec.describe RubyLLM::Transport::Connection do
       retry_options = retry_handler.instance_variable_get(:@args).first
 
       expect(retry_options[:max_interval]).to eq(30)
+    end
+
+    it 'does not retry a POST that timed out reading' do
+      connection = described_class.new(provider, config).connection
+      retry_handler = connection.builder.handlers.find { |handler| handler.klass == Faraday::Retry::Middleware }
+      retry_options = retry_handler.instance_variable_get(:@args).first
+
+      expect(retry_options[:retry_if].call({ method: :post }, Faraday::TimeoutError.new)).to be(false)
+    end
+
+    it 'retries a POST whose connection failed' do
+      connection = described_class.new(provider, config).connection
+      retry_handler = connection.builder.handlers.find { |handler| handler.klass == Faraday::Retry::Middleware }
+      retry_options = retry_handler.instance_variable_get(:@args).first
+
+      expect(retry_options[:retry_if].call({ method: :post }, Faraday::ConnectionFailed.new('refused'))).to be(true)
+    end
+  end
+
+  describe 'timeout retries' do
+    let(:config) do
+      RubyLLM::Configuration.new.tap do |c|
+        c.openai_api_key = 'test-key'
+        c.max_retries = 2
+        c.retry_interval = 0
+        c.retry_interval_randomness = 0
+      end
+    end
+
+    let(:provider) { RubyLLM::Providers::OpenAI.new(config) }
+    let(:ok) { { status: 200, headers: { 'Content-Type' => 'application/json' }, body: '{}' } }
+
+    it 'attempts a POST once when it times out reading' do
+      stub = stub_request(:post, 'https://api.openai.com/v1/chat/completions').to_raise(Net::ReadTimeout)
+
+      expect { provider.connection.post('chat/completions', {}) }.to raise_error(Faraday::TimeoutError)
+      expect(stub).to have_been_requested.once
+    end
+
+    it 'retries a POST whose connect timed out up to max_retries' do
+      stub = stub_request(:post, 'https://api.openai.com/v1/chat/completions').to_raise(Net::OpenTimeout)
+
+      expect { provider.connection.post('chat/completions', {}) }.to raise_error(Faraday::ConnectionFailed)
+      expect(stub).to have_been_requested.times(3)
+    end
+
+    it 'retries a POST that answers 503' do
+      stub = stub_request(:post, 'https://api.openai.com/v1/chat/completions')
+             .to_return({ status: 503, body: '{"error":{"message":"Unavailable"}}' }, ok)
+
+      expect(provider.connection.post('chat/completions', {}).status).to eq(200)
+      expect(stub).to have_been_requested.twice
+    end
+
+    it 'retries a GET that times out reading' do
+      stub = stub_request(:get, 'https://api.openai.com/v1/models').to_raise(Net::ReadTimeout).then.to_return(ok)
+
+      expect(provider.connection.get('models').status).to eq(200)
+      expect(stub).to have_been_requested.twice
+    end
+
+    it 'attempts a non-idempotent POST once when its connect times out' do
+      stub = stub_request(:post, 'https://api.openai.com/v1/chat/completions').to_raise(Net::OpenTimeout)
+
+      expect do
+        provider.connection.post('chat/completions', {}, idempotent: false)
+      end.to raise_error(Faraday::ConnectionFailed)
+      expect(stub).to have_been_requested.once
+    end
+
+    it 'attempts a POST once when it fails after its stream delivered a chunk' do
+      stub = stub_request(:post, 'https://api.openai.com/v1/chat/completions').to_raise(Net::OpenTimeout)
+      progress_key = RubyLLM::Transport::Connection::STREAM_PROGRESS_KEY
+
+      expect do
+        provider.connection.post('chat/completions', {}) do |req|
+          req.options.context = { progress_key => { started: true } }
+        end
+      end.to raise_error(Faraday::ConnectionFailed)
+      expect(stub).to have_been_requested.once
+    end
+  end
+
+  describe 'open_timeout' do
+    let(:provider) { RubyLLM::Providers::OpenAI.new(config) }
+    let(:config) { RubyLLM::Configuration.new.tap { |c| c.openai_api_key = 'test-key' } }
+
+    it 'sets open_timeout on the provider connection' do
+      config.open_timeout = 10
+
+      expect(described_class.new(provider, config).connection.options.open_timeout).to eq(10)
+    end
+
+    it 'sets open_timeout on a basic connection' do
+      config.open_timeout = 10
+
+      expect(described_class.basic(config).options.open_timeout).to eq(10)
+    end
+
+    it 'leaves open_timeout unset when the option is nil' do
+      expect(described_class.new(provider, config).connection.options.open_timeout).to be_nil
+      expect(described_class.basic(config).options.open_timeout).to be_nil
+    end
+
+    it 'fails a connect that never completes after open_timeout, not request_timeout' do
+      server = TCPServer.new('127.0.0.1', 0)
+      server.listen(0)
+      port = server.addr[1]
+      backlog = Array.new(4) do
+        socket = Socket.new(:INET, :STREAM)
+        begin
+          socket.connect_nonblock(Socket.sockaddr_in(port, '127.0.0.1'))
+        rescue IO::WaitWritable
+          nil
+        end
+        socket
+      end
+      config.open_timeout = 1
+      config.request_timeout = 30
+      config.max_retries = 0
+      connection = described_class.basic(config)
+
+      WebMock.disable!
+      started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
+      expect { connection.get("http://127.0.0.1:#{port}/") }.to raise_error(Faraday::ConnectionFailed, /open/i)
+      expect(Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).to be_between(0.9, 5)
+    ensure
+      WebMock.enable!
+      backlog&.each(&:close)
+      server&.close
     end
   end
 

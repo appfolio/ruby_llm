@@ -20,6 +20,7 @@ module RubyLLM
       def self.basic(config = RubyLLM.config, &)
         Faraday.new do |f|
           f.options.timeout = config.request_timeout
+          f.options.open_timeout = config.open_timeout if config.open_timeout
           f.proxy = config.http_proxy if config.http_proxy
           f.response :logger,
                      RubyLLM.logger,
@@ -101,6 +102,7 @@ module RubyLLM
 
       def setup_timeout(faraday)
         faraday.options.timeout = @config.request_timeout
+        faraday.options.open_timeout = @config.open_timeout if @config.open_timeout
       end
 
       def setup_logging(faraday)
@@ -129,12 +131,20 @@ module RubyLLM
           interval_randomness: @config.retry_interval_randomness,
           backoff_factor: @config.retry_backoff_factor,
           methods: Faraday::Retry::Middleware::IDEMPOTENT_METHODS,
-          retry_if: lambda { |env, _exception|
-            env[:method] == :post && idempotent?(env) && !stream_delivered?(env)
+          retry_if: lambda { |env, exception|
+            env[:method] == :post && idempotent?(env) && !stream_delivered?(env) && !read_timeout?(exception)
           },
           exceptions: retry_exceptions
         }
         faraday.use :llm_usage
+      end
+
+      # A POST that timed out reading may still be running on the server, and a
+      # retry waits a second full request_timeout. A connect timeout arrives as
+      # Faraday::ConnectionFailed, so a POST that never reached the server is
+      # still retried.
+      def read_timeout?(exception)
+        exception.is_a?(Faraday::TimeoutError)
       end
 
       def stream_delivered?(env)

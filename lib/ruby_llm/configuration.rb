@@ -173,6 +173,13 @@ module RubyLLM
     option :request_timeout, 300
 
     ##
+    # :attr_accessor: open_timeout
+    #
+    # Seconds to wait for the TCP and TLS connection before failing. Default:
+    # +nil+, which leaves the HTTP adapter's default.
+    option :open_timeout, nil
+
+    ##
     # :attr_accessor: max_retries
     #
     # Number of times to retry failed requests. Default: 3.
