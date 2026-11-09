@@ -18419,6 +18419,74 @@
     }
   },
   {
+    "id": "openai.gpt-6.1-terra",
+    "name": "GPT-6.1 Terra",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-11-09 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 5.5,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 1.375
+        }
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-09",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1.1,
+        "output": 5.5,
+        "cache_read": 0.055,
+        "cache_write": 1.375
+      },
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
     "id": "openai.gpt-oss-120b",
     "name": "gpt-oss-120b",
     "provider": "bedrock",

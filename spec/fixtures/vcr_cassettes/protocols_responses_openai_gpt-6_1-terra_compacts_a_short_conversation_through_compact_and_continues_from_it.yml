@@ -1,0 +1,159 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-terra","input":[{"role":"user","content":"My
+        favourite colour is teal. Reply with exactly: NOTED"}],"stream":false,"store":false,"include":["reasoning.encrypted_content"]}'
+    headers:
+      X-Amz-Date:
+      - 20261109T193147Z
+      X-Amz-Content-Sha256:
+      - 28b3f9b38bf87c0675df46776b47acf947fc186fa352c4b77bebd8ac9d2a7d6e
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Nov 2026 19:31:48 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1239'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1794252708,"created_at":1794252707,"error":null,"frequency_penalty":0.0,"id":"resp_ymqf43x5ghfwkixqasja45qfppisqlhacgr3gxf3gye5uvh2qn2a","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.1-terra","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"NOTED","type":"output_text"}],"id":"msg_b0b3d4b1d5305dd0b9554f1984fa6c8f","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":18,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":6,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":24},"user":null,"moderation":null}'
+  recorded_at: Mon, 09 Nov 2026 19:31:48 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses/compact
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-terra","input":[{"role":"user","content":"My
+        favourite colour is teal. Reply with exactly: NOTED"},{"role":"assistant","content":[{"type":"output_text","text":"NOTED"}]}]}'
+    headers:
+      X-Amz-Date:
+      - 20261109T193148Z
+      X-Amz-Content-Sha256:
+      - 878e5824355d34ba5dfb6f5d47b75a541728806174c9bd36bc1c1c8da1b23473
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Nov 2026 19:31:49 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '4138'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"created_at":1794252708,"id":"resp_tg42aqgw6n5mdaoqi3at5j6ysqivnupwdvf4uvq32sux4u3bpmeq","object":"response.compaction","output":[{"encrypted_content":"smry_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6Ikx2aFNnTDNTYWJ2WXd6RFFBeTN0Uk1ZdkkwbmFwVDI1UklIYnhsZDVTVG8iLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKSExXVXlVVzFGUzA5UVFqRTBjR2RRYjFoeFUxSjNVVTl4YW1aaldWY3pkMEpwT1UxVFkwdENNbmRKSWl3aWVTSTZJa1JKYjBOV2VYQm1Va3AzZVU1NlpVUlRNWEJmTjB0S1dWSmFNMVIwVkhoQmFFUldSWGQ2U205c1lVa2lMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNklreDJhRk5uVEROVFlXSjJXWGQ2UkZGQmVUTjBVazFaZGtrd2JtRndWREkxVWtsSVluaHNaRFZUVkc4aWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azBNakkxTURJeUxDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5ETXhNVFF5TWl3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAuMXNkNEdEZVNhM1ZzV3g1bkxiTnBidjA4V0g0OVRuYXdQYzhFVXZBZG1ValBHVDR0SjB2UjlWODc2OFEyM1BUTEFjamtaenBVMndYc1hKTHd6cTd1dGciLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJa3RoWms1SmNVUlBaVmxKWjIxNmNFbE9ObDlIUWpCeWIyTkRha3B4V1RCTU56SnFOemM0VVVoVFZFa2lMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2lVV3d5Wkd4NFEweGxWbk51VlU5UlpTSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJ0QUQzcFdzejNrb3RpMzdoczVtUkRsZ2ZtWXlaVndMUFZVa1RNXzRDajZCM285b2wwemlkOUpKVjdsR3pLYTdTc2JBalEyamZSUDdRclZYbUlNR2VWMXNDSzNFMnN2b3kzNm9aRXBtMGlscVRZVEFVMmg4U0xmS0Q2TEdscFhDNV9iMTAyLVpNQVMyREVoRGFkOHBJTHpKUWhJVzF0WndTTExSXzVyaGJEVHN2b2pSdEtLZDJkZHhoYS0tV2FiZ0tSWDlqcVExeXhUVUpZM095STN4SkpVblV3d1piVGw3cTUtQU4xTExuX05YYVdOdkxuemNQaW1SSUI1NWdHcmtoR1hBeU1DWk55dk04MXVjUi1QY2xVYktqUHQ4Rl9ITFF5MlBaemRIZHI5bkFxeEJhSWU5Y29FbE9VUVZzV1lkdXVBVktQZFRGR3hhdERoQm1VMFhJWWc3dFVBV2dXMG82N3BfQjY3QXlEUWhjcGRHWXliTE5mY2N3YTJPWWtFOEVtcGJpZXhQVGJPdGtZcExUSjhSYWZobVVxOTU3aWlaQXA0S1NJMVNfb0tpemRBaWFxLVpUUGNOdHBtNTN5ckJhaV9SWXQtalV5NWVqbWxSbmRPRnVaT0hDYXVDbkkyYUE1NkllUmxuOHB6Ujk0bkpLNFlRdWVhN2lhZGxvM1BkajczdFl4MTNfYjZBQ2twMGJ5QlVqRUVtRVp5UFN3NXFpTEpfbDJjZk9QS1ByQjI3TWRyd2FnZndyaU1aUEtEOEJkanBWeGNZbTY5Xy04VGtITk10Q3dYalFLUVhFTWxXTWFjMmU3WUE2dTFLUkV5TjhBdk1BUnJWcE5jWElRanA3OXV1eXFnT1J4aU5KVzIyNmN0NzJ5ZUVtQjBsa1RKc1BqU2FzUldMUzB5VXZCOGNDYnRPWE03cWpKa3pGaGtoMzZfNmtaeFh2aGJRN3Nnd3hHcjJTQ0Q4RnEtU01ySU15TFJSaU42N2JxQjhxamJZM01HNkZiVndpRVo0TGZyUWRLdEtBNFlvTWFWMUU4VGxQdklMYVp6R0JMVExleHJoZmlxZjdWZURkdWIzSjEyb0tXM3EydTlBb0ZmZ3pZTzZwWTlWVUZzSUY0OGs3X2tnQnJrclZyZGtydnFKbjFIX05EUUJRIn0.Mg31Gy9EihxdMcRGcNuL1UFREiM0K-oCzuE5mZxBQOC7enVeCFsDfva-duHbnatJ-i6w6bP5A8lVdQcHY7CxBA","id":"cmp_resp_tg42aqgw6n5mdaoqi3at5j6ysqivnupwdvf4uvq32sux4u3bpmeq","type":"compaction"}],"usage":{"input_tokens":44,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":31,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":75}}'
+  recorded_at: Mon, 09 Nov 2026 19:31:49 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.1-terra","input":[{"encrypted_content":"smry_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6Ikx2aFNnTDNTYWJ2WXd6RFFBeTN0Uk1ZdkkwbmFwVDI1UklIYnhsZDVTVG8iLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKSExXVXlVVzFGUzA5UVFqRTBjR2RRYjFoeFUxSjNVVTl4YW1aaldWY3pkMEpwT1UxVFkwdENNbmRKSWl3aWVTSTZJa1JKYjBOV2VYQm1Va3AzZVU1NlpVUlRNWEJmTjB0S1dWSmFNMVIwVkhoQmFFUldSWGQ2U205c1lVa2lMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNklreDJhRk5uVEROVFlXSjJXWGQ2UkZGQmVUTjBVazFaZGtrd2JtRndWREkxVWtsSVluaHNaRFZUVkc4aWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azBNakkxTURJeUxDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5ETXhNVFF5TWl3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAuMXNkNEdEZVNhM1ZzV3g1bkxiTnBidjA4V0g0OVRuYXdQYzhFVXZBZG1ValBHVDR0SjB2UjlWODc2OFEyM1BUTEFjamtaenBVMndYc1hKTHd6cTd1dGciLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJa3RoWms1SmNVUlBaVmxKWjIxNmNFbE9ObDlIUWpCeWIyTkRha3B4V1RCTU56SnFOemM0VVVoVFZFa2lMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2lVV3d5Wkd4NFEweGxWbk51VlU5UlpTSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJ0QUQzcFdzejNrb3RpMzdoczVtUkRsZ2ZtWXlaVndMUFZVa1RNXzRDajZCM285b2wwemlkOUpKVjdsR3pLYTdTc2JBalEyamZSUDdRclZYbUlNR2VWMXNDSzNFMnN2b3kzNm9aRXBtMGlscVRZVEFVMmg4U0xmS0Q2TEdscFhDNV9iMTAyLVpNQVMyREVoRGFkOHBJTHpKUWhJVzF0WndTTExSXzVyaGJEVHN2b2pSdEtLZDJkZHhoYS0tV2FiZ0tSWDlqcVExeXhUVUpZM095STN4SkpVblV3d1piVGw3cTUtQU4xTExuX05YYVdOdkxuemNQaW1SSUI1NWdHcmtoR1hBeU1DWk55dk04MXVjUi1QY2xVYktqUHQ4Rl9ITFF5MlBaemRIZHI5bkFxeEJhSWU5Y29FbE9VUVZzV1lkdXVBVktQZFRGR3hhdERoQm1VMFhJWWc3dFVBV2dXMG82N3BfQjY3QXlEUWhjcGRHWXliTE5mY2N3YTJPWWtFOEVtcGJpZXhQVGJPdGtZcExUSjhSYWZobVVxOTU3aWlaQXA0S1NJMVNfb0tpemRBaWFxLVpUUGNOdHBtNTN5ckJhaV9SWXQtalV5NWVqbWxSbmRPRnVaT0hDYXVDbkkyYUE1NkllUmxuOHB6Ujk0bkpLNFlRdWVhN2lhZGxvM1BkajczdFl4MTNfYjZBQ2twMGJ5QlVqRUVtRVp5UFN3NXFpTEpfbDJjZk9QS1ByQjI3TWRyd2FnZndyaU1aUEtEOEJkanBWeGNZbTY5Xy04VGtITk10Q3dYalFLUVhFTWxXTWFjMmU3WUE2dTFLUkV5TjhBdk1BUnJWcE5jWElRanA3OXV1eXFnT1J4aU5KVzIyNmN0NzJ5ZUVtQjBsa1RKc1BqU2FzUldMUzB5VXZCOGNDYnRPWE03cWpKa3pGaGtoMzZfNmtaeFh2aGJRN3Nnd3hHcjJTQ0Q4RnEtU01ySU15TFJSaU42N2JxQjhxamJZM01HNkZiVndpRVo0TGZyUWRLdEtBNFlvTWFWMUU4VGxQdklMYVp6R0JMVExleHJoZmlxZjdWZURkdWIzSjEyb0tXM3EydTlBb0ZmZ3pZTzZwWTlWVUZzSUY0OGs3X2tnQnJrclZyZGtydnFKbjFIX05EUUJRIn0.Mg31Gy9EihxdMcRGcNuL1UFREiM0K-oCzuE5mZxBQOC7enVeCFsDfva-duHbnatJ-i6w6bP5A8lVdQcHY7CxBA","id":"cmp_resp_tg42aqgw6n5mdaoqi3at5j6ysqivnupwdvf4uvq32sux4u3bpmeq","type":"compaction"},{"role":"user","content":"What
+        is my favourite colour? Reply with one word."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"]}'
+    headers:
+      X-Amz-Date:
+      - 20261109T193149Z
+      X-Amz-Content-Sha256:
+      - 730fe51f09496ab67a48727385d1df69ed1ae181371bc537eb5a37aed4071626
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 09 Nov 2026 19:31:49 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1238'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1794252709,"created_at":1794252709,"error":null,"frequency_penalty":0.0,"id":"resp_24tj6qdxse6jkf66odgjcfgdtqpaivej4iadsdgsor2f4nsmzmza","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.1-terra","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"Teal","type":"output_text"}],"id":"msg_10cef1b2b0065c7883e75a4ac19d994c","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":50,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":6,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":56},"user":null,"moderation":null}'
+  recorded_at: Mon, 09 Nov 2026 19:31:49 GMT
+recorded_with: VCR 6.4.1

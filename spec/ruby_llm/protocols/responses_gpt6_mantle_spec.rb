@@ -10,7 +10,8 @@ RSpec.describe RubyLLM::Protocols::Responses do
   gpt6_models = {
     'openai.gpt-6-luna' => { lowest_effort: 'none', sol: false, tool_loop: true },
     'openai.gpt-6-sol' => { lowest_effort: 'none', sol: true, tool_loop: true },
-    'openai.gpt-6.1-sol' => { lowest_effort: 'low', sol: true, tool_loop: false }
+    'openai.gpt-6.1-sol' => { lowest_effort: 'low', sol: true, tool_loop: false },
+    'openai.gpt-6.1-terra' => { lowest_effort: 'none', sol: false, tool_loop: true }
   }
 
   let(:city_code_tool) do

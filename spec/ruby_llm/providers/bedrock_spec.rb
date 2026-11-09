@@ -388,7 +388,7 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     it 'routes GPT-6 models to Mantle Responses' do
       provider = build_bedrock
 
-      %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol].each do |id|
+      %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol openai.gpt-6.1-terra].each do |id|
         expect(provider.protocol_for(model_double(id))).to be(RubyLLM::Protocols::MantleResponses)
       end
     end
@@ -410,7 +410,7 @@ RSpec.describe RubyLLM::Providers::Bedrock do
       end
 
       it 'matches openai.gpt-6.x ids' do
-        %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol].each do |id|
+        %w[openai.gpt-6-luna openai.gpt-6-sol openai.gpt-6.1-sol openai.gpt-6.1-terra].each do |id|
           expect(bedrock.send(:mantle_only_model?, model_double(id))).to be(true)
         end
       end
