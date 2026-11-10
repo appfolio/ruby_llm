@@ -7449,6 +7449,95 @@
     }
   },
   {
+    "id": "anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "cache_read_input_per_million": 0.01,
+          "cache_write_input_per_million": 0.125
+        },
+        "long_context": {
+          "input_per_million": 0.5,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.05,
+          "cache_write_input_per_million": 0.625
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.1,
+        "output": 0.5,
+        "cache_read": 0.01,
+        "cache_write": 0.125,
+        "tiers": [
+          {
+            "input": 0.5,
+            "output": 2.5,
+            "cache_read": 0.05,
+            "cache_write": 0.625,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "anthropic.claude-opus-4-1-20250805-v1:0",
     "name": "Claude Opus 4.1",
     "provider": "bedrock",
@@ -7879,6 +7968,76 @@
     }
   },
   {
+    "id": "anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4,
+          "output_per_million": 20,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4,
+        "output": 20,
+        "cache_read": 0.2,
+        "cache_write": 5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
     "name": "Claude Sonnet 4.5",
     "provider": "bedrock",
@@ -8091,6 +8250,76 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "anthropic.claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "created_at": "2026-09-28 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-28",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -8393,6 +8622,95 @@
     }
   },
   {
+    "id": "au.anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.55,
+          "output_per_million": 2.75,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 0.6875
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.55,
+            "output": 2.75,
+            "cache_read": 0.055,
+            "cache_write": 0.6875,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "au.anthropic.claude-opus-4-6-v1",
     "name": "AU Anthropic Claude Opus 4.6",
     "provider": "bedrock",
@@ -8682,6 +9000,76 @@
     }
   },
   {
+    "id": "au.anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.4,
+          "output_per_million": 22,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4.4,
+        "output": 22,
+        "cache_read": 0.22,
+        "cache_write": 5.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "au.anthropic.claude-sonnet-4-5-20250929-v1:0",
     "name": "Claude Sonnet 4.5 (AU)",
     "provider": "bedrock",
@@ -8894,6 +9282,76 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "au.anthropic.claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "created_at": "2026-09-28 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-28",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -9692,6 +10150,95 @@
     }
   },
   {
+    "id": "eu.anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.55,
+          "output_per_million": 2.75,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 0.6875
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.55,
+            "output": 2.75,
+            "cache_read": 0.055,
+            "cache_write": 0.6875,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "eu.anthropic.claude-opus-4-5-20251101-v1:0",
     "name": "Claude Opus 4.5 (EU)",
     "provider": "bedrock",
@@ -10056,6 +10603,76 @@
     }
   },
   {
+    "id": "eu.anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.4,
+          "output_per_million": 22,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4.4,
+        "output": 22,
+        "cache_read": 0.22,
+        "cache_write": 5.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "eu.anthropic.claude-sonnet-4-20250514-v1:0",
     "name": "Claude Sonnet 4 (EU)",
     "provider": "bedrock",
@@ -10334,6 +10951,76 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "eu.anthropic.claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "created_at": "2026-09-28 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-28",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -10657,6 +11344,95 @@
         "output": 64000
       },
       "knowledge": "2025-02-28"
+    }
+  },
+  {
+    "id": "global.anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "cache_read_input_per_million": 0.01,
+          "cache_write_input_per_million": 0.125
+        },
+        "long_context": {
+          "input_per_million": 0.5,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.05,
+          "cache_write_input_per_million": 0.625
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.1,
+        "output": 0.5,
+        "cache_read": 0.01,
+        "cache_write": 0.125,
+        "tiers": [
+          {
+            "input": 0.5,
+            "output": 2.5,
+            "cache_read": 0.05,
+            "cache_write": 0.625,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -11024,6 +11800,76 @@
     }
   },
   {
+    "id": "global.anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4,
+          "output_per_million": 20,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4,
+        "output": 20,
+        "cache_read": 0.2,
+        "cache_write": 5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "global.anthropic.claude-sonnet-4-20250514-v1:0",
     "name": "Claude Sonnet 4 (Global)",
     "provider": "bedrock",
@@ -11302,6 +12148,76 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "global.anthropic.claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "created_at": "2026-09-28 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-28",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -11683,6 +12599,389 @@
         "output": 128000
       },
       "knowledge": "2026-04-30"
+    }
+  },
+  {
+    "id": "global.openai.gpt-6-luna",
+    "name": "GPT-6 Luna (Global)",
+    "provider": "bedrock",
+    "family": "gpt-luna",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "cache_read_input_per_million": 0.01,
+          "cache_write_input_per_million": 0.125
+        },
+        "long_context": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.75,
+          "cache_read_input_per_million": 0.02,
+          "cache_write_input_per_million": 0.25
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.1,
+        "output": 0.5,
+        "cache_read": 0.01,
+        "cache_write": 0.125,
+        "tiers": [
+          {
+            "input": 0.2,
+            "output": 0.75,
+            "cache_read": 0.02,
+            "cache_write": 0.25,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 0.2,
+          "output": 0.75,
+          "cache_read": 0.02,
+          "cache_write": 0.25
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-05-18"
+    }
+  },
+  {
+    "id": "global.openai.gpt-6-sol",
+    "name": "GPT-6 Sol (Global)",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-20",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.4,
+          "cache_write_input_per_million": 5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.2,
+        "cache_write": 2.5,
+        "tiers": [
+          {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.4,
+            "cache_write": 5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4,
+          "output": 15,
+          "cache_read": 0.4,
+          "cache_write": 5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-20"
+    }
+  },
+  {
+    "id": "global.openai.gpt-6.1-sol",
+    "name": "GPT-6.1 Sol (Global)",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-29 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-30",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context": {
+          "input_per_million": 4,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-29",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2,
+        "output": 10,
+        "cache_read": 0.1,
+        "cache_write": 2.5,
+        "tiers": [
+          {
+            "input": 4,
+            "output": 15,
+            "cache_read": 0.2,
+            "cache_write": 5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4,
+          "output": 15,
+          "cache_read": 0.2,
+          "cache_write": 5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-30"
+    }
+  },
+  {
+    "id": "global.openai.gpt-6.1-terra",
+    "name": "GPT-6.1 Terra (Global)",
+    "provider": "bedrock",
+    "family": "gpt-terra",
+    "created_at": "2026-11-09 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.05,
+          "cache_write_input_per_million": 1.25
+        },
+        "long_context": {
+          "input_per_million": 2,
+          "output_per_million": 7.5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 2.5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-09",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1,
+        "output": 5,
+        "cache_read": 0.05,
+        "cache_write": 1.25,
+        "tiers": [
+          {
+            "input": 2,
+            "output": 7.5,
+            "cache_read": 0.1,
+            "cache_write": 2.5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 2,
+          "output": 7.5,
+          "cache_read": 0.1,
+          "cache_write": 2.5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": null
     }
   },
   {
@@ -12498,6 +13797,95 @@
     }
   },
   {
+    "id": "jp.anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5 (JP)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.55,
+          "output_per_million": 2.75,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 0.6875
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.55,
+            "output": 2.75,
+            "cache_read": 0.055,
+            "cache_write": 0.6875,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "jp.anthropic.claude-opus-4-7",
     "name": "Claude Opus 4.7 (JP)",
     "provider": "bedrock",
@@ -12708,6 +14096,76 @@
         "output": 128000
       },
       "knowledge": "2026-05"
+    }
+  },
+  {
+    "id": "jp.anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5 (JP)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.4,
+          "output_per_million": 22,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        }
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4.4,
+        "output": 22,
+        "cache_read": 0.22,
+        "cache_write": 5.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -15425,6 +16883,393 @@
     }
   },
   {
+    "id": "openai.gpt-6-luna",
+    "name": "GPT-6 Luna",
+    "provider": "bedrock",
+    "family": "gpt-luna",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.22,
+          "output_per_million": 0.825,
+          "cache_read_input_per_million": 0.022,
+          "cache_write_input_per_million": 0.275
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.22,
+            "output": 0.825,
+            "cache_read": 0.022,
+            "cache_write": 0.275,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 0.22,
+          "output": 0.825,
+          "cache_read": 0.022,
+          "cache_write": 0.275
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-05-18"
+    }
+  },
+  {
+    "id": "openai.gpt-6-sol",
+    "name": "GPT-6 Sol",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-20",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context": {
+          "input_per_million": 4.4,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.44,
+          "cache_write_input_per_million": 5.5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.22,
+        "cache_write": 2.75,
+        "tiers": [
+          {
+            "input": 4.4,
+            "output": 16.5,
+            "cache_read": 0.44,
+            "cache_write": 5.5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4.4,
+          "output": 16.5,
+          "cache_read": 0.44,
+          "cache_write": 5.5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-20"
+    }
+  },
+  {
+    "id": "openai.gpt-6.1-sol",
+    "name": "GPT-6.1 Sol",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-29 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-30",
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context": {
+          "input_per_million": 4.4,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-29",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75,
+        "tiers": [
+          {
+            "input": 4.4,
+            "output": 16.5,
+            "cache_read": 0.22,
+            "cache_write": 5.5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4.4,
+          "output": 16.5,
+          "cache_read": 0.22,
+          "cache_write": 5.5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-30"
+    }
+  },
+  {
+    "id": "openai.gpt-6.1-terra",
+    "name": "GPT-6.1 Terra",
+    "provider": "bedrock",
+    "family": "gpt-terra",
+    "created_at": "2026-11-09 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 5.5,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 1.375
+        },
+        "long_context": {
+          "input_per_million": 2.2,
+          "output_per_million": 8.25,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-09",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1.1,
+        "output": 5.5,
+        "cache_read": 0.055,
+        "cache_write": 1.375,
+        "tiers": [
+          {
+            "input": 2.2,
+            "output": 8.25,
+            "cache_read": 0.11,
+            "cache_write": 2.75,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 2.2,
+          "output": 8.25,
+          "cache_read": 0.11,
+          "cache_write": 2.75
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
     "id": "openai.gpt-oss-120b",
     "name": "gpt-oss-120b",
     "provider": "bedrock",
@@ -17287,10 +19132,10 @@
     "pricing": {
       "text_tokens": {
         "standard": {
-          "input_per_million": 1.1,
-          "output_per_million": 5.5,
-          "cache_read_input_per_million": 0.11,
-          "cache_write_input_per_million": 1.375
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
         }
       }
     },
@@ -17339,16 +19184,131 @@
         }
       ],
       "cost": {
-        "input": 1.1,
-        "output": 5.5,
-        "cache_read": 0.11,
-        "cache_write": 1.375
+        "input": 1,
+        "output": 5,
+        "cache_read": 0.1,
+        "cache_write": 1.25
       },
       "limit": {
         "context": 200000,
         "output": 64000
       },
       "knowledge": "2025-02-28"
+    }
+  },
+  {
+    "id": "us.anthropic.claude-haiku-5-5",
+    "name": "Claude Haiku 5.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "created_at": "2026-10-07 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.55,
+          "output_per_million": 2.75,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 0.6875
+        },
+        "long_context_threshold": 100000
+      }
+    },
+    "metadata": {
+      "provider_name": "Anthropic",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-haiku-5-5",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"output_config\":{\"effort\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": 4096,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [
+          "pdf"
+        ],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-07",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.55,
+            "output": 2.75,
+            "cache_read": 0.055,
+            "cache_write": 0.6875,
+            "tier": {
+              "type": "context",
+              "size": 100000
+            }
+          }
+        ]
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -17938,6 +19898,102 @@
     }
   },
   {
+    "id": "us.anthropic.claude-opus-5-5",
+    "name": "Claude Opus 5.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 4.4,
+          "output_per_million": 22,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        }
+      }
+    },
+    "metadata": {
+      "provider_name": "Anthropic",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-opus-5-5",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"output_config\":{\"effort\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": 4096,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [
+          "pdf"
+        ],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 4.4,
+        "output": 22,
+        "cache_read": 0.22,
+        "cache_write": 5.5
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
+    }
+  },
+  {
     "id": "us.anthropic.claude-sonnet-4-20250514-v1:0",
     "name": "Claude Sonnet 4 (US)",
     "provider": "bedrock",
@@ -18320,6 +20376,102 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "us.anthropic.claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "created_at": "2026-09-28 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        }
+      }
+    },
+    "metadata": {
+      "provider_name": "Anthropic",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-5-5",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"output_config\":{\"effort\":{\"type\":\"enum\",\"default\":\"high\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": 4096,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [
+          "pdf"
+        ],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-28",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      },
+      "knowledge": "2026-06"
     }
   },
   {
@@ -19205,6 +21357,467 @@
         "output": 128000
       },
       "knowledge": "2026-04-30"
+    }
+  },
+  {
+    "id": "us.openai.gpt-6-luna",
+    "name": "GPT-6 Luna (US)",
+    "provider": "bedrock",
+    "family": "gpt-luna",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-05-18",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.11,
+          "output_per_million": 0.55,
+          "cache_read_input_per_million": 0.011,
+          "cache_write_input_per_million": 0.1375
+        },
+        "long_context": {
+          "input_per_million": 0.22,
+          "output_per_million": 0.825,
+          "cache_read_input_per_million": 0.022,
+          "cache_write_input_per_million": 0.275
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/openai.gpt-6-luna",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"reasoning_config\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"none\",\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}}",
+        "maxTokensDefault": null,
+        "maxTokensMaximum": 131072,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 0.11,
+        "output": 0.55,
+        "cache_read": 0.011,
+        "cache_write": 0.1375,
+        "tiers": [
+          {
+            "input": 0.22,
+            "output": 0.825,
+            "cache_read": 0.022,
+            "cache_write": 0.275,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 0.22,
+          "output": 0.825,
+          "cache_read": 0.022,
+          "cache_write": 0.275
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-05-18"
+    }
+  },
+  {
+    "id": "us.openai.gpt-6-sol",
+    "name": "GPT-6 Sol (US)",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-22 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-20",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context": {
+          "input_per_million": 4.4,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.44,
+          "cache_write_input_per_million": 5.5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/openai.gpt-6-sol",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"reasoning_config\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"none\",\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}}",
+        "maxTokensDefault": null,
+        "maxTokensMaximum": 131072,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-22",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.22,
+        "cache_write": 2.75,
+        "tiers": [
+          {
+            "input": 4.4,
+            "output": 16.5,
+            "cache_read": 0.44,
+            "cache_write": 5.5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4.4,
+          "output": 16.5,
+          "cache_read": 0.44,
+          "cache_write": 5.5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-20"
+    }
+  },
+  {
+    "id": "us.openai.gpt-6.1-sol",
+    "name": "GPT-6.1 Sol (US)",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "created_at": "2026-09-29 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": "2026-04-30",
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context": {
+          "input_per_million": 4.4,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 5.5
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/openai.gpt-6.1-sol",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"reasoning_config\":{\"type\":\"enum\",\"default\":\"medium\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}}",
+        "maxTokensDefault": null,
+        "maxTokensMaximum": 131072,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "models.dev",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-09-29",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75,
+        "tiers": [
+          {
+            "input": 4.4,
+            "output": 16.5,
+            "cache_read": 0.22,
+            "cache_write": 5.5,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 4.4,
+          "output": 16.5,
+          "cache_read": 0.22,
+          "cache_write": 5.5
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": "2026-04-30"
+    }
+  },
+  {
+    "id": "us.openai.gpt-6.1-terra",
+    "name": "GPT-6.1 Terra (US)",
+    "provider": "bedrock",
+    "family": "gpt-terra",
+    "created_at": "2026-11-09 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 5.5,
+          "cache_read_input_per_million": 0.055,
+          "cache_write_input_per_million": 1.375
+        },
+        "long_context": {
+          "input_per_million": 2.2,
+          "output_per_million": 8.25,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        },
+        "long_context_threshold": 272000
+      }
+    },
+    "metadata": {
+      "provider_name": "OpenAI",
+      "model_arn": "arn:aws:bedrock:us-east-1::foundation-model/openai.gpt-6.1-terra",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-09",
+      "tool_call": true,
+      "structured_output": true,
+      "reasoning": true,
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "none",
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 1.1,
+        "output": 5.5,
+        "cache_read": 0.055,
+        "cache_write": 1.375,
+        "tiers": [
+          {
+            "input": 2.2,
+            "output": 8.25,
+            "cache_read": 0.11,
+            "cache_write": 2.75,
+            "tier": {
+              "type": "context",
+              "size": 272000
+            }
+          }
+        ],
+        "context_over_200k": {
+          "input": 2.2,
+          "output": 8.25,
+          "cache_read": 0.11,
+          "cache_write": 2.75
+        }
+      },
+      "limit": {
+        "context": 1050000,
+        "input": 922000,
+        "output": 128000
+      },
+      "knowledge": null
     }
   },
   {
