@@ -495,4 +495,63 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect(message.provider_data).to be_nil
     end
   end
+
+  describe 'provider_data across pause_turn segments' do
+    def edit(cleared) = { 'type' => 'clear_tool_uses_20250919', 'cleared_tool_uses' => cleared }
+
+    def iteration(type, input) = { 'type' => type, 'input_tokens' => input, 'output_tokens' => 1 }
+
+    def json_reply(body) = { status: 200, body: JSON.generate(body), headers: { 'Content-Type' => 'application/json' } }
+
+    def stream_reply(events)
+      { status: 200, body: eventstream(events), headers: { 'Content-Type' => 'application/vnd.amazon.eventstream' } }
+    end
+
+    it 'merges the fields of every segment of a sync turn' do
+      first = reply_body('stop_reason' => 'pause_turn',
+                         'context_management' => { 'applied_edits' => [edit(1)], 'state' => 'first' },
+                         'input_transformations' => [{ 'type' => 'thinking_dropped' }],
+                         'usage' => { 'input_tokens' => 10, 'output_tokens' => 1,
+                                      'iterations' => [iteration('compaction', 900)],
+                                      'cache_creation' => { 'ephemeral_5m_input_tokens' => 10,
+                                                            'ephemeral_1h_input_tokens' => 100 } })
+      second = reply_body('context_management' => { 'applied_edits' => [edit(2)], 'state' => 'last' },
+                          'usage' => { 'input_tokens' => 20, 'output_tokens' => 2,
+                                       'iterations' => [iteration('message', 120), iteration('message', 130)],
+                                       'cache_creation' => { 'ephemeral_5m_input_tokens' => 1,
+                                                             'ephemeral_1h_input_tokens' => 200 } })
+      stub_request(:post, "#{runtime}/invoke").to_return(json_reply(first)).then.to_return(json_reply(second))
+
+      message = protocol.complete([user_message], tools: {}, temperature: nil)
+
+      expect(message.provider_data).to eq(
+        'context_management' => { 'applied_edits' => [edit(1), edit(2)], 'state' => 'last' },
+        'iterations' => [iteration('compaction', 900), iteration('message', 120), iteration('message', 130)],
+        'cache_creation' => { 'ephemeral_5m_input_tokens' => 11, 'ephemeral_1h_input_tokens' => 300 },
+        'input_transformations' => [{ 'type' => 'thinking_dropped' }]
+      )
+    end
+
+    it 'merges the fields of every segment of a streamed turn' do
+      first = [message_start(input_transformations: [{ 'type' => 'thinking_dropped' }]), *text_block(0, 'Part one. '),
+               *message_end(stop_reason: 'pause_turn',
+                            usage: { 'output_tokens' => 3, 'iterations' => [iteration('message', 400)],
+                                     'cache_creation' => { 'ephemeral_5m_input_tokens' => 5 } })]
+      second = [message_start(input_transformations: [{ 'type' => 'thinking_flagged' }]), *text_block(0, 'Part two.'),
+                *message_end(usage: { 'output_tokens' => 4, 'iterations' => [iteration('message', 450)],
+                                      'cache_creation' => { 'ephemeral_5m_input_tokens' => 7,
+                                                            'ephemeral_1h_input_tokens' => 9 } })]
+      stub_request(:post, "#{runtime}/invoke-with-response-stream")
+        .to_return(stream_reply(first)).then.to_return(stream_reply(second))
+
+      message, = stream
+
+      expect(message.content).to eq('Part one. Part two.')
+      expect(message.provider_data).to eq(
+        'iterations' => [iteration('message', 400), iteration('message', 450)],
+        'cache_creation' => { 'ephemeral_5m_input_tokens' => 12, 'ephemeral_1h_input_tokens' => 9 },
+        'input_transformations' => [{ 'type' => 'thinking_dropped' }, { 'type' => 'thinking_flagged' }]
+      )
+    end
+  end
 end

@@ -216,7 +216,44 @@ module RubyLLM
 
       def merge_turn_segments(segments)
         merged = super
-        merged.provider_data ||= segments.last.provider_data
+        return merged if segments.one?
+
+        merged.provider_data = merge_provider_data(segments.filter_map(&:provider_data))
+        merged
+      end
+
+      # A pause_turn reply spans several calls; each reports only its own
+      # iterations and cache writes, so the turn's fields are their union.
+      def merge_provider_data(parts)
+        return nil if parts.empty?
+
+        {
+          'context_management' => merge_context_management(parts.filter_map { |part| part['context_management'] }),
+          'iterations' => concat_provider_lists(parts, 'iterations'),
+          'cache_creation' => sum_cache_creation(parts.filter_map { |part| part['cache_creation'] }),
+          'input_transformations' => concat_provider_lists(parts, 'input_transformations')
+        }.compact
+      end
+
+      def concat_provider_lists(parts, key)
+        lists = parts.filter_map { |part| part[key] }
+        lists.flatten(1) unless lists.empty?
+      end
+
+      def sum_cache_creation(breakdowns)
+        return if breakdowns.empty?
+
+        breakdowns.reduce do |total, breakdown|
+          total.merge(breakdown) { |_key, a, b| a.is_a?(Numeric) && b.is_a?(Numeric) ? a + b : b }
+        end
+      end
+
+      def merge_context_management(entries)
+        return if entries.empty?
+
+        edits = entries.filter_map { |entry| entry['applied_edits'] }
+        merged = entries.last.dup
+        merged['applied_edits'] = edits.flatten(1) unless edits.empty?
         merged
       end
     end
