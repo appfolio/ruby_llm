@@ -10,6 +10,7 @@ module RubyLLM
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
       protocol :mantle_anthropic, Bedrock::Mantle::Anthropic
       protocol :mantle_responses, Bedrock::Mantle::Responses
+      protocol :mantle_openai_responses, Bedrock::Mantle::OpenAIResponses
       protocol :mantle_chat_completions, Bedrock::Mantle::ChatCompletions
       protocol :voxtral_transcription, Bedrock::Mantle::Voxtral
       protocol :titan_text_embeddings, Protocols::InvokeModel::TitanTextEmbeddings,
@@ -45,7 +46,7 @@ module RubyLLM
         return protocols[:rerank] if operation == :rerank
         return video_protocol_for(model_id) if operation == :animate
         return protocols[:voxtral_transcription] if voxtral_transcription?(operation, model_id)
-        return mantle_protocol_for(model_id) if mantle_model?(model_id)
+        return mantle_protocol_for(model_id) if mantle_route?(model_id)
 
         super
       end
@@ -58,7 +59,13 @@ module RubyLLM
       end
 
       def mantle_api_base
-        @config.bedrock_mantle_api_base || "https://bedrock-mantle.#{bedrock_region}.api.aws"
+        @config.bedrock_mantle_api_base || "https://bedrock-mantle.#{mantle_region}.api.aws"
+      end
+
+      # Returns the AWS region for bedrock-mantle requests: bedrock_mantle_region
+      # when set, otherwise bedrock_region.
+      def mantle_region
+        @config.bedrock_mantle_region || bedrock_region
       end
 
       def mantle_connection
@@ -145,6 +152,7 @@ module RubyLLM
             bedrock_credential_provider
             bedrock_api_base
             bedrock_mantle_api_base
+            bedrock_mantle_region
             bedrock_batch_s3_uri
             bedrock_batch_role_arn
             bedrock_video_s3_uri
@@ -222,15 +230,25 @@ module RubyLLM
       end
 
       def list_mantle_models
-        response = signed_get(mantle_api_base, mantle_models_url, service: Bedrock::Mantle::SIGNING_SERVICE)
+        response = signed_get(mantle_api_base, mantle_models_url, service: Bedrock::Mantle::SIGNING_SERVICE,
+                                                                  region: mantle_region)
         parse_mantle_models_response(response, slug)
       end
 
       def mantle_protocol_for(model_id)
         return protocols[:mantle_anthropic] if model_id.start_with?('anthropic.')
+        return protocols[:mantle_openai_responses] if mantle_openai_responses_model?(model_id)
         return protocols[:mantle_responses] if Bedrock::Mantle::RESPONSES_MODELS.include?(model_id)
 
         protocols[:mantle_chat_completions]
+      end
+
+      def mantle_route?(model_id)
+        mantle_openai_responses_model?(model_id) || mantle_model?(model_id)
+      end
+
+      def mantle_openai_responses_model?(model_id)
+        Bedrock::Mantle::OPENAI_RESPONSES_MODEL_PATTERN.match?(model_id)
       end
 
       def embedding_protocol_for(model_id)

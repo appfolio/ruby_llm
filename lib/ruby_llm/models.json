@@ -16631,6 +16631,7 @@
       }
     },
     "metadata": {
+      "endpoint": "mantle",
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
@@ -16925,6 +16926,7 @@
       }
     },
     "metadata": {
+      "endpoint": "mantle",
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
@@ -17022,6 +17024,7 @@
       }
     },
     "metadata": {
+      "endpoint": "mantle",
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
@@ -17119,6 +17122,7 @@
       }
     },
     "metadata": {
+      "endpoint": "mantle",
       "source": "models.dev",
       "provider_id": "amazon-bedrock",
       "open_weights": false,
@@ -17215,6 +17219,7 @@
       }
     },
     "metadata": {
+      "endpoint": "mantle",
       "source": "manual",
       "provider_id": "amazon-bedrock",
       "open_weights": false,

@@ -124,17 +124,18 @@ Bedrock serves models through two endpoints, and the model ID decides which one 
 | --- | --- | --- |
 | `anthropic.claude-sonnet-5` | `bedrock-mantle` | Anthropic Messages |
 | `openai.gpt-oss-20b`, `google.gemma-4-31b` | `bedrock-mantle` | OpenAI Responses |
+| `openai.gpt-6-sol`, `openai.gpt-5.6-terra` | `bedrock-mantle` | OpenAI Responses under `openai/` |
 | `qwen.qwen3-coder-next`, `zai.glm-5` | `bedrock-mantle` | OpenAI Chat Completions |
 | `anthropic.claude-haiku-4-5-20251001-v1:0` | `bedrock-runtime` | Converse |
 | `us.anthropic.claude-sonnet-5`, `us.amazon.nova-2-lite-v1:0` | `bedrock-runtime` | Converse |
 
 RubyLLM refreshes both catalogs, so the registry records which endpoint serves each model and routing reads that record rather than guessing from the ID. The two catalogs overlap and disagree: mantle spells some Converse models differently (`qwen.qwen3-next-80b-a3b-instruct` against Converse's `qwen.qwen3-next-80b-a3b`) and lists models Converse has never heard of.
 
-Claude models speak the Anthropic Messages API on mantle. The rest of the mantle catalog speaks one of the two OpenAI surfaces: the Gemma 4 and GPT-OSS models answer on Responses, and everything else answers on Chat Completions. Both endpoints use the same AWS credentials and are signed with SigV4, so nothing changes in your configuration.
+Claude models speak the Anthropic Messages API on mantle. The rest of the mantle catalog speaks one of the two OpenAI surfaces: the Gemma 4 and GPT-OSS models answer on Responses, GPT-5.6 and GPT-6 answer on Responses under the `openai/` prefix, and everything else answers on Chat Completions. Both endpoints use the same AWS credentials and are signed with SigV4, so nothing changes in your configuration.
 
 For a model the registry doesn't list, RubyLLM falls back to reading the ID: an un-versioned `vendor.model` ID with no `:` version suffix, no date stamp, and no region prefix goes to mantle. A bare `anthropic.` ID always goes to mantle, because Converse only ever serves Claude under a dated and versioned ID.
 
-Point `bedrock_mantle_api_base` at a different host to override the mantle endpoint, the same way `bedrock_api_base` overrides the Converse one.
+Point `bedrock_mantle_api_base` at a different host to override the mantle endpoint, the same way `bedrock_api_base` overrides the Converse one. Set `bedrock_mantle_region` to sign and send mantle requests in a region other than `bedrock_region`.
 
 ```ruby
 RubyLLM.chat(model: 'openai.gpt-oss-20b', provider: :bedrock).ask('Hello')

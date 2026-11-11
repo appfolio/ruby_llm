@@ -11,7 +11,7 @@ module RubyLLM
       module Auth
         Credentials = Struct.new(:access_key_id, :secret_access_key, :session_token, keyword_init: true)
 
-        def sign_headers(method, path, body, base_url: api_base, service: 'bedrock')
+        def sign_headers(method, path, body, base_url: api_base, service: 'bedrock', region: bedrock_region)
           credentials = bedrock_credentials
           now = Time.now.utc
           amz_date = now.strftime('%Y%m%dT%H%M%SZ')
@@ -41,7 +41,7 @@ module RubyLLM
             payload_hash
           ].join("\n")
 
-          credential_scope = "#{date_stamp}/#{bedrock_region}/#{service}/aws4_request"
+          credential_scope = "#{date_stamp}/#{region}/#{service}/aws4_request"
           string_to_sign = [
             'AWS4-HMAC-SHA256',
             amz_date,
@@ -49,7 +49,7 @@ module RubyLLM
             Digest::SHA256.hexdigest(canonical_request)
           ].join("\n")
 
-          signing_key = signing_key(date_stamp, credentials.secret_access_key, service)
+          signing_key = signing_key(date_stamp, credentials.secret_access_key, service, region)
           signature = OpenSSL::HMAC.hexdigest('sha256', signing_key, string_to_sign)
 
           {
@@ -62,8 +62,8 @@ module RubyLLM
           }.compact
         end
 
-        def signed_get(base_url, url, service: 'bedrock')
-          signed_request(:get, base_url, url, service:)
+        def signed_get(base_url, url, service: 'bedrock', region: bedrock_region)
+          signed_request(:get, base_url, url, service:, region:)
         end
 
         def signed_post(base_url, url, payload)
@@ -77,6 +77,7 @@ module RubyLLM
           body = options.fetch(:body, '')
           payload = options[:payload]
           service = options.fetch(:service, 'bedrock')
+          region = options.fetch(:region, bedrock_region)
           conn = Transport::Connection.basic(@config) do |f|
             f.request :json
             f.response :json
@@ -87,7 +88,7 @@ module RubyLLM
           conn.url_prefix = base_url
 
           conn.public_send(method, url, payload) do |req|
-            req.headers.merge!(sign_headers(method.to_s.upcase, url, body, base_url:, service:))
+            req.headers.merge!(sign_headers(method.to_s.upcase, url, body, base_url:, service:, region:))
           end
         end
 
@@ -130,9 +131,9 @@ module RubyLLM
           )
         end
 
-        def signing_key(date_stamp, secret_access_key, service = 'bedrock')
+        def signing_key(date_stamp, secret_access_key, service = 'bedrock', region = bedrock_region)
           k_date = OpenSSL::HMAC.digest('sha256', "AWS4#{secret_access_key}", date_stamp)
-          k_region = OpenSSL::HMAC.digest('sha256', k_date, bedrock_region)
+          k_region = OpenSSL::HMAC.digest('sha256', k_date, region)
           k_service = OpenSSL::HMAC.digest('sha256', k_region, service)
           OpenSSL::HMAC.digest('sha256', k_service, 'aws4_request')
         end
