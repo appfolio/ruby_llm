@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke-with-response-stream
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"text":"Say
+        OK and nothing else.","type":"text"}]}],"max_tokens":128000}'
+    headers:
+      User-Agent:
+      - Faraday v2.15.1
+      X-Amz-Date:
+      - 20261111T180114Z
+      X-Amz-Content-Sha256:
+      - a20d586708e09ecfd562ba6a7413f908c23aa7c5947ef5cd80ecaf68a017b174
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept:
+      - application/vnd.amazon.eventstream
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Nov 2026 18:01:15 GMT
+      Content-Type:
+      - application/vnd.amazon.eventstream
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 44e914f7-b5cf-476e-b2c5-05f4543afe97
+      X-Amzn-Bedrock-Content-Type:
+      - application/json
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        AAAC7AAAAEskwMykCzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaWJXVnpjMkZuWlY5emRHRnlkQ0lzSW0xbGMzTmhaMlVpT25zaWJXOWtaV3dpT2lKamJHRjFaR1V0YzI5dWJtVjBMVFV0TlNJc0ltbGtJam9pYlhOblgySmtjbXRmYjJwcGVEWXphMmwxYUROdmNISjZiM0o1YVdscmIyMHlZalJrZW5WM1kzUnpkalo0YVdac05tUnpOVGRtYjIxdE1tY3ljU0lzSW5SNWNHVWlPaUp0WlhOellXZGxJaXdpY205c1pTSTZJbUZ6YzJsemRHRnVkQ0lzSW1OdmJuUmxiblFpT2x0ZExDSmpiMjUwWVdsdVpYSWlPbTUxYkd3c0luTjBiM0JmY21WaGMyOXVJanB1ZFd4c0xDSnpkRzl3WDNObGNYVmxibU5sSWpwdWRXeHNMQ0p6ZEc5d1gyUmxkR0ZwYkhNaU9tNTFiR3dzSW5WellXZGxJanA3SW1sdWNIVjBYM1J2YTJWdWN5STZNVGdzSW1OaFkyaGxYMk55WldGMGFXOXVYMmx1Y0hWMFgzUnZhMlZ1Y3lJNk1Dd2lZMkZqYUdWZmNtVmhaRjlwYm5CMWRGOTBiMnRsYm5NaU9qQXNJbU5oWTJobFgyTnlaV0YwYVc5dUlqcDdJbVZ3YUdWdFpYSmhiRjgxYlY5cGJuQjFkRjkwYjJ0bGJuTWlPakFzSW1Wd2FHVnRaWEpoYkY4eGFGOXBibkIxZEY5MGIydGxibk1pT2pCOUxDSnZkWFJ3ZFhSZmRHOXJaVzV6SWpvMExDSnpaWEoyYVdObFgzUnBaWElpT2lKemRHRnVaR0Z5WkNKOWZYMD0iLCJwIjoiYWJjZGVmZ2hpaiJ90frUwgAAARsAAABLWEAyRws6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2lZMjl1ZEdWdWRGOWliRzlqYTE5emRHRnlkQ0lzSW1sdVpHVjRJam93TENKamIyNTBaVzUwWDJKc2IyTnJJanA3SW5SNWNHVWlPaUowWlhoMElpd2lkR1Y0ZENJNklpSjlmUT09IiwicCI6ImFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVowMTIzNDU2NzgifXys9SkAAAD3AAAAS344yzwLOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pWTI5dWRHVnVkRjlpYkc5amExOWtaV3gwWVNJc0ltbHVaR1Y0SWpvd0xDSmtaV3gwWVNJNmV5SjBlWEJsSWpvaWRHVjRkRjlrWld4MFlTSXNJblJsZUhRaU9pSlBTeUo5ZlE9PSIsInAiOiJhYmNkZWZnaGlqa2xtbm9wcXJzdHV2d3h5In3OAdDiAAAAxwAAAEvfGXO6CzpldmVudC10eXBlBwAFY2h1bmsNOmNvbnRlbnQtdHlwZQcAEGFwcGxpY2F0aW9uL2pzb24NOm1lc3NhZ2UtdHlwZQcABWV2ZW50eyJieXRlcyI6ImV5SjBlWEJsSWpvaVkyOXVkR1Z1ZEY5aWJHOWphMTl6ZEc5d0lpd2lhVzVrWlhnaU9qQjkiLCJwIjoiYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKSyJ9vPYOiwAAAdgAAABL9vWgTAs6ZXZlbnQtdHlwZQcABWNodW5rDTpjb250ZW50LXR5cGUHABBhcHBsaWNhdGlvbi9qc29uDTptZXNzYWdlLXR5cGUHAAVldmVudHsiYnl0ZXMiOiJleUowZVhCbElqb2liV1Z6YzJGblpWOWtaV3gwWVNJc0ltUmxiSFJoSWpwN0luTjBiM0JmY21WaGMyOXVJam9pWlc1a1gzUjFjbTRpTENKemRHOXdYM05sY1hWbGJtTmxJanB1ZFd4c0xDSnpkRzl3WDJSbGRHRnBiSE1pT201MWJHd3NJbU52Ym5SaGFXNWxjaUk2Ym5Wc2JIMHNJblZ6WVdkbElqcDdJbWx1Y0hWMFgzUnZhMlZ1Y3lJNk1UZ3NJbU5oWTJobFgyTnlaV0YwYVc5dVgybHVjSFYwWDNSdmEyVnVjeUk2TUN3aVkyRmphR1ZmY21WaFpGOXBibkIxZEY5MGIydGxibk1pT2pBc0ltOTFkSEIxZEY5MGIydGxibk1pT2pRc0ltOTFkSEIxZEY5MGIydGxibk5mWkdWMFlXbHNjeUk2ZXlKMGFHbHVhMmx1WjE5MGIydGxibk1pT2pCOWZYMD0iLCJwIjoiYWIifaHUFzcAAAFFAAAAS99jQ+0LOmV2ZW50LXR5cGUHAAVjaHVuaw06Y29udGVudC10eXBlBwAQYXBwbGljYXRpb24vanNvbg06bWVzc2FnZS10eXBlBwAFZXZlbnR7ImJ5dGVzIjoiZXlKMGVYQmxJam9pYldWemMyRm5aVjl6ZEc5d0lpd2lZVzFoZW05dUxXSmxaSEp2WTJzdGFXNTJiMk5oZEdsdmJrMWxkSEpwWTNNaU9uc2lhVzV3ZFhSVWIydGxia052ZFc1MElqb3hPQ3dpYjNWMGNIVjBWRzlyWlc1RGIzVnVkQ0k2TkN3aWFXNTJiMk5oZEdsdmJreGhkR1Z1WTNraU9qVTJOeXdpWm1seWMzUkNlWFJsVEdGMFpXNWplU0k2TlRZeGZYMD0iLCJwIjoiYWJjZGVmZ2hpamtsbW5vIn0KdL4V
+  recorded_at: Wed, 11 Nov 2026 18:01:15 GMT
+recorded_with: VCR 6.4.1
