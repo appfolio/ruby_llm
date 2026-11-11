@@ -43,6 +43,7 @@ RubyLLM.configure do |config|
   # config.bedrock_credential_provider = Aws::InstanceProfileCredentials.new # Optional Aws::CredentialProvider
   config.bedrock_api_base = ENV['BEDROCK_API_BASE'] # optional custom Bedrock endpoint
   config.bedrock_mantle_api_base = ENV['BEDROCK_MANTLE_API_BASE'] # optional custom bedrock-mantle endpoint
+  config.bedrock_mantle_region = ENV['BEDROCK_MANTLE_REGION'] # optional bedrock-mantle region, defaults to bedrock_region
   config.bedrock_batch_s3_uri = ENV['BEDROCK_BATCH_S3_URI'] # s3://bucket/prefix for batches and large attachments
   config.bedrock_batch_role_arn = ENV['BEDROCK_BATCH_ROLE_ARN'] # IAM role Bedrock assumes for batch jobs
   config.bedrock_video_s3_uri = ENV['BEDROCK_VIDEO_S3_URI'] # s3://bucket/prefix for generated videos
@@ -167,7 +168,16 @@ end
 
 ## Bedrock Converse and Mantle Endpoints
 
-RubyLLM selects the Bedrock endpoint from the model registry. Converse and Mantle use the same credentials and region.
+RubyLLM selects the Bedrock endpoint from the model registry. Converse and Mantle use the same credentials, and by default the same region.
+
+Some models run on Mantle only in regions that do not serve the Converse models you use. Set `bedrock_mantle_region` to send Mantle requests to another region while Converse stays on `bedrock_region`:
+
+```ruby
+RubyLLM.configure do |config|
+  config.bedrock_region = 'us-west-2'
+  config.bedrock_mantle_region = 'us-east-1'
+end
+```
 
 For a custom endpoint, set `bedrock_api_base` for Converse or `bedrock_mantle_api_base` for Mantle. See [Model Resolution]({% link _reference/model-resolution.md %}) for protocol selection.
 

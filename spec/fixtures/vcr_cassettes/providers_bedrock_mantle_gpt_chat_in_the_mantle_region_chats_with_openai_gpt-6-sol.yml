@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-sol","input":[{"role":"user","content":"Say
+        OK and nothing else."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"]}'
+    headers:
+      User-Agent:
+      - Faraday v2.15.1
+      X-Amz-Date:
+      - 20261111T180129Z
+      X-Amz-Content-Sha256:
+      - 0a5a76dbdadc894fb6b50a2ad104f7342e57e2b2e62516d2de43d57401dbf775
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock-mantle/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Nov 2026 18:01:30 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1232'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1794420090,"created_at":1794420090,"error":null,"frequency_penalty":0.0,"id":"resp_nma4ibq5ri5ldwfwg63knraboonsxhce276suuy34hi3aldqs5oa","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"OK","type":"output_text"}],"id":"msg_ace2fd94fc2f50b09bcc2867bbf5fcf0","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":12,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":17},"user":null,"moderation":null}'
+  recorded_at: Wed, 11 Nov 2026 18:01:30 GMT
+recorded_with: VCR 6.4.1

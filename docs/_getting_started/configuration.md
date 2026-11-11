@@ -114,6 +114,7 @@ RubyLLM.configure do |config|
   config.bedrock_credential_provider = Object # Aws::CredentialProvider
   config.bedrock_api_base = String
   config.bedrock_mantle_api_base = String
+  config.bedrock_mantle_region = String # defaults to bedrock_region
   config.bedrock_batch_s3_uri = String   # s3://bucket/prefix for batches and large attachments
   config.bedrock_batch_role_arn = String # IAM role Bedrock assumes to run batch jobs
   config.bedrock_video_s3_uri = String # s3://bucket/prefix for generated videos

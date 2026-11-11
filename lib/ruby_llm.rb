@@ -29,6 +29,7 @@ loader.inflector.inflect(
   'mistral' => 'Mistral',
   'ocr' => 'OCR',
   'openai' => 'OpenAI',
+  'openai_responses' => 'OpenAIResponses',
   'openrouter' => 'OpenRouter',
   'pdf' => 'PDF',
   'perplexity' => 'Perplexity',

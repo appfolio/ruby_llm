@@ -17,6 +17,55 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
   let(:provider) { RubyLLM::Providers::Bedrock.new(RubyLLM.config) }
 
   describe 'protocol routing' do
+    let(:openai_responses_ids) do
+      %w[
+        openai.gpt-5.6-sol openai.gpt-5.6-terra openai.gpt-5.6-luna
+        openai.gpt-6-sol openai.gpt-6-luna openai.gpt-6-astra
+        openai.gpt-6.1-sol openai.gpt-6.1-terra
+      ]
+    end
+
+    it 'routes GPT-5.6 and GPT-6 ids to the OpenAI Responses protocol' do
+      openai_responses_ids.each do |id|
+        model = RubyLLM::Model.default(id, 'bedrock')
+        expect(provider.protocol_for(model)).to eq(described_class::OpenAIResponses)
+      end
+    end
+
+    it 'routes GPT-5.6 and GPT-6 ids by id even when the registry does not mark them mantle' do
+      allow(RubyLLM::Providers::Bedrock::Models).to receive(:mantle_model?).and_return(false)
+
+      openai_responses_ids.each do |id|
+        model = RubyLLM::Model.default(id, 'bedrock')
+        expect(provider.protocol_for(model)).to eq(described_class::OpenAIResponses)
+      end
+    end
+
+    it 'marks GPT-5.6 and GPT-6 ids mantle in the registry' do
+      openai_responses_ids.each do |id|
+        expect(provider.mantle_model?(id)).to be(true), id
+      end
+    end
+
+    it 'matches exactly the GPT-5.6 and GPT-6 ids among registry Bedrock models' do
+      ids = RubyLLM.models.all_including_unlisted.select { |model| model.provider == 'bedrock' }.map(&:id)
+
+      expect(ids.grep(described_class::OPENAI_RESPONSES_MODEL_PATTERN)).to match_array(openai_responses_ids)
+    end
+
+    it 'keeps openai.gpt-5.4 on the Chat Completions protocol' do
+      model = RubyLLM::Model.default('openai.gpt-5.4', 'bedrock')
+
+      expect(provider.protocol_for(model)).to eq(described_class::ChatCompletions)
+    end
+
+    it 'keeps region-prefixed GPT-6 ids on Converse' do
+      %w[us.openai.gpt-6-sol global.openai.gpt-5.6-sol].each do |id|
+        model = RubyLLM::Model.default(id, 'bedrock')
+        expect(provider.protocol_for(model)).to eq(provider.protocols[:converse])
+      end
+    end
+
     it 'routes un-versioned anthropic ids to the Anthropic Messages protocol' do
       %w[anthropic.claude-sonnet-5 anthropic.claude-opus-4-7 anthropic.claude-fable-5].each do |id|
         model = RubyLLM::Model.default(id, 'bedrock')
@@ -173,6 +222,7 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
     it 'points each protocol at its own mantle path' do
       expect(described_class::Anthropic.allocate.completion_url).to eq('anthropic/v1/messages')
       expect(described_class::Responses.allocate.completion_url).to eq('v1/responses')
+      expect(described_class::OpenAIResponses.allocate.completion_url).to eq('openai/v1/responses')
       expect(described_class::ChatCompletions.allocate.completion_url).to eq('v1/chat/completions')
     end
 
@@ -192,6 +242,25 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
 
       expect(headers['Authorization']).to include('/bedrock-mantle/aws4_request')
       expect(headers['host'] || URI.parse(provider.mantle_api_base).host).to include('bedrock-mantle.')
+    end
+
+    it 'posts GPT-6 chats to openai/v1/responses on the mantle host of the mantle region' do
+      RubyLLM.config.bedrock_mantle_region = 'us-east-1'
+      body = {
+        id: 'resp_1', object: 'response', status: 'completed', model: 'openai.gpt-6-sol',
+        output: [{ type: 'message', role: 'assistant', content: [{ type: 'output_text', text: 'OK' }] }],
+        usage: { input_tokens: 3, output_tokens: 1 }
+      }
+      request = stub_request(:post, 'https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses')
+                .with { |req| req.headers['Authorization'].include?('/us-east-1/bedrock-mantle/aws4_request') }
+                .to_return(body: body.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      response = RubyLLM.chat(model: 'openai.gpt-6-sol', provider: :bedrock).ask('Say OK.')
+
+      expect(response.content).to eq('OK')
+      expect(request).to have_been_requested
+    ensure
+      RubyLLM.config.bedrock_mantle_region = nil
     end
 
     it 'derives the mantle base from the region with a config override' do
@@ -245,6 +314,45 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
       response = chat.with_tools(BedrockMantleWeather).ask("What's the weather in Berlin? Use the weather tool.")
 
       expect(response.content).to include('15')
+    end
+  end
+
+  describe 'GPT chat in the mantle region', :live do
+    around do |example|
+      RubyLLM.config.bedrock_region = 'us-west-2'
+      RubyLLM.config.bedrock_mantle_region = 'us-east-1'
+      example.run
+    ensure
+      RubyLLM.config.bedrock_mantle_region = nil
+    end
+
+    %w[openai.gpt-6-sol openai.gpt-5.6-sol openai.gpt-6.1-sol].each do |model_id|
+      it "chats with #{model_id}" do
+        response = RubyLLM.chat(model: model_id, provider: :bedrock).ask('Say OK and nothing else.')
+
+        expect(response.content).to include('OK')
+        expect(response.tokens.output).to be_positive
+      end
+    end
+
+    it 'streams with openai.gpt-6-sol' do
+      chunks = []
+      response = RubyLLM.chat(model: 'openai.gpt-6-sol', provider: :bedrock)
+                        .ask('Count from 1 to 5.') { |chunk| chunks << chunk }
+
+      expect(chunks.filter_map(&:content).join).not_to be_empty
+      expect(response.content).to include('5')
+    end
+
+    it 'streams thinking with openai.gpt-6-sol' do
+      chunks = []
+      response = RubyLLM.chat(model: 'openai.gpt-6-sol', provider: :bedrock)
+                        .with_thinking(effort: 'low', display: :summarized)
+                        .ask('What is 17 times 23? Think it through.') { |chunk| chunks << chunk }
+
+      expect(response.content).to include('391')
+      expect(response.thinking.text).to be_present
+      expect(response.tokens.thinking).to be_positive
     end
   end
 end

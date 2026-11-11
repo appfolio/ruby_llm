@@ -125,6 +125,84 @@ RSpec.describe RubyLLM::Providers::Bedrock do
     end
   end
 
+  describe 'mantle region' do
+    let(:config) { bedrock_config(region: 'us-west-2', api_key: 'test-key', secret_key: 'test-secret') }
+    let(:provider) { described_class.new(config) }
+
+    before { allow(Time).to receive(:now).and_return(Time.utc(2026, 10, 28, 12, 0, 0)) }
+
+    def mantle_authorization
+      model = RubyLLM::Model.default('openai.gpt-6-sol', 'bedrock')
+      protocol = provider.protocol_for(model).new(provider, model)
+      protocol.send(:mantle_headers, protocol.completion_url, '{}')['Authorization']
+    end
+
+    def converse_authorization
+      provider.sign_headers('POST', '/model/anthropic.claude-haiku/converse', '{}')['Authorization']
+    end
+
+    it 'registers bedrock_mantle_region as a Bedrock option that defaults to nil' do
+      expect(described_class.configuration_options).to include(:bedrock_mantle_region)
+      expect(RubyLLM::Configuration.new.bedrock_mantle_region).to be_nil
+    end
+
+    context 'when bedrock_mantle_region is set' do
+      before { config.bedrock_mantle_region = 'us-east-1' }
+
+      it 'signs and sends mantle requests in the mantle region' do
+        expect(provider.mantle_region).to eq('us-east-1')
+        expect(URI.parse(provider.mantle_api_base).host).to eq('bedrock-mantle.us-east-1.api.aws')
+        expect(mantle_authorization).to eq(
+          'AWS4-HMAC-SHA256 Credential=test-key/20261028/us-east-1/bedrock-mantle/aws4_request, ' \
+          'SignedHeaders=host;x-amz-content-sha256;x-amz-date, ' \
+          'Signature=83b1480582476a11ee04fff2ad4794d3a8bb2d550c89c7fea154633e3420859d'
+        )
+      end
+
+      it 'keeps Converse requests in bedrock_region' do
+        expect(converse_authorization).to eq(
+          'AWS4-HMAC-SHA256 Credential=test-key/20261028/us-west-2/bedrock/aws4_request, ' \
+          'SignedHeaders=host;x-amz-content-sha256;x-amz-date, ' \
+          'Signature=ed45ad61c0967d4575b46bf23fc87191a4534f251b18b1261a6def4fa2786064'
+        )
+      end
+
+      it 'lists the mantle catalog in the mantle region' do
+        allow(provider).to receive(:signed_get).and_return(instance_double(Faraday::Response, body: { 'data' => [] }))
+
+        provider.send(:list_mantle_models)
+
+        expect(provider).to have_received(:signed_get)
+          .with('https://bedrock-mantle.us-east-1.api.aws', 'v1/models', service: 'bedrock-mantle', region: 'us-east-1')
+      end
+
+      it 'lets bedrock_mantle_api_base override the mantle host' do
+        config.bedrock_mantle_api_base = 'https://mantle.example.test'
+
+        expect(provider.mantle_api_base).to eq('https://mantle.example.test')
+      end
+    end
+
+    context 'when bedrock_mantle_region is unset' do
+      it 'signs and sends mantle requests in bedrock_region' do
+        expect(provider.mantle_region).to eq('us-west-2')
+        expect(URI.parse(provider.mantle_api_base).host).to eq('bedrock-mantle.us-west-2.api.aws')
+        expect(mantle_authorization).to eq(
+          'AWS4-HMAC-SHA256 Credential=test-key/20261028/us-west-2/bedrock-mantle/aws4_request, ' \
+          'SignedHeaders=host;x-amz-content-sha256;x-amz-date, ' \
+          'Signature=412f198e536c40e4bc70f0e28cb0f90385b9056afee82d2e8aae59a21bbeeef1'
+        )
+      end
+
+      it 'keeps Converse requests in bedrock_region' do
+        expect(converse_authorization).to include('/20261028/us-west-2/bedrock/aws4_request')
+        expect(converse_authorization).to end_with(
+          'Signature=ed45ad61c0967d4575b46bf23fc87191a4534f251b18b1261a6def4fa2786064'
+        )
+      end
+    end
+  end
+
   describe '#protocol_for' do
     let(:provider) do
       described_class.new(bedrock_config(api_key: 'static-key', secret_key: 'static-secret'))
