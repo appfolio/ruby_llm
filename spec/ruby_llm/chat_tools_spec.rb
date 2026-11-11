@@ -590,6 +590,33 @@ RSpec.describe RubyLLM::Chat do
     end
   end
 
+  describe 'keyword tool calls' do
+    it 'calls the tool with keywords and passes the ToolCall to a call override' do
+      received = []
+      tool_class = Class.new(RubyLLM::Tool) do
+        description 'Records what call receives'
+
+        define_method(:call) do |tool_call: nil, **args|
+          received << [tool_call, args]
+          'recorded'
+        end
+
+        def execute(query:)
+          query
+        end
+      end
+      stub_const('KeywordRecorder', tool_class)
+      tool_call = RubyLLM::ToolCall.new(id: 'call_1', name: 'keyword_recorder', arguments: { 'query' => 'x' })
+      chat = RubyLLM.chat.with_tool(KeywordRecorder)
+      stub_tool_response(chat, { tool_call.id => tool_call })
+
+      chat.ask('Record it')
+
+      expect(received).to eq([[tool_call, { 'query' => 'x' }]])
+      expect(chat.messages.find { |message| message.role == :tool }.content).to eq('recorded')
+    end
+  end
+
   describe 'concurrent tool execution' do
     let(:tool_calls) do
       {

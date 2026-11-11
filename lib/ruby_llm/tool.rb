@@ -18,6 +18,8 @@ module RubyLLM
   # Base class for creating tools that AI models can use
   class Tool
     POSITIONAL_PARAMETER_KINDS = %i[req opt rest].freeze
+    KEYWORD_PARAMETER_KINDS = %i[keyreq key].freeze # :nodoc:
+    TOOL_CALL_KEYWORD = :tool_call # :nodoc:
 
     class << self
       def description(text = nil)
@@ -127,12 +129,15 @@ module RubyLLM
       end
     end
 
-    def call(args)
-      normalized_args = normalize_args(args)
+    # Keywords are the RubyLLM 2.0 form; the positional Hash is the 1.x form. `tool_call` is
+    # reserved and reaches execute only when execute declares a `tool_call:` keyword.
+    def call(args = nil, tool_call: nil, **arguments)
+      normalized_args = normalize_args(tool_arguments(args, arguments))
       validation_error = validate_keyword_arguments(normalized_args)
       return { error: "Invalid tool arguments: #{validation_error}" } if validation_error
 
       RubyLLM.logger.debug { "Tool #{name} called with: #{normalized_args.inspect}" }
+      normalized_args[TOOL_CALL_KEYWORD] = tool_call if execute_accepts_tool_call?
       result = execute(**normalized_args)
       RubyLLM.logger.debug { "Tool #{name} returned: #{result.inspect}" }
       result
@@ -142,7 +147,25 @@ module RubyLLM
       raise NotImplementedError, 'Subclasses must implement #execute'
     end
 
+    def execute_accepts_tool_call? # :nodoc:
+      method(:execute).parameters.any? do |kind, name|
+        name == TOOL_CALL_KEYWORD && KEYWORD_PARAMETER_KINDS.include?(kind)
+      end
+    end
+
     protected
+
+    def tool_arguments(args, arguments)
+      return arguments if args.nil?
+
+      unless RubyLLM.config.allow_positional_tool_arguments
+        raise ArgumentError,
+              'Tool#call takes keyword arguments; positional Hash arguments are removed in RubyLLM 2.0'
+      end
+      raise ArgumentError, 'pass tool arguments either as one Hash or as keywords, not both' unless arguments.empty?
+
+      args
+    end
 
     def normalize_args(args)
       return {} if args.nil?
@@ -169,7 +192,7 @@ module RubyLLM
     end
 
     def execute_keyword_signature
-      keyword_signature = method(:execute).parameters
+      keyword_signature = method(:execute).parameters.reject { |_, name| name == TOOL_CALL_KEYWORD }
       required_keywords = keyword_signature.filter_map { |kind, name| name if kind == :keyreq }
       optional_keywords = keyword_signature.filter_map { |kind, name| name if kind == :key }
       accepts_extra_keywords = keyword_signature.any? { |kind, _| kind == :keyrest }

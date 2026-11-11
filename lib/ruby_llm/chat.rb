@@ -159,6 +159,16 @@ module RubyLLM
       self
     end
 
+    # RubyLLM 2.0 name for with_params; shares @params so both names always agree.
+    def with_provider_options(provider_options)
+      @params = provider_options.to_h
+      self
+    end
+
+    def provider_options
+      @params
+    end
+
     def with_protocol(protocol)
       @protocol = protocol
       self
@@ -461,7 +471,7 @@ module RubyLLM
       }
 
       RubyLLM.instrument('tool_call.ruby_llm', payload, config: @config) do |event|
-        result = tool.call(args)
+        result = tool.call(**(args || {}), tool_call:)
         event[:result] = result
         event[:result_content] = result
         event[:result_class] = result.class.name
