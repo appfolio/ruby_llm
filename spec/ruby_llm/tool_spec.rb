@@ -139,6 +139,134 @@ RSpec.describe RubyLLM::Tool do
 
       expect(result).to eq([{ legacy: true }])
     end
+
+    context 'with keyword arguments (the RubyLLM 2.0 form)' do
+      before do
+        stub_const('KeywordTool', Class.new(described_class) do
+          def execute(questions:, limit: 5)
+            { questions:, limit: }
+          end
+        end)
+      end
+
+      it 'gives the same result for Symbol keys, String keys and a positional Hash' do
+        positional = KeywordTool.new.call({ 'questions' => [1], 'limit' => 2 })
+
+        expect(KeywordTool.new.call(questions: [1], limit: 2)).to eq(positional)
+        expect(KeywordTool.new.call(**{ 'questions' => [1], 'limit' => 2 })).to eq(positional)
+        expect(positional).to eq({ questions: [1], limit: 2 })
+      end
+
+      it 'validates keyword arguments as it does a positional Hash' do
+        expect(KeywordTool.new.call(**{ 'questions' => [], 'isOther' => true }))
+          .to eq({ error: 'Invalid tool arguments: unknown keyword: isOther' })
+        expect(KeywordTool.new.call).to eq({ error: 'Invalid tool arguments: missing keyword: questions' })
+      end
+
+      it 'raises ArgumentError when given both a Hash and keywords' do
+        expect { KeywordTool.new.call({ 'questions' => [] }, limit: 1) }
+          .to raise_error(ArgumentError, 'pass tool arguments either as one Hash or as keywords, not both')
+      end
+    end
+
+    context 'with the reserved tool_call keyword' do
+      let(:tool_call) { RubyLLM::ToolCall.new(id: 'call_1', name: 'probe', arguments: { 'query' => 'x' }) }
+
+      it 'passes tool_call into an execute that declares it' do
+        stub_const('ToolCallAwareTool', Class.new(described_class) do
+          def execute(tool_call:, **args)
+            { tool_call:, args: }
+          end
+        end)
+
+        result = ToolCallAwareTool.new.call(tool_call:, query: 'x')
+
+        expect(result).to eq({ tool_call:, args: { query: 'x' } })
+      end
+
+      it 'passes tool_call alongside a positional Hash' do
+        stub_const('PositionalToolCallTool', Class.new(described_class) do
+          def execute(query:, tool_call: nil)
+            [query, tool_call]
+          end
+        end)
+
+        expect(PositionalToolCallTool.new.call({ 'query' => 'x' }, tool_call:)).to eq(['x', tool_call])
+      end
+
+      it 'does not pass tool_call into an execute without that keyword' do
+        stub_const('PlainTool', Class.new(described_class) do
+          def execute(query:)
+            query
+          end
+        end)
+
+        expect(PlainTool.new.call(tool_call:, query: 'x')).to eq('x')
+      end
+
+      it 'does not pass tool_call into an execute that only accepts keyrest' do
+        stub_const('KeyrestTool', Class.new(described_class) do
+          def execute(**args)
+            args
+          end
+        end)
+
+        expect(KeyrestTool.new.call(tool_call:, query: 'x')).to eq({ query: 'x' })
+      end
+
+      it 'never counts tool_call as an unknown keyword or as a required argument' do
+        stub_const('StrictKeywordTool', Class.new(described_class) do
+          def execute(query:)
+            query
+          end
+        end)
+
+        expect(StrictKeywordTool.new.call(tool_call:))
+          .to eq({ error: 'Invalid tool arguments: missing keyword: query' })
+        expect(StrictKeywordTool.new.call(tool_call:, query: 'x')).to eq('x')
+      end
+
+      it 'leaves tool_call out of the inferred parameter schema' do
+        stub_const('SchemaToolCallTool', Class.new(described_class) do
+          def execute(query:, tool_call: nil)
+            [query, tool_call]
+          end
+        end)
+
+        expect(SchemaToolCallTool.new.params_schema['properties'].keys).to eq(['query'])
+        expect(SchemaToolCallTool.new.params_schema['required']).to eq(['query'])
+      end
+    end
+
+    context 'when allow_positional_tool_arguments is false' do
+      around do |example|
+        original = RubyLLM.config.allow_positional_tool_arguments
+        RubyLLM.config.allow_positional_tool_arguments = false
+        example.run
+      ensure
+        RubyLLM.config.allow_positional_tool_arguments = original
+      end
+
+      before do
+        stub_const('StrictTool', Class.new(described_class) do
+          def execute(questions:)
+            questions
+          end
+        end)
+      end
+
+      it 'raises ArgumentError for a positional Hash' do
+        expect { StrictTool.new.call({ 'questions' => [] }) }
+          .to raise_error(
+            ArgumentError,
+            'Tool#call takes keyword arguments; positional Hash arguments are removed in RubyLLM 2.0'
+          )
+      end
+
+      it 'accepts keyword arguments' do
+        expect(StrictTool.new.call(**{ 'questions' => [1] })).to eq([1])
+      end
+    end
   end
 
   describe '#params_schema' do

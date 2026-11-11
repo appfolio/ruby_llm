@@ -122,6 +122,15 @@ module RubyLLM
         self
       end
 
+      def with_provider_options(...)
+        to_llm.with_provider_options(...)
+        self
+      end
+
+      def provider_options
+        to_llm.provider_options
+      end
+
       def with_headers(...)
         to_llm.with_headers(...)
         self

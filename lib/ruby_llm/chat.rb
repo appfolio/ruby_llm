@@ -159,6 +159,16 @@ module RubyLLM
       self
     end
 
+    # RubyLLM 2.0 name for with_params; shares @params so both names always agree.
+    def with_provider_options(provider_options)
+      @params = provider_options.to_h
+      self
+    end
+
+    def provider_options
+      @params
+    end
+
     def with_protocol(protocol)
       @protocol = protocol
       self
@@ -461,11 +471,26 @@ module RubyLLM
       }
 
       RubyLLM.instrument('tool_call.ruby_llm', payload, config: @config) do |event|
-        result = tool.call(args)
+        result = call_tool(tool, args, tool_call)
         event[:result] = result
         event[:result_content] = result
         event[:result_class] = result.class.name
         result
+      end
+    end
+
+    # A 1.x override of call(args) keeps getting the positional Hash, so a missed conversion
+    # still works on the default config and fails loudly when positional calls are disallowed.
+    def call_tool(tool, args, tool_call)
+      kwargs = args.respond_to?(:to_hash) ? args.to_hash : {}
+      return tool.call(**kwargs, tool_call:) if tool_call_accepts_keywords?(tool)
+
+      tool.call(kwargs)
+    end
+
+    def tool_call_accepts_keywords?(tool)
+      tool.method(:call).parameters.any? do |kind, name|
+        kind == :keyrest || (Tool::KEYWORD_PARAMETER_KINDS.include?(kind) && name == Tool::TOOL_CALL_KEYWORD)
       end
     end
 

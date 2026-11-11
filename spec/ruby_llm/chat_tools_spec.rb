@@ -590,6 +590,101 @@ RSpec.describe RubyLLM::Chat do
     end
   end
 
+  describe 'keyword tool calls' do
+    it 'calls the tool with keywords and passes the ToolCall to a call override' do
+      received = []
+      tool_class = Class.new(RubyLLM::Tool) do
+        description 'Records what call receives'
+
+        define_method(:call) do |tool_call: nil, **args|
+          received << [tool_call, args]
+          'recorded'
+        end
+
+        def execute(query:)
+          query
+        end
+      end
+      stub_const('KeywordRecorder', tool_class)
+      tool_call = RubyLLM::ToolCall.new(id: 'call_1', name: 'keyword_recorder', arguments: { 'query' => 'x' })
+      chat = RubyLLM.chat.with_tool(KeywordRecorder)
+      stub_tool_response(chat, { tool_call.id => tool_call })
+
+      chat.ask('Record it')
+
+      expect(received).to eq([[tool_call, { 'query' => 'x' }]])
+      expect(chat.messages.find { |message| message.role == :tool }.content).to eq('recorded')
+    end
+
+    context 'with a legacy call(args) override' do
+      let(:received) { [] }
+      let(:tool_call) { RubyLLM::ToolCall.new(id: 'call_1', name: 'legacy_call', arguments: { 'query' => 'x' }) }
+      let(:chat) do
+        sink = received
+        stub_const('LegacyCall', Class.new(RubyLLM::Tool) do
+          description 'Overrides call with the 1.x positional form'
+
+          def call(args) = super(args) # rubocop:disable Lint/UselessMethodDefinition,Style/SuperArguments
+
+          define_method(:execute) do |query:|
+            sink << { query: }
+            'legacy ok'
+          end
+        end)
+        RubyLLM.chat.with_tool(LegacyCall).tap { |c| stub_tool_response(c, { tool_call.id => tool_call }) }
+      end
+
+      it 'passes a positional Hash on the default config' do
+        chat.ask('Run it')
+
+        expect(received).to eq([{ query: 'x' }])
+        expect(chat.messages.find { |message| message.role == :tool }.content).to eq('legacy ok')
+      end
+
+      it 'raises when positional tool arguments are disallowed' do
+        original = RubyLLM.config.allow_positional_tool_arguments
+        RubyLLM.config.allow_positional_tool_arguments = false
+
+        expect { chat.ask('Run it') }.to raise_error(
+          ArgumentError,
+          'Tool#call takes keyword arguments; positional Hash arguments are removed in RubyLLM 2.0'
+        )
+      ensure
+        RubyLLM.config.allow_positional_tool_arguments = original
+      end
+    end
+
+    context 'with non-Hash tool call arguments' do
+      [[], 'not json'].each do |arguments|
+        it "runs a tool without arguments when arguments is #{arguments.class}" do
+          stub_const('NoArgs', Class.new(RubyLLM::Tool) do
+            description 'Takes nothing'
+
+            def execute = 'no args ok'
+          end)
+          tool_call = RubyLLM::ToolCall.new(id: 'call_1', name: 'no_args', arguments:)
+          chat = RubyLLM.chat.with_tool(NoArgs)
+          stub_tool_response(chat, { tool_call.id => tool_call })
+
+          chat.ask('Run it')
+
+          expect(chat.messages.find { |message| message.role == :tool }.content).to eq('no args ok')
+        end
+
+        it "returns the invalid arguments error for a required keyword when arguments is #{arguments.class}" do
+          tool_call = RubyLLM::ToolCall.new(id: 'call_1', name: 'content_returning', arguments:)
+          results = []
+          chat = RubyLLM.chat.with_tool(ContentReturningTool).after_tool_result { |result| results << result }
+          stub_tool_response(chat, { tool_call.id => tool_call })
+
+          chat.ask('Run it')
+
+          expect(results).to eq([{ error: 'Invalid tool arguments: missing keyword: query' }])
+        end
+      end
+    end
+  end
+
   describe 'concurrent tool execution' do
     let(:tool_calls) do
       {

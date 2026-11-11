@@ -21,6 +21,30 @@ RSpec.describe RubyLLM::Chat do
     expect(message.output_tokens).to be_positive
   end
 
+  describe '#with_provider_options' do
+    it 'sets provider_options and params to the same value and returns the chat' do
+      chat = RubyLLM.chat
+
+      expect(chat.with_provider_options(a: 1)).to be(chat)
+      expect(chat.provider_options).to eq({ a: 1 })
+      expect(chat.params).to eq({ a: 1 })
+    end
+
+    it 'is replaced by a later with_params' do
+      chat = RubyLLM.chat.with_provider_options(a: 1).with_params(b: 2)
+
+      expect(chat.provider_options).to eq({ b: 2 })
+      expect(chat.params).to eq({ b: 2 })
+    end
+
+    it 'replaces an earlier with_params' do
+      chat = RubyLLM.chat.with_params(b: 2).with_provider_options(a: 1)
+
+      expect(chat.provider_options).to eq({ a: 1 })
+      expect(chat.params).to eq({ a: 1 })
+    end
+  end
+
   describe 'basic chat functionality' do
     CHAT_MODELS.each do |model_info|
       model = model_info[:model]
