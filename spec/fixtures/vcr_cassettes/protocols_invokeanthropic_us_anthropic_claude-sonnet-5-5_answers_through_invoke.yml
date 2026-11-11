@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-sonnet-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"text":"Say
+        OK and nothing else.","type":"text"}]}],"max_tokens":128000}'
+    headers:
+      User-Agent:
+      - Faraday v2.15.1
+      X-Amz-Date:
+      - 20261111T180113Z
+      X-Amz-Content-Sha256:
+      - a20d586708e09ecfd562ba6a7413f908c23aa7c5947ef5cd80ecaf68a017b174
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Nov 2026 18:01:14 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '514'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 719370f5-3d19-41e6-a39b-3afcbc17abdb
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '647'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '4'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '18'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-sonnet-5-5","id":"msg_bdrk_vr3w4gxeeb4w5kmnfslifcfabylwgq52rig42uroidb24mxnehpa","type":"message","role":"assistant","content":[{"type":"text","text":"OK"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":18,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":4,"output_tokens_details":{"thinking_tokens":0},"service_tier":"standard"}}'
+  recorded_at: Wed, 11 Nov 2026 18:01:14 GMT
+recorded_with: VCR 6.4.1

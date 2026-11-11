@@ -8,6 +8,9 @@ module RubyLLM
       include Bedrock::Models
 
       protocol :converse, Protocols::Converse, batches: Protocols::Converse::Batches
+      # Opt-in only: protocol_for never picks it, so Claude stays on Converse
+      # unless a chat asks for protocol: :invoke_anthropic.
+      protocol :invoke_anthropic, Protocols::InvokeAnthropic
       protocol :mantle_anthropic, Bedrock::Mantle::Anthropic
       protocol :mantle_responses, Bedrock::Mantle::Responses
       protocol :mantle_openai_responses, Bedrock::Mantle::OpenAIResponses

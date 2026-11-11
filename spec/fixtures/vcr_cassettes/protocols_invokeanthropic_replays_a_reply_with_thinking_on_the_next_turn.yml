@@ -1,0 +1,112 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-opus-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"text":"What
+        is 17 times 23? Answer with the number.","type":"text"}]}],"max_tokens":128000,"thinking":{"type":"adaptive"},"output_config":{"effort":"low"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.15.1
+      X-Amz-Date:
+      - 20261111T180107Z
+      X-Amz-Content-Sha256:
+      - 05d58a84ef39e891d73be6284c44b8ee7eb26ea72c03f9ec691f9d29aebb838b
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Nov 2026 18:01:08 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1223'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - 2341b74d-d311-42d7-8466-688de98c9611
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1222'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '11'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '24'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-opus-5-5","id":"msg_bdrk_ikwehd4b47zpqa7yaffd7xw4skacwqewizioxqysmej6mcagleca","type":"message","role":"assistant","content":[{"type":"thinking","thinking":"","signature":"CAQS6AMKEggTEAEYAjgBQgh0aGlua2luZxIMaJOrIzY1ss6tyX/fGgxpcQuBL3FBS/oE+h0iMFTFHGNTMmu2+ccUeJkivG5jZk+hCKHoiLQJH6JniRhi/SDlXhzg4xh7RbfN9kx/KCqDAzgMbcOwkISOASGNMlIPerTocwWTXnpfRUAVj3zglJ8muqq8TaapdQQ7yLu9bbzTp4SKS9qcdgx77CEaK6a5Fl7sIWbscgTIlZ+Nw404mJ+5SBAnT5YJRqPnqqfBhxIi0zhLiHliZnW/trCKtLCtb9NpaPN7YuPbCUA0JzAyiPUnXl7miJ1t0oxkxSlS0YLICD7UQW/ovUSKnR6eoq9zO+Ikuz6yoXhlG+YucVuhQbE4RdiylNXGMgj9mzU+vjvWx2Ehj2fuzbhhQUCHLbIvy7qyeGUEMZ7gxrxYpdv7J/s1KWuSi6ZoJyH9Ag15nBDZ/qKHYO4Sa8ppjJWzXPILCdQIe/uVMb1bxwk6yrFNg1iy6H2P3kXm1eUx5LE1Ru+dXuieNujeSkvJ9TSbLgC+/lMtTquQs8mPyriCVnKb5XFuvmPHYBStcJM04iFRlwLwXy9wF8QvoNg9bKJXwwwThf/pvwxxNtgopyGSAB1aw7KcSIEPTAShGfYfrb5gad+1mxcXIBgB"},{"type":"text","text":"391"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":24,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":11,"output_tokens_details":{"thinking_tokens":8},"service_tier":"standard"}}'
+  recorded_at: Wed, 11 Nov 2026 18:01:08 GMT
+- request:
+    method: post
+    uri: https://bedrock-runtime.<AWS_REGION>.amazonaws.com/model/us.anthropic.claude-opus-5-5/invoke
+    body:
+      encoding: UTF-8
+      string: '{"anthropic_version":"bedrock-2023-05-31","messages":[{"role":"user","content":[{"text":"What
+        is 17 times 23? Answer with the number.","type":"text"}]},{"role":"assistant","content":[{"signature":"CAQS6AMKEggTEAEYAjgBQgh0aGlua2luZxIMaJOrIzY1ss6tyX/fGgxpcQuBL3FBS/oE+h0iMFTFHGNTMmu2+ccUeJkivG5jZk+hCKHoiLQJH6JniRhi/SDlXhzg4xh7RbfN9kx/KCqDAzgMbcOwkISOASGNMlIPerTocwWTXnpfRUAVj3zglJ8muqq8TaapdQQ7yLu9bbzTp4SKS9qcdgx77CEaK6a5Fl7sIWbscgTIlZ+Nw404mJ+5SBAnT5YJRqPnqqfBhxIi0zhLiHliZnW/trCKtLCtb9NpaPN7YuPbCUA0JzAyiPUnXl7miJ1t0oxkxSlS0YLICD7UQW/ovUSKnR6eoq9zO+Ikuz6yoXhlG+YucVuhQbE4RdiylNXGMgj9mzU+vjvWx2Ehj2fuzbhhQUCHLbIvy7qyeGUEMZ7gxrxYpdv7J/s1KWuSi6ZoJyH9Ag15nBDZ/qKHYO4Sa8ppjJWzXPILCdQIe/uVMb1bxwk6yrFNg1iy6H2P3kXm1eUx5LE1Ru+dXuieNujeSkvJ9TSbLgC+/lMtTquQs8mPyriCVnKb5XFuvmPHYBStcJM04iFRlwLwXy9wF8QvoNg9bKJXwwwThf/pvwxxNtgopyGSAB1aw7KcSIEPTAShGfYfrb5gad+1mxcXIBgB","thinking":"","type":"thinking"},{"text":"391","type":"text"}]},{"role":"user","content":[{"text":"Add
+        1 to that and answer with the number.","type":"text"}]}],"max_tokens":128000,"thinking":{"type":"adaptive"},"output_config":{"effort":"low"}}'
+    headers:
+      User-Agent:
+      - Faraday v2.15.1
+      X-Amz-Date:
+      - 20261111T180108Z
+      X-Amz-Content-Sha256:
+      - 255f0190811e2965141a54d59c40eed344613d7b637eb48bbf563b96c3510780
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 11 Nov 2026 18:01:10 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '513'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - ce546d89-cbc9-430b-8177-da038ad23f8c
+      X-Amzn-Bedrock-Invocation-Latency:
+      - '1138'
+      X-Amzn-Bedrock-Cache-Write-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Cache-Read-Input-Token-Count:
+      - '0'
+      X-Amzn-Bedrock-Output-Token-Count:
+      - '3'
+      X-Amzn-Bedrock-Input-Token-Count:
+      - '53'
+    body:
+      encoding: UTF-8
+      string: '{"model":"claude-opus-5-5","id":"msg_bdrk_io43ncmqyd5vidoryedmlret43665ujfhoomvxza24psm45kkmiq","type":"message","role":"assistant","content":[{"type":"text","text":"392"}],"container":null,"stop_reason":"end_turn","stop_sequence":null,"stop_details":null,"usage":{"input_tokens":53,"cache_creation_input_tokens":0,"cache_read_input_tokens":0,"cache_creation":{"ephemeral_5m_input_tokens":0,"ephemeral_1h_input_tokens":0},"output_tokens":3,"output_tokens_details":{"thinking_tokens":0},"service_tier":"standard"}}'
+  recorded_at: Wed, 11 Nov 2026 18:01:10 GMT
+recorded_with: VCR 6.4.1
