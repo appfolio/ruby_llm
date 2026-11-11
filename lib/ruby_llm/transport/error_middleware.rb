@@ -70,7 +70,10 @@ module RubyLLM
           /rate limit/i,
           /per minute/i,
           /per hour/i,
-          /per day/i
+          /per day/i,
+          # Bedrock's token-rate throttle also matches /too many tokens/i, and rate_limited? runs first.
+          /too many tokens.*please wait/i,
+          /wait before trying again/i
         ].freeze
 
         def parse_error(provider:, response:)

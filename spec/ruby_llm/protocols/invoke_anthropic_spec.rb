@@ -402,6 +402,14 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
       expect { stream }.to raise_error(RubyLLM::RateLimitError, /Too many requests/)
     end
 
+    it 'raises the rate limit error for a token throttle frame' do
+      throttled = frame({ ':message-type' => 'exception', ':exception-type' => 'throttlingException' },
+                        JSON.generate('message' => 'Too many tokens, please wait before trying again.'))
+      stub_invoke_stream([message_start, throttled])
+
+      expect { stream }.to raise_error(RubyLLM::RateLimitError, /Too many tokens/)
+    end
+
     it 'raises the overloaded error for an overloaded_error event' do
       stub_invoke_stream([message_start,
                           { 'type' => 'error',

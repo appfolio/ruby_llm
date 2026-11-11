@@ -204,6 +204,14 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
       end
     end
 
+    it 'raises the rate limit error for a token throttle frame' do
+      message = 'Too many tokens, please wait before trying again.'
+
+      expect do
+        streaming.send(:build_chunk, { 'throttlingException' => { 'message' => message } })
+      end.to raise_error(RubyLLM::RateLimitError, /Too many tokens/)
+    end
+
     it 'falls back to the exception name when the frame carries no message' do
       expect do
         streaming.send(:build_chunk, { 'validationException' => {} })
