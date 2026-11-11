@@ -317,8 +317,7 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
     end
   end
 
-  describe 'GPT chat in the mantle region', :live,
-           skip: 'Cassettes not yet recorded; record with AWS credentials for us-east-1 mantle' do
+  describe 'GPT chat in the mantle region', :live do
     around do |example|
       RubyLLM.config.bedrock_region = 'us-west-2'
       RubyLLM.config.bedrock_mantle_region = 'us-east-1'
@@ -348,11 +347,12 @@ RSpec.describe RubyLLM::Providers::Bedrock::Mantle do
     it 'streams thinking with openai.gpt-6-sol' do
       chunks = []
       response = RubyLLM.chat(model: 'openai.gpt-6-sol', provider: :bedrock)
-                        .with_thinking(effort: 'low')
-                        .ask('What is 17 times 23?') { |chunk| chunks << chunk }
+                        .with_thinking(effort: 'low', display: :summarized)
+                        .ask('What is 17 times 23? Think it through.') { |chunk| chunks << chunk }
 
       expect(response.content).to include('391')
-      expect(response.thinking).to be_present
+      expect(response.thinking.text).to be_present
+      expect(response.tokens.thinking).to be_positive
     end
   end
 end
