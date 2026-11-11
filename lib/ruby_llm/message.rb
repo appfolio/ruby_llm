@@ -77,6 +77,9 @@ module RubyLLM
     # +nil+ when the provider returned none.
     attr_reader :raw_reasoning # :nodoc:
 
+    # Reply fields a protocol passes through unmodeled, as a Hash, or +nil+.
+    attr_accessor :provider_data # :nodoc:
+
     # The Chat this message belongs to, set when it is added to a
     # conversation. Backs #tool_results.
     attr_accessor :conversation # :nodoc:
@@ -105,6 +108,7 @@ module RubyLLM
       @server_tool_calls = Array(options[:server_tool_calls]).map { |call| coerce_value(call, ServerToolCall) }
       @raw_content = options[:raw_content]
       @raw_reasoning = options[:raw_reasoning]
+      @provider_data = options[:provider_data]
       @finish_reason = options[:finish_reason]&.to_sym
       self.ruby_llm_usage_entries = options[:usage_entries] if options[:usage_entries]
       @cache_until_here = options.fetch(:cache_until_here, false)
