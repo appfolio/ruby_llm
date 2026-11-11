@@ -257,6 +257,14 @@ RSpec.describe RubyLLM::ActiveRecord::ActsAs do
       llm_chat = chat.instance_variable_get(:@chat)
       expect(llm_chat.params).to eq(max_tokens: 100, temperature: 0.5)
     end
+
+    it 'supports with_provider_options and provider_options' do
+      chat = Chat.create!(model: model)
+
+      expect(chat.with_provider_options(foo: 1)).to eq(chat)
+      expect(chat.provider_options).to eq({ foo: 1 })
+      expect(chat.to_llm.params).to eq({ foo: 1 })
+    end
   end
 
   describe 'tool functionality' do
