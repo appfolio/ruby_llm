@@ -366,7 +366,8 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
         payload: StringIO.new(JSON.generate({ 'message' => 'Too many requests' }))
       )
 
-      event = streaming.send(:nest_event_under_type, { 'message' => 'Too many requests' }, message)
+      type = streaming.send(:event_type_header, message)
+      event = streaming.send(:nest_event_under_type, { 'message' => 'Too many requests' }, type)
 
       expect(event).to eq({ 'throttlingException' => { 'message' => 'Too many requests' } })
       expect(streaming.send(:stream_error_event?, event)).to be(true)
@@ -379,7 +380,126 @@ RSpec.describe RubyLLM::Protocols::Converse::Streaming do
       )
       nested = { 'messageStop' => { 'stopReason' => 'end_turn' } }
 
-      expect(streaming.send(:nest_event_under_type, nested, message)).to equal(nested)
+      type = streaming.send(:event_type_header, message)
+
+      expect(streaming.send(:nest_event_under_type, nested, type)).to equal(nested)
+    end
+  end
+
+  describe 'skipped stream events' do
+    require 'aws-eventstream'
+
+    let(:config) do
+      RubyLLM::Configuration.new.tap do |c|
+        c.bedrock_region = 'us-west-2'
+        c.bedrock_api_key = 'static-key'
+        c.bedrock_secret_key = 'static-secret'
+      end
+    end
+    let(:model) do
+      RubyLLM::Model::Info.new(id: 'anthropic.claude-test', name: 'claude-test', provider: 'bedrock',
+                               created_at: nil, context_window: 200_000, max_output_tokens: 8192,
+                               modalities: { input: [], output: [] }, capabilities: [], pricing: {}, metadata: {})
+    end
+    let(:protocol) { RubyLLM::Protocols::Converse.new(RubyLLM::Providers::Bedrock.new(config), model) }
+    let(:skipped) { [] }
+
+    before do
+      allow(RubyLLM.logger).to receive(:warn)
+      config.on_stream_parse_error = ->(event) { skipped << event }
+    end
+
+    def wire_message(type, payload)
+      Aws::EventStream::Message.new(
+        headers: {
+          ':event-type' => Aws::EventStream::HeaderValue.new(value: type, type: 'string'),
+          ':message-type' => Aws::EventStream::HeaderValue.new(value: 'event', type: 'string')
+        },
+        payload: StringIO.new(payload.is_a?(String) ? payload : JSON.generate(payload))
+      )
+    end
+
+    def stream(*messages)
+      encoder = Aws::EventStream::Encoder.new
+      stub_request(:post, %r{/model/anthropic\.claude-test/converse-stream\z})
+        .to_return(status: 200, body: messages.map { |message| encoder.encode(message) }.join,
+                   headers: { 'Content-Type' => 'application/vnd.amazon.eventstream' })
+      protocol.complete([RubyLLM::Message.new(role: :user, content: 'hi')], tools: {}, temperature: nil) { |_| nil }
+    end
+
+    def tool_turn(*middle)
+      stream(
+        wire_message('contentBlockStart', { 'contentBlockIndex' => 0,
+                                            'start' => { 'toolUse' => { 'toolUseId' => 'call_1',
+                                                                        'name' => 'weather' } } }),
+        *middle,
+        wire_message('contentBlockDelta', { 'contentBlockIndex' => 0,
+                                            'delta' => { 'toolUse' => { 'input' => '{"city":"SF"}' } } }),
+        wire_message('contentBlockStop', { 'contentBlockIndex' => 0 }),
+        wire_message('messageStop', { 'stopReason' => 'tool_use' })
+      )
+    end
+
+    it 'reports an undecodable event payload, counts it, and still assembles the tool call' do
+      bad = '{"contentBlockIndex":0,"delta":{"toolUse":{"input":"{\"secret'
+      message = tool_turn(wire_message('contentBlockDelta', bad))
+
+      expect(message.tool_calls['call_1'].arguments).to eq('city' => 'SF')
+      expect(message.skipped_stream_events).to eq(1)
+      expect(skipped.map(&:to_h)).to eq(
+        [{ provider: 'bedrock', model: 'anthropic.claude-test', site: :event_payload,
+           event_type: 'contentBlockDelta', byte_size: bad.bytesize, error_class: 'JSON::ParserError' }]
+      )
+      expect(RubyLLM.logger).to have_received(:warn).with(
+        a_string_including('provider=bedrock model=anthropic.claude-test site=event_payload ' \
+                           "event_type=contentBlockDelta byte_size=#{bad.bytesize} error_class=JSON::ParserError")
+      )
+      expect(RubyLLM.logger).not_to have_received(:warn).with(a_string_including('secret'))
+    end
+
+    it 'reports a string delta that is not valid JSON exactly once' do
+      message = tool_turn(wire_message('contentBlockDelta', { 'contentBlockIndex' => 0, 'delta' => '{"text":' }))
+
+      expect(message.skipped_stream_events).to eq(1)
+      expect(skipped.map(&:to_h)).to eq(
+        [{ provider: 'bedrock', model: 'anthropic.claude-test', site: :content_block_delta,
+           event_type: 'contentBlockDelta', byte_size: 8, error_class: 'JSON::ParserError' }]
+      )
+    end
+
+    it 'records zero skipped events for a clean stream' do
+      message = tool_turn
+
+      expect(message.skipped_stream_events).to eq(0)
+      expect(skipped).to be_empty
+    end
+
+    it 'keeps streaming when the hook raises' do
+      config.on_stream_parse_error = ->(_event) { raise 'metrics down' }
+
+      message = tool_turn(wire_message('contentBlockDelta', '{'))
+
+      expect(message.tool_calls['call_1'].arguments).to eq('city' => 'SF')
+      expect(message.skipped_stream_events).to eq(1)
+      expect(RubyLLM.logger).to have_received(:warn)
+        .with('RubyLLM on_stream_parse_error hook raised RuntimeError: metrics down')
+    end
+
+    it 'counts skips without a hook' do
+      config.on_stream_parse_error = nil
+
+      expect(tool_turn(wire_message('contentBlockDelta', '{')).skipped_stream_events).to eq(1)
+    end
+
+    it 'reports an event whose headers cannot be read' do
+      message = instance_double(Aws::EventStream::Message, payload: StringIO.new('{"a":1}'))
+      allow(message).to receive(:headers).and_raise(NoMethodError)
+
+      expect(protocol.send(:event_type_header, message)).to be_nil
+      expect(skipped.map(&:to_h)).to eq(
+        [{ provider: 'bedrock', model: 'anthropic.claude-test', site: :event_type_header,
+           event_type: nil, byte_size: 7, error_class: 'NoMethodError' }]
+      )
     end
   end
 end

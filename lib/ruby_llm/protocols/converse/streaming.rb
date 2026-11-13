@@ -19,6 +19,7 @@ module RubyLLM
 
         def stream_response(payload, additional_headers = {}, &block)
           accumulator = StreamAccumulator.new
+          @stream_accumulator = accumulator
           decoder = event_stream_decoder
           thinking_state = {}
 
@@ -45,10 +46,11 @@ module RubyLLM
 
         def decode_events(decoder, raw_chunk)
           decode_event_messages(decoder, raw_chunk).filter_map do |message|
-            event = decode_event_payload(message.payload.read)
+            type = event_type_header(message)
+            event = decode_event_payload(message.payload.read, event_type: type)
             next unless event
 
-            event = nest_event_under_type(event, message)
+            event = nest_event_under_type(event, type)
             RubyLLM.logger.debug { "Bedrock stream event keys: #{event.keys}" } if RubyLLM.config.log_stream_debug
             event
           end
@@ -62,8 +64,7 @@ module RubyLLM
         # payload under its header type here. A payload already nested under its type (the
         # shape older specs fabricate) or a message with no type header passes through
         # unchanged.
-        def nest_event_under_type(event, message)
-          type = event_type_header(message)
+        def nest_event_under_type(event, type)
           return event unless type
           return event if event.key?(type)
 
@@ -73,19 +74,20 @@ module RubyLLM
         def build_chunk(event, thinking_state = {})
           raise_stream_error(event) if stream_error_event?(event)
 
-          track_thinking_delta(event, thinking_state)
+          delta = normalized_delta(event)
+          track_thinking_delta(event, delta, thinking_state)
           metadata_usage, usage = event_usage(event)
 
           Chunk.new(
             role: :assistant,
             model_id: event['modelId'] || @model&.id,
-            content: extract_content_delta(event),
+            content: delta['text'],
             thinking: Thinking.build(
-              text: extract_thinking_delta(event),
-              signature: extract_thinking_signature(event),
+              text: extract_thinking_delta(delta),
+              signature: extract_thinking_signature(event, delta),
               blocks: extract_finalized_thinking_blocks(event, thinking_state)
             ),
-            tool_calls: extract_tool_calls(event),
+            tool_calls: extract_tool_calls(event, delta),
             input_tokens: extract_input_tokens(metadata_usage, usage),
             output_tokens: extract_output_tokens(metadata_usage, usage),
             cached_tokens: extract_cached_tokens(metadata_usage, usage),
@@ -103,8 +105,8 @@ module RubyLLM
         # block — shaped exactly like the blocks Converse::Chat.parse_thinking captures from
         # the non-streaming response — on that index's contentBlockStop
         # (see extract_finalized_thinking_blocks).
-        def track_thinking_delta(event, thinking_state)
-          index, reasoning_content = thinking_delta_source(event)
+        def track_thinking_delta(event, delta, thinking_state)
+          index, reasoning_content = thinking_delta_source(event, delta)
           return unless index && reasoning_content.is_a?(Hash)
 
           state = (thinking_state[index] ||= { text: +'', signature: nil, redacted: nil })
@@ -123,12 +125,12 @@ module RubyLLM
           state[:redacted] = state[:redacted].to_s + redacted if redacted
         end
 
-        def thinking_delta_source(event)
+        def thinking_delta_source(event, delta)
           start_index = event.dig('contentBlockStart', 'contentBlockIndex')
           return [start_index, event.dig('contentBlockStart', 'start', 'reasoningContent')] if start_index
 
           delta_index = event.dig('contentBlockDelta', 'contentBlockIndex')
-          [delta_index, normalized_delta(event)['reasoningContent']]
+          [delta_index, delta['reasoningContent']]
         end
 
         # A thinking block finalizes on its own content_block_stop. As a safety net, messageStop
@@ -231,19 +233,15 @@ module RubyLLM
           raise_event_stream_exception(key, event[key]['message'])
         end
 
-        def extract_content_delta(event)
-          normalized_delta(event)['text']
-        end
-
-        def extract_thinking_delta(event)
-          reasoning_content = normalized_delta(event)['reasoningContent'] || {}
+        def extract_thinking_delta(delta)
+          reasoning_content = delta['reasoningContent'] || {}
 
           reasoning_text = reasoning_content['reasoningText'] || {}
           reasoning_text['text'] || reasoning_content['text']
         end
 
-        def extract_thinking_signature(event)
-          signature = extract_signature_from_delta(event)
+        def extract_thinking_signature(event, delta)
+          signature = extract_signature_from_delta(delta)
           return signature if signature
 
           signature = extract_signature_from_start(event)
@@ -252,8 +250,8 @@ module RubyLLM
           nil
         end
 
-        def extract_signature_from_delta(event)
-          reasoning_content = normalized_delta(event)['reasoningContent'] || {}
+        def extract_signature_from_delta(delta)
+          reasoning_content = delta['reasoningContent'] || {}
           reasoning_text = reasoning_content['reasoningText'] || {}
           reasoning_text['signature'] || reasoning_content['signature']
         end
@@ -269,9 +267,9 @@ module RubyLLM
           nil
         end
 
-        def extract_tool_calls(event)
+        def extract_tool_calls(event, delta)
           return extract_tool_call_start(event) if tool_call_start_event?(event)
-          return extract_tool_call_delta(event) if tool_call_delta_event?(event)
+          return extract_tool_call_delta(delta) if tool_call_delta_event?(event)
 
           nil
         end
@@ -298,13 +296,15 @@ module RubyLLM
           }
         end
 
-        def extract_tool_call_delta(event)
-          input = normalized_delta(event).dig('toolUse', 'input')
+        def extract_tool_call_delta(delta)
+          input = delta.dig('toolUse', 'input')
           return nil unless input
 
           { nil => ToolCall.new(id: nil, name: nil, arguments: input) }
         end
 
+        # Decoded once per event: a delta sent as a JSON string that fails to parse is reported as
+        # one skip, not once per extractor.
         def normalized_delta(event)
           delta = event.dig('contentBlockDelta', 'delta') || event['delta'] || {}
           return delta if delta.is_a?(Hash)
@@ -314,7 +314,8 @@ module RubyLLM
           else
             {}
           end
-        rescue JSON::ParserError
+        rescue JSON::ParserError => e
+          skip_stream_event(:content_block_delta, delta, event_type: 'contentBlockDelta', error: e)
           {}
         end
       end

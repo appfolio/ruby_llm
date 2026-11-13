@@ -14,6 +14,8 @@ module RubyLLM
       # messages. What each endpoint puts INSIDE the payload differs, so event interpretation
       # stays with the including protocol.
       module EventStream
+        include SkippedStreamEvent::Reporting
+
         ErrorResponse = Struct.new(:body, :status)
 
         # Bedrock stream exception type => HTTP status, so ErrorMiddleware raises the same error
@@ -113,19 +115,19 @@ module RubyLLM
           header = headers[':event-type'] || headers[':exception-type']
           value = header.respond_to?(:value) ? header.value : header
           value.is_a?(String) && !value.empty? ? value : nil
-        rescue StandardError
-          nil
+        rescue StandardError => e
+          skip_stream_event(:event_type_header, message.payload, error: e)
         end
 
         def exception_type_header(message)
           header = message.headers[':exception-type']
           value = header.respond_to?(:value) ? header.value : header
           value.is_a?(String) && !value.empty? ? value : nil
-        rescue StandardError
-          nil
+        rescue StandardError => e
+          skip_stream_event(:exception_type_header, message.payload, error: e)
         end
 
-        def decode_event_payload(payload)
+        def decode_event_payload(payload, event_type: nil)
           outer = JSON.parse(payload)
 
           if outer['bytes'].is_a?(String)
@@ -134,8 +136,7 @@ module RubyLLM
             outer
           end
         rescue JSON::ParserError => e
-          RubyLLM.logger.debug { "Failed to decode Bedrock stream event payload: #{e.message}" }
-          nil
+          skip_stream_event(:event_payload, payload, event_type: event_type, error: e)
         end
 
         def raise_event_stream_exception(exception_type, message)

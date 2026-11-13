@@ -31,6 +31,7 @@ module RubyLLM
 
         def stream_response(payload, additional_headers = {}, &block)
           accumulator = StreamAccumulator.new
+          @stream_accumulator = accumulator
           decoder = event_stream_decoder
           thinking_state = {}
           block_state = {}
@@ -65,12 +66,15 @@ module RubyLLM
           payload = message.payload.read
           exception_type = exception_type_header(message)
           if exception_type
-            parsed = decode_event_payload(payload) || {}
+            parsed = decode_event_payload(payload, event_type: exception_type) || {}
             raise_event_stream_exception(exception_type, parsed['message'] || parsed['Message'])
           end
 
           data = decode_event_payload(payload)
-          return nil unless data.is_a?(Hash)
+          unless data.is_a?(Hash)
+            skip_stream_event(:event_payload, payload) unless data.nil?
+            return nil
+          end
 
           RubyLLM.logger.debug { "Bedrock invoke stream event: #{data['type']}" } if RubyLLM.config.log_stream_debug
           raise_anthropic_stream_error(data) if data['type'] == 'error'

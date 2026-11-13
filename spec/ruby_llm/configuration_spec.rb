@@ -17,12 +17,14 @@ RSpec.describe RubyLLM::Configuration do
       expect(config.tool_concurrency).to be(false)
       expect(config.deprecation_behavior).to eq(:warn)
       expect(config.faraday_adapter).to eq(:net_http)
+      expect(config.on_stream_parse_error).to be_nil
     end
 
     it 'exposes a discoverable options API' do
       expect(described_class.options).to include(
         :request_timeout,
         :tool_concurrency,
+        :on_stream_parse_error,
         :default_model,
         :default_speech_model,
         :model_registry_file,

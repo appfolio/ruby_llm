@@ -24,6 +24,7 @@ component :domain, in: %w[
   lib/ruby_llm/message.rb
   lib/ruby_llm/moderation.rb
   lib/ruby_llm/search_results.rb
+  lib/ruby_llm/skipped_stream_event.rb
   lib/ruby_llm/stream_accumulator.rb
   lib/ruby_llm/streaming.rb
   lib/ruby_llm/thinking.rb

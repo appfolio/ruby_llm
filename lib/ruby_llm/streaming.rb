@@ -7,10 +7,13 @@ require 'json'
 module RubyLLM
   # Handles streaming responses from AI providers.
   module Streaming
+    include SkippedStreamEvent::Reporting
+
     module_function
 
     def stream_response(payload, additional_headers = {}, &block)
       accumulator = StreamAccumulator.new
+      @stream_accumulator = accumulator
       on_data = handle_stream do |chunk|
         accumulator.add chunk
         block.call chunk
@@ -96,18 +99,23 @@ module RubyLLM
         when :error
           handle_error_event(data, env)
         else
-          yield handle_data(data, env) unless data == '[DONE]'
+          yield handle_data(data, env, type) unless data == '[DONE]'
         end
       end
     end
 
-    def handle_data(data, env)
+    def handle_data(data, env, type = nil)
       parsed = JSON.parse(data)
-      return parsed unless parsed.is_a?(Hash) && parsed.key?('error')
+      return skip_sse_data(data, type) unless parsed.is_a?(Hash)
+      return parsed unless parsed.key?('error')
 
       raise_stream_error(data, parsed, env)
     rescue JSON::ParserError => e
-      RubyLLM.logger.debug { "Failed to parse data chunk: #{e.message}" }
+      skip_sse_data(data, type, e)
+    end
+
+    def skip_sse_data(data, type, error = nil)
+      skip_stream_event(:sse_data, data, event_type: type.to_s.empty? ? nil : type, error: error)
     end
 
     def handle_error_event(data, env)

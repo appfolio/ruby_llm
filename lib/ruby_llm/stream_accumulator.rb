@@ -6,7 +6,7 @@ require 'securerandom'
 module RubyLLM
   # Assembles streaming responses from LLMs into complete messages.
   class StreamAccumulator
-    attr_reader :content, :model_id, :tool_calls
+    attr_reader :content, :model_id, :tool_calls, :skipped_events
 
     def initialize
       @content = +''
@@ -26,6 +26,7 @@ module RubyLLM
       @pending_think_tag = +''
       @latest_tool_call_id = nil
       @tool_call_ids_by_index = {}
+      @skipped_events = 0
     end
 
     def add(chunk)
@@ -39,6 +40,10 @@ module RubyLLM
       @provider_data.merge!(chunk.provider_data)
       count_tokens chunk
       RubyLLM.logger.debug { inspect } if RubyLLM.config.log_stream_debug
+    end
+
+    def skip_event
+      @skipped_events += 1
     end
 
     def to_message(response)
@@ -62,6 +67,7 @@ module RubyLLM
         model_id: model_id,
         tool_calls: tool_calls_from_stream,
         provider_data: @provider_data,
+        skipped_stream_events: @skipped_events,
         raw: response
       )
     end

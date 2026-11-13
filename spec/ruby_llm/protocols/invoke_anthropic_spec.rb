@@ -558,6 +558,93 @@ RSpec.describe RubyLLM::Protocols::InvokeAnthropic do
 
       expect { stream }.to raise_error(RubyLLM::OverloadedError, /Overloaded/)
     end
+
+    describe 'skipped events' do
+      before { allow(RubyLLM.logger).to receive(:warn) }
+
+      def record_skips
+        [].tap { |skipped| config.on_stream_parse_error = ->(event) { skipped << event } }
+      end
+
+      def raw_event(payload)
+        Aws::EventStream::Message.new(
+          headers: { ':event-type' => Aws::EventStream::HeaderValue.new(value: 'chunk', type: 'string') },
+          payload: StringIO.new(payload)
+        )
+      end
+
+      def text_turn(*middle)
+        stub_stream(wire(
+                      event('type' => 'content_block_start', 'index' => 0,
+                            'content_block' => { 'type' => 'text', 'text' => '' }),
+                      event('type' => 'content_block_delta', 'index' => 0,
+                            'delta' => { 'type' => 'text_delta', 'text' => 'Hel' }),
+                      *middle,
+                      event('type' => 'content_block_delta', 'index' => 0,
+                            'delta' => { 'type' => 'text_delta', 'text' => 'lo' }),
+                      event('type' => 'content_block_stop', 'index' => 0),
+                      event('type' => 'message_delta', 'delta' => { 'stop_reason' => 'end_turn' })
+                    ))
+        stream.first
+      end
+
+      it 'reports an undecodable outer payload and counts it on the message' do
+        skipped = record_skips
+        bad = '{"bytes":"secret'
+        message = text_turn(raw_event(bad))
+
+        expect(message.content).to eq('Hello')
+        expect(message.skipped_stream_events).to eq(1)
+        expect(skipped.map(&:to_h)).to eq(
+          [{ provider: 'bedrock', model: model_id, site: :event_payload, event_type: nil,
+             byte_size: bad.bytesize, error_class: 'JSON::ParserError' }]
+        )
+        expect(RubyLLM.logger).not_to have_received(:warn).with(a_string_including('secret'))
+      end
+
+      it 'reports base64 bytes that do not decode to JSON' do
+        skipped = record_skips
+        bad = JSON.generate('bytes' => Base64.strict_encode64('{"type":"content_block_delta",'))
+        message = text_turn(raw_event(bad))
+
+        expect(message.skipped_stream_events).to eq(1)
+        expect(skipped.map(&:site)).to eq([:event_payload])
+        expect(skipped.first.byte_size).to eq(bad.bytesize)
+      end
+
+      it 'reports an event that decodes to something other than a JSON object' do
+        skipped = record_skips
+        payload = JSON.generate('bytes' => Base64.strict_encode64('[1]'))
+        message = text_turn(raw_event(payload))
+
+        expect(message.content).to eq('Hello')
+        expect(message.skipped_stream_events).to eq(1)
+        expect(skipped.map(&:to_h)).to eq(
+          [{ provider: 'bedrock', model: model_id, site: :event_payload, event_type: nil,
+             byte_size: payload.bytesize, error_class: nil }]
+        )
+      end
+
+      it 'records zero skipped events for a clean stream' do
+        skipped = record_skips
+        message = text_turn
+
+        expect(message.skipped_stream_events).to eq(0)
+        expect(skipped).to be_empty
+      end
+
+      it 'reports an event whose exception header cannot be read' do
+        skipped = record_skips
+        message = instance_double(Aws::EventStream::Message, payload: StringIO.new('{}'))
+        allow(message).to receive(:headers).and_raise(NoMethodError)
+
+        expect(protocol.send(:exception_type_header, message)).to be_nil
+        expect(skipped.map(&:to_h)).to eq(
+          [{ provider: 'bedrock', model: model_id, site: :exception_type_header, event_type: nil,
+             byte_size: 2, error_class: 'NoMethodError' }]
+        )
+      end
+    end
   end
 
   describe 'Converse replay of InvokeModel-captured thinking' do

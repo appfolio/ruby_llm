@@ -15,7 +15,7 @@ module RubyLLM
                      :CONTENT_FILTERED_FINISH_REASONS
 
     attr_reader :role, :model_id, :tool_calls, :tool_call_id, :raw, :thinking, :tokens, :citations,
-                :finish_reason, :provider_data
+                :finish_reason, :provider_data, :skipped_stream_events
     attr_writer :content
 
     def initialize(options = {})
@@ -38,6 +38,8 @@ module RubyLLM
       # Response fields a protocol passes through without modeling them, as plain string-keyed
       # hashes (e.g. InvokeAnthropic's context_management and usage iterations).
       @provider_data = options[:provider_data] || {}
+      # Streamed events the parser could not decode and dropped (see SkippedStreamEvent).
+      @skipped_stream_events = options[:skipped_stream_events] || 0
 
       ensure_valid_role
     end

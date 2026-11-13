@@ -123,6 +123,7 @@ RubyLLM.configure do |config|
   config.log_file = String
   config.log_level = Symbol
   config.log_stream_debug = Boolean
+  config.on_stream_parse_error = Proc # Called with a RubyLLM::SkippedStreamEvent for each stream event that couldn't be decoded
   config.log_regexp_timeout = Numeric  # v1.13.0+ (Ruby 3.2+ support)
 end
 ```
