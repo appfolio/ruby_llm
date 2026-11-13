@@ -29,6 +29,7 @@ After reading this guide, you will know:
 *   How the final accumulated message is handled.
 *   How to integrate streaming with web frameworks like Rails and Sinatra.
 *   How streaming interacts with Tools.
+*   How to detect stream events RubyLLM could not decode.
 *   Performance considerations for streaming.
 
 ## Basic Streaming
@@ -194,6 +195,50 @@ end
 ```
 
 Refer to the [Error Handling Guide]({% link _advanced/error-handling.md %}) for details on specific error types.
+
+## Skipped Stream Events
+
+Occasionally a provider sends a stream event RubyLLM cannot decode, such as truncated JSON. Instead of failing the whole response, RubyLLM drops that event and keeps streaming. Each dropped event is:
+
+*   Logged at `warn` level with the provider, model, site, event type and payload size. The payload itself is never logged.
+*   Passed to `config.on_stream_parse_error`, if you set one.
+*   Counted on the final message as `message.skipped_stream_events`, which is `0` when nothing was dropped.
+
+A dropped event can carry content the model really sent, such as part of a tool call, so a non-zero count means the turn may be incomplete:
+
+```ruby
+RubyLLM.configure do |config|
+  config.on_stream_parse_error = ->(event) do
+    StatsD.increment('llm.stream.skipped_event', tags: ["provider:#{event.provider}", "site:#{event.site}"])
+  end
+end
+
+response = chat.ask("What's the weather in Berlin?") { |chunk| print chunk.content }
+if response.skipped_stream_events.positive?
+  # The reply may be missing content the model sent: retry the turn or flag it for review.
+end
+```
+
+The hook receives one frozen `RubyLLM::SkippedStreamEvent`:
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `provider` | String | Provider slug, e.g. `"bedrock"` or `"openai"` |
+| `model` | String | Model id the request was sent to |
+| `site` | Symbol | Where the event was dropped (see below) |
+| `event_type` | String or nil | The SSE `event:` name or Bedrock `:event-type` header, when known |
+| `byte_size` | Integer | Size of the dropped payload in bytes |
+| `error_class` | String or nil | Name of the decoding error, e.g. `"JSON::ParserError"`; `nil` when the payload decoded but was not a JSON object |
+
+| Site | Meaning |
+| --- | --- |
+| `:sse_data` | An SSE `data:` payload was not valid JSON or not a JSON object. The `[DONE]` sentinel is never reported. |
+| `:event_payload` | A Bedrock eventstream payload (or its base64 `bytes`) was not valid JSON or not a JSON object. |
+| `:event_type_header` | A Bedrock ConverseStream message's type header could not be read. |
+| `:exception_type_header` | A Bedrock InvokeModel stream message's exception header could not be read. |
+| `:content_block_delta` | A Bedrock ConverseStream delta sent as a JSON string was not valid JSON. |
+
+The hook runs on the streaming thread, so keep it fast. If it raises, RubyLLM logs the error and carries on with the stream. `RubyLLM::SkippedStreamEvent::SITES` lists every site.
 
 ## Streaming with Tools
 

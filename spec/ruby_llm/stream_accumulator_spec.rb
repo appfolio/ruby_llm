@@ -3,6 +3,17 @@
 require 'spec_helper'
 
 RSpec.describe RubyLLM::StreamAccumulator do
+  describe '#skip_event' do
+    it 'records skipped events on the final message' do
+      accumulator = described_class.new
+      expect(accumulator.to_message(nil).skipped_stream_events).to eq(0)
+
+      2.times { accumulator.skip_event }
+
+      expect(accumulator.to_message(nil).skipped_stream_events).to eq(2)
+    end
+  end
+
   describe '#add' do
     it 'handles tool call deltas that omit arguments' do
       accumulator = described_class.new

@@ -70,6 +70,7 @@ module RubyLLM
     option :log_level, -> { ENV['RUBYLLM_DEBUG'] ? Logger::DEBUG : Logger::INFO }
     option :log_stream_debug, -> { ENV['RUBYLLM_STREAM_DEBUG'] == 'true' }
     option :log_regexp_timeout, -> { Regexp.respond_to?(:timeout) ? (Regexp.timeout || 1.0) : nil }
+    option :on_stream_parse_error, nil
 
     def initialize
       self.class.send(:defaults).each do |key, default|

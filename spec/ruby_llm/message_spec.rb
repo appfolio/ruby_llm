@@ -85,6 +85,18 @@ RSpec.describe RubyLLM::Message do
     end
   end
 
+  describe '#skipped_stream_events' do
+    it 'defaults to zero' do
+      expect(described_class.new(role: :assistant, content: 'Hello').skipped_stream_events).to eq(0)
+    end
+
+    it 'keeps the count it was built with' do
+      message = described_class.new(role: :assistant, content: 'Hello', skipped_stream_events: 2)
+
+      expect(message.skipped_stream_events).to eq(2)
+    end
+  end
+
   describe '#to_h' do
     it 'includes finish_reason when present' do
       message = described_class.new(role: :assistant, content: 'Hello', finish_reason: 'length')

@@ -144,6 +144,8 @@ end
 - Invaluable for diagnosing streaming/provider parsing issues
 - Can also be enabled with `RUBYLLM_STREAM_DEBUG=true`
 
+Stream events RubyLLM could not decode are always logged at `warn`, whatever `log_stream_debug` is set to. To count them, set `config.on_stream_parse_error`; see [Skipped Stream Events]({% link _core_features/streaming.md %}#skipped-stream-events).
+
 `log_regexp_timeout` notes:
 - Available in `v1.13.0+`
 - Applies to regex filters used in request/response debug logging
