@@ -38,6 +38,10 @@
     "bedrock": "us.anthropic.claude-fable-5-1",
     "vertexai": "claude-fable-5-1"
   },
+  "claude-fable-5-2": {
+    "anthropic": "claude-fable-5-2",
+    "bedrock": "us.anthropic.claude-fable-5-2"
+  },
   "claude-haiku-4-5": {
     "anthropic": "claude-haiku-4-5-20251001",
     "openrouter": "anthropic/claude-haiku-4.5",
@@ -462,6 +466,12 @@
   },
   "gpt-6.1-terra": {
     "bedrock": "openai.gpt-6.1-terra"
+  },
+  "gpt-6.2-astra": {
+    "bedrock": "openai.gpt-6.2-astra"
+  },
+  "gpt-6.2-sol": {
+    "bedrock": "openai.gpt-6.2-sol"
   },
   "gpt-audio": {
     "openai": "gpt-audio",

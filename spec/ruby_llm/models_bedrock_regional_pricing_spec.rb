@@ -16,7 +16,8 @@ RSpec.describe RubyLLM::Models do
   #
   # Cache reads use the same page's footnotes. Footnote 1: "Cache hits and
   # refreshes on Claude Fable 5.1 and Claude Mythos 5.1 are priced at 0.025x
-  # the base input price." Footnote 2: "Cache hits and refreshes on Claude
+  # the base input price." The 0.025x cache read also holds for Fable 5.2, per
+  # its Bedrock offer rate card (offer-agsprgw6z3dg6). Footnote 2: "Cache hits and refreshes on Claude
   # Opus 5.5 and Claude Sonnet 5.5 are priced at 0.05x the base input price."
   # "All other models use the standard 0.1x multiplier."
   #
@@ -46,7 +47,8 @@ RSpec.describe RubyLLM::Models do
     'us.anthropic.claude-sonnet-5-5' => { input: 2.2, output: 11, cache_read: 0.11, cache_write: 2.75 },
     'us.anthropic.claude-opus-5-5' => { input: 4.4, output: 22, cache_read: 0.22, cache_write: 5.5 },
     'us.anthropic.claude-fable-5' => { input: 11, output: 55, cache_read: 1.1, cache_write: 13.75 },
-    'us.anthropic.claude-fable-5-1' => { input: 11, output: 55, cache_read: 0.275, cache_write: 13.75 }
+    'us.anthropic.claude-fable-5-1' => { input: 11, output: 55, cache_read: 0.275, cache_write: 13.75 },
+    'us.anthropic.claude-fable-5-2' => { input: 8.8, output: 44, cache_read: 0.22, cache_write: 11 }
   }
 
   unchanged = {

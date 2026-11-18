@@ -570,6 +570,72 @@
     }
   },
   {
+    "id": "claude-fable-5-2",
+    "name": "Claude Fable 5.2",
+    "provider": "anthropic",
+    "family": "claude-fable",
+    "created_at": "2026-10-14 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision",
+      "citations"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 10
+        }
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "anthropic",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-14",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.2,
+        "cache_write": 10
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      }
+    }
+  },
+  {
     "id": "claude-haiku-4-5",
     "name": "Claude Haiku 4.5 (latest)",
     "provider": "anthropic",
@@ -14359,6 +14425,70 @@
     }
   },
   {
+    "id": "global.anthropic.claude-fable-5-2",
+    "name": "Claude Fable 5.2 (Global)",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "created_at": "2026-10-14 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8,
+          "output_per_million": 40,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 10
+        }
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-14",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8,
+        "output": 40,
+        "cache_read": 0.2,
+        "cache_write": 10
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      }
+    }
+  },
+  {
     "id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
     "name": "Claude Haiku 4.5 (Global)",
     "provider": "bedrock",
@@ -18487,6 +18617,138 @@
     }
   },
   {
+    "id": "openai.gpt-6.2-sol",
+    "name": "GPT-6.2 Sol",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-11-16 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 2.75
+        }
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-18",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 2.2,
+        "output": 11,
+        "cache_read": 0.11,
+        "cache_write": 2.75
+      },
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
+    "id": "openai.gpt-6.2-astra",
+    "name": "GPT-6.2 Astra",
+    "provider": "bedrock",
+    "family": "gpt",
+    "created_at": "2026-11-16 00:00:00 UTC",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8.8,
+          "output_per_million": 44,
+          "cache_read_input_per_million": 0.44,
+          "cache_write_input_per_million": 11
+        }
+      }
+    },
+    "metadata": {
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-11-18",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8.8,
+        "output": 44,
+        "cache_read": 0.44,
+        "cache_write": 11
+      },
+      "limit": {
+        "context": 1050000,
+        "output": 128000
+      },
+      "knowledge": null
+    }
+  },
+  {
     "id": "openai.gpt-oss-120b",
     "name": "gpt-oss-120b",
     "provider": "bedrock",
@@ -19871,6 +20133,96 @@
         "output": 128000
       },
       "knowledge": "2026-01-31"
+    }
+  },
+  {
+    "id": "us.anthropic.claude-fable-5-2",
+    "name": "Claude Fable 5.2 (US)",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "created_at": "2026-10-14 00:00:00 UTC",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "knowledge_cutoff": null,
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision",
+      "streaming"
+    ],
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8.8,
+          "output_per_million": 44,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 11
+        }
+      }
+    },
+    "metadata": {
+      "provider_name": "Anthropic",
+      "model_arn": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-fable-5-2",
+      "inference_types": [
+        "INFERENCE_PROFILE"
+      ],
+      "converse": {
+        "additionalRequestFieldsSchema": "{\"output_config\":{\"effort\":{\"type\":\"enum\",\"default\":\"high\",\"enum\":[\"low\",\"medium\",\"high\",\"xhigh\",\"max\"]}},\"hideSamplingParameter\":true}",
+        "maxTokensDefault": 4096,
+        "maxTokensMaximum": 128000,
+        "reasoningSupported": {
+          "embedded": false
+        },
+        "stopSequencesDefault": [],
+        "systemRoleSupported": true,
+        "userDocumentTypesSupported": [
+          "pdf"
+        ],
+        "userImageTypesSupported": [
+          "jpeg",
+          "png",
+          "gif",
+          "webp"
+        ],
+        "userVideoTypesSupported": []
+      },
+      "source": "manual",
+      "provider_id": "amazon-bedrock",
+      "open_weights": false,
+      "attachment": true,
+      "temperature": false,
+      "last_updated": "2026-10-14",
+      "reasoning_options": [
+        {
+          "type": "effort",
+          "values": [
+            "low",
+            "medium",
+            "high",
+            "xhigh",
+            "max"
+          ]
+        }
+      ],
+      "cost": {
+        "input": 8.8,
+        "output": 44,
+        "cache_read": 0.22,
+        "cache_write": 11
+      },
+      "limit": {
+        "context": 1000000,
+        "output": 128000
+      }
     }
   },
   {
