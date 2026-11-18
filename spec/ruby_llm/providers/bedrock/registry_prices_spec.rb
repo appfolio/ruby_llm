@@ -25,7 +25,9 @@ RSpec.describe 'Bedrock registry prices' do # rubocop:disable RSpec/DescribeClas
     'us.anthropic.claude-haiku-4-5-20251001-v1:0' => [1, 5, 0.1, 1.25],
     'us.anthropic.claude-opus-5-5' => [4.4, 22, 0.22, 5.5],
     'us.anthropic.claude-sonnet-5-5' => [2.2, 11, 0.11, 2.75],
-    'us.anthropic.claude-haiku-5-5' => [0.11, 0.55, 0.011, 0.1375]
+    'us.anthropic.claude-haiku-5-5' => [0.11, 0.55, 0.011, 0.1375],
+    'us.anthropic.claude-fable-5-2' => [8.8, 44, 0.22, 11],
+    'global.anthropic.claude-fable-5-2' => [8, 40, 0.2, 10]
   }.each do |id, expected|
     it "prices #{id} at #{expected.join(' / ')}" do
       expect(rates(bedrock_model(id).pricing.text_tokens.standard)).to eq(expected)
@@ -62,13 +64,21 @@ RSpec.describe 'Bedrock registry prices' do # rubocop:disable RSpec/DescribeClas
     end
   end
 
+  it 'offers us.anthropic.claude-fable-5-2 effort only' do
+    expect(bedrock_model('us.anthropic.claude-fable-5-2').reasoning_options)
+      .to eq([{ type: 'effort', values: %w[low medium high xhigh max] }])
+  end
+
   {
     'us.anthropic.claude-opus-5-5' => [1_000_000, 128_000],
+    'us.anthropic.claude-fable-5-2' => [1_000_000, 128_000],
     'us.anthropic.claude-sonnet-5-5' => [1_000_000, 128_000],
     'openai.gpt-6-sol' => [1_050_000, 128_000],
     'openai.gpt-6-luna' => [1_050_000, 128_000],
     'openai.gpt-6.1-sol' => [1_050_000, 128_000],
-    'openai.gpt-6.1-terra' => [1_050_000, 128_000]
+    'openai.gpt-6.1-terra' => [1_050_000, 128_000],
+    'openai.gpt-6.2-sol' => [1_050_000, 128_000],
+    'openai.gpt-6.2-astra' => [1_050_000, 128_000]
   }.each do |id, (context_window, max_output_tokens)|
     it "finds #{id} on bedrock with its limits" do
       model = bedrock_model(id)
@@ -89,6 +99,25 @@ RSpec.describe 'Bedrock registry prices' do # rubocop:disable RSpec/DescribeClas
 
     it "accepts effort none through max on #{id}" do
       expect(bedrock_model(id).reasoning_option_values(:effort)).to eq(%w[none low medium high xhigh max])
+    end
+  end
+
+  {
+    'Sol' => [%w[openai.gpt-6.2-sol us.openai.gpt-6.2-sol], [2.2, 11, 0.11, 2.75], [4.4, 16.5, 0.22, 5.5]],
+    'Astra' => [%w[openai.gpt-6.2-astra us.openai.gpt-6.2-astra], [8.8, 44, 0.44, 11], [17.6, 66, 0.88, 22]]
+  }.each do |name, (ids, standard, long_context)|
+    ids.each do |id|
+      it "prices #{id} at the US #{name} rates with a 272,000 tier" do
+        text = bedrock_model(id).pricing.text_tokens
+
+        expect(rates(text.standard)).to eq(standard)
+        expect(rates(text.long_context)).to eq(long_context)
+        expect(text.long_context_threshold).to eq(272_000)
+      end
+
+      it "accepts effort low through max on #{id}" do
+        expect(bedrock_model(id).reasoning_option_values(:effort)).to eq(%w[low medium high xhigh max])
+      end
     end
   end
 
