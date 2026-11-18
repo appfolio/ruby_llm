@@ -1,0 +1,243 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.2-sol","input":[{"role":"user","content":"Fact
+        1: warehouse 1 stores 7 crates of item 13.\nFact 2: warehouse 2 stores 14
+        crates of item 26.\nFact 3: warehouse 3 stores 21 crates of item 39.\nFact
+        4: warehouse 4 stores 28 crates of item 52.\nFact 5: warehouse 5 stores 35
+        crates of item 65.\nFact 6: warehouse 6 stores 42 crates of item 78.\nFact
+        7: warehouse 7 stores 49 crates of item 91.\nFact 8: warehouse 8 stores 56
+        crates of item 104.\nFact 9: warehouse 9 stores 63 crates of item 117.\nFact
+        10: warehouse 10 stores 70 crates of item 130.\nFact 11: warehouse 11 stores
+        77 crates of item 143.\nFact 12: warehouse 12 stores 84 crates of item 156.\nFact
+        13: warehouse 13 stores 91 crates of item 169.\nFact 14: warehouse 14 stores
+        98 crates of item 182.\nFact 15: warehouse 15 stores 105 crates of item 195.\nFact
+        16: warehouse 16 stores 112 crates of item 208.\nFact 17: warehouse 17 stores
+        119 crates of item 221.\nFact 18: warehouse 18 stores 126 crates of item 234.\nFact
+        19: warehouse 19 stores 133 crates of item 247.\nFact 20: warehouse 20 stores
+        140 crates of item 260.\nFact 21: warehouse 21 stores 147 crates of item 273.\nFact
+        22: warehouse 22 stores 154 crates of item 286.\nFact 23: warehouse 23 stores
+        161 crates of item 299.\nFact 24: warehouse 24 stores 168 crates of item 312.\nFact
+        25: warehouse 25 stores 175 crates of item 325.\nFact 26: warehouse 26 stores
+        182 crates of item 338.\nFact 27: warehouse 27 stores 189 crates of item 351.\nFact
+        28: warehouse 28 stores 196 crates of item 364.\nFact 29: warehouse 29 stores
+        203 crates of item 377.\nFact 30: warehouse 30 stores 210 crates of item 390.\nFact
+        31: warehouse 31 stores 217 crates of item 403.\nFact 32: warehouse 32 stores
+        224 crates of item 416.\nFact 33: warehouse 33 stores 231 crates of item 429.\nFact
+        34: warehouse 34 stores 238 crates of item 442.\nFact 35: warehouse 35 stores
+        245 crates of item 455.\nFact 36: warehouse 36 stores 252 crates of item 468.\nFact
+        37: warehouse 37 stores 259 crates of item 481.\nFact 38: warehouse 38 stores
+        266 crates of item 494.\nFact 39: warehouse 39 stores 273 crates of item 507.\nFact
+        40: warehouse 40 stores 280 crates of item 520.\nFact 41: warehouse 41 stores
+        287 crates of item 533.\nFact 42: warehouse 42 stores 294 crates of item 546.\nFact
+        43: warehouse 43 stores 301 crates of item 559.\nFact 44: warehouse 44 stores
+        308 crates of item 572.\nFact 45: warehouse 45 stores 315 crates of item 585.\nFact
+        46: warehouse 46 stores 322 crates of item 598.\nFact 47: warehouse 47 stores
+        329 crates of item 611.\nFact 48: warehouse 48 stores 336 crates of item 624.\nFact
+        49: warehouse 49 stores 343 crates of item 637.\nFact 50: warehouse 50 stores
+        350 crates of item 650.\nFact 51: warehouse 51 stores 357 crates of item 663.\nFact
+        52: warehouse 52 stores 364 crates of item 676.\nFact 53: warehouse 53 stores
+        371 crates of item 689.\nFact 54: warehouse 54 stores 378 crates of item 702.\nFact
+        55: warehouse 55 stores 385 crates of item 715.\nFact 56: warehouse 56 stores
+        392 crates of item 728.\nFact 57: warehouse 57 stores 399 crates of item 741.\nFact
+        58: warehouse 58 stores 406 crates of item 754.\nFact 59: warehouse 59 stores
+        413 crates of item 767.\nFact 60: warehouse 60 stores 420 crates of item 780.\nFact
+        61: warehouse 61 stores 427 crates of item 793.\nFact 62: warehouse 62 stores
+        434 crates of item 806.\nFact 63: warehouse 63 stores 441 crates of item 819.\nFact
+        64: warehouse 64 stores 448 crates of item 832.\nFact 65: warehouse 65 stores
+        455 crates of item 845.\nFact 66: warehouse 66 stores 462 crates of item 858.\nFact
+        67: warehouse 67 stores 469 crates of item 871.\nFact 68: warehouse 68 stores
+        476 crates of item 884.\nFact 69: warehouse 69 stores 483 crates of item 897.\nFact
+        70: warehouse 70 stores 490 crates of item 910.\nFact 71: warehouse 71 stores
+        497 crates of item 923.\nFact 72: warehouse 72 stores 504 crates of item 936.\nFact
+        73: warehouse 73 stores 511 crates of item 949.\nFact 74: warehouse 74 stores
+        518 crates of item 962.\nFact 75: warehouse 75 stores 525 crates of item 975.\nFact
+        76: warehouse 76 stores 532 crates of item 988.\nFact 77: warehouse 77 stores
+        539 crates of item 1001.\nFact 78: warehouse 78 stores 546 crates of item
+        1014.\nFact 79: warehouse 79 stores 553 crates of item 1027.\nFact 80: warehouse
+        80 stores 560 crates of item 1040.\nFact 81: warehouse 81 stores 567 crates
+        of item 1053.\nFact 82: warehouse 82 stores 574 crates of item 1066.\nFact
+        83: warehouse 83 stores 581 crates of item 1079.\nFact 84: warehouse 84 stores
+        588 crates of item 1092.\nFact 85: warehouse 85 stores 595 crates of item
+        1105.\nFact 86: warehouse 86 stores 602 crates of item 1118.\nFact 87: warehouse
+        87 stores 609 crates of item 1131.\nFact 88: warehouse 88 stores 616 crates
+        of item 1144.\nFact 89: warehouse 89 stores 623 crates of item 1157.\nFact
+        90: warehouse 90 stores 630 crates of item 1170.\nFact 91: warehouse 91 stores
+        637 crates of item 1183.\nFact 92: warehouse 92 stores 644 crates of item
+        1196.\nFact 93: warehouse 93 stores 651 crates of item 1209.\nFact 94: warehouse
+        94 stores 658 crates of item 1222.\nFact 95: warehouse 95 stores 665 crates
+        of item 1235.\nFact 96: warehouse 96 stores 672 crates of item 1248.\nFact
+        97: warehouse 97 stores 679 crates of item 1261.\nFact 98: warehouse 98 stores
+        686 crates of item 1274.\nFact 99: warehouse 99 stores 693 crates of item
+        1287.\nFact 100: warehouse 100 stores 700 crates of item 1300.\nFact 101:
+        warehouse 101 stores 707 crates of item 1313.\nFact 102: warehouse 102 stores
+        714 crates of item 1326.\nFact 103: warehouse 103 stores 721 crates of item
+        1339.\nFact 104: warehouse 104 stores 728 crates of item 1352.\nFact 105:
+        warehouse 105 stores 735 crates of item 1365.\nFact 106: warehouse 106 stores
+        742 crates of item 1378.\nFact 107: warehouse 107 stores 749 crates of item
+        1391.\nFact 108: warehouse 108 stores 756 crates of item 1404.\nFact 109:
+        warehouse 109 stores 763 crates of item 1417.\nFact 110: warehouse 110 stores
+        770 crates of item 1430.\nFact 111: warehouse 111 stores 777 crates of item
+        1443.\nFact 112: warehouse 112 stores 784 crates of item 1456.\nFact 113:
+        warehouse 113 stores 791 crates of item 1469.\nFact 114: warehouse 114 stores
+        798 crates of item 1482.\nFact 115: warehouse 115 stores 805 crates of item
+        1495.\nFact 116: warehouse 116 stores 812 crates of item 1508.\nFact 117:
+        warehouse 117 stores 819 crates of item 1521.\nFact 118: warehouse 118 stores
+        826 crates of item 1534.\nFact 119: warehouse 119 stores 833 crates of item
+        1547.\nFact 120: warehouse 120 stores 840 crates of item 1560."},{"role":"user","content":"How
+        many crates does warehouse 3 store? Answer with the number only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261118T214941Z
+      X-Amz-Content-Sha256:
+      - 3b99ba0ca10f5139fcafa915a032680e0b9c47ecf844d5888ef7460afee73300
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 18 Nov 2026 21:49:45 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '6188'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1795038585,"created_at":1795038581,"error":null,"frequency_penalty":0.0,"id":"resp_eal77fugpsf7xhria4cc3hoiz5qildtplii3lrsahs6hr6uxznha","incomplete_details":null,"input_transformations":[],"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.2-sol","object":"response","output":[{"encrypted_content":"smry_pv1_pv_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6InRGVHBYaXE2c3Nkd1dGVFBWYmJmeWtPN0hzdFgxWXVvcmd6akJXenZPMTQiLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKT2RFcDBkRVYwZFdKWWEwZHNRMkozY0hWTWVYcDBWbXR6TjNCU1lYaElhSEp3V2xwM01UWktRV0UwSWl3aWVTSTZJbmd6VVY5alVrUkNVbDlxY0haU1IydEdXa0l5ZFVjeGFYRnRla1JuWW1aMVkyZHRTMTlmV0hCWVNEUWlMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNkluUkdWSEJZYVhFMmMzTmtkMWRHVkZCV1ltSm1lV3RQTjBoemRGZ3hXWFZ2Y21kNmFrSlhlblpQTVRRaWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azFNREU0TWpNMUxDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5UQTBOalF3TUN3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAud0pPYzBXaktHQ1BxZ1ZQRHNsMXNEZ0ZrTXN6bWRlYzFudGZ1MjhTTXV3N0otUHRsei01aFlweG9OSEpXaS1laWthVkxObXRPSzE2TEcwbEZ4RllPSUEiLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJbXMzVERaTVozWkxkemd5WlVwRlNtWTBORVJ2T1RKNWQzaHhZbFZWYlVoemN6azFOWHBxWmpoSFMyOGlMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2llR3c1VGpCNFlXaEhWbXRqZWpOamFDSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJLdGZRekdLWm45ekpEX0JHellBdGpCVk11VWZaZG9xLUFUdUJJVXN3Vmc0WXBlYVliN2VDb1pRR2ZwRXFWNEtuUVcxemRCN2g4SXpmVHVxUnd6aXVtbm5xdGZKVGNQSmtGcUsyQXRxQmxDWTd5c0pGMkVSYzRtYnFsb001MU1FNDN4OXJGaUpzSkxHa1hSdER1NXlnb0F5ZHN6WmJFaXpwVGlreTZJdnE0ZXNFYV9YSS04MlVnTVRFYlpDZUFOd2U4OVFLenhteEx6UFJaNlFFeG5sRnY5b21faEFWa1F6UmZIbi1SaEFVWDNxUTJJcG1WZ2hLS2ZhWlhwdS01N2NBYVlxQ3h0T1VTa04yckk5U3NRd05HNEQxZmNvRzlaYnFRaTlDU1BvX2M4UGNTVllTQnRKSFZhRHptcHBBN29veVJGa3FhalFmemRJa0NLOUhBZzZJZ3o0dzVPaXJnU3hGT0pxeG42SktFcFBxTGV2b1cxUkt2aXctZ0RvdHlfZWRHanl6Zk9rV2xRcEkyMXF6R3dNcm0wQW1qTXFyM3FuVG5KWEg0a0pRRWFOTlppc2xseThzSkRucTlzRGZYRGdNdGFJOFZvQkMzNFBhcVJ2NHFVTF9nc3JTb3hXVFlpOUFId2NpMElSZU9FbnlRY1k4cUptMEhDb19jWWpnSjNJczUyTlhIQWxFMTJPUlN2SDkwQzBBSGdCRDlibDVMSnhXQXI0NWdtOGg4ZW9BZUYyUEY2VG9Xck9VQ2JSbUxBXzdqanRWaHpJZXZudFlULWptTjJrMWJ5aXp6TTl2LVpZNjJOZzd1Q0RvVklVd0p0NXZKWXl6NEx2MXlBV18xYzBXWE1TNUo5MUNZdXdyN0VTTW9LSTJyMHlDUlJzeFpOeHBOSnVIbmdzM2wzNDJWbXN2MVNEV3pkYzVWbm02TGJ4ODIwb1RodDY3TUV5UGJZWGlBa3JlY3U5ajJMNFN0dklrUlN5T2xnOENJcFdLelRBWGtuZ2ZrejRqTl9vbC0xRFIzOU11YWdqV3ZHdlFRRmdyQ0lMRTFfZVBJVDdOU3FndW5jb05NSGpVSEdpMTFSZWE0VmVwR0JnTzNZdFhtZUZwSS1jVEdnSDRBMWdaUUlfb3FuN0VkS2JBaEFHLVg5ZlNBMERKcG1Ndm5JVHdmMUNTQ0VSNEVGY3c4dzZJUmJDeDBEVzZ2VVhjdGM1SVFDbEpBNTc0aEd1eUcybFI2MG81a0hyOElFZFQwcUNUU3FsWDIxTFZiVTktVHc5d1JZdWJDN3Z6Zm1iUHdJSWt4cTFjRE5sd0Y5aEJ4SkJkWUplNXAyTUV3Y2llbm1mUFYxeE9acVBUSWRJcGdOazFUeElsQzVsY2dOTzd1SWJNdlpDcW1pd1JMclVORzk2R3dBZTdFS1lqS19ZSzdISkdldGVIemxPc1gzU3RvSXNRVU9GNE51SC1iN3haWTJ6MC1XRURPZkVkekJNN3QzcmZrcEJoTUFpbUlxZFhKZTh2eXBJSVVRZWdkeG9XVEtqNDRrRWlHWEJLRVFkRE9Rc2xqSU1LcGt0SXllcWp2eUlvWnpxa0NJa2x6bzNJclFtSFViM09ZT1Q0OFdDbVRPVGU1OHZMNXJNSGVMSnFVcFlaNlZ2MUhqT3d6NHZob2wzTVBaWmd2OWw2bmUzNlJxeTNvNzlTLUduMlV2ZHFIa21Fdmh4WTBQNG5jeTNObWM3Qi1Pa3VhOWxaTlNQd0o1UlFTTnlnY3NDQXU3T2Y2a2tldTEzQnBwRjlCQnhoR1FKbUx3a0tUWUxaRkxQYVNxb3NQcngwVWYwYkhkQXdQejViMURLY2NZRUFGeVctUDVWR0pBMnpSX3NVckxvRjJpWFFiaDd1WUY4M2ozVmc3Q01NVnB5OFpWbmE1QjBNNnJ1Yk5TSTk5MkhUTEFvR1REbmJEcUJxZ0duNkRodW50djFnQjZNT0NMbGREVk5wZ3d2eGxqMlVabDZValRyeGthVDVaVUdtakRqWU9YOE1TWDdfcHZwcWcwXzM3aUdfTjZYam8zOHo5WXVKd3N6WndEUVE3ckJHbmpDMHVRTmxEcmVSSDB2Tm9TVk4zZ1JzZFU1SUdielExSUZGcHVIZG9ublRvWUVpSWIyWjhYSFZNQUNmZXBuc2JIY0VPVURsRmZDWTJ6THBiSXVlYWZLU1hxOFB4b25tRmdTbTZYRjdxYS05QUJjOTBHMTl2djd6bjFWeUp3cVlHSjdtV0ZDNE5heWVVbm5ZU05GblpnIn0.9nq_p86HBJWMhNJnmPG6JseSNKzg1JHv113D2gDGe3UYjvgb6oofwdCyRM01fJED65C5qlHEfEkA1qos_i9cFw","id":"cmp_befec959170a574690b6b7d3d5c3cb6d","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_bfcc45106c985a4ebf70359af2a6eb9a","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":1.0,"truncation":"disabled","usage":{"input_tokens":1989,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":27,"output_tokens_details":{"reasoning_tokens":22},"total_tokens":2016},"user":null,"moderation":null}'
+  recorded_at: Wed, 18 Nov 2026 21:49:45 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6.2-sol","input":[{"encrypted_content":"smry_pv1_pv_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6InRGVHBYaXE2c3Nkd1dGVFBWYmJmeWtPN0hzdFgxWXVvcmd6akJXenZPMTQiLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKT2RFcDBkRVYwZFdKWWEwZHNRMkozY0hWTWVYcDBWbXR6TjNCU1lYaElhSEp3V2xwM01UWktRV0UwSWl3aWVTSTZJbmd6VVY5alVrUkNVbDlxY0haU1IydEdXa0l5ZFVjeGFYRnRla1JuWW1aMVkyZHRTMTlmV0hCWVNEUWlMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNkluUkdWSEJZYVhFMmMzTmtkMWRHVkZCV1ltSm1lV3RQTjBoemRGZ3hXWFZ2Y21kNmFrSlhlblpQTVRRaWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azFNREU0TWpNMUxDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5UQTBOalF3TUN3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAud0pPYzBXaktHQ1BxZ1ZQRHNsMXNEZ0ZrTXN6bWRlYzFudGZ1MjhTTXV3N0otUHRsei01aFlweG9OSEpXaS1laWthVkxObXRPSzE2TEcwbEZ4RllPSUEiLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJbXMzVERaTVozWkxkemd5WlVwRlNtWTBORVJ2T1RKNWQzaHhZbFZWYlVoemN6azFOWHBxWmpoSFMyOGlMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2llR3c1VGpCNFlXaEhWbXRqZWpOamFDSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJLdGZRekdLWm45ekpEX0JHellBdGpCVk11VWZaZG9xLUFUdUJJVXN3Vmc0WXBlYVliN2VDb1pRR2ZwRXFWNEtuUVcxemRCN2g4SXpmVHVxUnd6aXVtbm5xdGZKVGNQSmtGcUsyQXRxQmxDWTd5c0pGMkVSYzRtYnFsb001MU1FNDN4OXJGaUpzSkxHa1hSdER1NXlnb0F5ZHN6WmJFaXpwVGlreTZJdnE0ZXNFYV9YSS04MlVnTVRFYlpDZUFOd2U4OVFLenhteEx6UFJaNlFFeG5sRnY5b21faEFWa1F6UmZIbi1SaEFVWDNxUTJJcG1WZ2hLS2ZhWlhwdS01N2NBYVlxQ3h0T1VTa04yckk5U3NRd05HNEQxZmNvRzlaYnFRaTlDU1BvX2M4UGNTVllTQnRKSFZhRHptcHBBN29veVJGa3FhalFmemRJa0NLOUhBZzZJZ3o0dzVPaXJnU3hGT0pxeG42SktFcFBxTGV2b1cxUkt2aXctZ0RvdHlfZWRHanl6Zk9rV2xRcEkyMXF6R3dNcm0wQW1qTXFyM3FuVG5KWEg0a0pRRWFOTlppc2xseThzSkRucTlzRGZYRGdNdGFJOFZvQkMzNFBhcVJ2NHFVTF9nc3JTb3hXVFlpOUFId2NpMElSZU9FbnlRY1k4cUptMEhDb19jWWpnSjNJczUyTlhIQWxFMTJPUlN2SDkwQzBBSGdCRDlibDVMSnhXQXI0NWdtOGg4ZW9BZUYyUEY2VG9Xck9VQ2JSbUxBXzdqanRWaHpJZXZudFlULWptTjJrMWJ5aXp6TTl2LVpZNjJOZzd1Q0RvVklVd0p0NXZKWXl6NEx2MXlBV18xYzBXWE1TNUo5MUNZdXdyN0VTTW9LSTJyMHlDUlJzeFpOeHBOSnVIbmdzM2wzNDJWbXN2MVNEV3pkYzVWbm02TGJ4ODIwb1RodDY3TUV5UGJZWGlBa3JlY3U5ajJMNFN0dklrUlN5T2xnOENJcFdLelRBWGtuZ2ZrejRqTl9vbC0xRFIzOU11YWdqV3ZHdlFRRmdyQ0lMRTFfZVBJVDdOU3FndW5jb05NSGpVSEdpMTFSZWE0VmVwR0JnTzNZdFhtZUZwSS1jVEdnSDRBMWdaUUlfb3FuN0VkS2JBaEFHLVg5ZlNBMERKcG1Ndm5JVHdmMUNTQ0VSNEVGY3c4dzZJUmJDeDBEVzZ2VVhjdGM1SVFDbEpBNTc0aEd1eUcybFI2MG81a0hyOElFZFQwcUNUU3FsWDIxTFZiVTktVHc5d1JZdWJDN3Z6Zm1iUHdJSWt4cTFjRE5sd0Y5aEJ4SkJkWUplNXAyTUV3Y2llbm1mUFYxeE9acVBUSWRJcGdOazFUeElsQzVsY2dOTzd1SWJNdlpDcW1pd1JMclVORzk2R3dBZTdFS1lqS19ZSzdISkdldGVIemxPc1gzU3RvSXNRVU9GNE51SC1iN3haWTJ6MC1XRURPZkVkekJNN3QzcmZrcEJoTUFpbUlxZFhKZTh2eXBJSVVRZWdkeG9XVEtqNDRrRWlHWEJLRVFkRE9Rc2xqSU1LcGt0SXllcWp2eUlvWnpxa0NJa2x6bzNJclFtSFViM09ZT1Q0OFdDbVRPVGU1OHZMNXJNSGVMSnFVcFlaNlZ2MUhqT3d6NHZob2wzTVBaWmd2OWw2bmUzNlJxeTNvNzlTLUduMlV2ZHFIa21Fdmh4WTBQNG5jeTNObWM3Qi1Pa3VhOWxaTlNQd0o1UlFTTnlnY3NDQXU3T2Y2a2tldTEzQnBwRjlCQnhoR1FKbUx3a0tUWUxaRkxQYVNxb3NQcngwVWYwYkhkQXdQejViMURLY2NZRUFGeVctUDVWR0pBMnpSX3NVckxvRjJpWFFiaDd1WUY4M2ozVmc3Q01NVnB5OFpWbmE1QjBNNnJ1Yk5TSTk5MkhUTEFvR1REbmJEcUJxZ0duNkRodW50djFnQjZNT0NMbGREVk5wZ3d2eGxqMlVabDZValRyeGthVDVaVUdtakRqWU9YOE1TWDdfcHZwcWcwXzM3aUdfTjZYam8zOHo5WXVKd3N6WndEUVE3ckJHbmpDMHVRTmxEcmVSSDB2Tm9TVk4zZ1JzZFU1SUdielExSUZGcHVIZG9ublRvWUVpSWIyWjhYSFZNQUNmZXBuc2JIY0VPVURsRmZDWTJ6THBiSXVlYWZLU1hxOFB4b25tRmdTbTZYRjdxYS05QUJjOTBHMTl2djd6bjFWeUp3cVlHSjdtV0ZDNE5heWVVbm5ZU05GblpnIn0.9nq_p86HBJWMhNJnmPG6JseSNKzg1JHv113D2gDGe3UYjvgb6oofwdCyRM01fJED65C5qlHEfEkA1qos_i9cFw","id":"cmp_befec959170a574690b6b7d3d5c3cb6d","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_bfcc45106c985a4ebf70359af2a6eb9a","phase":"final_answer","role":"assistant","status":"completed","type":"message"},{"role":"user","content":"What
+        was your previous answer? Reply with the number only."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261118T214945Z
+      X-Amz-Content-Sha256:
+      - b9b4b1916271b8b44ad6f11b667c628d35cc349ac7238bc966eb86bc468c9c82
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 18 Nov 2026 21:49:46 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1260'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1795038586,"created_at":1795038585,"error":null,"frequency_penalty":0.0,"id":"resp_oxw2zssvivmqjlyxjnltvkpk7lgevgnwkmdbol7gdmn6u4lozula","incomplete_details":null,"input_transformations":[],"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6.2-sol","object":"response","output":[{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_276514e8fbf454fc9a32c6ff4c40a6c9","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":1.0,"truncation":"disabled","usage":{"input_tokens":49,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":5,"output_tokens_details":{"reasoning_tokens":0},"total_tokens":54},"user":null,"moderation":null}'
+  recorded_at: Wed, 18 Nov 2026 21:49:46 GMT
+- request:
+    method: post
+    uri: https://bedrock-mantle.us-east-1.api.aws/openai/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"openai.gpt-6-luna","input":[{"encrypted_content":"smry_pv1_pv_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6InRGVHBYaXE2c3Nkd1dGVFBWYmJmeWtPN0hzdFgxWXVvcmd6akJXenZPMTQiLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKT2RFcDBkRVYwZFdKWWEwZHNRMkozY0hWTWVYcDBWbXR6TjNCU1lYaElhSEp3V2xwM01UWktRV0UwSWl3aWVTSTZJbmd6VVY5alVrUkNVbDlxY0haU1IydEdXa0l5ZFVjeGFYRnRla1JuWW1aMVkyZHRTMTlmV0hCWVNEUWlMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNkluUkdWSEJZYVhFMmMzTmtkMWRHVkZCV1ltSm1lV3RQTjBoemRGZ3hXWFZ2Y21kNmFrSlhlblpQTVRRaWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azFNREU0TWpNMUxDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5UQTBOalF3TUN3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAud0pPYzBXaktHQ1BxZ1ZQRHNsMXNEZ0ZrTXN6bWRlYzFudGZ1MjhTTXV3N0otUHRsei01aFlweG9OSEpXaS1laWthVkxObXRPSzE2TEcwbEZ4RllPSUEiLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJbXMzVERaTVozWkxkemd5WlVwRlNtWTBORVJ2T1RKNWQzaHhZbFZWYlVoemN6azFOWHBxWmpoSFMyOGlMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2llR3c1VGpCNFlXaEhWbXRqZWpOamFDSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJLdGZRekdLWm45ekpEX0JHellBdGpCVk11VWZaZG9xLUFUdUJJVXN3Vmc0WXBlYVliN2VDb1pRR2ZwRXFWNEtuUVcxemRCN2g4SXpmVHVxUnd6aXVtbm5xdGZKVGNQSmtGcUsyQXRxQmxDWTd5c0pGMkVSYzRtYnFsb001MU1FNDN4OXJGaUpzSkxHa1hSdER1NXlnb0F5ZHN6WmJFaXpwVGlreTZJdnE0ZXNFYV9YSS04MlVnTVRFYlpDZUFOd2U4OVFLenhteEx6UFJaNlFFeG5sRnY5b21faEFWa1F6UmZIbi1SaEFVWDNxUTJJcG1WZ2hLS2ZhWlhwdS01N2NBYVlxQ3h0T1VTa04yckk5U3NRd05HNEQxZmNvRzlaYnFRaTlDU1BvX2M4UGNTVllTQnRKSFZhRHptcHBBN29veVJGa3FhalFmemRJa0NLOUhBZzZJZ3o0dzVPaXJnU3hGT0pxeG42SktFcFBxTGV2b1cxUkt2aXctZ0RvdHlfZWRHanl6Zk9rV2xRcEkyMXF6R3dNcm0wQW1qTXFyM3FuVG5KWEg0a0pRRWFOTlppc2xseThzSkRucTlzRGZYRGdNdGFJOFZvQkMzNFBhcVJ2NHFVTF9nc3JTb3hXVFlpOUFId2NpMElSZU9FbnlRY1k4cUptMEhDb19jWWpnSjNJczUyTlhIQWxFMTJPUlN2SDkwQzBBSGdCRDlibDVMSnhXQXI0NWdtOGg4ZW9BZUYyUEY2VG9Xck9VQ2JSbUxBXzdqanRWaHpJZXZudFlULWptTjJrMWJ5aXp6TTl2LVpZNjJOZzd1Q0RvVklVd0p0NXZKWXl6NEx2MXlBV18xYzBXWE1TNUo5MUNZdXdyN0VTTW9LSTJyMHlDUlJzeFpOeHBOSnVIbmdzM2wzNDJWbXN2MVNEV3pkYzVWbm02TGJ4ODIwb1RodDY3TUV5UGJZWGlBa3JlY3U5ajJMNFN0dklrUlN5T2xnOENJcFdLelRBWGtuZ2ZrejRqTl9vbC0xRFIzOU11YWdqV3ZHdlFRRmdyQ0lMRTFfZVBJVDdOU3FndW5jb05NSGpVSEdpMTFSZWE0VmVwR0JnTzNZdFhtZUZwSS1jVEdnSDRBMWdaUUlfb3FuN0VkS2JBaEFHLVg5ZlNBMERKcG1Ndm5JVHdmMUNTQ0VSNEVGY3c4dzZJUmJDeDBEVzZ2VVhjdGM1SVFDbEpBNTc0aEd1eUcybFI2MG81a0hyOElFZFQwcUNUU3FsWDIxTFZiVTktVHc5d1JZdWJDN3Z6Zm1iUHdJSWt4cTFjRE5sd0Y5aEJ4SkJkWUplNXAyTUV3Y2llbm1mUFYxeE9acVBUSWRJcGdOazFUeElsQzVsY2dOTzd1SWJNdlpDcW1pd1JMclVORzk2R3dBZTdFS1lqS19ZSzdISkdldGVIemxPc1gzU3RvSXNRVU9GNE51SC1iN3haWTJ6MC1XRURPZkVkekJNN3QzcmZrcEJoTUFpbUlxZFhKZTh2eXBJSVVRZWdkeG9XVEtqNDRrRWlHWEJLRVFkRE9Rc2xqSU1LcGt0SXllcWp2eUlvWnpxa0NJa2x6bzNJclFtSFViM09ZT1Q0OFdDbVRPVGU1OHZMNXJNSGVMSnFVcFlaNlZ2MUhqT3d6NHZob2wzTVBaWmd2OWw2bmUzNlJxeTNvNzlTLUduMlV2ZHFIa21Fdmh4WTBQNG5jeTNObWM3Qi1Pa3VhOWxaTlNQd0o1UlFTTnlnY3NDQXU3T2Y2a2tldTEzQnBwRjlCQnhoR1FKbUx3a0tUWUxaRkxQYVNxb3NQcngwVWYwYkhkQXdQejViMURLY2NZRUFGeVctUDVWR0pBMnpSX3NVckxvRjJpWFFiaDd1WUY4M2ozVmc3Q01NVnB5OFpWbmE1QjBNNnJ1Yk5TSTk5MkhUTEFvR1REbmJEcUJxZ0duNkRodW50djFnQjZNT0NMbGREVk5wZ3d2eGxqMlVabDZValRyeGthVDVaVUdtakRqWU9YOE1TWDdfcHZwcWcwXzM3aUdfTjZYam8zOHo5WXVKd3N6WndEUVE3ckJHbmpDMHVRTmxEcmVSSDB2Tm9TVk4zZ1JzZFU1SUdielExSUZGcHVIZG9ublRvWUVpSWIyWjhYSFZNQUNmZXBuc2JIY0VPVURsRmZDWTJ6THBiSXVlYWZLU1hxOFB4b25tRmdTbTZYRjdxYS05QUJjOTBHMTl2djd6bjFWeUp3cVlHSjdtV0ZDNE5heWVVbm5ZU05GblpnIn0.9nq_p86HBJWMhNJnmPG6JseSNKzg1JHv113D2gDGe3UYjvgb6oofwdCyRM01fJED65C5qlHEfEkA1qos_i9cFw","id":"cmp_befec959170a574690b6b7d3d5c3cb6d","type":"compaction"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_bfcc45106c985a4ebf70359af2a6eb9a","phase":"final_answer","role":"assistant","status":"completed","type":"message"},{"role":"user","content":"What
+        was your previous answer? Reply with the number only."},{"role":"assistant","content":[{"type":"output_text","text":"21"}]},{"role":"user","content":"Repeat
+        that number once more."}],"stream":false,"store":false,"include":["reasoning.encrypted_content"],"context_management":[{"type":"compaction","compact_threshold":1000}]}'
+    headers:
+      X-Amz-Date:
+      - 20261118T214946Z
+      X-Amz-Content-Sha256:
+      - '0953d78fe32a8870a3f8a5fec103df5b9e83be97f0896cd36c5de3f644adb5ea'
+      X-Amz-Security-Token:
+      - "<AWS_SESSION_TOKEN>"
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=<AWS_ACCESS_KEY_ID>/<DATE>/<AWS_REGION>/bedrock/aws4_request,
+        SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=<AWS_SIGV4_SIGNATURE>
+      Content-Type:
+      - application/json
+      User-Agent:
+      - Faraday v2.15.1
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 18 Nov 2026 21:49:48 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '7293'
+      Connection:
+      - keep-alive
+      X-Amzn-Requestid:
+      - "<X_REQUEST_ID>"
+      X-Request-Id:
+      - "<X_REQUEST_ID>"
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - x-amzn-requestid,x-request-id,date,x-amzn-usage-reservation-quota,x-amzn-usage-reservation-remaining-quota,x-amzn-usage-reservation-spillover,x-amzn-gateway-arn,x-amzn-gateway-limit-name,x-amzn-gateway-limit-unit,x-amzn-gateway-limit,x-amzn-gateway-limit-remaining,x-amzn-gateway-limit-used-percent,x-amzn-gateway-limit-refill,x-amzn-gateway-limit-reset-at,retry-after,x-codex-primary-used-percent,x-codex-primary-window-minutes,x-codex-primary-reset-at,anthropic-ratelimit-unified-status,anthropic-ratelimit-unified-reset,anthropic-ratelimit-unified-representative-claim,anthropic-ratelimit-unified-overage-status,anthropic-ratelimit-unified-overage-reset,anthropic-ratelimit-unified-overage-utilization,anthropic-ratelimit-unified-overage-surpassed-threshold
+    body:
+      encoding: UTF-8
+      string: '{"background":false,"billing":{"payer":"developer"},"completed_at":1795038588,"created_at":1795038587,"error":null,"frequency_penalty":0.0,"id":"resp_qctar73das5rpyz36nttmm7bpunjluhksaqr463tvhm5n7jfhvaq","incomplete_details":null,"instructions":null,"max_output_tokens":null,"max_tool_calls":null,"metadata":{},"model":"openai.gpt-6-luna","object":"response","output":[{"content":[],"encrypted_content":"rsn_eyJhbGciOiJFUzI1NiIsInR5cCI6ImFyY2grandzIiwicHJvZmlsZSI6ImFyY2gtMSIsImlzcyI6ImF3cyIsImtpZCI6IjdnekFhamxId2ZCcVZrYlpxZmxnUjBVWVZpUlFkS3h2NEQ0cDlURlloa1kiLCJjZXJ0aWZpY2F0ZSI6ImV5SmhiR2NpT2lKRlV6STFOaUlzSW5SNWNDSTZJbUZ5WTJndGMybG5ibVZ5SzJwM2N5SXNJbkJ5YjJacGJHVWlPaUpoY21Ob0xURWlMQ0pwYzNNaU9pSmhkM01pTENKcmFXUWlPaUpzY0MxblEyNUdVemh0UzB0WVMzUjZWbTFPY2poaFdWbDBjMUIyT1dWQk1rUTBVWGhRWnpCa2MyMDRJbjAuZXlKcWQyc2lPbnNpYTNSNUlqb2lSVU1pTENKamNuWWlPaUpRTFRJMU5pSXNJbmdpT2lKMVlVRmtTbHB3WHpOU1NYaFJaRTlHYUdZelpteFNNM0JSUWtSRU5VeG9ZM2RYTVZGMGNqbEJRVUZWSWl3aWVTSTZJbGxZTkdWWmJYSjBPV3N4TmxsWGQyRTRkbXRLUXpGdGIxRlNkVnBzWlRjMk9GaDVNa05oY210Q1RqUWlMQ0oxYzJVaU9pSnphV2NpTENKaGJHY2lPaUpGVXpJMU5pSXNJbXRwWkNJNklqZG5la0ZoYW14SWQyWkNjVlpyWWxweFpteG5VakJWV1ZacFVsRmtTM2gyTkVRMGNEbFVSbGxvYTFraWZTd2ljSEp2ZG1sa1pYSnpJanBiSW05aGFTSmRMQ0ozY21sMFpWOW1jbTl0SWpveE56azBPVFUwTkRNM0xDSjNjbWwwWlY5MWJuUnBiQ0k2TVRjNU5UQTBNRGd6Tnl3aWNtVmhaRjkxYm5ScGJDSTZNVGc0T1RjME1EZ3dNSDAuSmFXVnROY2tMUGphbXFuV0hjRVYyY2JuZmltR3NOSlJ2aWJKaWdRS2VTeTIwaFVNT1p1RVUtNGFPX1RjREp0SFJoSFRsZzJyT0tuLWJ5b2tiak1qeHciLCJpc3NfbWV0YSI6eyJyb3V0aW5nIjoiSUFEOCJ9fQ.eyJwcm90ZWN0ZWQiOiJleUppY21GdVkyaGZhV1FpT2lKUGIybFJVM1puTTFSM2EwMXVRbVY0WmtWSU15MUJJaXdpYzJGc2RDSTZJbmxHWW1ZNFJtdENNbDlmVlhWUllVeDJUMGhhUlZSVGVtazJjSHB4YzBkcFYzZEhlamQyWlVSSVR6QWlMQ0pqYjI1MFpXNTBYMjV2Ym1ObElqb2llSE5aV1dkbVZtdHhPRUZRTXpjek5DSXNJbkpsWTJsd2FXVnVkSE1pT2x0N0luQnNZWFJtYjNKdElqb2lZWGR6SWl3aWEybGtJam9pVGtSR1FrWnNhRUpsYlcwek9DMW1UekJJVUhKRWQwc3ROVFZNZWtWUk5XVnBVM0Z6VUZaTGJFUkVheUlzSW1WdVkzSjVjSFJsWkY5aWNtRnVZMmdpT2lKTFIybEZjbVJvVDFGemJVVjFiRWRqZWtsdVRGbHRZVTlZUmxKWmNFMUpTREpmY0VOaldFMUpTRGhxTkRWVmVIZFhRVlJLYjFSWlFrNTBiWGxsYVRWeFdGbzRkVzh4UWpCcGNFSlhZbTU1VTB4WWRscG9TRnBKV2xnNFl6Wk1RMVZDWW1SelVXaDVOalpNTjFGTlYzcExXRzlvZG00dE5FTnllWG96UldWS2RYaDVaWEUxUlhWcWN6SnVNM0JSTUV3dGNXWTFTbEY1WDBZMk5EZEpZMmxOUWpSU1RqZzRYMU5IT1hGblIwVmhjREIzUVVzMWF6UmpRMll0VFZSRUxVcFNhVEZzU0hGc1JUaHpNR1pDY21SUE1YVTRTSEZpYjFCa2VYRlJaRWh2Y21wcldWSmhTRlZhWVdSSmJIbGpPVEpJUVZCalRVZDViblF6TkVGWFdGSllRamd0U0U1bVZWRkhja2h3ZWtwU1RuVnFSR2hMTjJKVU9VdDJiSE5wZVRsS2FVOW9TbTlPUldoUWFtWlZXRlp0UkVJd2IzQkdla3B4WVZGcGRtMURiRVZ6VjJGbFYzQTBVa2xNUzJsWVZWSmFSbUpSYUVWUWFVVTBkVFpZY1ZsTmJsUlhaMmhxUWxBMFRFNTFlV0UzZVcxT2VpMXdORTB5U0hod1JtZGxkMEpZUWtwRWVrbHVVbDkwT1dvM05UYzBORWx2Tkd0ak1tMTFhSGhhZFVObFFuRlhhbkp1T0ZGbGRXeFBWSFJ1UWtSSk5tbzFRbmxCVUVacmFUZHlhR1JIWjBaRlZpMDRiV1JuU1dkTFZIUktjekJsV0U0NGJuQmxXbkEyVEc5SFVIRjBRa1IyT0Vrd1lscFRkRkIyT1hOTFlXMDNXR00wT1VNMGRrOVNNM1pqZUNKOVhYMCIsImNpcGhlcnRleHQiOiJNN1dNVTlKZVRnLVVXekI3dXItNnljYkM0NS1vcjl2MGh1QUVzZzNOYi1hYTBQSVZuRG1rdEltOVJXaWxHQThJQ3pqYWlFdVJPNEF6QkxsQUpMNWNtQVlkTHdXTWp1NUdadkdkTEJ0Nm5QdE10YTlWWmt1dU1OeE94YjlXNS1hSW0xQURQMkFuZlBoYTlINzE2MmdIQnVGenJCX3NsUEtxYVQyQVlMbXJDYTZkS1JraUdqTnJlVHRXVkV2YUI0V2N4LTdQcm15YXg1V3ZXRU5zU0hvNkhwRjdXTW14MFdTYVQwc1c3SEIxcGxTdHQ4ZzMwRVpDUENtQ3pGeG4wYVNPb0o5T1pmRmpHUy01VDRDTW1udzQ4WF9pNDE3bHJFOVdMYnpPcWFwUGJOOU1GQ2dtbnV5RVptZ0x3TVZwd2x5V2FBalNFTGgyNS1Cd1FRTDVQc21kVl9kWXUtY0xBeXZ0OG5ScXVtUC1VNHIzRU1ETkdVVHh5UWdyMFV5dHNNYy12YVBETjg1aG1ybHplbUNTLVpnaXpmSnc4VV9WUmhQN0FpQzlrVjM0QThGVzRLN202MElSQTFuVGZ0NlBmNFZuUzRVQTZEM2FDQjloNm1mOWdjYm80MEUzWHduOTVteFBxOU9mYURHZG1FTjFYSE90bWN5eXJqWlBISzlDeDllMFgxMG9lOEhjbkJ0bUQtRHJoTzd3SFNMZEN4UzRHdFZvenYtYUt2RnYwRFBlV0hHQmkzT0FVX2N2dlJCRGR3bHlfeVhTSURESGQwbG5QSWZZWVZBLXJ4SEdzdEdqdmtBQ2twYUJqTDJOQjFkTUlIR2hVSGFiRjA4VDZQZ1dwVFdFNnRJOEloTXlHLXJVcUtVNGUxNVdPSGJnbGdjMk1Fbnl1SGhpWU13dEpjbWE1cURhN1lKaTR2LVFiS2pNeC1rVTdlQTJ3algxY3JMdDNlUGpiZ3RsMjNRaGlTMFVXUVlteDkzZ0NjUUZUNTdFd2ctc08xV3QtcVhMdzhXMk9lbTlxT3ZuUi1adll5UlM0eUxKanFqa3NOcjdCTnlIR3ZhbDhTUmFyUkdpYWFoaC1oNzhueGIzSmlMUGJEb1hNNTdpUXlRVDBaNm5kdFcyQjEweDhpRDdDU1VuZmpTbVNERkhTTGJEbjVCUm1meGp1eE9mRlh6OER3TzNEalRUQ0RCYjkyNnRfdnI4Z0hpYVZ3QTB1SHBuUExQOEE3eDRFTG9HeE9UVkJiUXlLU1lsaWdnQy1uXzZ1b1MtU2tBbGtvUnc3eXZCWThtRUJnY2VYaDh4dGl1NGpVRktQd2VzSngtZkRIM1B2VXRVQl9HZUJOdG1HcmdycVNLVjM4aVlIalRmZkJVZkFRM3RZRGkxZzZXVE5pME5tRGZCQ3hiOTRoNTRqM1JIZURncHlkdERxVF9GaDl1NFUxRDYwenJTN3RpdjZrMXRTckE2clZYc24tSURhdDJoQWxqdlJiOHZoYTdESjB1VUxwa1l1OE50eUwyOVhpOVVkVktVMWxCMEZ2SFpHVkpubHZzdXo0QXJ1eWxJZDZTc29rX0I1UUVIb0NkeXZMd18tb2ZKT1VvamNmdWg1UVNtYUFmZEl0T0NZenY0VWFPLW05aHZzZGEwRVE5cDBZQ2ZsaFdBSjV6U1MzMW9XNFVfdjVnNlo4VmRXUVJJVnN4ekpXMTBLWEpFcXhEZjZXcU5WSkVvTHhLaWdvWUZtRHA1ZmhWdGFwdHo3Vl9FMDBqOHA0NXR5TzZ6VlJaeE1KNnNqZmhTVjZqSHBXYWU5UG9pWTJkYWRwMFhEM1dQa25YN1lQMTVYcUN3TlB6M1l0Mmxpc2lDcUNzcmh2WUxFWHYzZFRMS01pcURlZWc2QlM2b3dzTTNwb2ZqWVV5eXBDaW0wNVlta2hhX1dKX18xMGs4MHJON0xoeERxaGc4bnl0alNrUjRlMl9NdlEwTGJlUXItOWdIOWdwYkVaR0NPNDJNOU00MXUxVndvN2g3WlE2Y3JubE9kWEhyMUtIM21TLW1tREliLW5qbG1QQkwzemlHMmNSNUVFNmQ4UUdKZnEtRU9BMmwwU1lFSkhSZ0Q5YmxjUEdObDNpRXcyTklzR2pvS2d6ODl0ZFBKeE5DZGtKLUdQWDNVSWFtOThMbklvVjl6NFRUZUNxVnpTaTgxcUwzTXZTc2hUNE9vTG13VXkxMk9hcDZPS2wyREtTR3lmV3BWZllJakN5NkhOZXg0ZTlfa1BaSkNRT29IbVptMzdVbkVIODdDU3lPcS15cGJTRGxrSUtFdjdyNGpMQzhLWWJudUoyM3g4dkgxWlhZRHlGQ2ZYejI3cFJDUjBNU3p0SER2UjBiV2VSS2d0ZU0xNlFqQncxNzFJQ251a1ZKTGtWOFVmRjJzUTBfTnhZYTl2LXl3VmRVWV91YTNPb21tUGlncUZvWmxtaHhhUjIxenFtQktCT3hueTZDZjAzam5KdlBSYkI0NTZGQ2dhMTRWaTNaVTFVVTNVU0lyRzl1ajFGblNleXpBNHU0LUZuMTdUcEZpbFh5aVN1dXFUZDNJVDNzeE85WHgxdVNQM1I3dElSdnRabExSTUtZZ2thaWxVa3J3YWxQYVdMUlE4X0FGc3I3WVQ1RWY1WXRVQy1hdnl6TURGWjFzd0dPMjE1NmdzanlfYlh4UUtlQVhkS1llS1BEOHRSNm4zdVJFdzJlNU9hRllMREJmTTVyXzV5enZkV1JmWHNibkUydU8weW9kV2dYel96ZGpqMXpGWkFuSFltSURockxlTkpfeG5nbEpXRW02R3AyUngtSWZPVmdEU0hia1FDUk5nU2hRQmxBSFI2cHFGS2dPZHlvSGtXY3JlTW9tNlNlbDgyVG5abEpXZFRNTUJZUmNRSVJocUVMVGp6THByd3U2STlpMGhTLTZLSGk4bEtKVDNoREtVRWY1ekpYYzdaSTBhU1cza0o0ZDZFS2pFTUpEd25xZ3J3MEh0c29BNTM4NnFSczdkX3h1QXpub1FZTUJFcGIxUzBzaUhOdlk4RzhDakFIR21vODZtX25fa3cyUjUzTEtqSFpwZUc0cEJ5RklwVDRlQUh2RnVqRE9qUlBIaDFNX09BeUpMX2QwWXVyc1BMTzhxTXFDZDlxMzFnQXY1ZVUtLXhpWmhNS3BIc0dFZFFBTW02eFgtMS1rX1RfUnozMkV6TkhndVBVS2QwZFlDaDh4c1I0clhsOEJCSXdKTVcyTkI1NDJwMVFSQloyNkJjZ1JVcHd3bTJJdjA3QzlkNWIyWUk2ZnZkSDJsMkRzS1lIVWxVY29vbGM4RTZlT01VNjZhR0xIZmFfaXg4czJsUU5uYk5leUZtaGhBU0RyTnVOUHNRaHA1VTNnakN3NEc5MEp3In0.lC0glAxYAnzd4Du2h-fJIR_HaniAlX5jZ2ElQOlyDAhu801ZAopscsixxm1DYigGW1a5VXYJgSunzUGdX5Gs7Q","id":"rs_8a134af8159d5e8f83de1bbfe0952610","summary":[],"type":"reasoning"},{"content":[{"annotations":[],"logprobs":[],"text":"21","type":"output_text"}],"id":"msg_48287b472a7f5bed849a157b54f0af0b","phase":"final_answer","role":"assistant","status":"completed","type":"message"}],"parallel_tool_calls":true,"presence_penalty":0.0,"previous_response_id":null,"prompt_cache_key":null,"prompt_cache_retention":"in_memory","reasoning":{"summary":null,"effort":"medium","context":"all_turns"},"safety_identifier":null,"service_tier":"default","status":"completed","store":false,"temperature":1.0,"text":{"format":{"type":"text"},"verbosity":"medium"},"tool_choice":"auto","tools":[],"top_logprobs":0,"top_p":0.98,"truncation":"disabled","usage":{"input_tokens":42,"input_tokens_details":{"cache_write_tokens":0,"cached_tokens":0},"output_tokens":25,"output_tokens_details":{"reasoning_tokens":18},"total_tokens":67},"user":null,"moderation":null}'
+  recorded_at: Wed, 18 Nov 2026 21:49:48 GMT
+recorded_with: VCR 6.4.1
