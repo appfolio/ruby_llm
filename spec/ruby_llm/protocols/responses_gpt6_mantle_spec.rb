@@ -11,7 +11,9 @@ RSpec.describe RubyLLM::Protocols::Responses do
     'openai.gpt-6-luna' => { lowest_effort: 'none', sol: false, tool_loop: true },
     'openai.gpt-6-sol' => { lowest_effort: 'none', sol: true, tool_loop: true },
     'openai.gpt-6.1-sol' => { lowest_effort: 'low', sol: true, tool_loop: false },
-    'openai.gpt-6.1-terra' => { lowest_effort: 'none', sol: false, tool_loop: true }
+    'openai.gpt-6.1-terra' => { lowest_effort: 'none', sol: false, tool_loop: true },
+    'openai.gpt-6.2-sol' => { lowest_effort: 'low', sol: true, tool_loop: false },
+    'openai.gpt-6.2-astra' => { lowest_effort: 'low', sol: true, tool_loop: false }
   }
 
   let(:city_code_tool) do
@@ -86,8 +88,8 @@ RSpec.describe RubyLLM::Protocols::Responses do
         end
       end
 
-      # 6.1 Sol's tool-loop replies carried no reasoning item when recorded, so this example
-      # runs only where a passing cassette exists.
+      # The tool-loop replies of 6.1 Sol, 6.2 Sol and 6.2 Astra carried no reasoning item when
+      # recorded, so this example runs only where a passing cassette exists.
       if traits[:tool_loop]
         it 'replays every reasoning item through a multi-round tool loop' do
           chat, response = run_tool_loop(model)
@@ -180,8 +182,14 @@ RSpec.describe RubyLLM::Protocols::Responses do
     end
   end
 
-  it 'rejects effort none on openai.gpt-6.1-sol' do
-    expect { chat_for('openai.gpt-6.1-sol').with_thinking(effort: 'none').ask('Reply with exactly: OK') }
-      .to raise_error(RubyLLM::BadRequestError, /'none' is not supported/)
+  {
+    'openai.gpt-6.1-sol' => /'none' is not supported/,
+    'openai.gpt-6.2-sol' => /does not support reasoning effort 'none'/,
+    'openai.gpt-6.2-astra' => /Supported values are: 'low', 'medium', 'high', 'xhigh', and 'max'/
+  }.each do |model, message|
+    it "rejects effort none on #{model}" do
+      expect { chat_for(model).with_thinking(effort: 'none').ask('Reply with exactly: OK') }
+        .to raise_error(RubyLLM::BadRequestError, message)
+    end
   end
 end
